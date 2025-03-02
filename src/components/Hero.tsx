@@ -45,6 +45,7 @@ const Hero = memo(() => {
               alt="Isologo Villa Vicuña" 
               width={80}
               height={80}
+              priority
               className="w-16 sm:w-20 mx-auto"
             />
           </div>

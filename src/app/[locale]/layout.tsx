@@ -25,6 +25,14 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale}>
+      <head>
+        {/* Meta tags importantes para el renderizado */}
+        <meta charSet="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {/* Preload de la imagen crítica (poster del hero) */}
+        <link rel="preload" as="image" href="/images/hero-poster.jpg" />
+        {/* Puedes agregar otros recursos críticos aquí */}
+      </head>
       <body>
         <NextIntlClientProvider messages={messages}>
           {children}
