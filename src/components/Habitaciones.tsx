@@ -34,9 +34,6 @@ interface HabitacionModalProps {
 }
 
 function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
-  // Depuración: verifica en consola los íconos de la habitación seleccionada.
-  // console.log("Amenities para esta habitación:", habitacion.amenities);
-
   // Separa la categoría en dos partes usando la función raw.
   const { categoriaBlack, categoriaWhite } = useMemo(() => {
     const categoriaHTML = t.raw(habitacion.categoria);
@@ -49,8 +46,8 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
   }, [habitacion, t]);
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 px-4 overflow-y-auto">
-      <div className="bg-white p-6 md:p-10 rounded-lg w-full max-w-md md:max-w-7xl relative transform transition-transform duration-300 scale-95 animate-fadeIn max-h-screen">
+    <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 px-4 overflow-y-auto md:overflow-visible">
+      <div className="bg-white p-6 md:p-10 rounded-lg w-full max-w-md md:max-w-7xl relative transform transition-transform duration-300 scale-95 animate-fadeIn max-h-screen mt-8 md:mt-0 overflow-y-auto md:overflow-visible">
         <button
           className="absolute top-3 right-3 md:top-6 md:right-6 text-2xl md:text-4xl font-bold"
           onClick={onClose}
@@ -86,16 +83,16 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
               <div className="relative z-10 text-lg md:text-xl text-justify md:text-left px-2 md:px-0">
                 <p className="mb-4">{t(`${habitacion.key}.descripcion`)}</p>
                 <p>{t(`${habitacion.key}.parrafo_minibar`)}</p>
-                {/* Renderiza las amenities en una sola fila con mayor tamaño y espaciado */}
-                <div className="amenities-gallery flex flex-wrap justify-start items-center gap-8 mt-4 px-4">
+                {/* Sección de Amenities */}
+                <div className="amenities-gallery flex flex-wrap justify-start items-center gap-4 md:gap-8 mt-4 px-2 md:px-4">
                   {habitacion.amenities.map((amenity, index) => (
                     <div key={index} className="flex flex-col items-center">
                       <Image
                         src={`/images/icons/habitaciones/${amenity.icono}`}
                         alt={amenity.nombre}
-                        width={70}
-                        height={70}
-                        className="object-contain"
+                        width={60}
+                        height={60}
+                        className="object-contain md:w-[70px] md:h-[70px]"
                       />
                     </div>
                   ))}
@@ -104,19 +101,24 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
             </div>
           </div>
           <div className="col-span-1 md:col-span-5 flex items-center justify-center mt-6 md:mt-0">
-            <Image
-              src={`/images/Habitaciones/${habitacion.imagen}`}
-              alt={t(`${habitacion.key}.nombre`)}
-              width={500}
-              height={400}
-              className="object-cover rounded-lg"
-            />
+            {/* Contenedor para limitar la imagen en móviles */}
+            <div className="w-full max-h-[80vh] overflow-hidden">
+              <Image
+                src={`/images/Habitaciones/${habitacion.imagen}`}
+                alt={t(`${habitacion.key}.nombre`)}
+                width={500}
+                height={400}
+                className="object-cover rounded-lg w-full h-auto"
+              />
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
 }
+
+
 
 export default function HabitacionesComponent() {
   const [selected, setSelected] = useState<number | null>(null);

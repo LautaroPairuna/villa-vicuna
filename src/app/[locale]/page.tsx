@@ -15,7 +15,7 @@ export const metadata = {
   alternates: {
     canonical: "https://tusitio.com",
   },
-};
+};  
 
 export const viewport = {
   width: "device-width",
