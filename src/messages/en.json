@@ -1,0 +1,125 @@
+{
+    "hero": {
+      "tituloParte1": "Welcome to",
+      "tituloParte2": "Villa Vicuña",
+      "subtitulo": "Discover the unique experience at our boutique hotel.",
+      "reservar": "Book Now"
+    },
+    "Navbar": {
+      "roomsNavbar": "Rooms",
+      "reviewsNavbar": "Reviews",
+      "aboutNavbar": "About Us",
+      "contactNavbar": "Contact us",
+      "menuNavbar": "Menu",
+      "bookNavbar": "Book"
+    },
+    "about_us": {
+      "titulo": "ABOUT <span>US</span>",
+      "parrafo1": "On the historic 'Corredor de la Fe', a few meters from the Cathedral, rises the Boutique Hotel Villa Vicuña, a house from the early 13th century adapted according to its style and inspired by a novel by the writer Isabel Allende.",
+      "parrafo2": "A unique place with an exquisite touch in timeless details makes the stay unforgettable.",
+      "parrafo3": "Among corridors, balconies, and palm trees, the 12 rooms that precede the garden open up, a small oasis in the middle of the city where time seems to stand still.",
+      "imagenAlt": "About us image"
+    },
+    "reseñas": {
+      "titulo": "REVIEWS",
+      "descripcion": "At Villa Vicuña our guests are the main engine that drives the constant work to achieve excellence in quality and services, it is their reviews that we treasure as a source of inspiration. Thank you for choosing us..."
+    },
+    "desayuno": {
+      "nombre": "Breakf<span>ast</span>",
+      "texto": "At Villa Vicuña we understand the importance of a complete, healthy breakfast with fresh seasonal products made at home. On our menu you will find a selection of five dishes with different flavors and textures suggested by the chef, in addition to the buffet with other homemade delicacies. We put our menus at your disposal that can be consulted when you like to enjoy our flavors during your stay.",
+      "reseñas": [
+        "The best breakfast I've ever had.",
+        "Fresh and high-quality products.",
+        "The buffet had delicious options."
+      ]
+    },
+    "detalles": {
+      "nombre": "The Det<span>ails</span>",
+      "texto": "Because they surround us, disconnect us and transport us to other times, at Villa Vicuña we give special attention to details, creating corners for unforgettable moments.",
+      "reseñas": [
+        "Every corner is perfect for relaxing.",
+        "You can see the care in every detail.",
+        "Beautiful and cozy decoration."
+      ]
+    },
+    "personal": {
+      "nombre": "The St<span>aff</span>",
+      "texto": "Our team...our family, responsible for the excellent warmth and quality of our services, with their dedication and kindness make our guests feel at home.",
+      "reseñas": [
+        "The staff is very friendly and attentive.",
+        "They made me feel at home.",
+        "Exceptional and very warm service."
+      ]
+    },
+    "menu": {
+      "titulo": "OUR MENU",
+      "descripcion": "Discover the exclusive flavors of Villa Vicuña. A unique combination of local ingredients and traditional recipes.",
+      "boton": "Download Menu PDF",
+      "menu_image_left": "Menu left image",
+      "menu_image_right": "Menu right image"
+    },
+    "rooms": {
+        "titulo":"ROOMS",
+        "superior": "<h3>SUPER<span>IOR</span></h3",
+        "standard": "<h3>STAND<span>ARD</span></h3",
+        "twin_interna": {
+            "nombre": "Twin Interna",
+            "descripcion": "With spectacular dimensions characteristic of past centuries, this magnificent room tells its story through boiserie, pinewood flooring, and double-height shutters. Two Twin beds complement the atmosphere as if from another era, and the window faces the internal corridor.",
+            "detalles": "3 guests / 2 beds / 1 room",
+            "boton": "Book",
+            "parrafo_minibar": "Among the Amenities you will find an unloaded Mini Bar from which you can serve an infusion while you rest."
+        },
+        "matrimonial": {
+            "nombre": "Matrimonial",
+            "descripcion": "Facing the palm-lined corridor, on the first floor accessible by stairs, this beautiful 26m² room is located. Its splendid matrimonial bed rests on the characteristic hydraulic tiles that define our hotel.",
+            "detalles": "2 guests / 1 room",
+            "boton": "Book",
+            "parrafo_minibar": "Among the Amenities you will find an unloaded Mini Bar from which you can serve an infusion while you rest."
+        },
+        "triple": {
+            "nombre": "Triple",
+            "descripcion": "Facing the palm-lined corridor, on the ground floor, our 26m² Triple Standard room features two beds—a double and a single—resting on the characteristic hydraulic tiles that define our hotel.",
+            "detalles": "3 guests / 2 beds / 1 room",
+            "boton": "Book",
+            "parrafo_minibar": "Among the Amenities you will find an unloaded Mini Bar from which you can serve an infusion while you rest."
+        },
+        "balcon": {
+            "nombre": "Balcon",
+            "descripcion": "At the end of the corridor on the first floor, accessible by stairs, this beautiful 26m² room overlooks the garden. A canopy bed rests on the characteristic hydraulic tiles that define our hotel.",
+            "detalles": "2 guests / 1 room",
+            "boton": "Book",
+            "parrafo_minibar": "Among the Amenities you will find an unloaded Mini Bar from which you can serve an infusion while you rest."
+        },
+        "jardin": {
+            "nombre": "Jardin",
+            "descripcion": "At the end of the corridor on the ground floor, in what we call our 'Green Wing,' this beautiful 26m² room borders the garden. A spacious bed rests on the characteristic hydraulic tiles that define our hotel.",
+            "detalles": "2 guests / 1 room",
+            "boton": "Book",
+            "parrafo_minibar": "Among the Amenities you will find an unloaded Mini Bar from which you can serve an infusion while you rest."
+        },
+        "twin_externa": {
+            "nombre": "Twin Externa",
+            "descripcion": "With spectacular dimensions characteristic of past centuries, this magnificent room tells its story through boiserie, pinewood flooring, and double-height shutters. Two Twin beds complement the atmosphere as if from another era, and the window faces the internal garden.",
+            "detalles": "3 guests / 2 beds / 1 room",
+            "boton": "Book",
+            "parrafo_minibar": "Among the Amenities you will find an unloaded Mini Bar from which you can serve an infusion while you rest."
+        }
+    },
+    "amenities": {
+        "wifi": "WiFi",
+        "ac": "Air Conditioning",
+        "tv": "Smart TV",
+        "minibar": "Mini Bar",
+        "bath": "Private Bathroom",
+        "shower": "Shower",
+        "balcony": "Private Balcony"
+    },
+    "contact": {
+      "titulo": "<h2><span> CONT</span>ACT US</h2>",
+      "telefono": "+54 9 387 4649748",
+      "email": "salta@villavicuna.com.ar",
+      "direccion": "Caseros 266 - Salta Capital",
+      "boton": "Book Now"
+    }
+  }
+  

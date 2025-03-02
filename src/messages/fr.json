@@ -1,0 +1,124 @@
+{
+    "hero": {
+      "tituloParte1": "Bienvenue à",
+      "tituloParte2": "Villa Vicuña",
+      "subtitulo": "Découvrez l'expérience unique dans notre hôtel boutique.",
+      "reservar": "Réservez maintenant"
+    },
+    "Navbar": {
+      "roomsNavbar": "Chambres",
+      "reviewsNavbar": "Avis",
+      "menuNavbar": "Menu",
+      "contactNavbar": "Contactez-nous",
+      "aboutNavbar": "À propos de nous",
+      "bookNavbar": "Réserver"
+    },
+    "about_us": {
+      "titulo": "À PROPOS DE <span>NOUS</span>",
+      "parrafo1": "Au sujet de l'historique « Couloir de la Foi » à quelques mètres de la Cathédrale se dresse l'Hôtel Boutique Villa Vicuña, une demeure du début du XIIIe siècle adaptée selon son style et inspirée par un roman de l'écrivaine Isabel Allende.",
+      "parrafo2": "Un lieu atypique, avec une exquise attention aux détails intemporels, qui rend le séjour inoubliable.",
+      "parrafo3": "Entre couloirs, balcons et palmiers se dévoilent les 12 chambres précédant le jardin, un petit oasis au cœur de la ville, où le temps semble s'arrêter.",
+      "imagenAlt": "Image de nous"
+    },
+    "desayuno": {
+      "nombre": "Le petit dé<span>jeuner</span>",
+      "texto": "À Villa Vicuña, nous comprenons l'importance d'un petit déjeuner complet et sain, composé de produits frais de saison faits maison. Dans notre menu, vous trouverez une sélection de cinq plats aux saveurs et textures variées, suggérés par le chef, en plus du buffet proposant d'autres délices faits maison. Nous mettons à votre disposition nos cartes, que vous pourrez consulter lorsque vous souhaiterez savourer nos saveurs durant votre séjour.",
+      "reseñas": [
+        "Le meilleur petit déjeuner que j'aie jamais goûté.",
+        "Des produits frais et de grande qualité.",
+        "Le buffet offrait des options délicieuses."
+      ]
+    },
+    "detalles": {
+      "nombre": "Les dét<span>ails</span>",
+      "texto": "Parce qu'ils nous enveloppent, nous déconnectent et nous transportent vers d'autres époques, à Villa Vicuña nous accordons une attention particulière aux détails en créant des coins pour des moments inoubliables.",
+      "reseñas": [
+        "Chaque recoin est parfait pour se détendre.",
+        "On remarque le soin apporté à chaque détail.",
+        "Décoration magnifique et accueillante."
+      ]
+    },
+    "personal": {
+      "nombre": "Le perso<span>nnel</span>",
+      "texto": "Notre équipe... notre famille, ceux qui sont responsables de l'excellente chaleur et de la qualité de nos services, par leur dévouement et leur amabilité, font en sorte que nos clients se sentent chez eux.",
+      "reseñas": [
+        "Le personnel est très aimable et attentionné.",
+        "Ils m'ont fait sentir comme à la maison.",
+        "Service exceptionnel et très chaleureux."
+      ]
+    },
+    "reseñas": {
+      "titulo": "AVIS",
+      "descripcion": "À Villa Vicuña, nos hôtes sont le principal moteur qui incite notre travail constant pour atteindre l'excellence en qualité et en services. Ce sont leurs avis que nous chérissons comme source d'inspiration. Merci de nous avoir choisis..."
+    },
+    "menu": {
+      "titulo": "NOTRE CARTE",
+      "boton": "Télécharger le menu en PDF",
+      "menu_image_left": "Image à gauche du menu",
+      "menu_image_right": "Image à droite du menu"
+    },
+    "rooms": {
+      "titulo": "CHAMBRES",
+      "superior": "<h3>SUPER<span>IOR</span></h3",
+        "standard": "<h3>STAND<span>ARD</span></h3",
+      "twin_interna": {
+        "nombre": "Twin Interne",
+        "descripcion": "Avec des dimensions spectaculaires propres aux siècles passés, cette magnifique chambre raconte son histoire à travers le boiserie, les lambris en pinotea et les persiennes à double hauteur. Deux lits jumeaux complètent l'atmosphère comme s'il s'agissait d'une autre époque, la fenêtre jouxtant le couloir interne.",
+        "detalles": "3 personnes / 2 lits / 1 chambre",
+        "boton": "Réserver",
+        "parrafo_minibar": "Parmi les commodités, vous trouverez un mini-bar déchargé à partir duquel vous pourrez servir une infusion pendant que vous vous reposez."
+      },
+      "matrimonial": {
+        "nombre": "Matrimoniale",
+        "descripcion": "Face au couloir de palmiers, au premier étage accessible par escalier, se trouve ce magnifique espace de 26 m². Son splendide lit matrimonial repose sur les carrelages hydrauliques caractéristiques qui identifient notre hôtel.",
+        "detalles": "2 personnes / 1 chambre",
+        "boton": "Réserver",
+        "parrafo_minibar": "Parmi les commodités, vous trouverez un mini-bar déchargé à partir duquel vous pourrez servir une infusion pendant que vous vous reposez."
+      },
+      "triple": {
+        "nombre": "Triple",
+        "descripcion": "Face au couloir de palmiers, au rez-de-chaussée, notre Triple Standard de 26 m² où deux lits, un lit double et un lit simple, reposent sur les carrelages hydrauliques caractéristiques qui identifient notre hôtel.",
+        "detalles": "3 personnes / 2 lits / 1 chambre",
+        "boton": "Réserver",
+        "parrafo_minibar": "Parmi les commodités, vous trouverez un mini-bar déchargé à partir duquel vous pourrez servir une infusion pendant que vous vous reposez."
+      },
+      "balcon": {
+        "nombre": "Balcon",
+        "descripcion": "Au bout du couloir au premier étage, accessible par escalier, se trouve ce magnifique espace de 26 m² donnant sur le jardin. Un lit à baldaquin repose sur les carrelages hydrauliques caractéristiques qui identifient notre hôtel.",
+        "detalles": "2 personnes / 1 chambre",
+        "boton": "Réserver",
+        "parrafo_minibar": "Parmi les commodités, vous trouverez un mini-bar déchargé à partir duquel vous pourrez servir une infusion pendant que vous vous reposez."
+      },
+      "jardin": {
+        "nombre": "Jardin",
+        "descripcion": "Au bout du couloir au rez-de-chaussée, sur ce que nous appelons notre 'Aile Verte', se trouve ce magnifique espace de 26 m² attenant au jardin. Un grand lit repose sur les carrelages hydrauliques caractéristiques qui identifient notre hôtel.",
+        "detalles": "2 personnes / 1 chambre",
+        "boton": "Réserver",
+        "parrafo_minibar": "Parmi les commodités, vous trouverez un mini-bar déchargé à partir duquel vous pourrez servir une infusion pendant que vous vous reposez."
+      },
+      "twin_externa": {
+        "nombre": "Twin Externe",
+        "descripcion": "Avec des dimensions spectaculaires propres aux siècles passés, cette magnifique chambre raconte son histoire à travers le boiserie, les lambris en pinotea et les persiennes à double hauteur. Deux lits jumeaux complètent l'atmosphère comme s'il s'agissait d'une autre époque, la fenêtre jouxtant le jardin intérieur.",
+        "detalles": "3 personnes / 2 lits / 1 chambre",
+        "boton": "Réserver",
+        "parrafo_minibar": "Parmi les commodités, vous trouverez un mini-bar déchargé à partir duquel vous pourrez servir une infusion pendant que vous vous reposez."
+      },
+      "amenities": {
+        "wifi": "WiFi",
+        "ac": "Climatisation",
+        "tv": "TV Smart",
+        "minibar": "Mini-bar",
+        "bath": "Salle de bain privée",
+        "shower": "Douche",
+        "balcony": "Balcon privé"
+      }
+    },
+    "contact": {
+      "titulo": "<h2><span>CONTAC</span>TEZ-NOUS</h2>",
+      "telefono": "+54 9 387 4649748",
+      "email": "salta@villavicuna.com.ar",
+      "direccion": "Caseros 266 - Salta Capital",
+      "boton": "Réserver"
+    }
+}
+  

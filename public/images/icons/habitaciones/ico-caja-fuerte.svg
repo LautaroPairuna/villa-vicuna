@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="63.4502mm" height="63.4502mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 5375.49 5375.49"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .str0 {stroke:black;stroke-width:169.44;stroke-miterlimit:22.9256}
+    .str3 {stroke:#282829;stroke-width:423.6;stroke-miterlimit:22.9256}
+    .str2 {stroke:black;stroke-width:169.44;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:22.9256}
+    .str1 {stroke:black;stroke-width:169.44;stroke-linecap:square;stroke-miterlimit:22.9256}
+    .fil0 {fill:none}
+    .fil1 {fill:#C3B89B}
+   ]]>
+  </style>
+ </defs>
+ <g id="Capa_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <g id="safe-svgrepo-com.svg">
+   <path class="fil0 str0" d="M1671.91 1487.21l2031.66 0c101.99,0 184.7,82.71 184.7,184.7l0 2031.67c0,101.99 -82.71,184.69 -184.7,184.69l-2031.66 0.01c-101.99,-0.01 -184.7,-82.71 -184.7,-184.71l0 -2031.66c0,-101.99 82.71,-184.7 184.7,-184.7z"/>
+   <path class="fil0 str0" d="M1948.95 1856.61l1477.58 0c50.99,0 92.34,41.35 92.34,92.34l0 1477.58c0,50.99 -41.35,92.34 -92.34,92.34l-1477.58 0.01c-50.99,-0.01 -92.34,-41.36 -92.34,-92.35l0 -1477.58c0,-50.99 41.35,-92.34 92.34,-92.34z"/>
+   <line class="fil0 str1" x1="2041.31" y1="4072.98" x2="1856.61" y2= "4072.98" />
+   <line class="fil0 str1" x1="3518.88" y1="4072.98" x2="3334.19" y2= "4072.98" />
+   <circle class="fil0 str0" cx="2687.74" cy="2687.75" r="230.87"/>
+   <line class="fil0 str2" x1="2226" y1="2226" x2="2503.05" y2= "2503.05" />
+   <line class="fil0 str2" x1="2226" y1="3149.49" x2="2503.05" y2= "2872.44" />
+   <line class="fil0 str2" x1="2872.44" y1="2872.44" x2="3149.48" y2= "3149.49" />
+   <line class="fil0 str2" x1="2872.44" y1="2503.05" x2="3149.48" y2= "2226" />
+  </g>
+ </g>
+ <g id="Capa_x0020_1_47">
+  <metadata id="CorelCorpID_1Corel-Layer"/>
+  <path class="fil0 str3" d="M2687.74 211.8c1367.43,0 2475.94,1108.52 2475.94,2475.94 0,1367.43 -1108.52,2475.94 -2475.94,2475.94 -1367.43,0 -2475.94,-1108.52 -2475.94,-2475.94 0,-1367.43 1108.52,-2475.94 2475.94,-2475.94z"/>
+  <path class="fil1" d="M2687.74 211.8c1367.43,0 2475.94,1108.52 2475.94,2475.94 0,1367.43 -1108.52,2475.94 -2475.94,2475.94 -1367.43,0 -2475.94,-1108.52 -2475.94,-2475.94 0,-1367.43 1108.52,-2475.94 2475.94,-2475.94zm0 398.66c1147.26,0 2077.3,930.04 2077.3,2077.3 0,1147.26 -930.04,2077.3 -2077.3,2077.3 -1147.26,0 -2077.3,-930.04 -2077.3,-2077.3 0,-1147.26 930.04,-2077.3 2077.3,-2077.3z"/>
+ </g>
+</svg>
