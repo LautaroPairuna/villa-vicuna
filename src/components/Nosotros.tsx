@@ -42,14 +42,14 @@ export default function Nosotros() {
           `}
           style={{ letterSpacing: dynamicLetterSpacing }}
         >
-          <span className="block md:inline text-black me-3">{tituloParte1}</span>
+          <span className="block md:inline text-black me-auto lg:me-10">{tituloParte1}</span>
           <span className="block md:inline md:text-white text-black md:drop-shadow-[0px_0px_4px_rgba(0,0,0,1)] font-normal md:font-bold">
             {tituloParte2}
           </span>
         </h2>
 
         {/* Contenido de texto */}
-        <div className="lg:col-span-5 md:col-span-8 col-span-12 relative z-10 bg-white pt-28 pb-10 ps-4">
+        <div className="lg:col-span-6 md:col-span-8 col-span-12 relative z-10 bg-white pt-28 pb-10 ps-8">
           {/* Fondo dinámico */}
           <div
             className="
@@ -72,13 +72,13 @@ export default function Nosotros() {
         </div>
 
         {/* Imagen */}
-        <div className="lg:col-span-7 md:col-span-4 col-span-12 relative mx-auto my-0">
+        <div className="lg:col-span-6 md:col-span-4 col-span-12 flex justify-end items-center">
           <Image
             src="/images/nosotros.jpg"
             alt={t("imagenAlt")}
-            width={560}
-            height={700}
-            className="rounded-2xl shadow-lg"
+            width={600}
+            height={720}
+            className="shadow-lg"
           />
         </div>
       </div>
