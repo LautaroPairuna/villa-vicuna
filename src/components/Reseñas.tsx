@@ -213,7 +213,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
                 alt={stripHtmlTags(rawTitle)}
                 width={1200}
                 height={800}
-                className="object-cover rounded-lg w-full h-auto max-h-[30vh] md:max-h-full"
+                className="object-cover rounded-lg w-full h-auto max-h-[30vh] md:max-h-full shadow-2xl"
                 sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
             </div>

@@ -108,7 +108,7 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
                 alt={t(`${habitacion.key}.nombre`)}
                 width={500}
                 height={400}
-                className="object-cover rounded-lg w-full h-auto"
+                className="object-cover rounded-lg w-full h-auto shadow-lg"
               />
             </div>
           </div>
