@@ -182,7 +182,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
                   src="/images/fondo-carta-5.svg"
                   alt="Personal Review Background"
                   fill
-                  className="object-contain opacity-60"
+                  className="object-contain opacity-55"
                 />
               </div>
               <p className="mt-2 md:mt-16 text-lg md:text-2xl italic relative z-10 px-2 sm:px-4 md:px-8">
@@ -287,7 +287,7 @@ export default function ReseñasSection() {
   return (
     <section id="reviews" className="relative p-10 bg-white text-black">
       <div className="max-w-[1400px] mx-auto relative z-10">
-        <div className="absolute -top-[9%] left-1/2 -translate-x-1/2 w-[350px] h-[350px] opacity-70 pointer-events-none -z-10 sm:-top-[6%] sm:w-[350px] sm:h-[350px] md:-top-[30%] md:w-[450px] md:h-[450px] lg:-top-[35%] lg:w-[600px] lg:h-[600px]">
+        <div className="absolute -top-[9%] left-1/2 -translate-x-1/2 w-[350px] h-[350px] opacity-55 pointer-events-none -z-10 sm:-top-[6%] sm:w-[350px] sm:h-[350px] md:-top-[30%] md:w-[450px] md:h-[450px] lg:-top-[35%] lg:w-[600px] lg:h-[600px]">
           <Image
             src="/images/fondo-carta-1.svg"
             alt="Fondo Carta 1"

@@ -77,7 +77,7 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
                   src="/images/fondo-carta-3.svg"
                   alt="Fondo Carta"
                   fill
-                  className="object-contain opacity-40"
+                  className="object-contain opacity-55"
                 />
               </div>
               <div className="relative z-10 text-lg md:text-xl text-justify md:text-left px-2 md:px-0">

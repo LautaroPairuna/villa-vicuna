@@ -11,7 +11,7 @@ import WhatsappLink from '@/components/WhatsappLink';
 
 export const metadata = {
   title: "Villa Vicuña | Salta, Argentina",
-  description: "Descripción de mi sitio para SEO, con palabras clave relevantes.",
+  description: "Hotel Villa Vicuña Salta es un encantador hotel boutique en una casona colonial restaurada, ubicado en el corazón de la ciudad. Disfruta de elegantes habitaciones, un jardín pintoresco y una atención cálida para una estancia inolvidable.",
   alternates: {
     canonical: "https://tusitio.com",
   },

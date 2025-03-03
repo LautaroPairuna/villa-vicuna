@@ -125,7 +125,7 @@ export default function Contacto() {
           </div>
         </div>
         {/* FONDO-CARTA-4 (visible SOLO en pantallas md+, oculto en móviles para simplificar) */}
-        <div className="hidden md:block absolute bottom-[45%] left-[75%] -translate-x-1/2 w-[300px] h-[200px] lg:w-[400px] lg:h-[300px] opacity-65 z-20">
+        <div className="hidden md:block absolute bottom-[45%] left-[75%] -translate-x-1/2 w-[300px] h-[200px] lg:w-[400px] lg:h-[300px] opacity-55 z-20">
           <Image
             src="/images/fondo-carta-4.svg"
             alt="Fondo Carta 4"

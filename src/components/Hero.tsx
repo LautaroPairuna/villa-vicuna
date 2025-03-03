@@ -22,7 +22,6 @@ const Hero = memo(() => {
           preload="auto"
           poster="/images/hero-poster.jpg"
         >
-          <source src="/videos/video-home-mobile.mp4" media="(max-width: 640px)" type="video/mp4" />
           <source src="/videos/video-home.mp4" type="video/mp4" />
           Tu navegador no soporta videos en HTML5.
         </video>

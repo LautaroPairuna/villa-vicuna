@@ -49,13 +49,13 @@ export default function Nosotros() {
         </h2>
 
         {/* Contenido de texto */}
-        <div className="lg:col-span-7 md:col-span-8 col-span-12 relative z-10 bg-white pt-28 pb-10 ps-4">
+        <div className="lg:col-span-5 md:col-span-8 col-span-12 relative z-10 bg-white pt-28 pb-10 ps-4">
           {/* Fondo dinámico */}
           <div
             className="
-              absolute left-[50%] md:left-[75%] bottom-[0%] md:bottom-[-10%] -translate-x-1/2
+              absolute left-[50%] md:left-[75%] bottom-[0%] md:bottom-[-20%] -translate-x-1/2
               w-[350px] h-[300px] opacity-55 pointer-events-none -z-10
-              sm:w-[350px] sm:h-[280px] md:w-[500px] md:h-[380px] lg:w-[600px] lg:h-[450px]
+              sm:w-[350px] sm:h-[280px] md:w-[500px] md:h-[380px] lg:w-[850px] lg:h-[700px]
             "
           >
             <Image
@@ -72,13 +72,13 @@ export default function Nosotros() {
         </div>
 
         {/* Imagen */}
-        <div className="lg:col-span-5 md:col-span-4 col-span-12 relative mx-auto my-0">
+        <div className="lg:col-span-7 md:col-span-4 col-span-12 relative mx-auto my-0">
           <Image
             src="/images/nosotros.jpg"
             alt={t("imagenAlt")}
-            width={480}
-            height={620}
-            className="rounded-lg shadow-md object-cover"
+            width={560}
+            height={700}
+            className="rounded-2xl shadow-lg"
           />
         </div>
       </div>

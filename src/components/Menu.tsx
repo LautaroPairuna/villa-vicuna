@@ -54,7 +54,7 @@ export default function Menu() {
       <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row items-center">
         {/* Título vertical en Desktop */}
         <div className="hidden md:flex w-1/6 items-center justify-center relative">
-          <div className="absolute left-[20%] top-[50%] -translate-x-1/2 -translate-y-1/2 w-[200px] h-[400px] lg:w-[550px] lg:h-[600px] opacity-75 pointer-events-none z-0">
+          <div className="absolute left-[20%] top-[50%] -translate-x-1/2 -translate-y-1/2 w-[200px] h-[400px] lg:w-[550px] lg:h-[600px] opacity-55 pointer-events-none z-0">
             <Image
               src="/images/fondo-carta-1.svg"
               alt="Fondo Carta"
