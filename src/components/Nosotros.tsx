@@ -38,12 +38,12 @@ export default function Nosotros() {
         <h2
           className={`
             absolute md:top-[20px] -top-[10px] w-full text-center
-            text-4xl md:text-7xl z-20 uppercase
+            text-4xl md:text-6xl z-20 uppercase
           `}
           style={{ letterSpacing: dynamicLetterSpacing }}
         >
           <span className="block md:inline text-black me-auto lg:me-10">{tituloParte1}</span>
-          <span className="block md:inline md:text-white text-black md:drop-shadow-[0px_0px_4px_rgba(0,0,0,1)] font-normal md:font-bold">
+          <span className="block md:inline md:text-white text-black md:drop-shadow-[0px_0px_3px_rgba(0,0,0,1)] font-normal md:font-bold">
             {tituloParte2}
           </span>
         </h2>

@@ -19,9 +19,9 @@ export default function Contacto() {
     const length = text.length;
     if (length <= 5) return "tracking-[1em]";
     if (length <= 8) return "tracking-[0.95em]";
-    if (length <= 10) return "tracking-[1em]";
-    if (length <= 12) return "tracking-[0.75em]";
-    if (length <= 15) return "tracking-[0.5em]";
+    if (length <= 10) return "tracking-[1.1em]";
+    if (length <= 12) return "tracking-[0.90em]";
+    if (length <= 15) return "tracking-[0.70em]";
     return "tracking-[0.40em]";
   };
 
@@ -42,7 +42,7 @@ export default function Contacto() {
             hidden md:block
             absolute top-[20px] left-1/2
             -translate-x-1/2
-            text-6xl lg:text-7xl
+            text-4xl md:text-6xl lg:text-6xl
             uppercase
             ${calculateTracking(tituloCompleto)}
             text-center

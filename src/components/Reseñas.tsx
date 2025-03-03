@@ -295,7 +295,7 @@ export default function ReseñasSection() {
             className="object-contain"
           />
         </div>
-        <h2 className="md:text-7xl text-4xl mb-8 md:tracking-[0.8em] tracking-[0.1em] text-center">
+        <h2 className="md:text-6xl text-4xl mb-8 md:tracking-[0.8em] tracking-[0.1em] text-center">
           {tReseñas("titulo")}
         </h2>
         <p className="text-2xl mx-auto">{tReseñas("descripcion")}</p>
