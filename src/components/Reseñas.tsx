@@ -193,7 +193,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
                   {detalles.map((detalle, index) => (
                     <div key={index} className="py-4 sm:px-2 sm:py-3 md:px-5 md:py-5">
                       <div className="relative bg-[#e3d6b5] bg-opacity-50 text-black rounded-2xl shadow-lg p-4 sm:p-6 md:p-8 max-w-2xl mx-auto text-center transition-transform duration-300 hover:scale-105">
-                        <p className="text-lg sm:text-xl md:text-xl italic leading-relaxed">
+                        <p className="text-lg sm:text-xl md:text-2xl leading-relaxed resenas-texto">
                           {tGlobal(detalle.comentarioKey)}
                         </p>
                         <div className="w-16 h-[2px] bg-black mx-auto my-3"></div>

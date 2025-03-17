@@ -33,7 +33,7 @@ export default function Nosotros() {
       id="about-us"
       className="relative py-10 md:px-10 px-5  bg-white flex flex-col md:flex-row items-center text-black mx-auto"
     >
-      <div className="grid grid-cols-12 max-w-[1400px] mx-auto text-lg relative">
+      <div className="grid grid-cols-12 max-w-[1400px] mx-auto text-lg relative gap-10">
         {/* Título central con tracking dinámico aplicado inline (solo en desktop) */}
         <h2
           className={`

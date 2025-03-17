@@ -49,14 +49,14 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
     <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 px-4 overflow-y-auto md:overflow-visible">
       <div className="bg-white p-6 md:p-10 rounded-lg w-full max-w-md md:max-w-7xl relative transform transition-transform duration-300 scale-95 animate-fadeIn max-h-screen mt-8 md:mt-0 overflow-y-auto md:overflow-visible">
         <button
-          className="absolute top-3 right-3 md:top-6 md:right-6 text-2xl md:text-4xl font-bold"
+          className="absolute top-2 right-2 text-2xl md:text-4xl font-bold"
           onClick={onClose}
         >
           ✖
         </button>
         <h3
           className={`
-            relative md:absolute md:top-[140px] md:left-1/2 md:transform md:-translate-x-1/2
+            relative md:absolute md:top-[10%] md:left-1/2 md:transform md:-translate-x-1/2
             text-4xl md:text-6xl leading-tight md:leading-normal uppercase z-10 w-full text-center
             tracking-[0.2em] md:tracking-[1.05em] lg:tracking-[1.85em]
           `}
@@ -66,13 +66,13 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
             {categoriaWhite}
           </span>
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mt-8 md:mt-16">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
           <div className="col-span-1 md:col-span-7 relative pt-2 md:pt-32">
             <h4 className="text-2xl md:text-3xl uppercase text-gray-700 z-10 w-full text-center">
               {t(`${habitacion.key}.nombre`)}
             </h4>
             <div className="relative mt-4 md:mt-8">
-              <div className="absolute lg:top-[85%] md:top-[60%] top-[50%] md:left-[60%] left-[50%] lg:w-[850px] md:w-[550px] w-[350px] lg:h-[250%] md:h-[160%] h-[110%] pointer-events-none z-0 transform -translate-x-1/2 -translate-y-1/2">
+              <div className="absolute top-[45%] md:left-[60%] left-[50%] lg:w-[850px] md:w-[550px] w-[350px] lg:h-[250%] md:h-[160%] h-[110%] pointer-events-none z-0 transform -translate-x-1/2 -translate-y-1/2">
                 <Image
                   src="/images/fondo-carta-3.svg"
                   alt="Fondo Carta"
@@ -81,8 +81,8 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
                 />
               </div>
               <div className="relative z-10 text-lg md:text-xl text-justify md:text-left px-2 md:px-0">
-                <p className="mb-4">{t(`${habitacion.key}.descripcion`)}</p>
-                <p>{t(`${habitacion.key}.parrafo_minibar`)}</p>
+                <p className="mb-4 text-justify">{t(`${habitacion.key}.descripcion`)}</p>
+                <p className="text-justify">{t(`${habitacion.key}.parrafo_minibar`)}</p>
                 {/* Sección de Amenities */}
                 <div className="amenities-gallery flex flex-wrap justify-start items-center gap-4 md:gap-8 mt-4 px-2 md:px-4">
                   {habitacion.amenities.map((amenity, index) => (
@@ -100,14 +100,14 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
               </div>
             </div>
           </div>
-          <div className="col-span-1 md:col-span-5 flex items-center justify-center mt-6 md:mt-0">
+          <div className="col-span-1 md:col-span-5 flex items-center justify-center">
             {/* Contenedor para limitar la imagen en móviles */}
             <div className="w-full max-h-[80vh] overflow-hidden">
               <Image
                 src={`/images/Habitaciones/${habitacion.imagen}`}
                 alt={t(`${habitacion.key}.nombre`)}
-                width={486}
-                height={729}
+                width={506}
+                height={749}
                 className="object-cover rounded-lg w-full h-auto shadow-lg"
               />
             </div>
