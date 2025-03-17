@@ -181,7 +181,7 @@ export default function HabitacionesComponent() {
               </div>
               <div className="p-6 text-center">
                 <p className="text-sm text-gray-600">{t(`${hab.key}.detalles`)}</p>
-                <h3 className="text-lg font-semibold mt-2">{t(`${hab.key}.nombre`)}</h3>
+                <h3 className="text-lg font-semibold mt-2">{hab.categoria} {t(`${hab.key}.nombre`)}</h3>
                 <button className="bg-[#e3d6b5] text-black px-6 py-2 text-lg font-semibold shadow-md hover:bg-[#d6c3a2] transition-all rounded-xl mt-4 items-center my-0 mx-auto justify-center text-center">
                   <a href="https://goo.su/4Nkqe" target="_blank">{t(`${hab.key}.boton`)}</a>
                 </button>

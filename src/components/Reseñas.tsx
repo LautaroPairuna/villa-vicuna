@@ -185,8 +185,8 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
                   className="object-contain opacity-55"
                 />
               </div>
-              <p className="mt-2 md:mt-16 text-lg md:text-2xl italic relative z-10 px-2 sm:px-4 md:px-8">
-                &quot;{tGlobal(selectedReseña.textoKey)}&quot;
+              <p className="mt-2 md:mt-16 text-lg md:text-2xl relative z-10 px-2 sm:px-4 md:px-8">
+                {tGlobal(selectedReseña.textoKey)}
               </p>
               <div className="mt-2 relative z-10 px-2 sm:px-4 md:px-8">
                 <Slider {...sliderSettings}>
@@ -240,7 +240,7 @@ function ReseñaCard({ reseña, onClick }: ReseñaCardProps) {
 
   return (
     <div
-      className="relative bg-white shadow-lg rounded-lg overflow-hidden cursor-pointer aspect-square"
+      className="relative bg-white shadow-lg overflow-hidden cursor-pointer aspect-square"
       onClick={handleClick}
     >
       <Image
@@ -251,7 +251,7 @@ function ReseñaCard({ reseña, onClick }: ReseñaCardProps) {
         className="w-full h-full object-cover"
       />
       <div className="absolute bottom-4 left-0 right-0 text-white text-center">
-        <p className="text-xl font-semibold bg-black bg-opacity-60 px-3 py-1 inline-block rounded-lg">
+        <p className="text-xl font-semibold px-3 py-1 inline-block rounded-lg">
           &quot;{cardTitle}&quot;
         </p>
       </div>
@@ -285,7 +285,7 @@ export default function ReseñasSection() {
   }, []);
 
   return (
-    <section id="reviews" className="relative p-10 bg-white text-black">
+    <section id="reviews" className="relative md:px-10 px-5 md:pt-20 pt-10 pb-10 bg-white text-black">
       <div className="max-w-[1400px] mx-auto relative z-10">
         <div className="absolute -top-[9%] left-1/2 -translate-x-1/2 w-[350px] h-[350px] opacity-55 pointer-events-none -z-10 sm:-top-[6%] sm:w-[350px] sm:h-[350px] md:-top-[30%] md:w-[450px] md:h-[450px] lg:-top-[35%] lg:w-[600px] lg:h-[600px]">
           <Image
@@ -295,11 +295,11 @@ export default function ReseñasSection() {
             className="object-contain"
           />
         </div>
-        <h2 className="md:text-6xl text-4xl mb-8 md:tracking-[0.8em] tracking-[0.1em] text-center">
+        <h2 className="md:text-8xl text-4xl mb-8 md:tracking-[0.8em] tracking-[0.1em] text-center">
           {tReseñas("titulo")}
         </h2>
         <p className="text-2xl mx-auto">{tReseñas("descripcion")}</p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mt-5">
           {reseñas.map((reseña: ReseñaItem) => (
             <ReseñaCard key={reseña.id} reseña={reseña} onClick={handleCardClick} />
           ))}
