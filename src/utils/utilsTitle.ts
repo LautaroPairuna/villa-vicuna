@@ -28,5 +28,5 @@ export function getDynamicLetterSpacing(text: string): string {
   if (length <= 10) return "1em";
   if (length <= 12) return "0.75em";
   if (length <= 15) return "0.5em";
-  return "0.80em";
+  return "0.78em";
 }

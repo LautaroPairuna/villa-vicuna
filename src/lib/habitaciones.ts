@@ -6,7 +6,7 @@ export function Habitaciones() {
   return [
     {
       id: 1,
-      categoria: "superior",
+      categoria: "Superior",
       key: "twin_interna", // clave base para las traducciones
       imagen: "twin-interna.jpg",
       amenities: [
@@ -23,7 +23,7 @@ export function Habitaciones() {
     },
     {
       id: 2,
-      categoria: "standard",
+      categoria: "Standard",
       key: "matrimonial",
       imagen: "standard-matrimonial.jpg",
       amenities: [
@@ -39,7 +39,7 @@ export function Habitaciones() {
     },
     {
       id: 3,
-      categoria: "standard",
+      categoria: "Standard",
       key: "triple",
       imagen: "standard-mat-triple.jpg",
       amenities: [
@@ -55,7 +55,7 @@ export function Habitaciones() {
     },
     {
       id: 4,
-      categoria: "superior",
+      categoria: "Superior",
       key: "balcon",
       imagen: "superior-balcon.jpg",
       // Para "balcon" se usan los 9 íconos definidos en el JSON original
@@ -73,7 +73,7 @@ export function Habitaciones() {
     },
     {
       id: 5,
-      categoria: "superior",
+      categoria: "Superior",
       key: "jardin",
       imagen: "superior-jardin.jpg",
       // Para "jardin" se usan los 9 íconos definidos en el JSON original
@@ -91,7 +91,7 @@ export function Habitaciones() {
     },
     {
       id: 6,
-      categoria: "superior",
+      categoria: "Superior",
       key: "twin_externa",
       imagen: "twin-externa.jpg",
       amenities: [

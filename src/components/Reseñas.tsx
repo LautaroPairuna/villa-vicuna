@@ -53,8 +53,8 @@ function splitTitle(raw: string): { part1: string; part2: string; full: string }
 function calculateTrackingBase(text: string): number {
   const length = text.length;
   if (length <= 8) return 1.55;
-  if (length <= 10) return 1.45;
-  if (length <= 12) return 1;
+  if (length <= 11) return 1.05;
+  if (length <= 12) return 0.95;
   if (length <= 15) return 0.65;
   return 0.4;
 }
@@ -160,13 +160,13 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
           onClick={(e) => e.stopPropagation()}
         >
           <button
-            className="absolute top-2 sm:top-4 right-2 sm:right-4 md:top-6 md:right-6 text-xl sm:text-2xl md:text-4xl font-bold text-black"
+            className="absolute top-2 right-2 text-xl sm:text-2xl md:text-4xl font-bold text-black"
             onClick={onClose}
           >
             ✖
           </button>
           <h3
-            className="relative md:absolute md:top-[120px] md:left-1/2 md:-translate-x-1/2 text-3xl sm:text-4xl md:text-6xl leading-tight md:leading-normal uppercase z-10 w-full text-center mt-4 sm:mt-6 md:mt-0"
+            className="relative md:absolute md:top-[10%] md:left-1/2 md:-translate-x-1/2 text-3xl sm:text-4xl md:text-6xl leading-tight md:leading-normal uppercase z-10 w-full text-center mt-4 sm:mt-6 md:mt-0"
             style={{ letterSpacing: `${computedTracking}em` }}
           >
             <span className="text-black whitespace-nowrap">{part1}</span>
@@ -174,7 +174,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
               {part2}
             </span>
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6 md:gap-8 mt-4 sm:mt-6 md:mt-12 text-black">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 text-black">
             {/* Columna de texto y carrusel */}
             <div className="flex flex-col col-span-1 md:col-span-7 pt-2 sm:pt-4 md:pt-16 relative">
               <div className="absolute top-[75%] left-0 right-0 inset-0 pointer-events-none z-0 flex justify-center items-center">
@@ -185,13 +185,13 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
                   className="object-contain opacity-55"
                 />
               </div>
-              <p className="mt-2 md:mt-16 text-lg md:text-2xl relative z-10 px-2 sm:px-4 md:px-8">
+              <p className="mt-2 md:mt-16 text-lg md:text-2xl relative z-10 text-justify">
                 {tGlobal(selectedReseña.textoKey)}
               </p>
               <div className="mt-2 relative z-10 px-2 sm:px-4 md:px-8">
                 <Slider {...sliderSettings}>
                   {detalles.map((detalle, index) => (
-                    <div key={index} className="px-2 py-4 sm:px-6 sm:py-8 md:px-10 md:py-10">
+                    <div key={index} className="py-4 sm:px-2 sm:py-3 md:px-5 md:py-5">
                       <div className="relative bg-[#e3d6b5] bg-opacity-50 text-black rounded-2xl shadow-lg p-4 sm:p-6 md:p-8 max-w-2xl mx-auto text-center transition-transform duration-300 hover:scale-105">
                         <p className="text-lg sm:text-xl md:text-xl italic leading-relaxed">
                           {tGlobal(detalle.comentarioKey)}
@@ -207,13 +207,13 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
               </div>
             </div>
             {/* Columna de imagen */}
-            <div className="flex justify-center items-center col-span-1 md:col-span-5 mx-auto mt-4 sm:mt-6 md:mt-0">
+            <div className="flex justify-center items-center col-span-1 md:col-span-5 mx-auto">
               <Image
                 src={`/images/reseñas/${selectedReseña.imagen}`}
                 alt={stripHtmlTags(rawTitle)}
                 width={1200}
                 height={800}
-                className="object-cover rounded-lg w-full h-auto max-h-[30vh] md:max-h-full shadow-2xl"
+                className="object-cover rounded-lg w-full h-auto max-h-[40vh] md:max-h-full shadow-2xl"
                 sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
             </div>
