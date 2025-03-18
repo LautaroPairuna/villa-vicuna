@@ -53,16 +53,16 @@ export default function Nosotros() {
           {/* Fondo dinámico */}
           <div
             className="
-              absolute left-[50%] xl:left-[75%] bottom-[0%] md:bottom-[-32%] -translate-x-1/2
+              absolute left-[50%] xl:left-[65%] bottom-[0%] md:bottom-[-32%] -translate-x-1/2
               w-[350px] h-[300px] opacity-65 pointer-events-none -z-10
-              sm:w-[350px] sm:h-[280px] md:w-[500px] md:h-[380px] lg:w-[1150px] lg:h-[900px] 2xl:w-[1250px] 2xl:h-[900px]
+              sm:w-[350px] sm:h-[280px] md:w-[500px] md:h-[380px] lg:w-[1150px] lg:h-[850px] 2xl:w-[1250px] 2xl:h-[850px]
             "
           >
             <Image
               src="/images/fondo-carta-2.svg"
               alt="Fondo Carta 2"
               fill
-              className="object-contain w-[1250px] h-[800px]"
+              className="object-contain w-[1250px] h-[700px]"
             />
           </div>
 
