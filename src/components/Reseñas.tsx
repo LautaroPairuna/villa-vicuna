@@ -285,7 +285,7 @@ export default function ReseñasSection() {
   }, []);
 
   return (
-    <section id="reviews" className="relative md:px-10 px-5 md:pt-20 pt-10 pb-10 bg-white text-black">
+    <section id="reviews" className="relative md:px-10 px-5 md:pt-32 pt-10 pb-10 bg-white text-black">
       <div className="max-w-[1400px] mx-auto relative z-10">
         <div className="absolute -top-[9%] left-1/2 -translate-x-1/2 w-[350px] h-[350px] opacity-55 pointer-events-none -z-10 sm:-top-[6%] sm:w-[350px] sm:h-[350px] md:-top-[30%] md:w-[450px] md:h-[450px] lg:-top-[35%] lg:w-[600px] lg:h-[600px]">
           <Image
