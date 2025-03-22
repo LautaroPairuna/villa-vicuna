@@ -53,8 +53,8 @@ function splitTitle(raw: string): { part1: string; part2: string; full: string }
 function calculateTrackingBase(text: string): number {
   const length = text.length;
   if (length <= 8) return 1.55;
-  if (length <= 11) return 1.05;
-  if (length <= 12) return 0.95;
+  if (length <= 11) return 0.93;
+  if (length <= 12) return 0.85;
   if (length <= 15) return 0.65;
   return 0.4;
 }
@@ -151,7 +151,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
         onClick={onClose}
       >
         <motion.div
-          className="bg-white p-4 sm:p-6 md:p-10 rounded-lg w-full max-w-md sm:max-w-2xl md:max-w-7xl relative max-h-screen transform"
+          className="bg-white py-4 sm:py-6 md:py-10 px-4 sm:px-10 md:px-20 pe-4 sm:pe-6 md:pe-10 rounded-lg w-full max-w-md sm:max-w-2xl md:max-w-7xl relative max-h-screen transform overflow-hidden"
           variants={modalVariants}
           initial="hidden"
           animate="visible"
@@ -160,10 +160,10 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
           onClick={(e) => e.stopPropagation()}
         >
           <button
-            className="absolute top-2 right-2 text-xl sm:text-2xl md:text-4xl font-bold text-black"
+            className="absolute md:top-6 top-1 md:left-0 text-xl sm:text-2xl md:text-4xl md:text-white text-black md:bg-[#17273f] md:rounded-tr-full md:rounded-br-full bg-none md:py-2 md:px-6 px-2"
             onClick={onClose}
           >
-            ✖
+            x
           </button>
           <h3
             className="relative md:absolute md:top-[10%] md:left-1/2 md:-translate-x-1/2 text-3xl sm:text-4xl md:text-6xl leading-tight md:leading-normal uppercase z-10 w-full text-center mt-4 sm:mt-6 md:mt-0"
@@ -174,10 +174,10 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
               {part2}
             </span>
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 text-black">
+          <div className="grid grid-cols-1 md:grid-cols-12 md:gap-20 gap-8 text-black">
             {/* Columna de texto y carrusel */}
             <div className="flex flex-col col-span-1 md:col-span-7 pt-2 sm:pt-4 md:pt-16 relative">
-              <div className="absolute top-[75%] left-0 right-0 inset-0 pointer-events-none z-0 flex justify-center items-center">
+              <div className="absolute md:top-[75%] top-[50%] md:-left-[15%] left-[20%] inset-0 pointer-events-none z-0 flex justify-center items-center md:w-[900px] w-[250px] h-[250px]">
                 <Image
                   src="/images/fondo-carta-5.svg"
                   alt="Personal Review Background"
@@ -191,7 +191,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
               <div className="mt-2 relative z-10 px-2 sm:px-4 md:px-8">
                 <Slider {...sliderSettings}>
                   {detalles.map((detalle, index) => (
-                    <div key={index} className="py-4 sm:px-2 sm:py-3 md:px-5 md:py-5">
+                    <div key={index} className="py-4 sm:px-2 sm:py-3 md:px-10 md:py-5">
                       <div className="relative bg-[#e3d6b5] bg-opacity-50 text-black rounded-2xl shadow-lg p-4 sm:p-6 md:p-8 max-w-2xl mx-auto text-center transition-transform duration-300 hover:scale-105">
                         <p className="text-lg sm:text-xl md:text-2xl leading-relaxed resenas-texto">
                           {tGlobal(detalle.comentarioKey)}
@@ -207,14 +207,12 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
               </div>
             </div>
             {/* Columna de imagen */}
-            <div className="flex justify-center items-center col-span-1 md:col-span-5 mx-auto">
+            <div className="relative col-span-1 md:col-span-5 w-full h-[40vh] md:h-full">
               <Image
                 src={`/images/reseñas/${selectedReseña.imagen}`}
                 alt={stripHtmlTags(rawTitle)}
-                width={1200}
-                height={800}
-                className="object-cover rounded-lg w-full h-auto max-h-[40vh] md:max-h-full shadow-2xl"
-                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                fill
+                className="object-cover rounded-lg shadow-2xl"
               />
             </div>
           </div>
@@ -285,9 +283,9 @@ export default function ReseñasSection() {
   }, []);
 
   return (
-    <section id="reviews" className="relative md:px-10 px-5 md:pt-32 pt-10 pb-10 bg-white text-black">
+    <section id="reviews" className="relative md:px-16 px-6 lg:pt-36 pt-10 pb-10 bg-white text-black">
       <div className="max-w-[1400px] mx-auto relative z-10">
-        <div className="absolute -top-[9%] left-1/2 -translate-x-1/2 w-[350px] h-[350px] opacity-55 pointer-events-none -z-10 sm:-top-[6%] sm:w-[350px] sm:h-[350px] md:-top-[30%] md:w-[450px] md:h-[450px] lg:-top-[35%] lg:w-[600px] lg:h-[600px]">
+        <div className="absolute -top-[9%] left-1/2 -translate-x-1/2 w-[350px] h-[350px] pointer-events-none -z-10 sm:-top-[8%] sm:w-[350px] sm:h-[350px] md:-top-[30%] md:w-[450px] md:h-[450px] lg:-top-[30%] lg:w-[775px] lg:h-[600px]">
           <Image
             src="/images/fondo-carta-1.svg"
             alt="Fondo Carta 1"
@@ -295,7 +293,7 @@ export default function ReseñasSection() {
             className="object-contain"
           />
         </div>
-        <h2 className="md:text-8xl text-4xl mb-8 md:tracking-[0.8em] tracking-[0.1em] text-center">
+        <h2 className="xl:text-9xl lg:text-8xl md:text-6xl text-4xl mb-8 md:tracking-[.70em] tracking-[0.1em] text-center">
           {tReseñas("titulo")}
         </h2>
         <p className="text-2xl mx-auto">{tReseñas("descripcion")}</p>

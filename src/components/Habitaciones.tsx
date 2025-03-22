@@ -118,8 +118,6 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
   );
 }
 
-
-
 export default function HabitacionesComponent() {
   const [selected, setSelected] = useState<number | null>(null);
   const t = useTranslations("rooms") as Translations;
@@ -139,7 +137,7 @@ export default function HabitacionesComponent() {
   }, []);
 
   return (
-    <section id="rooms" className="relative bg-white text-black py-16 px-8">
+    <section id="rooms" className="relative bg-white text-black md:px-16 px-6 py-16">
       <div className="pointer-events-none absolute inset-0 hidden md:block">
         <Image
           src="/images/fondo-carta-3.svg"
@@ -148,23 +146,23 @@ export default function HabitacionesComponent() {
           className="object-contain opacity-60"
         />
       </div>
-      <div className="max-w-[1400px] mx-auto flex">
-        <div className="hidden md:flex w-1/6 items-center justify-center">
+      <div className="max-w-[1400px] mx-auto flex flex-col lg:flex-row">
+        <div className="relative lg:hidden mb-6">
+          <Image
+            src="/images/fondo-carta-3.svg"
+            alt="Fondo Carta"
+            width={250}
+            height={250}
+            className="absolute top-[15%] left-[60%] transform -translate-x-1/2 -translate-y-1/2 object-contain md:hidden"
+          />
+          <h2 className="relative text-4xl text-center">{t("titulo")}</h2>
+        </div>
+        <div className="hidden lg:flex w-1/6 items-center justify-center">
           <h2 className="text-3xl md:text-5xl transform -rotate-90 whitespace-nowrap tracking-[0.70em]">
             {t("titulo")}
           </h2>
         </div>
-        <div className="md:w-5/6 w-full grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="relative md:hidden mb-6">
-            <Image
-              src="/images/fondo-carta-3.svg"
-              alt="Fondo Carta"
-              width={350}
-              height={350}
-              className="absolute top-[15%] left-[60%] transform -translate-x-1/2 -translate-y-1/2 object-contain opacity-55"
-            />
-            <h2 className="relative text-4xl text-center">{t("titulo")}</h2>
-          </div>
+        <div className="lg:w-5/6 w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
           {habitaciones.map((hab) => (
             <div
               key={hab.id}

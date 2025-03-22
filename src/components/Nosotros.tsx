@@ -7,55 +7,62 @@ import { parseTitleWithSpan, getDynamicLetterSpacing } from "@/utils/utilsTitle"
 
 export default function Nosotros() {
   const t = useTranslations("about_us");
-
-  // Extraemos el título en formato HTML (Ej: "ABOUT <span>US</span>")
   const tituloHTML = t.raw("titulo");
   const { tituloParte1, tituloParte2, tituloCompleto } = parseTitleWithSpan(tituloHTML);
 
-  // Estado para determinar si la pantalla es menor a 560px
-  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [screenWidth, setScreenWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 0
+  );
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 560);
+      setScreenWidth(window.innerWidth);
+      setIsMobile(window.innerWidth < 1024);
     };
 
-    handleResize(); // Inicializamos
+    handleResize();
     window.addEventListener("resize", handleResize);
+    setMounted(true);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Calculamos el letterSpacing solo para pantallas >= 560px; de lo contrario, usamos "normal"
-  const dynamicLetterSpacing = isMobile ? "normal" : getDynamicLetterSpacing(tituloCompleto);
+  const letterSpacing = mounted
+    ? isMobile
+      ? "normal"
+      : getDynamicLetterSpacing(tituloCompleto, screenWidth)
+    : undefined;
 
   return (
     <section
       id="about-us"
-      className="relative py-10 md:px-10 px-5  bg-white flex flex-col md:flex-row items-center text-black mx-auto"
+      className="relative py-16 px-4 md:px-16 bg-white flex flex-col lg:flex-row items-center text-black mx-auto overflow-hidden"
     >
-      <div className="grid grid-cols-12 max-w-[1400px] mx-auto text-lg relative gap-10">
-        {/* Título central con tracking dinámico aplicado inline (solo en desktop) */}
+      <div className="grid grid-cols-12 max-w-full mx-auto text-lg relative gap-6 w-full min-w-0">
+        {/* Título central */}
         <h2
-          className={`
-            absolute md:top-[60px] -top-[10px] w-full text-center
-            text-4xl md:text-5xl z-20 uppercase
-          `}
-          style={{ letterSpacing: dynamicLetterSpacing }}
+          className="
+            absolute lg:top-[60px] -top-[10px] w-full text-center
+            text-4xl lg:text-5xl z-20 uppercase
+          "
+          style={{ letterSpacing }}
         >
-          <span className="block md:inline text-black me-auto lg:me-10">{tituloParte1}</span>
-          <span className="block md:inline text-black font-normal md:font-bold">
-            {tituloParte2}
-          </span>
+          <span className="block md:inline text-black me-8">{tituloParte1}</span> 
+          <span className="block md:inline text-black font-normal lg:font-bold">{tituloParte2}</span>
         </h2>
 
         {/* Contenido de texto */}
-        <div className="lg:col-span-6 md:col-span-8 col-span-12 relative z-10 bg-white md:pt-36 pt-20 pb-10">
-          {/* Fondo dinámico */}
+        <div className="lg:col-span-6 col-span-12 relative z-10 bg-white lg:pt-36 pt-20 md:pb-10 pb-0">
           <div
             className="
-              absolute left-[50%] xl:left-[65%] bottom-[0%] md:bottom-[-32%] -translate-x-1/2
-              w-[350px] h-[300px] opacity-65 pointer-events-none -z-10
-              sm:w-[350px] sm:h-[280px] md:w-[500px] md:h-[380px] lg:w-[1150px] lg:h-[850px] 2xl:w-[1250px] 2xl:h-[850px]
+              absolute left-[50%] xl:left-[75%] 2xl:left-[80%]
+              bottom-[0%] md:bottom-[-0%] lg:bottom-[-31%] 2xl:bottom-[-24%]
+              -translate-x-1/2 w-[350px] h-[300px] opacity-100 pointer-events-none -z-10
+              sm:w-[350px] sm:h-[280px]
+              md:w-[500px] md:h-[380px]
+              xl:w-[1050px] xl:h-[750px]
+              2xl:w-[1250px] 2xl:h-[750px]
             "
           >
             <Image
@@ -67,14 +74,14 @@ export default function Nosotros() {
           </div>
 
           <div className="md:text-justify text-left">
-            <p className="text-2xl leading-relaxed relative z-10">{t("parrafo1")}</p>
-            <p className="text-2xl leading-relaxed mt-4 relative z-10">{t("parrafo2")}</p>
-            <p className="text-2xl leading-relaxed mt-4 relative z-10">{t("parrafo3")}</p>
+            <p className="text-2xl leading-relaxed relative z-10 break-words">{t("parrafo1")}</p>
+            <p className="text-2xl leading-relaxed mt-4 relative z-10 break-words">{t("parrafo2")}</p>
+            <p className="text-2xl leading-relaxed mt-4 relative z-10 break-words">{t("parrafo3")}</p>
           </div>
         </div>
 
         {/* Imagen */}
-        <div className="lg:col-span-6 md:col-span-4 col-span-12 flex justify-end items-center">
+        <div className="lg:col-span-6 col-span-12 flex lg:justify-end justify-center items-center">
           <Image
             src="/images/nosotros.jpg"
             alt={t("imagenAlt")}
