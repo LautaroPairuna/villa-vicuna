@@ -42,14 +42,15 @@
         "nombre": "El pers<span>onal</span>",
         "texto": "Nuestro equipo...nuestra familia, los responsables de la excelente calidez y calidad de nuestros servicios, con su dedicación y amabilidad hacen que nuestros huéspedes se sientan como en casa.",
         "reseñas": [
-        "El personal es muy amable y atento.",
+        "Me he sentido muy a gusto, todo el personal esta atento a que vivamos una linda y cordial estadía. Excelentes desayunos y Santiago, en rescepcion, esta en todos los detalles y ayuda constante. Mi visita fue por tercera vez y volveré como siempre. ",
         "Me hicieron sentir como en casa.",
         "Servicio excepcional y muy cálido."
         ]
     },
     "reseñas": {
         "titulo": "RESEÑAS",
-        "descripcion": "En Villa Vicuña  nuestros huéspedes son el principal motor que impulsa el trabajo constante para alcanzar la excelencia en calidad y servicios, son sus reseñas las que atesoramos como fuente de inspiración. Gracias por elegirnos..."
+        "descripcion": "En Villa Vicuña  nuestros huéspedes son el principal motor que impulsa el trabajo constante para alcanzar la excelencia en calidad y servicios, son sus reseñas las que atesoramos como fuente de inspiración.",
+        "gracias": "Gracias por elegirnos..."
     },
     "menu": {
         "titulo": "NUESTRA CARTA",

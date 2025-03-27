@@ -31,7 +31,7 @@ export const reseñasDetalles = {
     { comentarioKey: "detalles.reseñas.2", autor: "Anna Smith", pais: "Canadá" },
   ],
   3: [
-    { comentarioKey: "personal.reseñas.0", autor: "Santiago Ruiz", pais: "México" },
+    { comentarioKey: "personal.reseñas.0", autor: "Mercedes", pais: "Argentina" },
     { comentarioKey: "personal.reseñas.1", autor: "Laura Fernández", pais: "Colombia" },
     { comentarioKey: "personal.reseñas.2", autor: "Emma Wilson", pais: "Reino Unido" },
   ],

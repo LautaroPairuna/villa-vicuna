@@ -50,7 +50,7 @@ export default function Menu() {
   }, []);
 
   return (
-    <section id="menu" className="relative bg-white text-black md:py-8 md:px-4 xl:py-16 xl:px-16">
+    <section id="menu" className="relative bg-white text-black md:py-8 md:px-12 xl:py-16 xl:px-16">
       <div className="max-w-[1400px] mx-auto flex flex-col lg:flex-row items-center justify-center">
         {/* Título vertical en Desktop */}
         <div className="hidden lg:flex w-1/6 items-center justify-center relative">

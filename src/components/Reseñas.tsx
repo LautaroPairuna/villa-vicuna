@@ -53,7 +53,7 @@ function splitTitle(raw: string): { part1: string; part2: string; full: string }
 function calculateTrackingBase(text: string): number {
   const length = text.length;
   if (length <= 8) return 1.55;
-  if (length <= 11) return 0.93;
+  if (length <= 11) return 0.96;
   if (length <= 12) return 0.85;
   if (length <= 15) return 0.65;
   return 0.4;
@@ -84,60 +84,45 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
   const tGlobal = useTranslations() as Translations;
   const { width } = useWindowSize();
 
-  // Filtrar los detalles correspondientes
   const detalles: ReseñaDetalle[] = useMemo(() => {
     const data = (reseñasDetalles as Record<string, ReseñaDetalle[]>)[String(selectedReseña.id)];
     return data ?? [];
   }, [selectedReseña.id]);
 
-  // Obtener título en bruto y separarlo
   const rawTitle = useMemo(() => tGlobal.raw(selectedReseña.nombreKey), [
     tGlobal,
     selectedReseña.nombreKey,
   ]);
   const { part1, part2, full } = useMemo(() => splitTitle(rawTitle), [rawTitle]);
 
-  // Calcular el tracking (letterSpacing)
   const computedTracking = useMemo(() => {
     const baseTracking = calculateTrackingBase(full);
     const factor = width && width < 768 ? 0.3 : width && width < 1024 ? 0.6 : 1.15;
     return baseTracking * factor;
   }, [full, width]);
 
-  // Configuración del slider de react-slick
-  const sliderSettings = useMemo(
-    () => ({
-      dots: true,
-      infinite: true,
-      speed: 500,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      autoplay: true,
-      autoplaySpeed: 2500,
-      arrows: true,
-      centerMode: true,
-      centerPadding: "20px",
-    }),
-    []
-  );
+  const sliderSettings = useMemo(() => ({
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 4000,
+    arrows: true,
+    centerMode: true,
+    centerPadding: "20px",
+  }), []);
 
-  // Variantes de animación para framer-motion
-  const overlayVariants = useMemo(
-    () => ({
-      hidden: { opacity: 0 },
-      visible: { opacity: 1 },
-      exit: { opacity: 0 },
-    }),
-    []
-  );
-  const modalVariants = useMemo(
-    () => ({
-      hidden: { scale: 0.9, y: 50, opacity: 0 },
-      visible: { scale: 1, y: 0, opacity: 1 },
-      exit: { scale: 0.9, y: 50, opacity: 0 },
-    }),
-    []
-  );
+  const overlayVariants = useMemo(() => ({
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 },
+    exit: { opacity: 0 },
+  }), []);
+  const modalVariants = useMemo(() => ({
+    hidden: { scale: 0.9, y: 50, opacity: 0 },
+    visible: { scale: 1, y: 0, opacity: 1 },
+    exit: { scale: 0.9, y: 50, opacity: 0 },
+  }), []);
 
   return createPortal(
     <AnimatePresence>
@@ -151,7 +136,15 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
         onClick={onClose}
       >
         <motion.div
-          className="bg-white py-4 sm:py-6 md:py-10 px-4 sm:px-10 md:px-20 pe-4 sm:pe-6 md:pe-10 rounded-lg w-full max-w-md sm:max-w-2xl md:max-w-7xl relative max-h-screen transform overflow-hidden"
+          className="
+            bg-white 
+            pt-4 sm:pt-6 md:pt-8 lg:pt-10 
+            pb-2 sm:pb-4 md:pb-6 lg:pb-8 
+            px-4 sm:px-8 md:px-12 lg:px-20 
+            pe-4 sm:pe-6 md:pe-10 lg:pe-16 
+            w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-5xl 
+            relative transform overflow-hidden
+          "
           variants={modalVariants}
           initial="hidden"
           animate="visible"
@@ -160,59 +153,59 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
           onClick={(e) => e.stopPropagation()}
         >
           <button
-            className="absolute md:top-6 top-1 md:left-0 text-xl sm:text-2xl md:text-4xl md:text-white text-black md:bg-[#17273f] md:rounded-tr-full md:rounded-br-full bg-none md:py-2 md:px-6 px-2"
+            className="absolute md:top-6 top-1 md:left-0 text-xl sm:text-2xl md:text-4xl text-white md:bg-[#17273f] md:rounded-tr-full md:rounded-br-full md:px-4 px-2 py-3 flex items-center"
             onClick={onClose}
           >
-            x
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
           </button>
+
           <h3
-            className="relative md:absolute md:top-[10%] md:left-1/2 md:-translate-x-1/2 text-3xl sm:text-4xl md:text-6xl leading-tight md:leading-normal uppercase z-10 w-full text-center mt-4 sm:mt-6 md:mt-0"
+            className="relative md:absolute md:top-[10%] md:left-1/2 md:-translate-x-1/2 text-3xl sm:text-4xl md:text-5xl uppercase z-10 w-full text-center mt-4 sm:mt-6 md:mt-0 ms-4 text-black"
             style={{ letterSpacing: `${computedTracking}em` }}
           >
-            <span className="text-black whitespace-nowrap">{part1}</span>
-            <span className="text-black md:text-white whitespace-nowrap drop-shadow-none md:drop-shadow-[0px_0px_4px_rgba(0,0,0,1)]">
-              {part2}
-            </span>
+            <span className="whitespace-nowrap">{part1}</span>
+            <span className="whitespace-nowrap">{part2}</span>
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-12 md:gap-20 gap-8 text-black">
-            {/* Columna de texto y carrusel */}
-            <div className="flex flex-col col-span-1 md:col-span-7 pt-2 sm:pt-4 md:pt-16 relative">
-              <div className="absolute md:top-[75%] top-[50%] md:-left-[15%] left-[20%] inset-0 pointer-events-none z-0 flex justify-center items-center md:w-[900px] w-[250px] h-[250px]">
-                <Image
-                  src="/images/fondo-carta-5.svg"
-                  alt="Personal Review Background"
-                  fill
-                  className="object-contain opacity-55"
-                />
+
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 lg:gap-20 text-black">
+            <div className="flex flex-col col-span-1 md:col-span-7 pt-2 md:pt-12 relative">
+              <div className="absolute md:top-[72%] top-[50%] md:-left-[21%] left-[20%] inset-0 pointer-events-none z-10 flex justify-center items-center md:w-[775px] w-[250px] h-[250px]">
+                <Image src="/images/fondo-carta-5.svg" alt="Personal Review Background" fill className="object-contain opacity-55"/>
               </div>
-              <p className="mt-2 md:mt-16 text-lg md:text-2xl relative z-10 text-justify">
+              <p className="mt-2 md:mt-10 text-sm relative z-10 text-left leading-4" style={{ whiteSpace: 'pre-line' }}>
                 {tGlobal(selectedReseña.textoKey)}
               </p>
-              <div className="mt-2 relative z-10 px-2 sm:px-4 md:px-8">
+              <div className="mt-2 relative z-10 w-full">
                 <Slider {...sliderSettings}>
-                  {detalles.map((detalle, index) => (
-                    <div key={index} className="py-4 sm:px-2 sm:py-3 md:px-10 md:py-5">
-                      <div className="relative bg-[#e3d6b5] bg-opacity-50 text-black rounded-2xl shadow-lg p-4 sm:p-6 md:p-8 max-w-2xl mx-auto text-center transition-transform duration-300 hover:scale-105">
-                        <p className="text-lg sm:text-xl md:text-2xl leading-relaxed resenas-texto">
-                          {tGlobal(detalle.comentarioKey)}
-                        </p>
-                        <div className="w-16 h-[2px] bg-black mx-auto my-3"></div>
-                        <p className="text-base sm:text-lg md:text-xl font-semibold">
-                          - {detalle.autor}, {detalle.pais}
-                        </p>
+                  {detalles.map((detalle, i) => (
+                    <div key={i} className="py-4 sm:py-3 md:py-5 px-5">
+                      <div className="bg-[#e3d6b5] bg-opacity-50 rounded-2xl py-4 sm:py-6 md:py-8 px-2 max-w-2xl mx-auto transition-transform duration-300 hover:scale-105">
+                        <p className="text-lg leading-6 resenas-texto mb-3 text-left">{tGlobal(detalle.comentarioKey)}</p>
+                        <p className="text-base sm:text-md leading-3 resenas-texto text-left">- {detalle.autor}, {detalle.pais}</p>
                       </div>
                     </div>
                   ))}
                 </Slider>
               </div>
             </div>
-            {/* Columna de imagen */}
-            <div className="relative col-span-1 md:col-span-5 w-full h-[40vh] md:h-full">
+
+            <div className="relative col-span-1 md:col-span-5 w-full aspect-[4/3] lg:aspect-[2/3]">
               <Image
                 src={`/images/reseñas/${selectedReseña.imagen}`}
                 alt={stripHtmlTags(rawTitle)}
                 fill
-                className="object-cover rounded-lg shadow-2xl"
+                className="object-cover"
               />
             </div>
           </div>
@@ -222,6 +215,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
     document.body
   );
 }
+
 
 // -----------------------------------------------------------------------------
 // Componente de Tarjeta
@@ -283,9 +277,9 @@ export default function ReseñasSection() {
   }, []);
 
   return (
-    <section id="reviews" className="relative md:px-16 px-6 lg:pt-36 pt-10 pb-10 bg-white text-black">
+    <section id="reviews" className="relative md:px-12 px-6 lg:pt-36 pt-10 pb-10 bg-white text-black">
       <div className="max-w-[1400px] mx-auto relative z-10">
-        <div className="absolute -top-[9%] left-1/2 -translate-x-1/2 w-[350px] h-[350px] pointer-events-none -z-10 sm:-top-[8%] sm:w-[350px] sm:h-[350px] md:-top-[30%] md:w-[450px] md:h-[450px] lg:-top-[30%] lg:w-[775px] lg:h-[600px]">
+        <div className="absolute -top-[9%] left-1/2 -translate-x-1/2 w-[350px] h-[350px] pointer-events-none -z-10 sm:-top-[8%] sm:w-[350px] sm:h-[350px] md:-top-[30%] md:w-[450px] md:h-[450px] lg:-top-[33%] lg:w-[775px] lg:h-[600px]">
           <Image
             src="/images/fondo-carta-1.svg"
             alt="Fondo Carta 1"
@@ -293,10 +287,11 @@ export default function ReseñasSection() {
             className="object-contain"
           />
         </div>
-        <h2 className="xl:text-9xl lg:text-8xl md:text-6xl text-4xl mb-8 md:tracking-[.70em] tracking-[0.1em] text-center">
+        <h2 className="xl:text-9xl lg:text-8xl md:text-6xl text-4xl mb-8 md:tracking-[.60em] tracking-[0.1em] text-center ms-5">
           {tReseñas("titulo")}
         </h2>
-        <p className="text-2xl mx-auto">{tReseñas("descripcion")}</p>
+        <p className="text-xl">{tReseñas("descripcion")}</p>
+        <p className="text-xl">{tReseñas("gracias")}</p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mt-5">
           {reseñas.map((reseña: ReseñaItem) => (
             <ReseñaCard key={reseña.id} reseña={reseña} onClick={handleCardClick} />

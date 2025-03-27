@@ -47,18 +47,37 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 px-4 overflow-y-auto md:overflow-visible">
-      <div className="bg-white p-6 md:p-10 rounded-lg w-full max-w-md md:max-w-7xl relative transform transition-transform duration-300 scale-95 animate-fadeIn max-h-screen mt-8 md:mt-0 overflow-y-auto md:overflow-visible">
-        <button
-          className="absolute top-2 right-2 text-2xl md:text-4xl font-bold"
-          onClick={onClose}
-        >
-          ✖
-        </button>
+      <div className="bg-white 
+            pt-4 sm:pt-6 md:pt-8 lg:pt-10 
+            pb-2 sm:pb-4 md:pb-6 lg:pb-8 
+            px-4 sm:px-8 md:px-12 lg:px-20 
+            pe-4 sm:pe-6 md:pe-10 lg:pe-16
+            w-full max-w-md md:max-w-7xl 
+            relative transform transition-transform duration-300 scale-95 animate-fadeIn max-h-screen 
+            mt-8 md:mt-0 
+            overflow-y-auto md:overflow-visible">
+          <button
+            className="absolute md:top-6 top-1 md:left-0 text-xl sm:text-2xl md:text-4xl text-white md:bg-[#17273f] md:rounded-tr-full md:rounded-br-full md:px-4 px-2 py-3 flex items-center"
+            onClick={onClose}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
         <h3
           className={`
             relative md:absolute md:top-[10%] md:left-1/2 md:transform md:-translate-x-1/2
-            text-4xl md:text-6xl leading-tight md:leading-normal uppercase z-10 w-full text-center
-            tracking-[0.2em] md:tracking-[1.05em] lg:tracking-[1.85em]
+            text-4xl md:text-8xl leading-tight md:leading-normal uppercase z-10 w-full text-center
+            tracking-[0.2em] md:tracking-[1.05em] lg:tracking-[.88em]
           `}
         >
           <span className="text-black">{categoriaBlack}</span>
@@ -68,19 +87,19 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
           <div className="col-span-1 md:col-span-7 relative pt-2 md:pt-32">
-            <h4 className="text-2xl md:text-3xl uppercase text-gray-700 z-10 w-full text-center">
+            <h4 className="text-2xl md:text-3xl uppercase text-gray-700 z-10 w-full text-center tracking-[.65em] mt-10">
               {t(`${habitacion.key}.nombre`)}
             </h4>
-            <div className="relative mt-4 md:mt-8">
-              <div className="absolute top-[45%] md:left-[60%] left-[50%] lg:w-[850px] md:w-[550px] w-[350px] lg:h-[250%] md:h-[160%] h-[110%] pointer-events-none z-0 transform -translate-x-1/2 -translate-y-1/2">
+            <div className="relative mt-4">
+              <div className="absolute top-[45%] left-[55%] md:w-[650px] w-[350px] lg:h-[250%] md:h-[160%] h-[110%] pointer-events-none -z-10 transform -translate-x-1/2 -translate-y-1/2">
                 <Image
                   src="/images/fondo-carta-3.svg"
                   alt="Fondo Carta"
                   fill
-                  className="object-contain opacity-55"
+                  className="object-contain"
                 />
               </div>
-              <div className="relative z-10 text-lg md:text-xl text-justify md:text-left px-2 md:px-0">
+              <div className="relative z-10 text-base text-justify md:text-left px-2 md:px-0">
                 <p className="mb-4 text-justify">{t(`${habitacion.key}.descripcion`)}</p>
                 <p className="text-justify">{t(`${habitacion.key}.parrafo_minibar`)}</p>
                 {/* Sección de Amenities */}
@@ -102,13 +121,12 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
           </div>
           <div className="col-span-1 md:col-span-5 flex items-center justify-center">
             {/* Contenedor para limitar la imagen en móviles */}
-            <div className="w-full max-h-[80vh] overflow-hidden">
+            <div className="relative w-full max-h-[80vh] aspect-[4/3] lg:aspect-[3/4] overflow-hidden">
               <Image
                 src={`/images/Habitaciones/${habitacion.imagen}`}
                 alt={t(`${habitacion.key}.nombre`)}
-                width={506}
-                height={749}
-                className="object-cover rounded-lg w-full h-auto shadow-lg"
+                fill
+                className="object-cover"
               />
             </div>
           </div>
@@ -137,7 +155,7 @@ export default function HabitacionesComponent() {
   }, []);
 
   return (
-    <section id="rooms" className="relative bg-white text-black md:px-16 px-6 py-16">
+    <section id="rooms" className="relative bg-white text-black md:px-12 px-6 py-16">
       <div className="pointer-events-none absolute inset-0 hidden md:block">
         <Image
           src="/images/fondo-carta-3.svg"
@@ -179,7 +197,7 @@ export default function HabitacionesComponent() {
               </div>
               <div className="p-6 text-center">
                 <p className="text-sm text-gray-600">{t(`${hab.key}.detalles`)}</p>
-                <h3 className="text-lg font-semibold mt-2">{hab.categoria} {t(`${hab.key}.nombre`)}</h3>
+                <h3 className="text-base font-semibold mt-2 titulo-habitaciones uppercase">{hab.categoria} {t(`${hab.key}.nombre`)}</h3>
                 <button className="bg-[#e3d6b5] text-black px-6 py-2 text-lg font-semibold shadow-md hover:bg-[#d6c3a2] transition-all rounded-xl mt-4 items-center my-0 mx-auto justify-center text-center">
                   <a href="https://goo.su/4Nkqe" target="_blank">{t(`${hab.key}.boton`)}</a>
                 </button>

@@ -1,45 +1,63 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { parseTitleWithSpan, getDynamicLetterSpacing } from "@/utils/utilsTitle";
+import { useWindowSize } from "@/utils/utilsTitle"; // Usamos el hook aquí
 
 export default function Nosotros() {
   const t = useTranslations("about_us");
   const tituloHTML = t.raw("titulo");
   const { tituloParte1, tituloParte2, tituloCompleto } = parseTitleWithSpan(tituloHTML);
 
-  const [isMobile, setIsMobile] = useState(false);
-  const [screenWidth, setScreenWidth] = useState(
-    typeof window !== "undefined" ? window.innerWidth : 0
-  );
+  // Usamos el hook para obtener el tamaño de la ventana
+  const { width: screenWidth } = useWindowSize();
+
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const handleResize = () => {
-      setScreenWidth(window.innerWidth);
-      setIsMobile(window.innerWidth < 1024);
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    setMounted(true);
-    return () => window.removeEventListener("resize", handleResize);
+    setMounted(true); // Esto asegura que el código solo se ejecute en el cliente
   }, []);
 
-  const letterSpacing = mounted
-    ? isMobile
-      ? "normal"
-      : getDynamicLetterSpacing(tituloCompleto, screenWidth)
+  const getDynamicLetterSpacing = (text: string, screenWidth: number): string => {
+    const length = text.length;
+
+    if (screenWidth >= 1490) {
+      if (length <= 5) return "1.2em";
+      if (length <= 8) return "1.1em";
+      if (length <= 10) return "1em";
+      if (length <= 12) return "0.85em";
+      if (length <= 15) return "0.65em";
+      return "0.92em";
+    }
+
+    if (screenWidth >= 1280) {
+      if (length <= 5) return "1.15em";
+      if (length <= 8) return "1.05em";
+      if (length <= 10) return "0.95em";
+      if (length <= 12) return "0.8em";
+      if (length <= 15) return "0.6em";
+      return "0.78em";
+    }
+
+    if (length <= 5) return "1em";
+    if (length <= 8) return "0.95em";
+    if (length <= 10) return "1em";
+    if (length <= 12) return "0.75em";
+    if (length <= 15) return "0.5em";
+    return "0.42em";
+  };
+
+  const letterSpacing = mounted && screenWidth !== undefined
+    ? getDynamicLetterSpacing(tituloCompleto, screenWidth)
     : undefined;
 
   return (
     <section
       id="about-us"
-      className="relative py-16 px-4 md:px-16 bg-white flex flex-col lg:flex-row items-center text-black mx-auto overflow-hidden"
+      className="relative py-16 px-4 md:px-12 bg-white flex flex-col lg:flex-row items-center text-black mx-auto overflow-hidden"
     >
-      <div className="grid grid-cols-12 max-w-full mx-auto text-lg relative gap-6 w-full min-w-0">
+      <div className="grid grid-cols-12 2xl:max-w-[1400px] max-w-full mx-auto text-lg relative gap-6 lg:gap-20 w-full min-w-0">
         {/* Título central */}
         <h2
           className="
@@ -48,8 +66,8 @@ export default function Nosotros() {
           "
           style={{ letterSpacing }}
         >
-          <span className="block md:inline text-black me-8">{tituloParte1}</span> 
-          <span className="block md:inline text-black font-normal lg:font-bold">{tituloParte2}</span>
+          <span className="block md:inline text-black me-auto md:me-8">{tituloParte1}</span> 
+          <span className="block md:inline text-black font-normal">{tituloParte2}</span>
         </h2>
 
         {/* Contenido de texto */}
@@ -57,7 +75,7 @@ export default function Nosotros() {
           <div
             className="
               absolute left-[50%] xl:left-[75%] 2xl:left-[80%]
-              bottom-[0%] md:bottom-[-0%] lg:bottom-[-31%] 2xl:bottom-[-24%]
+              bottom-[0%] md:bottom-[-0%] lg:bottom-[-27%] 2xl:bottom-[-21%]
               -translate-x-1/2 w-[350px] h-[300px] opacity-100 pointer-events-none -z-10
               sm:w-[350px] sm:h-[280px]
               md:w-[500px] md:h-[380px]
@@ -74,14 +92,14 @@ export default function Nosotros() {
           </div>
 
           <div className="md:text-justify text-left">
-            <p className="text-2xl leading-relaxed relative z-10 break-words">{t("parrafo1")}</p>
-            <p className="text-2xl leading-relaxed mt-4 relative z-10 break-words">{t("parrafo2")}</p>
-            <p className="text-2xl leading-relaxed mt-4 relative z-10 break-words">{t("parrafo3")}</p>
+            <p className="text-xl leading-6 relative z-10 break-words">{t("parrafo1")}</p>
+            <p className="text-xl leading-6 mt-8 relative z-10 break-words">{t("parrafo2")}</p>
+            <p className="text-xl leading-6 mt-8 relative z-10 break-words">{t("parrafo3")}</p>
           </div>
         </div>
 
         {/* Imagen */}
-        <div className="lg:col-span-6 col-span-12 flex lg:justify-end justify-center items-center">
+        <div className="lg:col-span-6 col-span-12 flex justify-center items-center">
           <Image
             src="/images/nosotros.jpg"
             alt={t("imagenAlt")}
@@ -93,4 +111,18 @@ export default function Nosotros() {
       </div>
     </section>
   );
+}
+
+// Función para extraer partes del título
+function parseTitleWithSpan(tituloHTML: string): {
+  tituloParte1: string;
+  tituloParte2: string;
+  tituloCompleto: string;
+} {
+  const regex = /^(.*?)<span>(.*?)<\/span>/;
+  const match = tituloHTML.match(regex);
+  const tituloParte1 = match ? match[1].trim() : "ERROR";
+  const tituloParte2 = match ? match[2].trim() : "";
+  const tituloCompleto = `${tituloParte1} ${tituloParte2}`.trim();
+  return { tituloParte1, tituloParte2, tituloCompleto };
 }
