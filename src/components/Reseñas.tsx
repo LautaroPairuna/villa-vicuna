@@ -8,6 +8,10 @@ import { useTranslations } from "next-intl";
 import { reseñas, reseñasDetalles } from "../lib/reseñas";
 import { motion, AnimatePresence } from "framer-motion";
 
+// IMPORTANTE: Asegúrate de importar los estilos de react-slick
+// import "slick-carousel/slick/slick.css";
+// import "slick-carousel/slick/slick-theme.css";
+
 // -----------------------------------------------------------------------------
 // Tipos e Interfaces
 // -----------------------------------------------------------------------------
@@ -16,6 +20,8 @@ export interface ReseñaItem {
   nombreKey: string;
   textoKey: string;
   imagen: string;
+  folder: string;
+  carrusel: string[];
 }
 
 export interface ReseñaDetalle {
@@ -85,7 +91,9 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
   const { width } = useWindowSize();
 
   const detalles: ReseñaDetalle[] = useMemo(() => {
-    const data = (reseñasDetalles as Record<string, ReseñaDetalle[]>)[String(selectedReseña.id)];
+    const data = (reseñasDetalles as Record<string, ReseñaDetalle[]>)[
+      String(selectedReseña.id)
+    ];
     return data ?? [];
   }, [selectedReseña.id]);
 
@@ -101,7 +109,8 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
     return baseTracking * factor;
   }, [full, width]);
 
-  const sliderSettings = useMemo(() => ({
+  // Slider de comentarios (con react-slick, se deja como estaba)
+  const commentsSliderSettings = useMemo(() => ({
     infinite: true,
     speed: 500,
     slidesToShow: 1,
@@ -114,16 +123,52 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
     centerPadding: "20px",
   }), []);
 
+  // Estado y funciones para el carrusel de imágenes (manual)
+  const [currentImage, setCurrentImage] = useState(0);
+  // Para animar la dirección de la transición: 1 => next, -1 => prev
+  const [direction, setDirection] = useState(0);
+  const totalImages = selectedReseña.carrusel.length;
+
+  const nextImage = useCallback(() => {
+    setDirection(1);
+    setCurrentImage((prev) => (prev === totalImages - 1 ? 0 : prev + 1));
+  }, [totalImages]);
+
+  const prevImage = useCallback(() => {
+    setDirection(-1);
+    setCurrentImage((prev) => (prev === 0 ? totalImages - 1 : prev - 1));
+  }, [totalImages]);
+
+  // Resetea la imagen actual al cambiar la reseña
+  useEffect(() => {
+    setCurrentImage(0);
+    setDirection(0);
+  }, [selectedReseña]);
+
   const overlayVariants = useMemo(() => ({
     hidden: { opacity: 0 },
     visible: { opacity: 1 },
     exit: { opacity: 0 },
   }), []);
+
   const modalVariants = useMemo(() => ({
     hidden: { scale: 0.9, y: 50, opacity: 0 },
     visible: { scale: 1, y: 0, opacity: 1 },
     exit: { scale: 0.9, y: 50, opacity: 0 },
   }), []);
+
+  // Variantes para animar la transición de imágenes
+  const imageVariants = {
+    initial: (direction: number) => ({
+      opacity: 0,
+      x: direction > 0 ? 50 : -50,
+    }),
+    animate: { opacity: 1, x: 0 },
+    exit: (direction: number) => ({
+      opacity: 0,
+      x: direction > 0 ? -50 : 50,
+    }),
+  };
 
   return createPortal(
     <AnimatePresence>
@@ -137,15 +182,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
         onClick={onClose}
       >
         <motion.div
-          className="
-            bg-white 
-            pt-4 sm:pt-6 md:pt-8 lg:pt-10 
-            pb-2 sm:pb-4 md:pb-6 lg:pb-8 
-            px-4 sm:px-8 md:px-12 lg:px-20 
-            pe-4 sm:pe-6 md:pe-10 lg:pe-16 
-            w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-5xl 
-            relative transform overflow-hidden
-          "
+          className="bg-white pt-4 sm:pt-6 md:pt-8 lg:pt-10 pb-2 sm:pb-4 md:pb-6 lg:pb-8 px-4 sm:px-8 md:px-12 lg:px-20 pe-4 sm:pe-6 md:pe-10 lg:pe-16 w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-5xl relative transform overflow-hidden"
           variants={modalVariants}
           initial="hidden"
           animate="visible"
@@ -154,12 +191,12 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
           onClick={(e) => e.stopPropagation()}
         >
           <button
-            className="absolute lg:top-6 top-1 md:left-0 text-xl sm:text-2xl lg:text-4xl text-white md:bg-[#17273f] md:rounded-tr-full md:rounded-br-full lg:px-4 px-2 py-3 flex items-center"
+            className="absolute lg:top-6 top-1 md:left-0 text-3xl sm:text-4xl lg:text-5xl text-white md:bg-[#17273f] md:rounded-tr-full md:rounded-br-full lg:px-4 px-2 py-3 flex items-center"
             onClick={onClose}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
+              className="h-8 w-8"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -182,18 +219,30 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-20 text-black">
             <div className="flex flex-col col-span-1 lg:col-span-7 pt-2 lg:pt-12 relative">
               <div className="absolute lg:top-[72%] top-[50%] lg:-left-[21%] left-[20%] inset-0 pointer-events-none z-10 flex justify-center items-center lg:w-[775px] w-[250px] h-[250px]">
-                <Image src="/images/fondo-carta-5.svg" alt="Personal Review Background" fill className="object-contain opacity-55"/>
+                <Image
+                  src="/images/fondo-carta-5.svg"
+                  alt="Personal Review Background"
+                  fill
+                  className="object-contain opacity-55"
+                />
               </div>
-              <p className="mt-2 lg:mt-16 text-sm relative z-10 text-left leading-4" style={{ whiteSpace: 'pre-line' }}>
+              <p
+                className="mt-2 lg:mt-16 text-sm relative z-10 text-left leading-4"
+                style={{ whiteSpace: "pre-line" }}
+              >
                 {tGlobal(selectedReseña.textoKey)}
               </p>
               <div className="mt-2 relative z-10 w-full overflow-hidden">
-                <Slider {...sliderSettings}>
+                <Slider {...commentsSliderSettings}>
                   {detalles.map((detalle, i) => (
                     <div key={i} className="py-4 sm:py-3 md:py-5">
                       <div className="bg-[#e3d6b5] bg-opacity-50 rounded-2xl py-4 px-2 transition-transform duration-300 hover:scale-105">
-                        <p className="text-lg leading-6 resenas-texto mb-3 text-left">{tGlobal(detalle.comentarioKey)}</p>
-                        <p className="text-base sm:text-md leading-3 resenas-texto text-left">- {detalle.autor}, {detalle.pais}</p>
+                        <p className="text-lg leading-6 resenas-texto mb-3 text-left">
+                          {tGlobal(detalle.comentarioKey)}
+                        </p>
+                        <p className="text-base sm:text-md leading-3 resenas-texto text-left">
+                          - {detalle.autor}, {detalle.pais}
+                        </p>
                       </div>
                     </div>
                   ))}
@@ -201,13 +250,62 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
               </div>
             </div>
 
-            <div className="relative col-span-1 lg:col-span-5 w-full aspect-[4/3] lg:aspect-[2/3]">
-              <Image
-                src={`/images/reseñas/${selectedReseña.imagen}`}
-                alt={stripHtmlTags(rawTitle)}
-                fill
-                className="object-cover"
-              />
+            {/* Carrusel de imágenes manual con animación */}
+            <div className="relative col-span-1 lg:col-span-5 w-full aspect-[4/3] lg:aspect-[2/3] flex items-center justify-center">
+              <div className="relative w-full h-full overflow-hidden">
+                <AnimatePresence custom={direction}>
+                  <motion.div
+                    key={currentImage}
+                    className="absolute inset-0"
+                    custom={direction}
+                    variants={imageVariants}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    transition={{ duration: 0.5 }}
+                  >
+                    <Image
+                      src={`/images/reseñas/${selectedReseña.folder}/${selectedReseña.carrusel[currentImage]}`}
+                      alt={`Imagen ${currentImage + 1}`}
+                      fill
+                      className="object-cover"
+                    />
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+              {/* Botón Prev con SVG */}
+              <button
+                onClick={prevImage}
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white flex items-center justify-center transition-all"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-24 w-10"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              {/* Botón Next con SVG */}
+              <button
+                onClick={nextImage}
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white flex items-center justify-center transition-all"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-24 w-10"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+
             </div>
           </div>
         </motion.div>
@@ -218,8 +316,9 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
 }
 
 
+
 // -----------------------------------------------------------------------------
-// Componente de Tarjeta
+// Componente de Tarjeta (sin modificar el src)
 // -----------------------------------------------------------------------------
 interface ReseñaCardProps {
   reseña: ReseñaItem;

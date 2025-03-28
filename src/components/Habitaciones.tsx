@@ -187,7 +187,7 @@ export default function HabitacionesComponent() {
               className="relative overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105"
               onClick={() => handleSelect(hab.id)}
             >
-              <div className="relative w-full aspect-auto lg:aspect-[4/3] overflow-hidden">
+              <div className="relative w-full aspect-[4/3] overflow-hidden">
                 <Image
                   src={`/images/Habitaciones/${hab.imagen}`}
                   alt={t(`${hab.key}.nombre`)}
