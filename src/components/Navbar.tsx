@@ -100,7 +100,7 @@ export default function Navbar() {
         {/* Idiomas y botón toggle para móvil */}
         <div className="flex items-center gap-x-6">
           {isDesktop ? (
-            <div className="flex items-center flex-col gap-y-2">
+            <div className="flex items-center gap-x-2">
               {languages.map(({ lang, flag, alt }) => (
                 <Link key={lang} href={`/${lang}${getPathWithoutLocale(pathname)}`}>
                   <Image

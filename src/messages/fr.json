@@ -60,7 +60,8 @@
     "rooms": {
       "titulo": "CHAMBRES",
       "superior": "<h3>SUPER<span>IOR</span></h3",
-        "standard": "<h3>STAND<span>ARD</span></h3",
+      "standard": "<h3>STAND<span>ARD</span></h3",
+      "ver_mas": "Voir plus",
       "twin_interna": {
         "nombre": "Twin Interne",
         "descripcion": "Avec des dimensions spectaculaires propres aux siècles passés, cette magnifique chambre raconte son histoire à travers le boiserie, les lambris en pinotea et les persiennes à double hauteur. Deux lits jumeaux complètent l'atmosphère comme s'il s'agissait d'une autre époque, la fenêtre jouxtant le couloir interne.",
