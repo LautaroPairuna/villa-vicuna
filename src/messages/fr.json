@@ -22,7 +22,7 @@
     },
     "desayuno": {
       "nombre": "Le petit dé<span>jeuner</span>",
-      "texto": "À Villa Vicuña, nous comprenons l'importance d'un petit déjeuner complet et sain, composé de produits frais de saison faits maison. Dans notre menu, vous trouverez une sélection de cinq plats aux saveurs et textures variées, suggérés par le chef, en plus du buffet proposant d'autres délices faits maison. Nous mettons à votre disposition nos cartes, que vous pourrez consulter lorsque vous souhaiterez savourer nos saveurs durant votre séjour.",
+      "texto": "À Villa Vicuña, nous comprenons l'importance d'un petit déjeuner complet et sain, composé de produits frais de saison faits maison. \n\nDans notre menu, vous trouverez une sélection de cinq plats aux saveurs et textures variées, suggérés par le chef, en plus du buffet proposant d'autres délices faits maison. \n\nNous mettons à votre disposition nos cartes, que vous pourrez consulter lorsque vous souhaiterez savourer nos saveurs durant votre séjour.",
       "reseñas": [
         "Le meilleur petit déjeuner que j'aie jamais goûté.",
         "Des produits frais et de grande qualité.",

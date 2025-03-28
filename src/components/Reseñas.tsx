@@ -109,7 +109,8 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
     autoplay: true,
     autoplaySpeed: 4000,
     arrows: true,
-    centerMode: true,
+    centerMode: false,
+    variableWidth: false,
     centerPadding: "20px",
   }), []);
 
@@ -153,7 +154,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
           onClick={(e) => e.stopPropagation()}
         >
           <button
-            className="absolute md:top-6 top-1 md:left-0 text-xl sm:text-2xl md:text-4xl text-white md:bg-[#17273f] md:rounded-tr-full md:rounded-br-full md:px-4 px-2 py-3 flex items-center"
+            className="absolute lg:top-6 top-1 md:left-0 text-xl sm:text-2xl lg:text-4xl text-white md:bg-[#17273f] md:rounded-tr-full md:rounded-br-full lg:px-4 px-2 py-3 flex items-center"
             onClick={onClose}
           >
             <svg
@@ -171,26 +172,26 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
           </button>
 
           <h3
-            className="relative md:absolute md:top-[10%] md:left-1/2 md:-translate-x-1/2 text-3xl sm:text-4xl md:text-5xl uppercase z-10 w-full text-center mt-4 sm:mt-6 md:mt-0 ms-4 text-black"
+            className="relative lg:absolute lg:top-[15%] lg:left-1/2 lg:-translate-x-1/2 text-3xl sm:text-4xl lg:text-5xl uppercase z-10 w-full text-center mt-4 sm:mt-6 lg:mt-0 lg:ms-4 ms-0 text-black"
             style={{ letterSpacing: `${computedTracking}em` }}
           >
             <span className="whitespace-nowrap">{part1}</span>
             <span className="whitespace-nowrap">{part2}</span>
           </h3>
 
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 lg:gap-20 text-black">
-            <div className="flex flex-col col-span-1 md:col-span-7 pt-2 md:pt-12 relative">
-              <div className="absolute md:top-[72%] top-[50%] md:-left-[21%] left-[20%] inset-0 pointer-events-none z-10 flex justify-center items-center md:w-[775px] w-[250px] h-[250px]">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-20 text-black">
+            <div className="flex flex-col col-span-1 lg:col-span-7 pt-2 lg:pt-12 relative">
+              <div className="absolute lg:top-[72%] top-[50%] lg:-left-[21%] left-[20%] inset-0 pointer-events-none z-10 flex justify-center items-center lg:w-[775px] w-[250px] h-[250px]">
                 <Image src="/images/fondo-carta-5.svg" alt="Personal Review Background" fill className="object-contain opacity-55"/>
               </div>
-              <p className="mt-2 md:mt-10 text-sm relative z-10 text-left leading-4" style={{ whiteSpace: 'pre-line' }}>
+              <p className="mt-2 lg:mt-16 text-sm relative z-10 text-left leading-4" style={{ whiteSpace: 'pre-line' }}>
                 {tGlobal(selectedReseña.textoKey)}
               </p>
-              <div className="mt-2 relative z-10 w-full">
+              <div className="mt-2 relative z-10 w-full overflow-hidden">
                 <Slider {...sliderSettings}>
                   {detalles.map((detalle, i) => (
-                    <div key={i} className="py-4 sm:py-3 md:py-5 px-5">
-                      <div className="bg-[#e3d6b5] bg-opacity-50 rounded-2xl py-4 sm:py-6 md:py-8 px-2 max-w-2xl mx-auto transition-transform duration-300 hover:scale-105">
+                    <div key={i} className="py-4 sm:py-3 md:py-5">
+                      <div className="bg-[#e3d6b5] bg-opacity-50 rounded-2xl py-4 px-2 transition-transform duration-300 hover:scale-105">
                         <p className="text-lg leading-6 resenas-texto mb-3 text-left">{tGlobal(detalle.comentarioKey)}</p>
                         <p className="text-base sm:text-md leading-3 resenas-texto text-left">- {detalle.autor}, {detalle.pais}</p>
                       </div>
@@ -200,7 +201,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
               </div>
             </div>
 
-            <div className="relative col-span-1 md:col-span-5 w-full aspect-[4/3] lg:aspect-[2/3]">
+            <div className="relative col-span-1 lg:col-span-5 w-full aspect-[4/3] lg:aspect-[2/3]">
               <Image
                 src={`/images/reseñas/${selectedReseña.imagen}`}
                 alt={stripHtmlTags(rawTitle)}

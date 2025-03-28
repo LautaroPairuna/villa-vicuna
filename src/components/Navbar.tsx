@@ -51,7 +51,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className="fixed top-0 left-0 w-full bg-[#e3d6b5] text-black p-4 z-40 shadow-md"
+      className="fixed top-0 left-0 w-full bg-[#e3d6b5] text-black py-2 pe-4 ps-16 z-40 shadow-md"
       role="navigation"
       aria-label="Main Navigation"
     >
@@ -72,7 +72,7 @@ export default function Navbar() {
         {/* Menú de escritorio */}
         {isDesktop && (
           <div className="flex-1 justify-center">
-            <ul className="flex items-center justify-center">
+            <ul className="flex items-center justify-center p-0">
               {menuItems.map((item, index) => (
                 <React.Fragment key={item.href}>
                   <li className="whitespace-nowrap">
@@ -80,7 +80,7 @@ export default function Navbar() {
                       href={item.href}
                       target={item.href.startsWith("http") ? "_blank" : undefined}
                       rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                      className="relative group px-3 py-1 font-medium text-xl transition-colors duration-300 hover:text-gray-800"
+                      className="relative group py-1 font-medium text-xl transition-colors duration-300 hover:text-gray-800"
                     >
                       {item.label}
                       <span className="absolute left-1/2 bottom-0 h-[2px] w-0 bg-black transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
@@ -100,7 +100,7 @@ export default function Navbar() {
         {/* Idiomas y botón toggle para móvil */}
         <div className="flex items-center gap-x-6">
           {isDesktop ? (
-            <div className="flex items-center gap-x-3">
+            <div className="flex items-center flex-col gap-y-2">
               {languages.map(({ lang, flag, alt }) => (
                 <Link key={lang} href={`/${lang}${getPathWithoutLocale(pathname)}`}>
                   <Image
@@ -156,7 +156,7 @@ export default function Navbar() {
                 </li>
               ))}
             </ul>
-            <div className="mt-8 flex space-x-6">
+            <div className="mt-8 flex space-x-4">
               {languages.map(({ lang, flag, alt }) => (
                 <Link key={lang} href={`/${lang}${getPathWithoutLocale(pathname)}`}>
                   <Image
