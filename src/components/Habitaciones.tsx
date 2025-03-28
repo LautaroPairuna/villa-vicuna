@@ -155,7 +155,7 @@ export default function HabitacionesComponent() {
   }, []);
 
   return (
-    <section id="rooms" className="relative bg-white text-black md:px-12 px-6 py-16">
+    <section id="rooms" className="relative bg-white text-black md:px-12 px-6 py-4">
       <div className="pointer-events-none absolute inset-0 hidden md:block 2xl:w-full w-3/4 h-full 2xl:top-0 xl:top-32">
         <Image
           src="/images/fondo-carta-3-seccion.svg"
@@ -180,14 +180,13 @@ export default function HabitacionesComponent() {
             {t("titulo")}
           </h2>
         </div>
-        <div className="lg:w-5/6 w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+        <div className="lg:w-5/6 w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-10 gap-y-1">
           {habitaciones.map((hab) => (
             <div
+              className="relative overflow-hidden transition-transform duration-300 hover:scale-105"
               key={hab.id}
-              className="relative overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105"
-              onClick={() => handleSelect(hab.id)}
             >
-              <div className="relative w-full aspect-[4/3] overflow-hidden">
+              <div className="relative w-full aspect-[1/1] overflow-hidden">
                 <Image
                   src={`/images/Habitaciones/${hab.imagen}`}
                   alt={t(`${hab.key}.nombre`)}
@@ -198,8 +197,10 @@ export default function HabitacionesComponent() {
               <div className="p-6 text-center">
                 <p className="text-xs text-gray-600">{t(`${hab.key}.detalles`)}</p>
                 <h3 className="text-base font-semibold mt-2 titulo-habitaciones uppercase">{hab.categoria} {t(`${hab.key}.nombre`)}</h3>
-                <button className="bg-[#e3d6b5] text-black px-6 py-2 text-lg font-semibold shadow-md hover:bg-[#d6c3a2] transition-all rounded-xl mt-4 items-center my-0 mx-auto justify-center text-center">
-                  <a href="https://goo.su/4Nkqe" target="_blank">{t(`${hab.key}.boton`)}</a>
+                <button className="px-6 py-2 text-lg transition-all rounded-xl mt-4 items-center my-0 mx-auto justify-center text-center cursor-pointer"
+                  onClick={() => handleSelect(hab.id)}
+                >
+                  {t("ver_mas")}
                 </button>
               </div>
             </div>

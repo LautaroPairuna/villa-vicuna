@@ -236,7 +236,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
                 <Slider {...commentsSliderSettings}>
                   {detalles.map((detalle, i) => (
                     <div key={i} className="py-4 sm:py-3 md:py-5">
-                      <div className="bg-[#e3d6b5] bg-opacity-50 rounded-2xl py-4 px-2 transition-transform duration-300 hover:scale-105">
+                      <div className="bg-[#f8f4ea] bg-opacity-50 rounded-2xl py-4 px-2 transition-transform duration-300 hover:scale-105">
                         <p className="text-lg leading-6 resenas-texto mb-3 text-left">
                           {tGlobal(detalle.comentarioKey)}
                         </p>
