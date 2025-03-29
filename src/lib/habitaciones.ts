@@ -75,7 +75,7 @@ export function Habitaciones() {
       id: 5,
       categoria: "superior",
       key: "jardin",
-      imagen: "superior-jardin.jpg",
+      imagen: "Superior-jardin.jpg",
       // Para "jardin" se usan los 9 íconos definidos en el JSON original
       amenities: [
         { nombre: "wifi", icono: "ico-wifi.svg" },

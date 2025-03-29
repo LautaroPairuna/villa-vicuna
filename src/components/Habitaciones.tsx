@@ -155,7 +155,7 @@ export default function HabitacionesComponent() {
   }, []);
 
   return (
-    <section id="rooms" className="relative bg-white text-black md:px-12 px-6 py-4">
+    <section id="rooms" className="relative bg-white text-black md:px-12 px-6 py-16">
       <div className="pointer-events-none absolute inset-0 hidden md:block 2xl:w-full w-3/4 h-full 2xl:top-0 xl:top-32">
         <Image
           src="/images/fondo-carta-3-seccion.svg"
@@ -164,7 +164,8 @@ export default function HabitacionesComponent() {
           className="object-contain"
         />
       </div>
-      <div className="max-w-[1400px] mx-auto flex flex-col lg:flex-row">
+
+      <div className="max-w-[1400px] mx-auto flex flex-col lg:flex-row items-center">
         <div className="relative lg:hidden mb-6">
           <Image
             src="/images/fondo-carta-3-seccion.svg"
@@ -180,33 +181,41 @@ export default function HabitacionesComponent() {
             {t("titulo")}
           </h2>
         </div>
-        <div className="lg:w-5/6 w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-10 gap-y-1">
-          {habitaciones.map((hab) => (
-            <div
-              className="relative overflow-hidden transition-transform duration-300 hover:scale-105"
-              key={hab.id}
-            >
-              <div className="relative w-full aspect-[1/1] overflow-hidden">
-                <Image
-                  src={`/images/Habitaciones/${hab.imagen}`}
-                  alt={t(`${hab.key}.nombre`)}
-                  fill
-                  className="object-cover"
-                />
+        {/* Envolvemos el grid en un contenedor que aplica un scale para adaptar el alto general sin afectar cada cuadrante */}
+        <div className="flex justify-center w-full">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-12 gap-y-1 -mt-4 transform md:scale-100 scale-90 origin-top">
+            {habitaciones.map((hab) => (
+              <div
+                key={hab.id}
+                className="relative mx-auto max-w-[250px]"
+              >
+                {/* Cada imagen se mantiene cuadrada con dimensiones fijas */}
+                <div className="relative w-[250px] h-[250px] overflow-hidden">
+                  <Image
+                    src={`/images/Habitaciones/${hab.imagen}`}
+                    alt={t(`${hab.key}.nombre`)}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="p-4 text-center">
+                  <p className="text-xs text-gray-600">{t(`${hab.key}.detalles`)}</p>
+                  <h3 className="text-base font-semibold mt-2 titulo-habitaciones  capitalize">
+                    {hab.categoria} {t(`${hab.key}.nombre`)}
+                  </h3>
+                  <button
+                    className="px-6 py-2 text-lg transition-all rounded-xl mt-4 items-center my-0 mx-auto justify-center text-center cursor-pointer"
+                    onClick={() => handleSelect(hab.id)}
+                  >
+                    {t("ver_mas")}
+                  </button>
+                </div>
               </div>
-              <div className="p-6 text-center">
-                <p className="text-xs text-gray-600">{t(`${hab.key}.detalles`)}</p>
-                <h3 className="text-base font-semibold mt-2 titulo-habitaciones uppercase">{hab.categoria} {t(`${hab.key}.nombre`)}</h3>
-                <button className="px-6 py-2 text-lg transition-all rounded-xl mt-4 items-center my-0 mx-auto justify-center text-center cursor-pointer"
-                  onClick={() => handleSelect(hab.id)}
-                >
-                  {t("ver_mas")}
-                </button>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
+
       {selectedHabitacion && (
         <HabitacionModal
           habitacion={selectedHabitacion}
@@ -217,3 +226,5 @@ export default function HabitacionesComponent() {
     </section>
   );
 }
+
+

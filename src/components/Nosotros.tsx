@@ -20,8 +20,9 @@ export default function Nosotros() {
   }, []);
 
   const getDynamicLetterSpacing = (text: string, screenWidth: number): string => {
+    if (screenWidth < 768) return "normal";
+  
     const length = text.length;
-
     if (screenWidth >= 1490) {
       if (length <= 5) return "1.2em";
       if (length <= 8) return "1.1em";
@@ -30,7 +31,7 @@ export default function Nosotros() {
       if (length <= 15) return "0.65em";
       return "0.92em";
     }
-
+  
     if (screenWidth >= 1280) {
       if (length <= 5) return "1.15em";
       if (length <= 8) return "1.05em";
@@ -39,7 +40,7 @@ export default function Nosotros() {
       if (length <= 15) return "0.6em";
       return "0.78em";
     }
-
+  
     if (length <= 5) return "1em";
     if (length <= 8) return "0.95em";
     if (length <= 10) return "1em";
@@ -47,6 +48,7 @@ export default function Nosotros() {
     if (length <= 15) return "0.5em";
     return "0.42em";
   };
+  
 
   const letterSpacing = mounted && screenWidth !== undefined
     ? getDynamicLetterSpacing(tituloCompleto, screenWidth)
@@ -75,7 +77,7 @@ export default function Nosotros() {
           <div
             className="
               absolute left-[50%] xl:left-[75%] 2xl:left-[80%]
-              bottom-[0%] md:bottom-[-0%] lg:bottom-[-27%] 2xl:bottom-[-21%]
+              bottom-[0%] md:bottom-[-0%] lg:bottom-[-27%] 2xl:bottom-[-18%]
               -translate-x-1/2 w-[350px] h-[300px] opacity-100 pointer-events-none -z-10
               sm:w-[350px] sm:h-[280px]
               md:w-[500px] md:h-[380px]
@@ -99,13 +101,12 @@ export default function Nosotros() {
         </div>
 
         {/* Imagen */}
-        <div className="lg:col-span-6 col-span-12 flex justify-center items-center">
+        <div className="relative lg:col-span-6 col-span-12 h-[400px] sm:h-[600px] md:h-[800px] w-full">
           <Image
             src="/images/nosotros.jpg"
             alt={t("imagenAlt")}
-            width={600}
-            height={720}
-            className="shadow-lg"
+            fill
+            className="object-cover shadow-lg"
           />
         </div>
       </div>
