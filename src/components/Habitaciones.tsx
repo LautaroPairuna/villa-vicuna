@@ -187,8 +187,8 @@ export default function HabitacionesComponent() {
           <div className="transform md:scale-100 scale-90 origin-top">
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-12 gap-y-1">
               {habitaciones.map((hab) => (
-                <div key={hab.id} className="relative mx-auto max-w-[225px]">
-                  <div className="relative w-[225px] h-[225px] overflow-hidden mx-auto">
+                <div key={hab.id} className="relative mx-auto 2xl:max-w-[300px] xl:max-w-[225px]">
+                  <div className="relative 2xl:w-[300px] 2xl:h-[300px] xl:w-[225px] xl:h-[225px] overflow-hidden mx-auto">
                     <Image
                       src={`/images/Habitaciones/${hab.imagen}`}
                       alt={t(`${hab.key}.nombre`)}
