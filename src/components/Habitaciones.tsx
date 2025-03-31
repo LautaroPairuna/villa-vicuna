@@ -155,8 +155,8 @@ export default function HabitacionesComponent() {
   }, []);
 
   return (
-    <section id="rooms" className="relative bg-white text-black md:px-12 px-6 pb-12">
-      <div className="pointer-events-none absolute inset-0 hidden md:block 2xl:w-full w-3/4 h-full 2xl:top-0 xl:top-10">
+    <section id="rooms" className="relative bg-white text-black md:px-12 px-6">
+      <div className="pointer-events-none absolute inset-0 hidden md:block 2xl:w-full w-3/4 h-full 2xl:top-0 xl:top-7">
         <Image
           src="/images/fondo-carta-3-seccion.svg"
           alt="Fondo Carta"
@@ -177,7 +177,7 @@ export default function HabitacionesComponent() {
           <h2 className="relative text-4xl text-center">{t("titulo")}</h2>
         </div>
         <div className="hidden lg:flex w-1/6 items-center justify-center mx-20">
-          <h2 className="text-3xl md:text-5xl transform -rotate-90 whitespace-nowrap tracking-[0.70em]">
+          <h2 className="text-3xl md:text-5xl transform -rotate-90 whitespace-nowrap tracking-[0.6em] text-center mb-10">
             {t("titulo")}
           </h2>
         </div>
@@ -196,13 +196,13 @@ export default function HabitacionesComponent() {
                       className="object-cover"
                     />
                   </div>
-                  <div className="py-4 text-center">
+                  <div className="py-4 text-left">
                     <p className="text-xs text-gray-600">{t(`${hab.key}.detalles`)}</p>
-                    <h3 className="text-base font-semibold mt-2 titulo-habitaciones capitalize">
+                    <h3 className="text-base mt-2 titulo-habitaciones capitalize tracking-widest">
                       {hab.categoria} {t(`${hab.key}.nombre`)}
                     </h3>
                     <button
-                      className="px-6 py-2 text-lg transition-all rounded-xl items-center my-0 mx-auto justify-center text-center cursor-pointer"
+                      className="py-2 text-base transition-all rounded-xl items-center my-0 mx-auto justify-center text-center cursor-pointer"
                       onClick={() => handleSelect(hab.id)}
                     >
                       {t("ver_mas")}

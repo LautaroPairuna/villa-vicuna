@@ -22,7 +22,8 @@
     },
     "reseñas": {
       "titulo": "REVIEWS",
-      "descripcion": "At Villa Vicuña our guests are the main engine that drives the constant work to achieve excellence in quality and services, it is their reviews that we treasure as a source of inspiration. Thank you for choosing us..."
+      "descripcion": "At Villa Vicuña our guests are the main engine that drives the constant work to achieve excellence in quality and services, it is their reviews that we treasure as a source of inspiration.",
+      "gracias": "Thank you for choosing us..."
     },
     "desayuno": {
       "nombre": "Breakf<span>ast</span>",
@@ -116,10 +117,10 @@
         "balcony": "Private Balcony"
     },
     "contact": {
-      "titulo": "<h2><span> CONT</span>ACT US</h2>",
+      "titulo": "<h2>CONTA<span>CT US</span></h2>",
       "telefono": "+54 9 387 4649748",
       "email": "salta@villavicuna.com.ar",
-      "direccion": "Caseros 266 - Salta Capital",
+      "direccion": "CASEROS 266 - SALTA CAPITAL - PROV. DE .SALTA - C.P 4400 - ARGENTINA",
       "boton": "Book Now"
     }
   }
