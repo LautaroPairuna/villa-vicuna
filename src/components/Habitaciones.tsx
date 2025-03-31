@@ -156,12 +156,12 @@ export default function HabitacionesComponent() {
 
   return (
     <section id="rooms" className="relative bg-white text-black md:px-12 px-6">
-      <div className="pointer-events-none absolute inset-0 hidden md:block 2xl:w-full w-3/4 h-full 2xl:top-0 xl:top-7">
+      <div className="pointer-events-none absolute inset-0 hidden md:block 2xl:w-full w-3/4 h-full 2xl:top-0 xl:top-7 z-10">
         <Image
           src="/images/fondo-carta-3-seccion.svg"
           alt="Fondo Carta"
           fill
-          className="object-contain"
+          className="object-contain opacity-60"
         />
       </div>
 
@@ -177,7 +177,7 @@ export default function HabitacionesComponent() {
           <h2 className="relative text-4xl text-center">{t("titulo")}</h2>
         </div>
         <div className="hidden lg:flex w-1/6 items-center justify-center mx-20">
-          <h2 className="text-3xl md:text-5xl transform -rotate-90 whitespace-nowrap tracking-[0.6em] text-center mb-10">
+          <h2 className="text-3xl xl:text-4xl 2xl:text-5xl transform -rotate-90 whitespace-nowrap 2xl:tracking-[0.85em] tracking-[1em] text-center mb-10">
             {t("titulo")}
           </h2>
         </div>
@@ -185,10 +185,10 @@ export default function HabitacionesComponent() {
         <div className="flex justify-center w-full">
           {/* Se envuelve el grid en un contenedor que aplica el scale sin afectar las tarjetas */}
           <div className="transform md:scale-100 scale-90 origin-top">
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-12 gap-y-1">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-12 gap-y-1">
               {habitaciones.map((hab) => (
                 <div key={hab.id} className="relative mx-auto 2xl:max-w-[300px] xl:max-w-[225px]">
-                  <div className="relative 2xl:w-[300px] 2xl:h-[300px] xl:w-[225px] xl:h-[225px] overflow-hidden mx-auto">
+                  <div className="relative 2xl:w-[300px] 2xl:h-[300px] sm:w-[225px] sm:h-[225px] w-[300px] h-[300px] overflow-hidden mx-auto">
                     <Image
                       src={`/images/Habitaciones/${hab.imagen}`}
                       alt={t(`${hab.key}.nombre`)}
@@ -202,7 +202,7 @@ export default function HabitacionesComponent() {
                       {hab.categoria} {t(`${hab.key}.nombre`)}
                     </h3>
                     <button
-                      className="py-2 text-base transition-all rounded-xl items-center my-0 mx-auto justify-center text-center cursor-pointer"
+                      className="py-2 text-base transition-all rounded-xl items-center my-0 mx-auto justify-center text-center cursor-pointer titulo-habitaciones"
                       onClick={() => handleSelect(hab.id)}
                     >
                       {t("ver_mas")}
