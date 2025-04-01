@@ -77,7 +77,7 @@ export default function Nosotros() {
           <div
             className="
               absolute left-[50%] xl:left-[75%] 2xl:left-[80%]
-              bottom-[0%] md:bottom-[-0%] lg:bottom-[-27%] 2xl:bottom-[-18%]
+              bottom-[0%] md:bottom-[-0%] lg:bottom-[-25%] 2xl:bottom-[-18%]
               -translate-x-1/2 w-[350px] h-[300px] opacity-100 pointer-events-none -z-10
               sm:w-[350px] sm:h-[280px]
               md:w-[500px] md:h-[380px]

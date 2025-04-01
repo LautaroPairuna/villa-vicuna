@@ -32,11 +32,11 @@ export default function Contacto() {
 
   const calculateTracking = (text: string) => {
     const length = text.length;
-    if (screenWidth < 1280) {
+    if (screenWidth < 1366) {
       if (length <= 5) return "tracking-[0.8em]";
       if (length <= 8) return "tracking-[0.7em]";
       if (length <= 10) return "tracking-[0.9em]";
-      if (length <= 12) return "tracking-[0.7em]";
+      if (length <= 12) return "tracking-[1.1em]";
       if (length <= 15) return "tracking-[0.5em]";
       return "tracking-[0.6em]";
     }
@@ -61,7 +61,7 @@ export default function Contacto() {
 
         {/* Título desktop */}
         <h2
-          className={`hidden lg:block absolute top-[20px] left-1/2 -translate-x-1/2 text-4xl lg:text-7xl uppercase text-center z-10 w-full ${calculateTracking(
+          className={`hidden lg:block absolute top-[10%] left-1/2 -translate-x-1/2 text-4xl lg:text-7xl uppercase text-center z-10 w-full ${calculateTracking(
             tituloCompleto
           )}`}
         >
@@ -109,15 +109,15 @@ export default function Contacto() {
             </div>
 
             {/* Información de contacto */}
-            <div className="md:px-4 md:pb-16 md:pt-32 p-4 flex flex-col justify-end">
+            <div className="md:px-4 md:pb-16 md:pt-72 p-4 flex flex-col justify-end">
               <div className="gap-4">
-                <div className="space-y-2 text-lg sm:text-xl lg:text-base max-w-[350px]">
+                <div className="space-y-2 2xl:text-xl xl:text-lg sm:text-xl lg:text-base max-w-[350px]">
                   <Image 
                     src={"/images/logo-villa-vicuna-2.svg"} 
                     alt="" 
                     width={160} 
                     height={160}
-                    className="mb-8"
+                    className="mb-8 2xl:w-[192px] w-[160px]"
                   >
                   </Image>
                   <p className="flex items-center gap-3">
@@ -151,7 +151,7 @@ export default function Contacto() {
           </div>
 
           {/* Bloque derecho: Imagen */}
-          <div className="relative w-full aspect-[4/5] justify-center items-center lg:flex hidden">
+          <div className="relative w-full aspect-[6/7] justify-center items-center lg:flex hidden">
             <Image
               src="/images/contactenos.jpg"
               alt="Hotel Interior"
@@ -162,7 +162,7 @@ export default function Contacto() {
         </div>
 
         {/* Fondo carta (desktop) */}
-        <div className="hidden lg:block absolute bottom-[15%] left-[54%] -translate-x-1/2 w-[300px] h-[200px] lg:w-[500px] lg:h-[400px] opacity-55 z-20">
+        <div className="hidden lg:block absolute bottom-[15%] left-[54%] -translate-x-1/2 w-[300px] h-[200px] lg:w-[600px] lg:h-[450px] opacity-55 z-20">
           <Image
             src="/images/fondo-carta-4.svg"
             alt="Fondo Carta 4"

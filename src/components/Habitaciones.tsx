@@ -156,7 +156,7 @@ export default function HabitacionesComponent() {
 
   return (
     <section id="rooms" className="relative bg-white text-black md:px-12 px-6">
-      <div className="pointer-events-none absolute inset-0 hidden md:block 2xl:w-full w-3/4 h-full 2xl:top-0 xl:top-7 z-10">
+      <div className="pointer-events-none absolute inset-0 hidden md:block 2xl:w-full w-3/4 h-full 2xl:top-0 xl:top-7 2xl:-left-32 xl:left-0 z-10">
         <Image
           src="/images/fondo-carta-3-seccion.svg"
           alt="Fondo Carta"
@@ -202,7 +202,7 @@ export default function HabitacionesComponent() {
                       {hab.categoria} {t(`${hab.key}.nombre`)}
                     </h3>
                     <button
-                      className="py-2 text-base transition-all rounded-xl items-center my-0 mx-auto justify-center text-center cursor-pointer titulo-habitaciones"
+                      className="pt-2 text-base transition-all rounded-xl items-center my-0 mx-auto justify-center text-center cursor-pointer titulo-habitaciones"
                       onClick={() => handleSelect(hab.id)}
                     >
                       {t("ver_mas")}
