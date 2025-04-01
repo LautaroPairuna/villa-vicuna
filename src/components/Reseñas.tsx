@@ -216,7 +216,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
             <span className="whitespace-nowrap">{part2}</span>
           </h3>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-16 text-black">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 text-black">
             <div className="flex flex-col col-span-1 lg:col-span-7 pt-2 lg:pt-12 relative">
               <div className="absolute lg:top-[77%] top-[50%] lg:-left-[18%] left-[20%] inset-0 pointer-events-none z-10 flex justify-center items-center lg:w-[875px] w-[250px] h-[250px]">
                 <Image
