@@ -59,8 +59,8 @@ function splitTitle(raw: string): { part1: string; part2: string; full: string }
 function calculateTrackingBase(text: string): number {
   const length = text.length;
   if (length <= 8) return 1.55;
-  if (length <= 11) return 0.96;
-  if (length <= 12) return 0.85;
+  if (length <= 11) return 1.15;
+  if (length <= 12) return 1.05;
   if (length <= 15) return 0.65;
   return 0.4;
 }
@@ -182,7 +182,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
         onClick={onClose}
       >
         <motion.div
-          className="bg-white pt-4 sm:pt-6 md:pt-8 lg:pt-10 pb-2 sm:pb-4 md:pb-6 lg:pb-8 px-4 sm:px-8 md:px-12 lg:px-20 pe-4 sm:pe-6 md:pe-10 lg:pe-16 w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-5xl relative transform overflow-hidden"
+          className="bg-white pt-4 sm:pt-6 md:pt-8 lg:pt-10 pb-2 sm:pb-4 md:pb-6 lg:pb-8 px-4 sm:px-8 md:px-12 lg:px-20 pe-4 sm:pe-6 md:pe-10 lg:pe-16 w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-5xl xl:max-w-6xl relative transform overflow-hidden"
           variants={modalVariants}
           initial="hidden"
           animate="visible"
@@ -216,9 +216,9 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
             <span className="whitespace-nowrap">{part2}</span>
           </h3>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-20 text-black">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-16 text-black">
             <div className="flex flex-col col-span-1 lg:col-span-7 pt-2 lg:pt-12 relative">
-              <div className="absolute lg:top-[72%] top-[50%] lg:-left-[21%] left-[20%] inset-0 pointer-events-none z-10 flex justify-center items-center lg:w-[775px] w-[250px] h-[250px]">
+              <div className="absolute lg:top-[77%] top-[50%] lg:-left-[18%] left-[20%] inset-0 pointer-events-none z-10 flex justify-center items-center lg:w-[875px] w-[250px] h-[250px]">
                 <Image
                   src="/images/fondo-carta-5.svg"
                   alt="Personal Review Background"
@@ -227,7 +227,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
                 />
               </div>
               <p
-                className="mt-2 lg:mt-16 text-sm relative z-10 text-left leading-4"
+                className="mt-2 lg:mt-20 relative z-10 text-left leading-6"
                 style={{ whiteSpace: "pre-line" }}
               >
                 {tGlobal(selectedReseña.textoKey)}

@@ -49,6 +49,9 @@ h1, h2, h3, h4, h5, h6 {
 
 p, a, li {
   font-family: "Montserrat", sans-serif;
+  font-weight: 100;
+  font-size: 1.25rem;
+  font-optical-sizing: none;
 }
 
 .titulo-habitaciones {

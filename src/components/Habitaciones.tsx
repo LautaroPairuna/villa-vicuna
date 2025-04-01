@@ -85,12 +85,12 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
             {categoriaWhite}
           </span>
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-2">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-16">
           <div className="col-span-1 md:col-span-7 relative pt-2 md:pt-32">
-            <h4 className="text-2xl md:text-3xl uppercase text-gray-700 z-10 w-full text-center tracking-[.65em] md:mt-10 mt-2">
+            <h4 className="text-2xl md:text-3xl uppercase text-gray-700 z-10 w-full text-center tracking-[.65em] md:mt-6 mt-2">
               {t(`${habitacion.key}.nombre`)}
             </h4>
-            <div className="relative mt-4">
+            <div className="relative mt-2">
               <div className="absolute top-[45%] left-[55%] md:w-[650px] w-[350px] lg:h-[250%] md:h-[160%] h-[110%] pointer-events-none -z-10 transform -translate-x-1/2 -translate-y-1/2">
                 <Image
                   src="/images/fondo-carta-3.svg"
@@ -99,19 +99,19 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
                   className="object-contain"
                 />
               </div>
-              <div className="relative z-10 text-base text-justify md:text-left px-2 md:px-0 space-y-2">
+              <div className="relative z-10 text-xl text-justify md:text-left px-2 md:px-0 space-y-6">
                 <p className="text-justify">{t(`${habitacion.key}.descripcion`)}</p>
                 <p className="text-justify">{t(`${habitacion.key}.parrafo_minibar`)}</p>
                 {/* Sección de Amenities */}
-                <div className="amenities-gallery flex flex-wrap justify-start items-center gap-4 md:gap-8 mt-4 px-2 md:px-4">
+                <div className="amenities-gallery flex flex-wrap justify-start items-center gap-4 md:gap-8 mt-4">
                   {habitacion.amenities.map((amenity, index) => (
                     <div key={index} className="flex flex-col items-center">
                       <Image
                         src={`/images/icons/habitaciones/${amenity.icono}`}
                         alt={amenity.nombre}
-                        width={50}
-                        height={50}
-                        className="object-contain md:w-[70px] md:h-[70px]"
+                        width={40}
+                        height={40}
+                        className="object-contain"
                       />
                     </div>
                   ))}
