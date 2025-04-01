@@ -121,13 +121,31 @@ export default function Contacto() {
                   >
                   </Image>
                   <p className="flex items-center gap-3">
-                    <FaPhoneAlt className="text-lg" /> {t("telefono")}
+                    <Image 
+                      src="/images/icons/ico-whatsapp.svg" 
+                      alt=""
+                      width={24}
+                      height={24} 
+                    />
+                    {t("telefono")}
                   </p>
                   <p className="flex items-center gap-3">
-                    <FaEnvelope className="text-lg" /> {t("email")}
+                    <Image
+                      src="/images/icons/ico-email.svg" 
+                      alt=""
+                      width={24}
+                      height={24} 
+                    />
+                    {t("email")}
                   </p>
                   <p className="flex items-start gap-3" style={{ whiteSpace: "pre-line" }}>
-                    <FaMapMarkerAlt className="text-lg" /> {t("direccion")}
+                    <Image
+                      src="/images/icons/ico-ubicacion.svg" 
+                      alt=""
+                      width={24}
+                      height={24} 
+                    />
+                    {t("direccion")}
                   </p>
                   <a
                     href="https://instagram.com/villavicunasalta"
@@ -135,7 +153,13 @@ export default function Contacto() {
                     rel="noopener noreferrer"
                     className="flex items-center gap-3 hover:text-gray-500 transition"
                   >
-                    <FaInstagram className="text-lg" /> villavicunasalta
+                    <Image
+                      src="/images/icons/ico-instagram.svg" 
+                      alt=""
+                      width={24}
+                      height={24} 
+                    /> 
+                    villavicunasalta
                   </a>
                   <a
                     href="https://facebook.com/villavicunasalta"
@@ -143,7 +167,13 @@ export default function Contacto() {
                     rel="noopener noreferrer"
                     className="flex items-center gap-3 hover:text-gray-500 transition"
                   >
-                    <FaFacebookF className="text-lg" /> villa vicuña salta
+                    <Image
+                      src="/images/icons/ico-facebook.svg" 
+                      alt=""
+                      width={24}
+                      height={24} 
+                    /> 
+                    villa vicuña salta
                   </a>
                 </div>
               </div>
