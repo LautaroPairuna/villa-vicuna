@@ -32,7 +32,7 @@ export default function Nosotros() {
       return "0.92em";
     }
   
-    if (screenWidth >= 1280) {
+    if (screenWidth >= 1281) {
       if (length <= 5) return "1.15em";
       if (length <= 8) return "1.05em";
       if (length <= 10) return "0.95em";
