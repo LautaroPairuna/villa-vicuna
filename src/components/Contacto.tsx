@@ -84,32 +84,32 @@ export default function Contacto() {
                   className="w-full object-cover"
                 />
               </div>
-              <div className="absolute w-[300px] h-[200px] mx-auto opacity-85 top-[30%] left-[10%]">
+              <div className="relative w-[300px] h-[200px] mx-auto opacity-85">
                 <Image
                   src="/images/fondo-carta-4.svg"
                   alt="Fondo Carta 4"
                   fill
                   className="object-contain"
                 />
-                <button className="bg-[#e3d6b5] text-black p-4 text-lg hover:bg-[#d6c3a2] transition-all rounded-full mt-52">
-                  <a
-                    href="https://goo.su/4Nkqe"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Image 
-                      src="/images/icons/ico-reservar.svg" 
-                      alt=""
-                      width={64}
-                      height={64} 
-                    />
-                  </a>
-                </button>
               </div>
+              <button className="bg-[#e3d6b5] text-black p-4 text-lg hover:bg-[#d6c3a2] transition-all rounded-full mt-4">
+                <a
+                  href="https://goo.su/4Nkqe"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Image 
+                    src="/images/icons/ico-reservar.svg" 
+                    alt=""
+                    width={64}
+                    height={64} 
+                  />
+                </a>
+              </button>
             </div>
 
             {/* Información de contacto */}
-            <div className="lg:px-4 lg:pb-16 lg:pt-72 p-2 flex flex-col justify-end md:mt-0 mt-44">
+            <div className="lg:px-4 lg:pb-16 lg:pt-72 p-2 flex flex-col justify-end md:mt-0 mt-4">
               <div className="gap-4">
                 <div className="space-y-2 2xl:text-xl xl:text-lg sm:text-xl lg:text-base max-w-[350px]">
                   <Image 
