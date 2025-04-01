@@ -32,18 +32,18 @@ export default function Contacto() {
 
   const calculateTracking = (text: string) => {
     const length = text.length;
-    if (screenWidth < 1366) {
+    if (screenWidth < 1367) {
       if (length <= 5) return "tracking-[0.8em]";
       if (length <= 8) return "tracking-[0.7em]";
       if (length <= 10) return "tracking-[0.9em]";
-      if (length <= 12) return "tracking-[1.1em]";
+      if (length <= 12) return "tracking-[.85em]";
       if (length <= 15) return "tracking-[0.5em]";
       return "tracking-[0.6em]";
     }
     if (length <= 5) return "tracking-[1em]";
     if (length <= 8) return "tracking-[0.95em]";
     if (length <= 10) return "tracking-[1.1em]";
-    if (length <= 12) return "tracking-[0.85em]";
+    if (length <= 12) return "tracking-[1.05em]";
     if (length <= 15) return "tracking-[0.70em]";
     return "tracking-[0.40em]";
   };
@@ -51,7 +51,7 @@ export default function Contacto() {
   return (
     <section
       id="contact"
-      className="relative bg-white text-black px-6 sm:px-12 lg:px-16 py-12 lg:py-20"
+      className="relative bg-white text-black px-4 sm:px-12 lg:px-16 py-12 lg:py-20"
     >
       <div className="max-w-[1400px] mx-auto relative">
         {/* Título móvil */}
@@ -75,7 +75,7 @@ export default function Contacto() {
           {/* Bloque izquierdo: Botón móvil e información de contacto */}
           <div>
             {/* Botón mobile */}
-            <div className="block lg:hidden text-center mb-6">
+            <div className="block lg:hidden text-center">
               <div className="relative w-full aspect-[4/4] flex justify-center items-center">
                 <Image
                   src="/images/contactenos.jpg"
@@ -84,32 +84,32 @@ export default function Contacto() {
                   className="w-full object-cover"
                 />
               </div>
-              <div className="relative w-[300px] h-[200px] mx-auto opacity-65">
+              <div className="absolute w-[300px] h-[200px] mx-auto opacity-85 top-[30%] left-[10%]">
                 <Image
                   src="/images/fondo-carta-4.svg"
                   alt="Fondo Carta 4"
                   fill
                   className="object-contain"
                 />
+                <button className="bg-[#e3d6b5] text-black p-4 text-lg hover:bg-[#d6c3a2] transition-all rounded-full mt-52">
+                  <a
+                    href="https://goo.su/4Nkqe"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Image 
+                      src="/images/icons/ico-reservar.svg" 
+                      alt=""
+                      width={64}
+                      height={64} 
+                    />
+                  </a>
+                </button>
               </div>
-              <button className="bg-[#e3d6b5] text-black p-4 text-lg hover:bg-[#d6c3a2] transition-all rounded-full mt-4">
-                <a
-                  href="https://goo.su/4Nkqe"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Image 
-                    src="/images/icons/ico-reservar.svg" 
-                    alt=""
-                    width={64}
-                    height={64} 
-                  />
-                </a>
-              </button>
             </div>
 
             {/* Información de contacto */}
-            <div className="md:px-4 md:pb-16 md:pt-72 p-4 flex flex-col justify-end">
+            <div className="lg:px-4 lg:pb-16 lg:pt-72 p-2 flex flex-col justify-end md:mt-0 mt-44">
               <div className="gap-4">
                 <div className="space-y-2 2xl:text-xl xl:text-lg sm:text-xl lg:text-base max-w-[350px]">
                   <Image 

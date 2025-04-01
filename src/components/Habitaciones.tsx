@@ -57,7 +57,7 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
             mt-8 md:mt-0 
             overflow-y-auto md:overflow-visible">
           <button
-            className="absolute md:top-6 top-1 md:left-0 text-xl sm:text-2xl md:text-4xl text-white md:bg-[#17273f] md:rounded-tr-full md:rounded-br-full md:px-4 px-2 py-3 flex items-center"
+            className="absolute md:top-6 top-1 left-0 text-xl sm:text-2xl md:text-4xl text-white bg-[#17273f] rounded-tr-full rounded-br-full md:px-4 px-2 md:py-3 py-2 flex items-center"
             onClick={onClose}
           >
             <svg
@@ -77,7 +77,7 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
           className={`
             relative md:absolute md:top-[10%] md:left-1/2 md:transform md:-translate-x-1/2
             text-4xl md:text-8xl leading-tight md:leading-normal uppercase z-10 w-full text-center
-            tracking-[0.2em] md:tracking-[1.05em] lg:tracking-[.88em]
+            tracking-[0.2em] md:tracking-[1.05em] lg:tracking-[.88em] md:mt-0 mt-4
           `}
         >
           <span className="text-black">{categoriaBlack}</span>
@@ -85,9 +85,9 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
             {categoriaWhite}
           </span>
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-2">
           <div className="col-span-1 md:col-span-7 relative pt-2 md:pt-32">
-            <h4 className="text-2xl md:text-3xl uppercase text-gray-700 z-10 w-full text-center tracking-[.65em] mt-10">
+            <h4 className="text-2xl md:text-3xl uppercase text-gray-700 z-10 w-full text-center tracking-[.65em] md:mt-10 mt-2">
               {t(`${habitacion.key}.nombre`)}
             </h4>
             <div className="relative mt-4">
@@ -99,8 +99,8 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
                   className="object-contain"
                 />
               </div>
-              <div className="relative z-10 text-base text-justify md:text-left px-2 md:px-0">
-                <p className="mb-4 text-justify">{t(`${habitacion.key}.descripcion`)}</p>
+              <div className="relative z-10 text-base text-justify md:text-left px-2 md:px-0 space-y-2">
+                <p className="text-justify">{t(`${habitacion.key}.descripcion`)}</p>
                 <p className="text-justify">{t(`${habitacion.key}.parrafo_minibar`)}</p>
                 {/* Sección de Amenities */}
                 <div className="amenities-gallery flex flex-wrap justify-start items-center gap-4 md:gap-8 mt-4 px-2 md:px-4">
@@ -109,8 +109,8 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
                       <Image
                         src={`/images/icons/habitaciones/${amenity.icono}`}
                         alt={amenity.nombre}
-                        width={60}
-                        height={60}
+                        width={50}
+                        height={50}
                         className="object-contain md:w-[70px] md:h-[70px]"
                       />
                     </div>
@@ -156,7 +156,7 @@ export default function HabitacionesComponent() {
 
   return (
     <section id="rooms" className="relative bg-white text-black md:px-12 px-6">
-      <div className="pointer-events-none absolute inset-0 hidden md:block 2xl:w-full w-3/4 h-full 2xl:top-0 xl:top-7 2xl:-left-32 xl:left-0 z-10">
+      <div className="pointer-events-none absolute inset-0 hidden lg:block 2xl:w-full w-3/4 h-full 2xl:top-0 xl:top-7 2xl:-left-32 xl:left-0 z-10">
         <Image
           src="/images/fondo-carta-3-seccion.svg"
           alt="Fondo Carta"
@@ -172,9 +172,9 @@ export default function HabitacionesComponent() {
             alt="Fondo Carta"
             width={250}
             height={250}
-            className="absolute top-[15%] left-[60%] transform -translate-x-1/2 -translate-y-1/2 object-contain md:hidden"
+            className="absolute top-[75%] left-[60%] transform -translate-x-1/2 -translate-y-1/2 object-contain lg:hidden"
           />
-          <h2 className="relative text-4xl text-center">{t("titulo")}</h2>
+          <h2 className="relative text-4xl text-center mt-16">{t("titulo")}</h2>
         </div>
         <div className="hidden lg:flex w-1/6 items-center justify-center mx-20">
           <h2 className="text-3xl xl:text-4xl 2xl:text-5xl transform -rotate-90 whitespace-nowrap 2xl:tracking-[0.85em] tracking-[1em] text-center mb-10">
@@ -182,39 +182,37 @@ export default function HabitacionesComponent() {
           </h2>
         </div>
 
-        <div className="flex justify-center w-full">
-          {/* Se envuelve el grid en un contenedor que aplica el scale sin afectar las tarjetas */}
-          <div className="transform md:scale-100 scale-90 origin-top">
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-12 gap-y-1">
-              {habitaciones.map((hab) => (
-                <div key={hab.id} className="relative mx-auto 2xl:max-w-[300px] xl:max-w-[225px]">
-                  <div className="relative 2xl:w-[300px] 2xl:h-[300px] sm:w-[225px] sm:h-[225px] w-[300px] h-[300px] overflow-hidden mx-auto">
-                    <Image
-                      src={`/images/Habitaciones/${hab.imagen}`}
-                      alt={t(`${hab.key}.nombre`)}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="py-4 text-left">
-                    <p className="text-xs text-gray-600">{t(`${hab.key}.detalles`)}</p>
-                    <h3 className="text-base mt-2 titulo-habitaciones capitalize tracking-widest">
-                      {hab.categoria} {t(`${hab.key}.nombre`)}
-                    </h3>
-                    <button
-                      className="pt-2 text-base transition-all rounded-xl items-center my-0 mx-auto justify-center text-center cursor-pointer titulo-habitaciones"
-                      onClick={() => handleSelect(hab.id)}
-                    >
-                      {t("ver_mas")}
-                    </button>
-                  </div>
+        
+        {/* Se envuelve el grid en un contenedor que aplica el scale sin afectar las tarjetas */}
+        <div className="">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-12 gap-y-1">
+            {habitaciones.map((hab) => (
+              <div key={hab.id} className="relative mx-auto 2xl:max-w-[300px] xl:max-w-[225px] lg:max-w-[350px]">
+                <div className="relative 2xl:w-[300px] 2xl:h-[300px] sm:w-[225px] sm:h-[225px] w-[300px] h-[300px] overflow-hidden mx-auto">
+                  <Image
+                    src={`/images/Habitaciones/${hab.imagen}`}
+                    alt={t(`${hab.key}.nombre`)}
+                    fill
+                    className="object-cover"
+                  />
                 </div>
-              ))}
-            </div>
+                <div className="py-4 text-left">
+                  <p className="text-xs text-gray-600">{t(`${hab.key}.detalles`)}</p>
+                  <h3 className="text-base mt-2 titulo-habitaciones capitalize tracking-widest">
+                    {hab.categoria} {t(`${hab.key}.nombre`)}
+                  </h3>
+                  <button
+                    className="pt-2 text-base transition-all rounded-xl items-center my-0 mx-auto justify-center text-center cursor-pointer titulo-habitaciones"
+                    onClick={() => handleSelect(hab.id)}
+                  >
+                    {t("ver_mas")}
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
-
       {selectedHabitacion && (
         <HabitacionModal habitacion={selectedHabitacion} onClose={handleCloseModal} t={t} />
       )}

@@ -51,7 +51,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className="fixed top-0 left-0 w-full bg-[#e3d6b5] text-black py-2 pe-4 ps-16 z-40 shadow-md"
+      className="fixed top-0 left-0 w-full bg-[#F8F4EA] text-black py-2 pe-4 ps-16 z-40 shadow-md"
       role="navigation"
       aria-label="Main Navigation"
     >
@@ -80,7 +80,7 @@ export default function Navbar() {
                       href={item.href}
                       target={item.href.startsWith("http") ? "_blank" : undefined}
                       rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                      className="relative group py-1 font-medium text-xl transition-colors duration-300 hover:text-gray-800"
+                      className="relative group py-1 font-medium text-base transition-colors duration-300 hover:text-gray-800 uppercase"
                     >
                       {item.label}
                       <span className="absolute left-1/2 bottom-0 h-[2px] w-0 bg-black transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
@@ -132,7 +132,7 @@ export default function Navbar() {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: "-100%", opacity: 0 }}
             transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="fixed inset-0 bg-[#e3d6b5] flex flex-col items-center justify-center z-50"
+            className="fixed inset-0 bg-[#F8F4EA] flex flex-col items-center justify-center z-50"
           >
             <button
               className="absolute top-6 right-6 text-3xl focus:outline-none"
@@ -140,14 +140,14 @@ export default function Navbar() {
             >
               ✖
             </button>
-            <ul className="text-2xl space-y-6 text-center">
+            <ul className="text-xl space-y-6 text-center">
               {menuItems.map((item) => (
                 <li key={item.href}>
                   <a
                     href={item.href}
                     target={item.href.startsWith("http") ? "_blank" : undefined}
                     rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                    className="relative group font-semibold transition-colors duration-300 hover:text-gray-800"
+                    className="relative group font-semibold transition-colors duration-300 hover:text-gray-800 uppercase"
                     onClick={() => setMenuOpen(false)}
                   >
                     {item.label}

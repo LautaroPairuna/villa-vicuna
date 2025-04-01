@@ -57,7 +57,7 @@ export default function Nosotros() {
   return (
     <section
       id="about-us"
-      className="relative py-16 px-4 md:px-12 bg-white flex flex-col lg:flex-row items-center text-black mx-auto overflow-hidden"
+      className="relative md:py-16 py-8 px-4 md:px-12 bg-white flex flex-col lg:flex-row items-center text-black mx-auto overflow-hidden"
     >
       <div className="grid grid-cols-12 2xl:max-w-[1400px] max-w-full mx-auto text-lg relative gap-6 lg:gap-20 w-full min-w-0">
         {/* Título central */}

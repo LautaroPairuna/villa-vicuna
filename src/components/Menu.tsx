@@ -93,7 +93,7 @@ export default function Menu() {
 
         {/* Versión móvil */}
         <div className="lg:hidden flex flex-col items-center text-center w-full mt-6 space-y-4 relative">
-          <div className="absolute left-[60%] -top-[95%] -translate-x-1/2 w-[300px] h-[300px] sm:w-[350px] sm:h-[350px] opacity-87 pointer-events-none z-0">
+          <div className="absolute left-[55%] -top-[130%] -translate-x-1/2 w-[300px] h-[300px] sm:w-[350px] sm:h-[350px] opacity-87 pointer-events-none z-0">
             <Image
               src="/images/fondo-carta-1.svg"
               alt="Fondo Carta"

@@ -191,7 +191,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
           onClick={(e) => e.stopPropagation()}
         >
           <button
-            className="absolute lg:top-6 top-1 md:left-0 text-3xl sm:text-4xl lg:text-5xl text-white md:bg-[#17273f] md:rounded-tr-full md:rounded-br-full lg:px-4 px-2 py-3 flex items-center"
+            className="absolute lg:top-6 top-1 left-0 text-3xl sm:text-4xl lg:text-5xl text-white bg-[#17273f] rounded-tr-full rounded-br-full lg:px-4 px-1 sm:py-3 py-2 flex items-center"
             onClick={onClose}
           >
             <svg
@@ -209,7 +209,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
           </button>
 
           <h3
-            className="relative lg:absolute lg:top-[15%] lg:left-1/2 lg:-translate-x-1/2 text-3xl sm:text-4xl lg:text-5xl uppercase z-10 w-full text-center mt-4 sm:mt-6 lg:mt-0 lg:ms-4 ms-0 text-black"
+            className="relative lg:absolute lg:top-[15%] lg:left-1/2 lg:-translate-x-1/2 text-3xl sm:text-4xl lg:text-5xl uppercase z-10 w-full text-center mt-8 sm:mt-6 lg:mt-0 lg:ms-4 ms-0 text-black"
             style={{ letterSpacing: `${computedTracking}em` }}
           >
             <span className="whitespace-nowrap">{part1}</span>
