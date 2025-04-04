@@ -77,21 +77,21 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
           className={`
             relative md:absolute md:top-[10%] md:left-1/2 md:transform md:-translate-x-1/2
             text-4xl md:text-8xl leading-tight md:leading-normal uppercase z-10 w-full text-center
-            tracking-[0.2em] md:tracking-[1.05em] lg:tracking-[.88em] md:mt-0 mt-4
+            tracking-[0.2em] md:tracking-[1.05em] lg:tracking-[.88em] md:mt-0 mt-4 font-normal
           `}
         >
           <span className="text-black">{categoriaBlack}</span>
-          <span className="text-black md:text-white drop-shadow-none md:drop-shadow-[0px_0px_4px_rgba(0,0,0,1)]">
+          <span className="text-black md:text-white">
             {categoriaWhite}
           </span>
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-16">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
           <div className="col-span-1 md:col-span-7 relative pt-2 md:pt-32">
             <h4 className="text-2xl md:text-3xl uppercase text-gray-700 z-10 w-full text-center tracking-[.65em] md:mt-6 mt-2">
               {t(`${habitacion.key}.nombre`)}
             </h4>
             <div className="relative mt-2">
-              <div className="absolute top-[45%] left-[55%] md:w-[650px] w-[350px] lg:h-[250%] md:h-[160%] h-[110%] pointer-events-none -z-10 transform -translate-x-1/2 -translate-y-1/2">
+              <div className="absolute top-[60%] left-[55%] md:w-[650px] w-[350px] lg:h-[250%] md:h-[160%] h-[110%] pointer-events-none -z-10 transform -translate-x-1/2 -translate-y-1/2">
                 <Image
                   src="/images/fondo-carta-3.svg"
                   alt="Fondo Carta"
