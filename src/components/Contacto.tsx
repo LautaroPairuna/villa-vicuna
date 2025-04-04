@@ -3,13 +3,6 @@
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import {
-  FaPhoneAlt,
-  FaEnvelope,
-  FaMapMarkerAlt,
-  FaInstagram,
-  FaFacebookF,
-} from "react-icons/fa";
 
 export default function Contacto() {
   const t = useTranslations("contact");
