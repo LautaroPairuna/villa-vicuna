@@ -112,7 +112,7 @@ export function Habitaciones(): Habitacion[] {
       id: 5,
       categoria: "superior",
       key: "jardin",
-      imagen: "Superior-jardin.jpg",
+      imagen: "superior-jardin.jpg",
       folder: "habitaciones-jardin",
       carrusel: [
         "jardin-1.png",
