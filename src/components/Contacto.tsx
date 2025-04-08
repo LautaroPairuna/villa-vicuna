@@ -25,7 +25,7 @@ export default function Contacto() {
 
   const calculateTracking = (text: string) => {
     const length = text.length;
-    if (screenWidth < 1367) {
+    if (screenWidth < 1500) {
       if (length <= 5) return "tracking-[0.8em]";
       if (length <= 8) return "tracking-[0.7em]";
       if (length <= 10) return "tracking-[0.9em]";
@@ -33,10 +33,26 @@ export default function Contacto() {
       if (length <= 15) return "tracking-[0.5em]";
       return "tracking-[0.6em]";
     }
+    if (screenWidth < 1300) {
+      if (length <= 5) return "tracking-[0.8em]";
+      if (length <= 8) return "tracking-[0.7em]";
+      if (length <= 10) return "tracking-[0.9em]";
+      if (length <= 12) return "tracking-[.75em]";
+      if (length <= 15) return "tracking-[0.5em]";
+      return "tracking-[0.6em]";
+    }
+    if (screenWidth > 1500) {
+      if (length <= 5) return "tracking-[0.8em]";
+      if (length <= 8) return "tracking-[0.7em]";
+      if (length <= 10) return "tracking-[0.9em]";
+      if (length <= 12) return "tracking-[1.05em]";
+      if (length <= 15) return "tracking-[0.5em]";
+      return "tracking-[0.6em]";
+    }
     if (length <= 5) return "tracking-[1em]";
     if (length <= 8) return "tracking-[0.95em]";
     if (length <= 10) return "tracking-[1.1em]";
-    if (length <= 12) return "tracking-[1.05em]";
+    if (length <= 12) return "tracking-[0.75em]";
     if (length <= 15) return "tracking-[0.70em]";
     return "tracking-[0.40em]";
   };

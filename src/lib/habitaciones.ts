@@ -1,14 +1,34 @@
 // lib/habitaciones.ts
 "use client";
 
-// La función devuelve las claves y datos estáticos (imagen, amenities, etc.)
-export function Habitaciones() {
+// Definición de la interfaz para una habitación
+export interface Habitacion {
+  id: number;
+  categoria: string;
+  key: string;
+  imagen: string;
+  folder: string;        // Carpeta donde se almacenan las imágenes del carrusel
+  carrusel: string[];    // Array de imágenes para el carrusel
+  amenities: {
+    nombre: string;
+    icono: string;
+  }[];
+}
+
+// La función devuelve las claves y datos estáticos (imagen, amenities, folder, carrusel, etc.)
+export function Habitaciones(): Habitacion[] {
   return [
     {
       id: 1,
       categoria: "superior",
       key: "twin_interna", // clave base para las traducciones
       imagen: "twin-interna.jpg",
+      folder: "habitaciones-twin-interna",
+      carrusel: [
+        "interna-1.png",
+        "interna-2.png",
+        "interna-3.png",
+      ],
       amenities: [
         { nombre: "wifi", icono: "ico-wifi.svg" },
         { nombre: "aire", icono: "ico-aire.svg" },
@@ -26,6 +46,12 @@ export function Habitaciones() {
       categoria: "standard",
       key: "matrimonial",
       imagen: "standard-matrimonial.jpg",
+      folder: "habitaciones-matrimonial",
+      carrusel: [
+        "matrimonial-1.png",
+        "matrimonial-2.png",
+        "matrimonial-3.png",
+      ],
       amenities: [
         { nombre: "wifi", icono: "ico-wifi.svg" },
         { nombre: "aire", icono: "ico-aire.svg" },
@@ -42,6 +68,12 @@ export function Habitaciones() {
       categoria: "standard",
       key: "triple",
       imagen: "standard-mat-triple.jpg",
+      folder: "habitaciones-triple",
+      carrusel: [
+        "triple-1.png",
+        "triple-2.png",
+        "triple-3.png",
+      ],
       amenities: [
         { nombre: "wifi", icono: "ico-wifi.svg" },
         { nombre: "aire", icono: "ico-aire.svg" },
@@ -58,7 +90,12 @@ export function Habitaciones() {
       categoria: "superior",
       key: "balcon",
       imagen: "superior-balcon.jpg",
-      // Para "balcon" se usan los 9 íconos definidos en el JSON original
+      folder: "habitaciones-balcon",
+      carrusel: [
+        "balcon-1.png",
+        "balcon-2.png",
+        "balcon-3.png",
+      ],
       amenities: [
         { nombre: "wifi", icono: "ico-wifi.svg" },
         { nombre: "aire", icono: "ico-aire.svg" },
@@ -76,7 +113,12 @@ export function Habitaciones() {
       categoria: "superior",
       key: "jardin",
       imagen: "Superior-jardin.jpg",
-      // Para "jardin" se usan los 9 íconos definidos en el JSON original
+      folder: "habitaciones-jardin",
+      carrusel: [
+        "jardin-1.png",
+        "jardin-2.png",
+        "jardin-3.png",
+      ],
       amenities: [
         { nombre: "wifi", icono: "ico-wifi.svg" },
         { nombre: "aire", icono: "ico-aire.svg" },
@@ -94,6 +136,12 @@ export function Habitaciones() {
       categoria: "superior",
       key: "twin_externa",
       imagen: "twin-externa.jpg",
+      folder: "habitaciones-twin-externa",
+      carrusel: [
+        "externa-1.png",
+        "externa-2.png",
+        "externa-3.png",
+      ],
       amenities: [
         { nombre: "wifi", icono: "ico-wifi.svg" },
         { nombre: "aire", icono: "ico-aire.svg" },

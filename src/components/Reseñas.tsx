@@ -305,7 +305,6 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                 </svg>
               </button>
-
             </div>
           </div>
         </motion.div>

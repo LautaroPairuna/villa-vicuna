@@ -1,8 +1,10 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { Habitaciones as getHabitaciones } from "@/lib/habitaciones";
 import { useTranslations } from "next-intl";
+import { createPortal } from "react-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
 // Interfaz para cada amenidad.
@@ -11,13 +13,15 @@ export interface Amenity {
   icono: string;
 }
 
-// Interfaz que describe una habitación.
+// Interfaz que describe una habitación con carrusel.
 export interface Habitacion {
   id: number;
   categoria: string;
   key: string;
   imagen: string;
   amenities: Amenity[];
+  folder: string;        // Carpeta donde se almacenan las imágenes del carrusel
+  carrusel: string[];    // Array de imágenes para el carrusel
 }
 
 // Tipo para la función de traducción (next-intl).
@@ -33,6 +37,7 @@ interface HabitacionModalProps {
   t: Translations;
 }
 
+
 function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
   // Separa la categoría en dos partes usando la función raw.
   const { categoriaBlack, categoriaWhite } = useMemo(() => {
@@ -45,34 +50,87 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
     return { categoriaBlack: categoriaHTML, categoriaWhite: "" };
   }, [habitacion, t]);
 
+  // Estado y funciones para el carrusel de imágenes (manual)
+  const [currentImage, setCurrentImage] = useState(0);
+  // Para animar la dirección de la transición: 1 => next, -1 => prev
+  const [direction, setDirection] = useState(0);
+  const totalImages = habitacion.carrusel.length;
+
+  const nextImage = useCallback(() => {
+    setDirection(1);
+    setCurrentImage((prev) => (prev === totalImages - 1 ? 0 : prev + 1));
+  }, [totalImages]);
+
+  const prevImage = useCallback(() => {
+    setDirection(-1);
+    setCurrentImage((prev) => (prev === 0 ? totalImages - 1 : prev - 1));
+  }, [totalImages]);
+
+  // Resetea la imagen actual al cambiar la reseña
+  useEffect(() => {
+    setCurrentImage(0);
+    setDirection(0);
+  }, [habitacion]);
+
+  const overlayVariants = useMemo(() => ({
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 },
+    exit: { opacity: 0 },
+  }), []);
+
+  const modalVariants = useMemo(() => ({
+    hidden: { scale: 0.9, y: 50, opacity: 0 },
+    visible: { scale: 1, y: 0, opacity: 1 },
+    exit: { scale: 0.9, y: 50, opacity: 0 },
+  }), []);
+
+  // Variantes para animar la transición de imágenes
+  const imageVariants = {
+    initial: (direction: number) => ({
+      opacity: 0,
+      x: direction > 0 ? 50 : -50,
+    }),
+    animate: { opacity: 1, x: 0 },
+    exit: (direction: number) => ({
+      opacity: 0,
+      x: direction > 0 ? -50 : 50,
+    }),
+  };
+
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 px-4 overflow-y-auto md:overflow-visible">
-      <div className="bg-white 
-            pt-4 sm:pt-6 md:pt-8 lg:pt-10 
-            pb-2 sm:pb-4 md:pb-6 lg:pb-8 
-            px-4 sm:px-8 md:px-12 lg:px-20 
-            pe-4 sm:pe-6 md:pe-10 lg:pe-16
-            w-full max-w-md md:max-w-7xl 
-            relative transform transition-transform duration-300 scale-95 animate-fadeIn max-h-screen 
-            mt-8 md:mt-0 
-            overflow-y-auto md:overflow-visible">
-          <button
-            className="absolute md:top-6 top-1 left-0 text-xl sm:text-2xl md:text-4xl text-white bg-[#17273f] rounded-tr-full rounded-br-full md:px-4 px-2 md:py-3 py-2 flex items-center"
-            onClick={onClose}
+    <div
+      className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 px-4 overflow-y-auto md:overflow-visible"
+      onClick={onClose}
+    >
+      <div
+        className="bg-white 
+          pt-4 sm:pt-6 md:pt-8 lg:pt-10 
+          pb-2 sm:pb-4 md:pb-6 lg:pb-8 
+          px-4 sm:px-8 md:px-12 lg:px-20 
+          pe-4 sm:pe-6 md:pe-10 lg:pe-16
+          w-full max-w-md md:max-w-7xl 
+          relative transform transition-transform duration-300 scale-95 animate-fadeIn max-h-screen 
+          mt-8 md:mt-0 
+          overflow-y-auto md:overflow-visible"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          className="absolute md:top-6 top-1 left-0 text-xl sm:text-2xl md:text-4xl text-white bg-[#17273f] rounded-tr-full rounded-br-full md:px-4 px-2 md:py-3 py-2 flex items-center"
+          onClick={onClose}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M18 6L6 18M6 6l12 12" />
-            </svg>
-          </button>
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
         <h3
           className={`
             relative md:absolute md:top-[10%] md:left-1/2 md:transform md:-translate-x-1/2
@@ -119,16 +177,61 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
               </div>
             </div>
           </div>
-          <div className="col-span-1 md:col-span-5 flex items-center justify-center">
-            {/* Contenedor para limitar la imagen en móviles */}
-            <div className="relative w-full max-h-[80vh] aspect-[4/3] lg:aspect-[3/4] overflow-hidden">
-              <Image
-                src={`/images/Habitaciones/${habitacion.imagen}`}
-                alt={t(`${habitacion.key}.nombre`)}
-                fill
-                className="object-cover"
-              />
+          {/* Sección del carrusel de imágenes */}
+          <div className="relative col-span-1 lg:col-span-5 w-full aspect-[4/3] lg:aspect-[2/3] flex items-center justify-center">
+            <div className="relative w-full h-full overflow-hidden">
+              <AnimatePresence custom={direction}>
+                <motion.div
+                  key={currentImage}
+                  className="absolute inset-0"
+                  custom={direction}
+                  variants={imageVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  transition={{ duration: 0.5 }}
+                >
+                  <Image
+                    src={`/images/habitaciones/${habitacion.folder}/${habitacion.carrusel[currentImage]}`}
+                    alt={`Imagen ${currentImage + 1}`}
+                    fill
+                    className="object-cover"
+                  />
+                </motion.div>
+              </AnimatePresence>
             </div>
+            {/* Botón Prev con SVG */}
+            <button
+              onClick={prevImage}
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white flex items-center justify-center transition-all"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-24 w-10"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            {/* Botón Next con SVG */}
+            <button
+              onClick={nextImage}
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white flex items-center justify-center transition-all"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-24 w-10"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
           </div>
         </div>
       </div>
