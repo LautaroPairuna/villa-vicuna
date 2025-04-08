@@ -3,7 +3,6 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { Habitaciones as getHabitaciones } from "@/lib/habitaciones";
 import { useTranslations } from "next-intl";
-import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
@@ -71,18 +70,6 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
     setCurrentImage(0);
     setDirection(0);
   }, [habitacion]);
-
-  const overlayVariants = useMemo(() => ({
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 },
-    exit: { opacity: 0 },
-  }), []);
-
-  const modalVariants = useMemo(() => ({
-    hidden: { scale: 0.9, y: 50, opacity: 0 },
-    visible: { scale: 1, y: 0, opacity: 1 },
-    exit: { scale: 0.9, y: 50, opacity: 0 },
-  }), []);
 
   // Variantes para animar la transición de imágenes
   const imageVariants = {
