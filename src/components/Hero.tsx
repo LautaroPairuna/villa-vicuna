@@ -20,7 +20,6 @@ const Hero = memo(() => {
           muted
           playsInline
           preload="auto"
-          poster="/images/hero-poster.jpg"
         >
           <source src="/videos/video-home.mp4" type="video/mp4" />
           Tu navegador no soporta videos en HTML5.

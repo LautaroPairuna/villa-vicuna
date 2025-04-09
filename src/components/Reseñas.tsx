@@ -59,8 +59,8 @@ function splitTitle(raw: string): { part1: string; part2: string; full: string }
 function calculateTrackingBase(text: string): number {
   const length = text.length;
   if (length <= 8) return 1.55;
-  if (length <= 11) return 1.15;
-  if (length <= 12) return 1.05;
+  if (length <= 11) return .82;
+  if (length <= 12) return .75;
   if (length <= 15) return 0.65;
   return 0.4;
 }
@@ -209,15 +209,15 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
           </button>
 
           <h3
-            className="relative lg:absolute lg:top-[15%] lg:left-1/2 lg:-translate-x-1/2 text-3xl sm:text-4xl lg:text-5xl uppercase z-10 w-full text-center mt-8 sm:mt-6 lg:mt-0 lg:ms-4 ms-0 text-black"
+            className="relative lg:absolute lg:top-[15%] lg:left-1/2 lg:-translate-x-1/2 text-3xl sm:text-4xl lg:text-6xl uppercase z-10 w-full text-center mt-8 sm:mt-6 lg:mt-0 lg:ms-4 ms-0 text-black"
             style={{ letterSpacing: `${computedTracking}em` }}
           >
             <span className="whitespace-nowrap">{part1}</span>
             <span className="whitespace-nowrap">{part2}</span>
           </h3>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 text-black">
-            <div className="flex flex-col col-span-1 lg:col-span-7 pt-2 lg:pt-12 relative">
+          <div className="grid grid-cols-1 lg:grid-cols-12 text-black">
+            <div className="flex flex-col col-span-1 lg:col-span-7 pt-2 lg:pt-16 relative lg:pe-[5.5rem]">
               <div className="absolute lg:top-[77%] top-[50%] lg:-left-[18%] left-[20%] inset-0 pointer-events-none z-10 flex justify-center items-center lg:w-[875px] w-[250px] h-[250px]">
                 <Image
                   src="/images/fondo-carta-5.svg"
@@ -227,7 +227,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
                 />
               </div>
               <p
-                className="mt-2 lg:mt-20 relative z-10 text-left leading-6"
+                className="mt-2 lg:mt-20 relative z-10 text-left leading-7 text-xl"
                 style={{ whiteSpace: "pre-line" }}
               >
                 {tGlobal(selectedReseña.textoKey)}
