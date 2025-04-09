@@ -179,7 +179,7 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
                   transition={{ duration: 0.5 }}
                 >
                   <Image
-                    src={`/images/Habitaciones/${habitacion.folder}/${habitacion.carrusel[currentImage]}`}
+                    src={`/images/habitaciones/${habitacion.folder}/${habitacion.carrusel[currentImage]}`}
                     alt={`Imagen ${currentImage + 1}`}
                     fill
                     className="object-cover"
