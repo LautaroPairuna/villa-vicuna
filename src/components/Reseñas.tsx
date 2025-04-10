@@ -227,12 +227,12 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
                 />
               </div>
               <p
-                className="mt-2 lg:mt-20 relative z-10 text-left leading-7 text-xl"
+                className="mt-2 lg:mt-24 relative z-10 text-left leading-7 text-lg tracking-[0.05rem]"
                 style={{ whiteSpace: "pre-line" }}
               >
                 {tGlobal(selectedReseña.textoKey)}
               </p>
-              <div className="mt-2 relative z-10 w-full overflow-hidden">
+              <div className="mt-6 relative z-10 w-full overflow-hidden">
                 <Slider {...commentsSliderSettings}>
                   {detalles.map((detalle, i) => (
                     <div key={i} className="py-4 sm:py-3 md:py-5">
