@@ -39,6 +39,13 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "Migra ExtraLigth";
+  src: url("/fonts/migra.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
 /* Aplicar fuentes y suavizado */
 h1, h2, h3, h4, h5, h6 {
   font-family: "Cinzel", serif;
@@ -56,6 +63,10 @@ p, a, li {
 
 .titulo-habitaciones {
   font-family: "Montserrat", sans-serif;
+}
+
+.titulo-habitaciones-nombre {
+  font-family: "Migra ExtraLigth", sans-serif;
 }
 
 .resenas-texto {
