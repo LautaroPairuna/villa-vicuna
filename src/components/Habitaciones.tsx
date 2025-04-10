@@ -120,9 +120,10 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
         </button>
         <h3
           className={`
-            relative md:absolute md:top-[10%] md:left-1/2 md:transform md:-translate-x-1/2
+            relative md:absolute md:top-[10%] md:left-1/2 md:-translate-x-1/2
             text-4xl md:text-8xl leading-tight md:leading-normal uppercase z-10 w-full text-center
-            tracking-[0.2em] md:tracking-[1.05em] lg:tracking-[.80em] md:mt-0 mt-4 font-normal
+            md:mt-0 mt-4 font-normal
+            ${habitacion.categoria === "standard" ? "tracking-[0.78em]" : "tracking-[0.88em]"}
           `}
         >
           <span className="text-black">{categoriaBlack}</span>
