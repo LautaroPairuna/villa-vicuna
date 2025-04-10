@@ -217,7 +217,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
           </h3>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 text-black">
-            <div className="flex flex-col col-span-1 lg:col-span-7 pt-2 lg:pt-16 relative lg:pe-[5.5rem]">
+            <div className="flex flex-col col-span-1 lg:col-span-7 pt-2 lg:pt-16 relative lg:pe-[5.2rem]">
               <div className="absolute lg:top-[77%] top-[50%] lg:-left-[18%] left-[20%] inset-0 pointer-events-none z-10 flex justify-center items-center lg:w-[875px] w-[250px] h-[250px]">
                 <Image
                   src="/images/fondo-carta-5.svg"
@@ -227,7 +227,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
                 />
               </div>
               <p
-                className="mt-2 lg:mt-24 relative z-10 text-left leading-7 text-lg tracking-[0.05rem]"
+                className="mt-2 lg:mt-24 relative z-10 text-left leading-6 text-lg tracking-[0.06rem]"
                 style={{ whiteSpace: "pre-line" }}
               >
                 {tGlobal(selectedReseña.textoKey)}
