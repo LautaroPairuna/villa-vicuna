@@ -49,8 +49,9 @@ export function Habitaciones(): Habitacion[] {
       folder: "habitaciones-matrimonial",
       carrusel: [
         "matrimonial-1.png",
-        "matrimonial-2.png",
-        "matrimonial-3.png",
+        "matrimonial-2.jpeg",
+        "matrimonial-3.jpeg",
+        "matrimonial-4.jpeg",
       ],
       amenities: [
         { nombre: "wifi", icono: "ico-wifi.svg" },
@@ -116,8 +117,8 @@ export function Habitaciones(): Habitacion[] {
       folder: "habitaciones-jardin",
       carrusel: [
         "jardin-1.png",
-        "jardin-2.png",
-        "jardin-3.png",
+        "jardin-2.jpeg",
+        "jardin-3.jpeg",
       ],
       amenities: [
         { nombre: "wifi", icono: "ico-wifi.svg" },

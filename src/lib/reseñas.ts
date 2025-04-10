@@ -12,6 +12,7 @@ export const reseñas = [
       "desayuno-1.jpg",
       "desayuno-2.jpg",
       "desayuno-3.jpg",
+      "desayuno-4.jpg",
     ],
   },
   {
@@ -22,8 +23,9 @@ export const reseñas = [
     folder: "reseñas-detalles",
     carrusel: [
       "detalles-1.jpg",
-      "detalles-2.jpg",
+      "detalles-2.jpeg",
       "detalles-3.jpg",
+      "detalles-4.jpg",
     ],
   },
   {
@@ -34,8 +36,9 @@ export const reseñas = [
     folder: "reseñas-personal",
     carrusel: [
       "personal-1.jpg",
-      "personal-2.jpg",
+      "personal-2.jpeg",
       "personal-3.jpg",
+      "personal-4.jpg",
     ],
   },
 ];
