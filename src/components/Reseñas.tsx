@@ -213,7 +213,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
             style={{ letterSpacing: `${computedTracking}em` }}
           >
             <span className="whitespace-nowrap">{part1}</span>
-            <span className="whitespace-nowrap text-white">{part2}</span>
+            <span className="whitespace-nowrap lg:text-white text-black">{part2}</span>
           </h3>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 text-black">

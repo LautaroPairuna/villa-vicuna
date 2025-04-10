@@ -127,7 +127,7 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
           `}
         >
           <span className="text-black">{categoriaBlack}</span>
-          <span className="text-black md:text-white">
+          <span className="text-black lg:text-white">
             {categoriaWhite}
           </span>
         </h3>
