@@ -8,10 +8,6 @@ import { useTranslations } from "next-intl";
 import { reseñas, reseñasDetalles } from "../lib/reseñas";
 import { motion, AnimatePresence } from "framer-motion";
 
-// IMPORTANTE: Asegúrate de importar los estilos de react-slick
-// import "slick-carousel/slick/slick.css";
-// import "slick-carousel/slick/slick-theme.css";
-
 // -----------------------------------------------------------------------------
 // Tipos e Interfaces
 // -----------------------------------------------------------------------------
@@ -191,7 +187,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
           onClick={(e) => e.stopPropagation()}
         >
           <button
-            className="absolute lg:top-6 top-1 left-0 text-3xl sm:text-4xl lg:text-5xl text-white bg-[#17273f] rounded-tr-full rounded-br-full lg:px-4 px-1 sm:py-3 py-2 flex items-center"
+            className="absolute lg:top-6 top-1 left-0 text-3xl sm:text-4xl lg:text-5xl text-[#9ea4ae] bg-[#17273f] rounded-tr-full rounded-br-full lg:px-5 px-1 sm:py-3 py-2 flex items-center"
             onClick={onClose}
           >
             <svg
@@ -217,8 +213,8 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
           </h3>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 text-black">
-            <div className="flex flex-col col-span-1 lg:col-span-7 pt-2 lg:pt-16 relative lg:pe-[3.5rem]">
-              <div className="absolute lg:top-[77%] top-[50%] lg:-left-[18%] left-[20%] inset-0 pointer-events-none z-10 flex justify-center items-center lg:w-[875px] w-[250px] h-[250px]">
+            <div className="flex flex-col col-span-1 lg:col-span-7 pt-2 lg:pt-16 relative lg:pe-[4rem]">
+              <div className="absolute lg:top-[77%] top-[50%] lg:-left-[18%] left-[20%] inset-0 pointer-events-none z-10 flex justify-center items-center lg:w-[825px] w-[250px] h-[250px]">
                 <Image
                   src="/images/fondo-carta-5.svg"
                   alt="Personal Review Background"
@@ -227,7 +223,14 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
                 />
               </div>
               <p
-                className="mt-2 lg:mt-24 relative z-10 text-left leading-6 text-lg tracking-[0.08rem]"
+                className={`
+                  mt-2 lg:mt-24 relative z-10 text-left  text-lg
+                  ${
+                    selectedReseña.folder === "reseñas-desayuno"
+                      ? "tracking-[0.07rem] leading-6"  // valor para desayuno
+                      : "tracking-[0.08rem] leading-7"  // valor por defecto
+                  }
+                `}
                 style={{ whiteSpace: "pre-line" }}
               >
                 {tGlobal(selectedReseña.textoKey)}
@@ -235,7 +238,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
               <div className="mt-6 relative z-10 w-full overflow-hidden">
                 <Slider {...commentsSliderSettings}>
                   {detalles.map((detalle, i) => (
-                    <div key={i} className="py-4 sm:py-3 md:py-5">
+                    <div key={i}>
                       <div className="bg-[#f8f4ea] bg-opacity-50 rounded-2xl py-4 px-2 transition-transform duration-300 hover:scale-105">
                         <p className="text-lg leading-6 resenas-texto mb-3 text-left">
                           {tGlobal(detalle.comentarioKey)}

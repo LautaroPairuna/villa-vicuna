@@ -22,7 +22,7 @@
     },
     "desayuno": {
         "nombre": "El desa<span>yuno</span>",
-        "texto": "En Villa Vicuña entendemos la importancia de un desayuno completo, saludable con productos frescos de estación  realizados en casa. \n\nEn nuestro menú encontrará una selección de cinco platos con distintos sabores y texturas  sugeridos por el chef, además  del buffete  con otras delicias caseras. \n\nPonemos a su disposición nuestras cartas que podrán ser consultadas cuando guste disfrutar de nuestros sabores durante su estadia.",
+        "texto": "En Villa Vicuña entendemos la importancia de un desayuno completo, saludable con productos frescos de estación  realizados en casa. \n\nEn nuestro menú encontrará una selección de cinco platos con distintos sabores y texturas  sugeridos por el chef, además  del buffete  con otras delicias caseras. \n\nPonemos a su disposición nuestras cartas \nque podrán ser consultadas cuando guste disfrutar de nuestros sabores durante su estadia.",
         "reseñas": [
         "El mejor desayuno que he probado.",
         "Productos frescos y de gran calidad.",
