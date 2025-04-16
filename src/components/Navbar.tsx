@@ -51,7 +51,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className="fixed top-0 left-0 w-full bg-[#F8F4EA] text-black py-2 pe-4 md:ps-16 ps-4 z-40 shadow-md"
+      className="fixed top-0 left-0 w-full bg-[#f8f4ea] text-black py-2 pe-4 md:ps-16 ps-4 z-40 shadow-md"
       role="navigation"
       aria-label="Main Navigation"
     >

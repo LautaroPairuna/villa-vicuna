@@ -29,7 +29,7 @@ export default function Nosotros() {
       if (length <= 10) return "1em";
       if (length <= 12) return "0.85em";
       if (length <= 15) return "0.65em";
-      return "0.92em";
+      return "0.94em";
     }
   
     if (screenWidth >= 1281) {
@@ -59,7 +59,7 @@ export default function Nosotros() {
       id="about-us"
       className="relative md:py-16 py-8 px-4 md:px-12 bg-white flex flex-col lg:flex-row items-center text-black mx-auto overflow-hidden"
     >
-      <div className="grid grid-cols-12 2xl:max-w-[1400px] max-w-full mx-auto text-lg relative gap-6 lg:gap-20 w-full min-w-0">
+      <div className="grid grid-cols-12 2xl:max-w-[1400px] max-w-full mx-auto text-lg relative w-full min-w-0">
         {/* Título central */}
         <h2
           className="
@@ -93,10 +93,10 @@ export default function Nosotros() {
             />
           </div>
 
-          <div className="md:text-justify text-left">
-            <p className="text-xl leading-6 relative z-10 break-words">{t("parrafo1")}</p>
-            <p className="text-xl leading-6 mt-8 relative z-10 break-words">{t("parrafo2")}</p>
-            <p className="text-xl leading-6 mt-8 relative z-10 break-words">{t("parrafo3")}</p>
+          <div className="text-left 2xl:pe-36 lg:pe-20 pe-0">
+            <p className="text-xl leading-7 tracking-[0.07em] relative z-10 break-words">{t("parrafo1")}</p>
+            <p className="text-xl leading-7 tracking-[0.07em] mt-8 relative z-10 break-words">{t("parrafo2")}</p>
+            <p className="text-xl leading-7 tracking-[0.07em] mt-8 relative z-10 break-words">{t("parrafo3")}</p>
           </div>
         </div>
 
