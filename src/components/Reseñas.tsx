@@ -227,7 +227,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
                   mt-2 lg:mt-24 relative z-10 text-left  text-lg
                   ${
                     selectedReseña.folder === "reseñas-desayuno"
-                      ? "tracking-[0.07rem] leading-6"  // valor para desayuno
+                      ? "tracking-[0.08rem] leading-6"  // valor para desayuno
                       : "tracking-[0.08rem] leading-7"  // valor por defecto
                   }
                 `}

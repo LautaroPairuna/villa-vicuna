@@ -145,9 +145,9 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
                   className="object-contain"
                 />
               </div>
-              <div className="relative z-10 text-xl px-2 md:px-0 space-y-6 leading-7">
-                <p className="text-left">{t(`${habitacion.key}.descripcion`)}</p>
-                <p className="text-left">{t(`${habitacion.key}.parrafo_minibar`)}</p>
+              <div className="relative z-10 px-2 md:px-0 space-y-6 leading-7">
+                <p className="text-left text-lg">{t(`${habitacion.key}.descripcion`)}</p>
+                <p className="text-left text-lg">{t(`${habitacion.key}.parrafo_minibar`)}</p>
                 {/* Sección de Amenities */}
                 <div className="amenities-gallery flex flex-wrap justify-start items-center gap-4 md:gap-8 mt-4">
                   {habitacion.amenities.map((amenity, index) => (
@@ -247,7 +247,7 @@ export default function HabitacionesComponent() {
 
   return (
     <section id="rooms" className="relative bg-white text-black md:px-12 px-6">
-      <div className="pointer-events-none absolute inset-0 hidden lg:block 2xl:w-full w-3/4 h-full 2xl:top-0 xl:top-7 2xl:-left-32 xl:left-0 z-10">
+      <div className="pointer-events-none absolute inset-0 hidden lg:block 2xl:w-[1150px] w-[1000px] h-full 2xl:top-28 xl:top-24 2xl:left-48 xl:left-0 z-10">
         <Image
           src="/images/fondo-carta-3-seccion.svg"
           alt="Fondo Carta"
@@ -256,7 +256,7 @@ export default function HabitacionesComponent() {
         />
       </div>
 
-      <div className="max-w-[1400px] mx-auto flex flex-col lg:flex-row items-center">
+      <div className="max-w-[1400px] w-full mx-auto flex flex-col lg:flex-row items-center">
         <div className="relative lg:hidden mb-6">
           <Image
             src="/images/fondo-carta-3-seccion.svg"
@@ -267,8 +267,8 @@ export default function HabitacionesComponent() {
           />
           <h2 className="relative text-4xl text-center mt-16">{t("titulo")}</h2>
         </div>
-        <div className="hidden lg:flex w-1/6 items-center justify-center mx-20">
-          <h2 className="text-3xl xl:text-4xl 2xl:text-5xl transform -rotate-90 whitespace-nowrap 2xl:tracking-[0.85em] tracking-[1em] text-center mb-10">
+        <div className="hidden lg:flex w-1/12 items-center justify-center mx-20">
+          <h2 className="text-3xl xl:text-4xl 2xl:text-5xl transform -rotate-90 whitespace-nowrap 2xl:tracking-[0.85em] tracking-[1.1em] text-center mb-10">
             {t("titulo")}
           </h2>
         </div>
@@ -276,10 +276,10 @@ export default function HabitacionesComponent() {
         
         {/* Se envuelve el grid en un contenedor que aplica el scale sin afectar las tarjetas */}
         <div className="">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-12 gap-y-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-20 gap-y-1">
             {habitaciones.map((hab) => (
               <div key={hab.id} className="relative mx-auto 2xl:max-w-[300px] xl:max-w-[225px] lg:max-w-[350px]">
-                <div className="relative 2xl:w-[300px] 2xl:h-[300px] sm:w-[225px] sm:h-[225px] w-[300px] h-[300px] overflow-hidden mx-auto">
+                <div className="relative 2xl:w-[300px] 2xl:h-[300px] sm:w-[250px] sm:h-[250px] w-[300px] h-[300px] overflow-hidden mx-auto">
                   <Image
                     src={`/images/Habitaciones/${hab.imagen}`}
                     alt={t(`${hab.key}.nombre`)}
