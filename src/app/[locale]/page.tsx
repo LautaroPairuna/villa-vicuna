@@ -1,6 +1,5 @@
 // src/app/[locale]/page.tsx
 import { setRequestLocale } from 'next-intl/server';
-import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Nosotros from "@/components/Nosotros";
@@ -41,7 +40,6 @@ export default async function LocalePage({ params }: LocalePageProps) {
       </main>
       <WhatsappLink />
       <footer>
-        {/* Aquí usamos la versión sin SSR */}
         <Contacto />
       </footer>
     </>
