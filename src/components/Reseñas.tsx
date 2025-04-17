@@ -379,8 +379,8 @@ export default function ReseñasSection() {
   }, []);
 
   return (
-    <section id="reviews" className="relative md:px-12 px-6 lg:pt-36 pt-10 pb-10 bg-white text-black">
-      <div className="max-w-[1400px] mx-auto relative z-10">
+    <section id="reviews" className="relative lg:pt-36 pt-10 pb-10 bg-white text-black">
+      <div className="max-w-[1200px] mx-auto relative z-10">
         <div className="absolute -top-[9%] left-1/2 -translate-x-1/2 w-[350px] h-[350px] pointer-events-none -z-10 sm:-top-[8%] sm:w-[350px] sm:h-[350px] md:-top-[30%] md:w-[450px] md:h-[450px] lg:-top-[33%] lg:w-[775px] lg:h-[600px]">
           <Image
             src="/images/fondo-carta-1.svg"
@@ -392,8 +392,8 @@ export default function ReseñasSection() {
         <h2 className="xl:text-9xl lg:text-8xl md:text-6xl text-4xl mb-8 md:tracking-[.60em] tracking-[0.1em] text-center ms-5">
           {tReseñas("titulo")}
         </h2>
-        <p className="text-xl leading-7 tracking-[0.07em]">{tReseñas("descripcion")}</p>
-        <p className="text-xl leading-7 tracking-[0.07em]">{tReseñas("gracias")}</p>
+        <p className="text-xl leading-7 tracking-[0.03em]">{tReseñas("descripcion")}</p>
+        <p className="text-xl leading-7 tracking-[0.03em]">{tReseñas("gracias")}</p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mt-5">
           {reseñas.map((reseña: ReseñaItem) => (
             <ReseñaCard key={reseña.id} reseña={reseña} onClick={handleCardClick} />

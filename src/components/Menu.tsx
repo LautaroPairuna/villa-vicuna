@@ -51,10 +51,10 @@ export default function Menu() {
 
   return (
     <section id="menu" className="relative bg-white text-black md:py-8 md:px-12 xl:py-16 xl:px-16">
-      <div className="max-w-[1400px] mx-auto flex flex-col lg:flex-row items-center justify-center">
+      <div className="max-w-[1200px] mx-auto flex flex-col lg:flex-row items-center justify-center">
         {/* Título vertical en Desktop */}
         <div className="hidden lg:flex w-1/6 items-center justify-center relative">
-          <div className="absolute 2xl:left-[30%] xl:left-[40%] -top-[10%] -translate-x-1/2 -translate-y-1/2 w-[200px] h-[400px] lg:w-[750px] lg:h-[600px] pointer-events-none z-0">
+          <div className="absolute 2xl:left-[30%] xl:left-[40%] -top-[10%] -translate-x-1/2 -translate-y-1/2 w-[200px] h-[300px] lg:w-[600px] lg:h-[300px] pointer-events-none z-0">
             <Image
               src="/images/fondo-carta-1.svg"
               alt="Fondo Carta"
@@ -62,7 +62,7 @@ export default function Menu() {
               className="object-contain -rotate-90"
             />
           </div>
-          <h2 className="text-4xl lg:text-5xl transform -rotate-90 whitespace-nowrap tracking-[0.45em] relative z-10">
+          <h2 className="text-4xl transform -rotate-90 whitespace-nowrap tracking-[0.68em] relative z-10 titulo-menu">
             {t("titulo")}
           </h2>
         </div>

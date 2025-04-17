@@ -69,9 +69,12 @@ p, a, li {
   font-family: "Migra ExtraLigth", sans-serif;
 }
 
+.titulo-menu {
+  font-family: "Migra ExtraLigth", sans-serif;
+}
+
 .resenas-texto {
   font-family: "Monotype Corsiva", cursive;
-  font-style: italic;
 }
 
 /* Estilos base del body y scroll */

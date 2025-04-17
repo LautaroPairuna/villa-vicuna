@@ -25,15 +25,7 @@ export default function Contacto() {
 
   const calculateTracking = (text: string) => {
     const length = text.length;
-    if (screenWidth < 1500) {
-      if (length <= 5) return "tracking-[0.8em]";
-      if (length <= 8) return "tracking-[0.7em]";
-      if (length <= 10) return "tracking-[0.9em]";
-      if (length <= 12) return "tracking-[.85em]";
-      if (length <= 15) return "tracking-[0.5em]";
-      return "tracking-[0.6em]";
-    }
-    if (screenWidth < 1300) {
+    if (screenWidth <= 1500) {
       if (length <= 5) return "tracking-[0.8em]";
       if (length <= 8) return "tracking-[0.7em]";
       if (length <= 10) return "tracking-[0.9em]";
@@ -41,18 +33,26 @@ export default function Contacto() {
       if (length <= 15) return "tracking-[0.5em]";
       return "tracking-[0.6em]";
     }
+    if (screenWidth <= 1300) {
+      if (length <= 5) return "tracking-[0.8em]";
+      if (length <= 8) return "tracking-[0.7em]";
+      if (length <= 10) return "tracking-[0.9em]";
+      if (length <= 12) return "tracking-[.70em]";
+      if (length <= 15) return "tracking-[0.5em]";
+      return "tracking-[0.6em]";
+    }
     if (screenWidth > 1500) {
       if (length <= 5) return "tracking-[0.8em]";
       if (length <= 8) return "tracking-[0.7em]";
       if (length <= 10) return "tracking-[0.9em]";
-      if (length <= 12) return "tracking-[1.05em]";
+      if (length <= 12) return "tracking-[.75em]";
       if (length <= 15) return "tracking-[0.5em]";
       return "tracking-[0.6em]";
     }
     if (length <= 5) return "tracking-[1em]";
     if (length <= 8) return "tracking-[0.95em]";
     if (length <= 10) return "tracking-[1.1em]";
-    if (length <= 12) return "tracking-[0.75em]";
+    if (length <= 12) return "tracking-[0.70em]";
     if (length <= 15) return "tracking-[0.70em]";
     return "tracking-[0.40em]";
   };
@@ -62,7 +62,7 @@ export default function Contacto() {
       id="contact"
       className="relative bg-white text-black px-4 sm:px-12 lg:px-16 py-12 lg:py-20"
     >
-      <div className="max-w-[1400px] mx-auto relative">
+      <div className="max-w-[1200px] mx-auto relative">
         {/* Título móvil */}
         <h2 className="block lg:hidden text-4xl text-center uppercase mb-6">
           {tituloCompleto}
@@ -70,7 +70,7 @@ export default function Contacto() {
 
         {/* Título desktop */}
         <h2
-          className={`hidden lg:block absolute top-[10%] left-1/2 -translate-x-1/2 text-4xl lg:text-7xl uppercase text-center z-10 w-full ${calculateTracking(
+          className={`hidden lg:block absolute top-[10%] left-1/2 -translate-x-1/2 text-[2.25em] lg:text-[4.8em] uppercase text-center z-10 w-full ${calculateTracking(
             tituloCompleto
           )}`}
         >
@@ -190,7 +190,7 @@ export default function Contacto() {
           </div>
 
           {/* Bloque derecho: Imagen */}
-          <div className="relative w-full aspect-[6/7] justify-center items-center lg:flex hidden">
+          <div className="relative w-full aspect-[6/7] justify-center items-center lg:flex hidden xl:ms-6 2xl:ms-10">
             <Image
               src="/images/contactenos.jpg"
               alt="Hotel Interior"
@@ -201,7 +201,7 @@ export default function Contacto() {
         </div>
 
         {/* Fondo carta (desktop) */}
-        <div className="hidden lg:block absolute bottom-[15%] left-[54%] -translate-x-1/2 w-[300px] h-[200px] lg:w-[600px] lg:h-[450px] opacity-55 z-20">
+        <div className="hidden lg:block absolute bottom-[15%] xl:left-[56.5%] 2xl:left-[58%] -translate-x-1/2 w-[300px] h-[200px] lg:w-[600px] lg:h-[450px] opacity-55 z-20">
           <Image
             src="/images/fondo-carta-4.svg"
             alt="Fondo Carta 4"
@@ -211,7 +211,7 @@ export default function Contacto() {
         </div>
 
         {/* Botón desktop */}
-        <div className="hidden lg:block absolute bottom-[5%] left-[51%] -translate-x-1/2 z-30">
+        <div className="hidden lg:block absolute bottom-[5%] xl:left-[53%] 2xl:left-[54%] -translate-x-1/2 z-30">
           <button className="bg-[#e3d6b5] text-black p-4 text-xl font-semibold shadow-md hover:bg-[#d6c3a2] transition-all rounded-full">
             <a
               href="https://bit.ly/HotelVillaVicunaSalta"
