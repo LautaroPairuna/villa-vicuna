@@ -29,7 +29,7 @@ export default function Nosotros() {
       if (length <= 10) return "1em";
       if (length <= 12) return "0.85em";
       if (length <= 15) return "0.65em";
-      return "0.94em";
+      return "0.70em";
     }
   
     if (screenWidth >= 1281) {
@@ -38,7 +38,7 @@ export default function Nosotros() {
       if (length <= 10) return "0.95em";
       if (length <= 12) return "0.8em";
       if (length <= 15) return "0.6em";
-      return "0.78em";
+      return "0.59em";
     }
   
     if (length <= 5) return "1em";
@@ -59,11 +59,11 @@ export default function Nosotros() {
       id="about-us"
       className="relative md:py-16 py-8 px-4 md:px-12 bg-white flex flex-col lg:flex-row items-center text-black mx-auto overflow-hidden"
     >
-      <div className="grid grid-cols-12 2xl:max-w-[1400px] max-w-full mx-auto text-lg relative w-full min-w-0">
+      <div className="grid grid-cols-12 lg:max-w-[1200px] max-w-full mx-auto text-lg relative w-full min-w-0">
         {/* Título central */}
         <h2
           className="
-            absolute lg:top-[60px] -top-[10px] w-full text-center
+            absolute lg:top-[80px] -top-[10px] w-full text-center
             text-4xl lg:text-5xl z-20 uppercase
           "
           style={{ letterSpacing }}
@@ -73,35 +73,35 @@ export default function Nosotros() {
         </h2>
 
         {/* Contenido de texto */}
-        <div className="lg:col-span-6 col-span-12 relative z-10 bg-white lg:pt-36 pt-20 md:pb-10 pb-0">
+        <div className="lg:col-span-6 col-span-12 relative z-10 bg-white lg:pt-44 pt-20 md:pb-10 pb-0">
           <div
             className="
-              absolute left-[50%] xl:left-[75%] 2xl:left-[80%]
-              bottom-[0%] md:bottom-[-0%] lg:bottom-[-25%] 2xl:bottom-[-18%]
+              absolute left-[50%] xl:left-[75%] 2xl:left-[74%]
+              bottom-[0%] md:bottom-[-0%] lg:bottom-[-25%] 2xl:bottom-[-22%]
               -translate-x-1/2 w-[350px] h-[300px] opacity-100 pointer-events-none -z-10
               sm:w-[350px] sm:h-[280px]
               md:w-[500px] md:h-[380px]
               xl:w-[1050px] xl:h-[750px]
-              2xl:w-[1250px] 2xl:h-[750px]
+              2xl:w-[1100px] 2xl:h-[700px]
             "
           >
             <Image
               src="/images/fondo-carta-2.svg"
               alt="Fondo Carta 2"
               fill
-              className="object-contain w-[1250px] h-[700px]"
+              className="object-contain w-[1150px] h-[700px]"
             />
           </div>
 
-          <div className="text-left 2xl:pe-36 lg:pe-20 pe-0">
-            <p className="text-xl leading-7 tracking-[0.07em] relative z-10 break-words">{t("parrafo1")}</p>
-            <p className="text-xl leading-7 tracking-[0.07em] mt-8 relative z-10 break-words">{t("parrafo2")}</p>
-            <p className="text-xl leading-7 tracking-[0.07em] mt-8 relative z-10 break-words">{t("parrafo3")}</p>
+          <div className="text-left 2xl:pe-0 lg:pe-16 pe-0">
+            <p className="text-xl leading-7 tracking-[0.12em] relative z-10 break-words">{t("parrafo1")}</p>
+            <p className="text-xl leading-7 tracking-[0.12em] mt-8 relative z-10 break-words">{t("parrafo2")}</p>
+            <p className="text-xl leading-7 tracking-[0.12em] mt-8 relative z-10 break-words">{t("parrafo3")}</p>
           </div>
         </div>
 
         {/* Imagen */}
-        <div className="relative lg:col-span-6 col-span-12 h-[400px] sm:h-[600px] md:h-[800px] w-full">
+        <div className="relative lg:col-span-6 col-span-12 h-[650px] sm:h-[600px] md:h-[725px] w-full ms-12">
           <Image
             src="/images/nosotros.jpg"
             alt={t("imagenAlt")}
