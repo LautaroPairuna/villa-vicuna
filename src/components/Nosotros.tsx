@@ -61,7 +61,7 @@ export default function Nosotros() {
     >
       <h2
         className="
-          2xl:absolute relative lg:top-[130px] -top-[10px] w-full text-center
+          lg:absolute relative lg:top-[130px] -top-[10px] w-full text-center
           text-4xl lg:text-5xl z-20 uppercase lg:me-20
         "
         style={{ letterSpacing }}
