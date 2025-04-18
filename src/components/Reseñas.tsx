@@ -379,7 +379,7 @@ export default function ReseñasSection() {
   }, []);
 
   return (
-    <section id="reviews" className="relative lg:pt-36 pt-10 pb-10 bg-white text-black">
+    <section id="reviews" className="relative lg:pt-36 pt-10 pb-10 px-5 bg-white text-black">
       <div className="max-w-[1200px] mx-auto relative z-10">
         <div className="absolute -top-[9%] left-1/2 -translate-x-1/2 w-[350px] h-[350px] pointer-events-none -z-10 sm:-top-[8%] sm:w-[350px] sm:h-[350px] md:-top-[30%] md:w-[450px] md:h-[450px] lg:-top-[33%] lg:w-[775px] lg:h-[600px]">
           <Image

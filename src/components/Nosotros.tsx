@@ -61,19 +61,19 @@ export default function Nosotros() {
     >
       <h2
         className="
-          absolute lg:top-[130px] -top-[10px] w-full text-center
-          text-4xl lg:text-5xl z-20 uppercase me-20
+          2xl:absolute relative lg:top-[130px] -top-[10px] w-full text-center
+          text-4xl lg:text-5xl z-20 uppercase lg:me-20
         "
         style={{ letterSpacing }}
       >
-        <span className="block lg:inline text-black me-auto md:me-8">{tituloParte1}</span> 
-        <span className="block lg:inline text-black font-normal md:me-8">{tituloParte2}</span>
+        <span className="block lg:inline text-black me-auto lg:me-8">{tituloParte1}</span> 
+        <span className="block lg:inline text-black font-normal lg:me-8">{tituloParte2}</span>
       </h2>
-      <div className="grid grid-cols-12 lg:max-w-[1200px] max-w-full mx-auto text-lg relative w-full min-w-0">
+      <div className="grid grid-cols-12 lg:max-w-[1200px] max-w-full mx-auto text-lg relative w-full min-w-0 lg:gap-0 gap-5">
         {/* Título central */}
 
         {/* Contenido de texto */}
-        <div className="lg:col-span-6 col-span-12 relative z-10 bg-white lg:pt-44 pt-20 md:pb-10 pb-0">
+        <div className="lg:col-span-6 col-span-12 relative z-10 bg-white lg:pt-44 pt-2 md:pb-10 pb-0">
           <div
             className="
               absolute left-[50%] xl:left-[75%] 2xl:left-[74%]
@@ -101,7 +101,7 @@ export default function Nosotros() {
         </div>
 
         {/* Imagen */}
-        <div className="relative lg:col-span-6 col-span-12 h-[650px] sm:h-[600px] md:h-[725px] w-full ms-12">
+        <div className="relative lg:col-span-6 col-span-12 h-[650px] sm:h-[600px] md:h-[725px] w-full lg:ms-12">
           <Image
             src="/images/nosotros.jpg"
             alt={t("imagenAlt")}
