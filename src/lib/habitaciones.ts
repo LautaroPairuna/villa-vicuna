@@ -25,9 +25,9 @@ export function Habitaciones(): Habitacion[] {
       imagen: "twin-interna.jpg",
       folder: "habitaciones-twin-interna",
       carrusel: [
-        "interna-1.png",
+        "interna-1.jpg",
         "interna-2.png",
-        "interna-3.png",
+        "interna-3.jpg",
       ],
       amenities: [
         { nombre: "wifi", icono: "ico-wifi.svg" },

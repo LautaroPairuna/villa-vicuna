@@ -1,11 +1,11 @@
 "use client";
 
-import { useTranslations } from "next-intl";
-import Image from "next/image";
+// import { useTranslations } from "next-intl";
+// import Image from "next/image";
 import React, { memo } from "react";
 
 const Hero = memo(() => {
-  const t = useTranslations("hero");
+  // const t = useTranslations("hero");
 
   return (
     <section
@@ -24,10 +24,10 @@ const Hero = memo(() => {
           <source src="/videos/video-home.mp4" type="video/mp4" />
           Tu navegador no soporta videos en HTML5.
         </video>
-        <div className="absolute inset-0 bg-black bg-opacity-80" />
+        {/* <div className="absolute inset-0 bg-black bg-opacity-80" /> */}
       </div>
 
-      <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-6 sm:px-12">
+      {/* <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-6 sm:px-12">
         <div className="relative border border-white/50 rounded-lg p-6 sm:p-10 max-w-3xl">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl uppercase tracking-widest">
             {t("tituloParte1")}
@@ -58,7 +58,7 @@ const Hero = memo(() => {
             </a>
           </div>
         </div>
-      </div>
+      </div> */}
     </section>
   );
 });
