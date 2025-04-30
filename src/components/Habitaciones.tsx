@@ -93,8 +93,7 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
         className="bg-white 
           pt-4 sm:pt-6 md:pt-8 lg:pt-10 
           pb-2 sm:pb-4 md:pb-6 lg:pb-8 
-          px-4 sm:px-8 md:px-12 lg:px-20 
-          pe-4 sm:pe-6 md:pe-10 lg:pe-16
+          px-4 sm:px-8 md:px-12 lg:px-16 
           w-full max-w-md md:max-w-6xl 
           relative transform transition-transform duration-300 scale-95 animate-fadeIn max-h-screen 
           mt-8 md:mt-0 
@@ -155,8 +154,8 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
                       <Image
                         src={`/images/icons/habitaciones/${amenity.icono}`}
                         alt={amenity.nombre}
-                        width={38}
-                        height={38}
+                        width={32}
+                        height={32}
                         className="object-contain"
                       />
                     </div>
