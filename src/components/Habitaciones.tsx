@@ -95,7 +95,7 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
           pb-2 sm:pb-4 md:pb-6 lg:pb-8 
           px-4 sm:px-8 md:px-12 lg:px-20 
           pe-4 sm:pe-6 md:pe-10 lg:pe-16
-          w-full max-w-md md:max-w-7xl 
+          w-full max-w-md md:max-w-6xl 
           relative transform transition-transform duration-300 scale-95 animate-fadeIn max-h-screen 
           mt-8 md:mt-0 
           overflow-y-auto md:overflow-visible"
@@ -123,7 +123,7 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
             relative md:absolute md:top-[10%] md:left-1/2 md:-translate-x-1/2
             text-4xl md:text-8xl leading-tight md:leading-normal uppercase z-10 w-full text-center
             md:mt-0 mt-4 font-normal
-            ${habitacion.categoria === "standard" ? "tracking-[0.78em]" : "tracking-[0.88em]"}
+            ${habitacion.categoria === "standard" ? "tracking-[0.62em]" : "tracking-[0.72em]"}
           `}
         >
           <span className="text-black">{categoriaBlack}</span>
@@ -132,7 +132,7 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
           </span>
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-12">
-          <div className="col-span-1 md:col-span-7 relative pt-2 lg:pt-36 lg:pe-[3.5rem]">
+          <div className="col-span-1 md:col-span-7 relative pt-2 lg:pt-36 lg:pe-[2rem]">
             <h4 className="text-2xl uppercase text-gray-700 z-10 w-full text-center tracking-[.65em] md:mt-6 mt-2 titulo-habitaciones-nombre">
               {t(`${habitacion.key}.nombre`)}
             </h4>

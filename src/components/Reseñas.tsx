@@ -239,11 +239,11 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
                 <Slider {...commentsSliderSettings}>
                   {detalles.map((detalle, i) => (
                     <div key={i}>
-                      <div className="bg-[#f8f4ea] bg-opacity-50 rounded-2xl py-4 px-2 transition-transform duration-300 hover:scale-105">
+                      <div className="bg-[#f8f4ea] bg-opacity-50 rounded-2xl py-4 px-2">
                         <p className="text-lg leading-6 resenas-texto mb-3 text-left">
                           {tGlobal(detalle.comentarioKey)}
                         </p>
-                        <p className="text-base sm:text-md leading-3 resenas-texto text-left">
+                        <p className="text-base sm:text-md leading-3 resenas-texto text-right font-semibold">
                           - {detalle.autor}, {detalle.pais}
                         </p>
                       </div>
@@ -254,7 +254,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
             </div>
 
             {/* Carrusel de imágenes manual con animación */}
-            <div className="relative col-span-1 lg:col-span-5 w-full aspect-[4/3] lg:aspect-[2/3] flex items-center justify-center">
+            <div className="relative col-span-1 lg:col-span-5 w-full aspect-[4/3] lg:aspect-[5/7] flex items-center justify-center">
               <div className="relative w-full h-full overflow-hidden">
                 <AnimatePresence custom={direction}>
                   <motion.div
