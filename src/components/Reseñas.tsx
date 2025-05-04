@@ -54,10 +54,10 @@ function splitTitle(raw: string): { part1: string; part2: string; full: string }
 
 function calculateTrackingBase(text: string): number {
   const length = text.length;
-  if (length <= 8) return 1.55;
-  if (length <= 11) return .82;
-  if (length <= 12) return .75;
-  if (length <= 15) return 0.65;
+  if (length <= 8) return 1.25;
+  if (length <= 11) return .68;
+  if (length <= 12) return .60;
+  if (length <= 15) return 0.66;
   return 0.4;
 }
 
@@ -178,7 +178,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
         onClick={onClose}
       >
         <motion.div
-          className="bg-white pt-4 sm:pt-6 md:pt-8 lg:pt-10 pb-2 sm:pb-4 md:pb-6 lg:pb-8 px-4 sm:px-8 md:px-14 pe-4 sm:pe-6 md:pe-10 lg:pe-16 w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-5xl xl:max-w-6xl relative transform overflow-hidden"
+          className="bg-white pt-4 sm:pt-6 md:pt-8 lg:pt-10 pb-2 sm:pb-4 md:pb-6 lg:pb-8 px-4 sm:px-8 md:px-14 pe-4 sm:pe-6 md:pe-10 lg:pe-16 w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-5xl relative transform overflow-hidden"
           variants={modalVariants}
           initial="hidden"
           animate="visible"
@@ -196,16 +196,21 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
           </button>
 
           <h3
-            className="relative lg:absolute lg:top-[15%] lg:left-1/2 lg:-translate-x-1/2 text-3xl sm:text-4xl lg:text-6xl uppercase z-10 w-full text-center mt-8 sm:mt-6 lg:mt-0 lg:ms-4 ms-0 text-black"
+            className={`relative lg:absolute lg:left-1/2 lg:-translate-x-1/2 text-3xl sm:text-4xl lg:text-6xl uppercase z-10 w-full text-center mt-8 sm:mt-6 lg:mt-0 lg:ms-4 ms-0 text-black
+              ${
+                selectedReseña.folder === "reseñas-desayuno"
+                  ? "lg:top-[12%]"  // valor para desayuno
+                  : "lg:top-[15%]"  // valor por defecto
+              }  
+            `}
             style={{ letterSpacing: `${computedTracking}em` }}
           >
             <span className="whitespace-nowrap">{part1}</span>
             <span className="whitespace-nowrap lg:text-white text-black">{part2}</span>
           </h3>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 text-black">
-            <div className="flex flex-col col-span-1 lg:col-span-7 pt-2 lg:pt-16 relative lg:pe-[5rem]">
-              <div className="absolute lg:top-[77%] top-[50%] lg:-left-[15%] left-[20%] inset-0 pointer-events-none z-10 flex justify-center items-center lg:w-[825px] w-[250px] h-[250px]">
+          <div className="grid grid-cols-1 lg:grid-cols-12 text-black gap-6">
+            <div className="flex flex-col col-span-1 lg:col-span-7 pt-2 relative lg:pe-[2em]">
+              <div className="absolute lg:top-[77%] top-[50%] lg:-left-[18%] left-[20%] inset-0 pointer-events-none z-10 flex justify-center items-center lg:w-[825px] w-[250px] h-[250px]">
                 <Image
                   src="/images/fondo-carta-5.svg"
                   alt="Personal Review Background"
@@ -215,11 +220,11 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
               </div>
               <p
                 className={`
-                  relative z-10 text-left
+                  relative z-10 text-left pe-[1.5em]
                   ${
                     selectedReseña.folder === "reseñas-desayuno"
-                      ? "tracking-[0.08rem] leading-6 text-lg mt-2 lg:mt-20"  // valor para desayuno
-                      : "tracking-[0.08rem] leading-7 text-lg mt-2 lg:mt-24"  // valor por defecto
+                      ? "tracking-[0.08rem] leading-6 text-base mt-2 lg:mt-24"  // valor para desayuno
+                      : "tracking-[0.08rem] leading-7 text-base mt-2 lg:mt-32"  // valor por defecto
                   }
                 `}
                 style={{ whiteSpace: "pre-line" }}
@@ -237,12 +242,9 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
                     const starsSrc = `/images/icons/ico-five-stars.svg`;
 
                     return (
-                      <div key={i} className="px-2">
-                        {/* Contenedor relativo */}
-                        <div className="relative bg-[#f6f0e1] bg-opacity-70 rounded-2xl pb-6 pt-12 px-4">
-
-                          {/* 1) Bandera en la esquina superior derecha */}
-                          <div className="absolute top-3 right-3">
+                      <div key={i}>
+                        <div className="relative bg-[#f6f0e1] bg-opacity-70 rounded-2xl pb-2 pt-8 px-4">
+                          <div className="absolute top-2 right-2">
                             <Image
                               src={flagSrc}
                               alt={detalle.pais}
@@ -250,13 +252,9 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
                               height={32}
                             />
                           </div>
-
-                          {/* 2) Texto de la reseña */}
-                          <p className="text-lg leading-6 resenas-texto mb-2 text-left">
+                          <p className="text-base leading-6 resenas-texto text-left pe-[1em]">
                             {tGlobal(detalle.comentarioKey)}
                           </p>
-
-                          {/* 3) Autor + estrellas, alineados a la derecha */}
                           <div className="flex items-center justify-end space-x-2 mb-2">
                             <span className="text-lg font-semibold resenas-texto">{detalle.autor}</span>
                             <Image
@@ -275,7 +273,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
             </div>
 
             {/* Carrusel de imágenes manual con animación */}
-            <div className="relative col-span-1 lg:col-span-5 w-full aspect-[4/3] lg:aspect-[5/7] flex items-center justify-center">
+            <div className="relative col-span-1 lg:col-span-5 w-full aspect-[4/3] lg:aspect-[6/9] flex items-center justify-center">
               <div className="relative w-full h-full overflow-hidden">
                 <AnimatePresence custom={direction}>
                   <motion.div
