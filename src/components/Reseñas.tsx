@@ -204,7 +204,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
           </h3>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 text-black">
-            <div className="flex flex-col col-span-1 lg:col-span-7 pt-2 lg:pt-16 relative lg:pe-[4rem]">
+            <div className="flex flex-col col-span-1 lg:col-span-7 pt-2 lg:pt-16 relative lg:pe-[5rem]">
               <div className="absolute lg:top-[77%] top-[50%] lg:-left-[15%] left-[20%] inset-0 pointer-events-none z-10 flex justify-center items-center lg:w-[825px] w-[250px] h-[250px]">
                 <Image
                   src="/images/fondo-carta-5.svg"
@@ -218,8 +218,8 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
                   relative z-10 text-left
                   ${
                     selectedReseña.folder === "reseñas-desayuno"
-                      ? "tracking-[0.08rem] leading-6 text-base mt-2 lg:mt-16"  // valor para desayuno
-                      : "tracking-[0.08rem] leading-7 text-lg mt-2 lg:mt-24 "  // valor por defecto
+                      ? "tracking-[0.08rem] leading-6 text-lg mt-2 lg:mt-20"  // valor para desayuno
+                      : "tracking-[0.08rem] leading-7 text-lg mt-2 lg:mt-24"  // valor por defecto
                   }
                 `}
                 style={{ whiteSpace: "pre-line" }}
