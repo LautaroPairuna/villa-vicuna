@@ -146,8 +146,8 @@ export function Habitaciones(): Habitacion[] {
         { nombre: "aire", icono: "ico-aire.svg" },
         { nombre: "smart-tv", icono: "ico-smart-tv.svg" },
         { nombre: "shampoo", icono: "ico-shampoo.svg" },
- 
- { nombre: "caja-fuerte", icono: "ico-caja-fuerte.svg" },       { nombre: "minibar", icono: "ico-minibar.svg" },
+        { nombre: "caja-fuerte", icono: "ico-caja-fuerte.svg" },
+        { nombre: "minibar", icono: "ico-minibar.svg" },
         { nombre: "bata", icono: "ico-bata.svg" },
         { nombre: "banera", icono: "ico-banera.svg" },
         { nombre: "tetera", icono: "ico-tetera.svg" },

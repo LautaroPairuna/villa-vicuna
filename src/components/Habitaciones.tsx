@@ -93,8 +93,8 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
         className="bg-white 
           pt-4 sm:pt-6 md:pt-8 lg:pt-10 
           pb-2 sm:pb-4 md:pb-6 lg:pb-8 
-          px-4 sm:px-8 md:px-12 lg:px-16 
-          w-full max-w-md md:max-w-6xl 
+          px-4 sm:px-8 md:px-12 lg:px-10 
+          w-full max-w-md lg:max-w-5xl 2xl:max-w-7xl  
           relative transform transition-transform duration-300 scale-95 animate-fadeIn max-h-screen 
           mt-8 md:mt-0 
           overflow-y-auto md:overflow-visible"
@@ -122,7 +122,7 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
             relative md:absolute md:top-[10%] md:left-1/2 md:-translate-x-1/2
             text-4xl md:text-8xl leading-tight md:leading-normal uppercase z-10 w-full text-center
             md:mt-0 mt-4 font-normal
-            ${habitacion.categoria === "standard" ? "tracking-[0.62em]" : "tracking-[0.72em]"}
+            ${habitacion.categoria === "standard" ? "2xl:tracking-[0.80em] xl:tracking-[0.48em]" : "2xl:tracking-[0.90em] xl:tracking-[0.58em]"}
           `}
         >
           <span className="text-black">{categoriaBlack}</span>
@@ -130,9 +130,14 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
             {categoriaWhite}
           </span>
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-12">
-          <div className="col-span-1 md:col-span-7 relative pt-2 lg:pt-36 lg:pe-[2rem]">
-            <h4 className="text-2xl uppercase text-gray-700 z-10 w-full text-center tracking-[.65em] md:mt-6 mt-2 titulo-habitaciones-nombre">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
+          <div className="col-span-1 md:col-span-7 relative pt-2 lg:pt-36 2xl:pe-[2rem]">
+            <h4 className={`text-2xl uppercase text-gray-700 z-10 w-full text-center mt-2 titulo-habitaciones-nombre
+              ${habitacion.key === "jardin" ? "tracking-[2rem]" : "tracking-[.95em]"}
+              ${habitacion.key === "balcon" ? "tracking-[2rem]" : "tracking-[.95em]"}
+              ${habitacion.key === "twin_interna" ? "tracking-[.85rem]" : "tracking-[.95em]"}
+              ${habitacion.key === "twin_externa" ? "tracking-[.85rem]" : "tracking-[.95em]"}
+            `}>
               {t(`${habitacion.key}.nombre`)}
             </h4>
             <div className="relative mt-2">
@@ -144,18 +149,20 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
                   className="object-contain"
                 />
               </div>
-              <div className="relative z-10 px-2 md:px-0 space-y-6 leading-7">
-                <p className="text-left text-lg">{t(`${habitacion.key}.descripcion`)}</p>
-                <p className="text-left text-lg">{t(`${habitacion.key}.parrafo_minibar`)}</p>
+              <div className="relative z-10 px-2 md:px-0 leading-7 xl:pe-[3rem]">
+                <div className="space-y-6">
+                  <p className="text-left 2xl:text-lg text-base">{t(`${habitacion.key}.descripcion`)}</p>
+                  <p className="text-left 2xl:text-lg text-base">{t(`${habitacion.key}.parrafo_minibar`)}</p>
+                </div>
                 {/* Sección de Amenities */}
-                <div className="amenities-gallery flex flex-wrap justify-start items-center gap-4 md:gap-8 mt-4">
+                <div className="amenities-gallery flex flex-wrap justify-start items-center mt-24">
                   {habitacion.amenities.map((amenity, index) => (
-                    <div key={index} className="flex flex-col items-center">
+                    <div key={index} className="flex flex-col items-center me-auto">
                       <Image
                         src={`/images/icons/habitaciones/${amenity.icono}`}
                         alt={amenity.nombre}
-                        width={32}
-                        height={32}
+                        width={48}
+                        height={48}
                         className="object-contain"
                       />
                     </div>

@@ -101,7 +101,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
 
   const computedTracking = useMemo(() => {
     const baseTracking = calculateTrackingBase(full);
-    const factor = width && width < 768 ? 0.3 : width && width < 1024 ? 0.6 : 1.15;
+    const factor = width && width < 768 ? 0.3 : width && width < 1024 ? 0.6 : 1.23;
     return baseTracking * factor;
   }, [full, width]);
 
@@ -178,7 +178,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
         onClick={onClose}
       >
         <motion.div
-          className="bg-white pt-4 sm:pt-6 md:pt-8 lg:pt-10 pb-2 sm:pb-4 md:pb-6 lg:pb-8 px-4 sm:px-8 md:px-12 lg:px-20 pe-4 sm:pe-6 md:pe-10 lg:pe-16 w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-5xl xl:max-w-6xl relative transform overflow-hidden"
+          className="bg-white pt-4 sm:pt-6 md:pt-8 lg:pt-10 pb-2 sm:pb-4 md:pb-6 lg:pb-8 px-4 sm:px-8 md:px-14 pe-4 sm:pe-6 md:pe-10 lg:pe-16 w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-5xl xl:max-w-6xl relative transform overflow-hidden"
           variants={modalVariants}
           initial="hidden"
           animate="visible"
@@ -187,19 +187,10 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
           onClick={(e) => e.stopPropagation()}
         >
           <button
-            className="absolute lg:top-6 top-1 left-0 text-3xl sm:text-4xl lg:text-5xl text-[#9ea4ae] bg-[#17273f] rounded-tr-full rounded-br-full lg:px-5 px-1 sm:py-3 py-2 flex items-center"
+            className="absolute md:top-6 top-1 left-0 text-xl sm:text-2xl md:text-5xl text-[#9ea4ae] bg-[#17273f] rounded-tr-full rounded-br-full lg:px-4 px-2 sm:py-3 py-2 flex items-center"
             onClick={onClose}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-8 w-8"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path d="M18 6L6 18M6 6l12 12" />
             </svg>
           </button>
@@ -214,7 +205,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 text-black">
             <div className="flex flex-col col-span-1 lg:col-span-7 pt-2 lg:pt-16 relative lg:pe-[4rem]">
-              <div className="absolute lg:top-[77%] top-[50%] lg:-left-[18%] left-[20%] inset-0 pointer-events-none z-10 flex justify-center items-center lg:w-[825px] w-[250px] h-[250px]">
+              <div className="absolute lg:top-[77%] top-[50%] lg:-left-[15%] left-[20%] inset-0 pointer-events-none z-10 flex justify-center items-center lg:w-[825px] w-[250px] h-[250px]">
                 <Image
                   src="/images/fondo-carta-5.svg"
                   alt="Personal Review Background"
@@ -224,11 +215,11 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
               </div>
               <p
                 className={`
-                  mt-2 lg:mt-24 relative z-10 text-left  text-lg
+                  relative z-10 text-left
                   ${
                     selectedReseña.folder === "reseñas-desayuno"
-                      ? "tracking-[0.08rem] leading-6"  // valor para desayuno
-                      : "tracking-[0.08rem] leading-7"  // valor por defecto
+                      ? "tracking-[0.08rem] leading-6 text-base mt-2 lg:mt-16"  // valor para desayuno
+                      : "tracking-[0.08rem] leading-7 text-lg mt-2 lg:mt-24 "  // valor por defecto
                   }
                 `}
                 style={{ whiteSpace: "pre-line" }}
