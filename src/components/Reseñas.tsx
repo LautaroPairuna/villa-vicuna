@@ -112,7 +112,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 4000,
+    autoplaySpeed: 6000,
     arrows: true,
     centerMode: false,
     variableWidth: false,
@@ -226,20 +226,50 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
               >
                 {tGlobal(selectedReseña.textoKey)}
               </p>
-              <div className="mt-6 relative z-10 w-full overflow-hidden">
+              <div className="mt-6 relative z-10 w-full overflow-hidden mb-4">
                 <Slider {...commentsSliderSettings}>
-                  {detalles.map((detalle, i) => (
-                    <div key={i}>
-                      <div className="bg-[#f8f4ea] bg-opacity-50 rounded-2xl py-4 px-2">
-                        <p className="text-lg leading-6 resenas-texto mb-3 text-left">
-                          {tGlobal(detalle.comentarioKey)}
-                        </p>
-                        <p className="text-base sm:text-md leading-3 resenas-texto text-right font-semibold">
-                          - {detalle.autor}, {detalle.pais}
-                        </p>
+                  {detalles.map((detalle, i) => {
+                    const countrySlug = detalle.pais
+                      .toLowerCase()
+                      .replace(/\s+/g, '-')
+                      .replace(/\./g, '');
+                    const flagSrc = `/images/icons/habitaciones/ico-${countrySlug}.png`;
+                    const starsSrc = `/images/icons/ico-five-stars.svg`;
+
+                    return (
+                      <div key={i} className="px-2">
+                        {/* Contenedor relativo */}
+                        <div className="relative bg-[#f6f0e1] bg-opacity-70 rounded-2xl pb-6 pt-12 px-4">
+
+                          {/* 1) Bandera en la esquina superior derecha */}
+                          <div className="absolute top-3 right-3">
+                            <Image
+                              src={flagSrc}
+                              alt={detalle.pais}
+                              width={32}
+                              height={32}
+                            />
+                          </div>
+
+                          {/* 2) Texto de la reseña */}
+                          <p className="text-lg leading-6 resenas-texto mb-2 text-left">
+                            {tGlobal(detalle.comentarioKey)}
+                          </p>
+
+                          {/* 3) Autor + estrellas, alineados a la derecha */}
+                          <div className="flex items-center justify-end space-x-2 mb-2">
+                            <span className="text-lg font-semibold resenas-texto">{detalle.autor}</span>
+                            <Image
+                              src={starsSrc}
+                              alt="5 estrellas"
+                              width={80}
+                              height={20}
+                            />
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    )
+                  })}
                 </Slider>
               </div>
             </div>
