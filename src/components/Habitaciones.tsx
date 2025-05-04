@@ -122,7 +122,7 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
             relative md:absolute md:top-[10%] md:left-1/2 md:-translate-x-1/2
             text-4xl md:text-8xl leading-tight md:leading-normal uppercase z-10 w-full text-center
             md:mt-0 mt-4 font-normal
-            ${habitacion.categoria === "standard" ? "2xl:tracking-[0.80em] xl:tracking-[0.48em]" : "2xl:tracking-[0.90em] xl:tracking-[0.58em]"}
+            ${habitacion.categoria === "standard" ? "2xl:tracking-[0.80em] xl:tracking-[0.55em]" : "2xl:tracking-[0.90em] xl:tracking-[0.65em]"}
           `}
         >
           <span className="text-black">{categoriaBlack}</span>
@@ -133,15 +133,19 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
           <div className="col-span-1 md:col-span-7 relative pt-2 lg:pt-36 2xl:pe-[2rem]">
             <h4 className={`text-2xl uppercase text-gray-700 z-10 w-full text-center mt-2 titulo-habitaciones-nombre
-              ${habitacion.key === "jardin" ? "tracking-[2rem]" : "tracking-[.95em]"}
-              ${habitacion.key === "balcon" ? "tracking-[2rem]" : "tracking-[.95em]"}
-              ${habitacion.key === "twin_interna" ? "tracking-[.85rem]" : "tracking-[.95em]"}
-              ${habitacion.key === "twin_externa" ? "tracking-[.85rem]" : "tracking-[.95em]"}
+              ${habitacion.key === "jardin" ? "tracking-[3rem]" : "tracking-[1.35em]"}
+              ${habitacion.key === "balcon" ? "tracking-[3rem]" : "tracking-[1.35em]"}
+              ${habitacion.key === "twin_interna" ? "tracking-[.85rem]" : "tracking-[1.35em]"}
+              ${habitacion.key === "twin_externa" ? "tracking-[.85rem]" : "tracking-[1.35em]"}
             `}>
               {t(`${habitacion.key}.nombre`)}
             </h4>
             <div className="relative mt-2">
-              <div className="absolute top-[60%] left-[55%] md:w-[650px] w-[350px] lg:h-[250%] md:h-[160%] h-[110%] pointer-events-none -z-10 transform -translate-x-1/2 -translate-y-1/2">
+              <div className="absolute 
+              top-[60%] 2xl:left-[55%] left-[65%] 
+              md:w-[750px] w-[350px] lg:h-[450px] md:h-[160px] h-[110%] 
+              pointer-events-none z-10 
+              transform -translate-x-1/2 -translate-y-1/2">
                 <Image
                   src="/images/fondo-carta-3.svg"
                   alt="Fondo Carta"
@@ -151,8 +155,8 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
               </div>
               <div className="relative z-10 px-2 md:px-0 leading-7 xl:pe-[3rem]">
                 <div className="space-y-6">
-                  <p className="text-left 2xl:text-lg text-base">{t(`${habitacion.key}.descripcion`)}</p>
-                  <p className="text-left 2xl:text-lg text-base">{t(`${habitacion.key}.parrafo_minibar`)}</p>
+                  <p className="text-left 2xl:text-xl text-base">{t(`${habitacion.key}.descripcion`)}</p>
+                  <p className="text-left 2xl:text-xl text-base">{t(`${habitacion.key}.parrafo_minibar`)}</p>
                 </div>
                 {/* Sección de Amenities */}
                 <div className="amenities-gallery flex flex-wrap justify-start items-center mt-24">
