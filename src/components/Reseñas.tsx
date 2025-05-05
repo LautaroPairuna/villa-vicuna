@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import { createPortal } from "react-dom";
 import Slider from "react-slick";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { reseñas, reseñasDetalles } from "../lib/reseñas";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -85,6 +85,7 @@ interface ReseñasModalProps {
 function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
   const tGlobal = useTranslations() as Translations;
   const { width } = useWindowSize();
+  const locale = useLocale();
 
   const detalles: ReseñaDetalle[] = useMemo(() => {
     const data = (reseñasDetalles as Record<string, ReseñaDetalle[]>)[
@@ -100,10 +101,24 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
   const { part1, part2, full } = useMemo(() => splitTitle(rawTitle), [rawTitle]);
 
   const computedTracking = useMemo(() => {
-    const baseTracking = calculateTrackingBase(full);
-    const factor = width && width < 768 ? 0.3 : width && width < 1024 ? 0.6 : 1.23;
+    // calcula el tracking “base” según la longitud
+    let baseTracking = calculateTrackingBase(full);
+  
+    // si es desayuno y portugués, lo reducimos un poco más
+    if (locale === "fr" && selectedReseña.folder === "reseñas-desayuno") {
+      baseTracking *= .9;  // ajusta el factor a tu gusto
+    }
+  
+    // luego aplicas el factor según el ancho
+    const factor =
+      width && width < 768
+        ? 0.3
+        : width && width < 1024
+        ? 0.6
+        : .82;
+  
     return baseTracking * factor;
-  }, [full, width]);
+  }, [full, width, locale, selectedReseña.folder]);
 
   // Slider de comentarios (con react-slick, se deja como estaba)
   const commentsSliderSettings = useMemo(() => ({
@@ -187,7 +202,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
           onClick={(e) => e.stopPropagation()}
         >
           <button
-            className="absolute md:top-6 top-1 left-0 text-xl sm:text-2xl md:text-5xl text-[#9ea4ae] bg-[#17273f] rounded-tr-full rounded-br-full lg:px-4 px-2 sm:py-3 py-2 flex items-center"
+            className="absolute lg:top-6 top-4 left-0 text-xl sm:text-2xl md:text-5xl text-[#9ea4ae] bg-[#17273f] rounded-tr-full rounded-br-full lg:px-4 px-2 sm:py-3 py-2 flex items-center"
             onClick={onClose}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -231,7 +246,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
               >
                 {tGlobal(selectedReseña.textoKey)}
               </p>
-              <div className="mt-6 relative z-10 w-full overflow-hidden mb-4">
+              <div className="mt-2 relative z-10 w-full overflow-hidden">
                 <Slider {...commentsSliderSettings}>
                   {detalles.map((detalle, i) => {
                     const countrySlug = detalle.pais

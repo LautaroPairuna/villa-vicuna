@@ -24,27 +24,27 @@
       "nombre": "Le petit dé<span>jeuner</span>",
       "texto": "À Villa Vicuña, nous comprenons l'importance d'un petit déjeuner complet et sain, composé de produits frais de saison faits maison. \n\nDans notre menu, vous trouverez une sélection de cinq plats aux saveurs et textures variées, suggérés par le chef, en plus du buffet proposant d'autres délices faits maison. \n\nNous mettons à votre disposition nos cartes, que vous pourrez consulter lorsque vous souhaiterez savourer nos saveurs durant votre séjour.",
       "reseñas": [
-        "Le meilleur petit déjeuner que j'aie jamais goûté.",
-        "Des produits frais et de grande qualité.",
-        "Le buffet offrait des options délicieuses."
+        "« -¨...Petit-déjeuner exquis ! La variété des plats et la salle sont spectaculaires, décoration magnifique...¨»",
+        "« -¨...Un plaisir de prendre un si bon petit-déjeuner sous la bougainvillée, nous nous sommes senties très choyées par la chaleur du service, je suis sûre que nous reviendrons¨»",
+        "« -¨...Et le petit-déjeuner est très complet, tout est délicieux, le mini-bar dans la chambre très agréable, merci, nous espérons revenir bientôt.¨»"
       ]
     },
     "detalles": {
       "nombre": "Les dét<span>ails</span>",
       "texto": "Parce qu'ils nous enveloppent, nous déconnectent et nous transportent vers d'autres époques, à Villa Vicuña nous accordons une attention particulière aux détails en créant des coins pour des moments inoubliables.",
       "reseñas": [
-        "Chaque recoin est parfait pour se détendre.",
-        "On remarque le soin apporté à chaque détail.",
-        "Décoration magnifique et accueillante."
+        "« -¨Hôtel merveilleux, décoration délicate, choix des couleurs, tout est parfait...¨»",
+        "« -¨Hôtel magnifique avec un style soigné, emplacement idéal pour découvrir Salta. Merci pour l'accueil chaleureux¨»",
+        "« -¨Quelle belle ambiance, j'ai beaucoup apprécié la chaleur du feu lorsqu'il faisait froid, excellent emplacement pour explorer la montagne et la ville.¨»"
       ]
     },
     "personal": {
       "nombre": "Le perso<span>nnel</span>",
       "texto": "Notre équipe... notre famille, ceux qui sont responsables de l'excellente chaleur et de la qualité de nos services, par leur dévouement et leur amabilité, font en sorte que nos clients se sentent chez eux.",
       "reseñas": [
-        "Le personnel est très aimable et attentionné.",
-        "Ils m'ont fait sentir comme à la maison.",
-        "Service exceptionnel et très chaleureux."
+        "« -¨...Le personnel a été exceptionnellement aimable, notamment à la réception, qui a fait l’impossible pour nous aider — charmant, attentionné, souriant, très aimable...¨»",
+        "« -¨...De merveilleux souvenirs, à jamais présents dans mon cœur — beauté, attention et affection. Merci et j'espère que ce ne sera pas le dernier voyage.¨»",
+        "« -¨Quel bel hôtel, quelle découverte !!! Je le dirai aux autres... Merci pour le service merveilleux, continuez ainsi !!¨»"
       ]
     },
     "reseñas": {
@@ -116,10 +116,10 @@
       }
     },
     "contact": {
-      "titulo": "<h2>CONTACT<span>EZ-NOUS</span></h2>",
+      "titulo": "<h2>CONTACTE<span>Z-NOUS</span></h2>",
       "telefono": "+54 9 387 4649748",
       "email": "salta@villavicuna.com.ar",
-      "direccion": "CASEROS 266 - SALTA CAPITAL \n\nPROV. DE .SALTA - C.P 4400 \n\nARGENTINA",
+      "direccion": "CASEROS 266 - SALTA CAPITAL \nPROV. DE .SALTA - C.P 4400 \nARGENTINA",
       "boton": "Réserver"
     }
 }

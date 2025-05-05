@@ -29,27 +29,27 @@
       "nombre": "Breakf<span>ast</span>",
       "texto": "At Villa Vicuña we understand the importance of a complete, healthy breakfast with fresh seasonal products made at home. \n\nOn our menu you will find a selection of five dishes with different flavors and textures suggested by the chef, in addition to the buffet with other homemade delicacies. \n\nWe put our menus at your disposal that can be consulted when you like to enjoy our flavors during your stay.",
       "reseñas": [
-        "The best breakfast I've ever had.",
-        "Fresh and high-quality products.",
-        "The buffet had delicious options."
+        "« -¨...Exquisite breakfast! The variety of dishes and the room are spectacular, beautiful decoration...¨»",
+        "« -¨...A pleasure to enjoy such a delicious breakfast under the bougainvillea, we felt very pampered by the warmth of the service, I’m sure we’ll return¨»",
+        "« -¨...And the breakfast is very complete, everything is delicious, the mini bar in the room was very pleasant, thank you, we hope to return soon.¨»"
       ]
     },
     "detalles": {
       "nombre": "The Det<span>ails</span>",
       "texto": "Because they surround us, disconnect us and transport us to other times, at Villa Vicuña we give special attention to details, creating corners for unforgettable moments.",
       "reseñas": [
-        "Every corner is perfect for relaxing.",
-        "You can see the care in every detail.",
-        "Beautiful and cozy decoration."
+        "« -¨Wonderful hotel, such delicate decoration, the choice of colors, everything is perfect...¨»",
+        "« -¨Magnificent hotel with a refined style, ideal location to discover Salta. Thank you for the warm welcome¨»",
+        "« -¨What a great atmosphere, I really enjoyed the warmth of the fire when it was cold, excellent location to explore the mountains and the city.¨»"
       ]
     },
     "personal": {
       "nombre": "The St<span>aff</span>",
       "texto": "Our team...our family, responsible for the excellent warmth and quality of our services, with their dedication and kindness make our guests feel at home.",
       "reseñas": [
-        "The staff is very friendly and attentive.",
-        "They made me feel at home.",
-        "Exceptional and very warm service."
+        "« -¨...The staff was exceptionally kind, especially at reception, who did the impossible to help us — charming, attentive, smiling, very kind...¨»",
+        "« -¨...Beautiful memories, forever in my heart — beauty, attention, and affection. Thank you and I hope this is not the last trip.¨»",
+        "« -¨What a beautiful hotel, what a discovery!!! I will tell others... Thank you for the wonderful service, keep it up!!¨»"
       ]
     },
     "menu": {
@@ -120,7 +120,7 @@
       "titulo": "<h2>CONTA<span>CT US</span></h2>",
       "telefono": "+54 9 387 4649748",
       "email": "salta@villavicuna.com.ar",
-      "direccion": "CASEROS 266 - SALTA CAPITAL \n\nPROV. DE .SALTA - C.P 4400 \n\nARGENTINA",
+      "direccion": "CASEROS 266 - SALTA CAPITAL \nPROV. DE .SALTA - C.P 4400 \nARGENTINA",
       "boton": "Book Now"
     }
   }

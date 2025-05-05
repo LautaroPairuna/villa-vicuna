@@ -46,7 +46,7 @@ export default function Contacto() {
       if (length <= 8) return "tracking-[0.7em]";
       if (length <= 10) return "tracking-[0.9em]";
       if (length <= 12) return "tracking-[.75em]";
-      if (length <= 15) return "tracking-[0.5em]";
+      if (length <= 15) return "tracking-[0.4em]";
       return "tracking-[0.6em]";
     }
     if (length <= 5) return "tracking-[1em]";
@@ -147,15 +147,21 @@ export default function Contacto() {
                     />
                     {t("email")}
                   </p>
-                  <p className="flex items-start gap-3" style={{ whiteSpace: "pre-line" }}>
+                  <a
+                    href="https://maps.app.goo.gl/XQzTWx83Ep5vpbN37"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-start gap-3 hover:text-gray-500 transition"
+                    style={{ whiteSpace: "pre-line" }}
+                  >
                     <Image
-                      src="/images/icons/ico-ubicacion.svg" 
+                      src="/images/icons/ico-ubicacion.svg"
                       alt=""
                       width={24}
-                      height={24} 
+                      height={24}
                     />
                     {t("direccion")}
-                  </p>
+                  </a>
                   <a
                     href="https://instagram.com/villavicunasalta"
                     target="_blank"
