@@ -210,7 +210,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
           </h3>
           <div className="grid grid-cols-1 lg:grid-cols-12 text-black gap-6">
             <div className="flex flex-col col-span-1 lg:col-span-7 pt-2 relative lg:pe-[2em]">
-              <div className="absolute lg:top-[77%] top-[50%] lg:-left-[18%] left-[20%] inset-0 pointer-events-none z-10 flex justify-center items-center lg:w-[825px] w-[250px] h-[250px]">
+              <div className="absolute lg:top-[75%] top-[50%] lg:-left-[17%] left-[20%] inset-0 pointer-events-none z-10 flex justify-center items-center lg:w-[750px] w-[250px] h-[250px]">
                 <Image
                   src="/images/fondo-carta-5.svg"
                   alt="Personal Review Background"
