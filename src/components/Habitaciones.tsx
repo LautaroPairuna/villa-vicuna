@@ -130,7 +130,7 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
             {categoriaWhite}
           </span>
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
           <div className="col-span-1 md:col-span-7 relative pt-2 lg:pt-36">
             <h4 className={`text-2xl uppercase text-gray-700 z-10 w-full text-center mt-2 titulo-habitaciones-nombre
               ${habitacion.key === "jardin" ? "tracking-[3rem]" : "tracking-[.95em]"}
@@ -153,7 +153,7 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
                   className="object-contain"
                 />
               </div>
-              <div className="relative z-10 px-2 md:px-0 leading-7 xl:pe-[3rem]">
+              <div className="relative z-10 px-2 md:px-0 leading-7 lg:pe-[3rem]">
                 <div className="space-y-6">
                   <p className="text-left text-base">{t(`${habitacion.key}.descripcion`)}</p>
                   <p className="text-left text-base">{t(`${habitacion.key}.parrafo_minibar`)}</p>
