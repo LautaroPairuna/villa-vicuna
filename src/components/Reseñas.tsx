@@ -106,7 +106,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
   
     // si es desayuno y portugués, lo reducimos un poco más
     if (locale === "fr" && selectedReseña.folder === "reseñas-desayuno") {
-      baseTracking *= .9;  // ajusta el factor a tu gusto
+      baseTracking *= .6;  // ajusta el factor a tu gusto
     }
   
     // luego aplicas el factor según el ancho
@@ -115,7 +115,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
         ? 0.3
         : width && width < 1024
         ? 0.6
-        : .82;
+        : 1.2;
   
     return baseTracking * factor;
   }, [full, width, locale, selectedReseña.folder]);
