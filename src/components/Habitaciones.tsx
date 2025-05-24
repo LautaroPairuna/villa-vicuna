@@ -190,7 +190,7 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
                   transition={{ duration: 0.5 }}
                 >
                   <Image
-                    src={`/images/Habitaciones/${habitacion.folder}/${habitacion.carrusel[currentImage]}`}
+                    src={`/images/habitaciones/${habitacion.folder}/${habitacion.carrusel[currentImage]}`}
                     alt={`Imagen ${currentImage + 1}`}
                     fill
                     className="object-cover"
@@ -291,7 +291,7 @@ export default function HabitacionesComponent() {
               <div key={hab.id} className="relative mx-auto 2xl:max-w-[300px] xl:max-w-[225px] lg:max-w-[350px]">
                 <div className="relative 2xl:w-[300px] 2xl:h-[300px] sm:w-[250px] sm:h-[250px] w-[300px] h-[300px] overflow-hidden mx-auto">
                   <Image
-                    src={`/images/Habitaciones/${hab.imagen}`}
+                    src={`/images/habitaciones/${hab.imagen}`}
                     alt={t(`${hab.key}.nombre`)}
                     fill
                     className="object-cover"
