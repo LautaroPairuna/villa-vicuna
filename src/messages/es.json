@@ -1,0 +1,129 @@
+{
+    "hero": {
+        "tituloParte1": "Bienvenidos a",
+        "tituloParte2": "Villa Vicuña",
+        "subtitulo": "Descubre la experiencia única en nuestro hotel boutique.",
+        "reservar": "Reservar Ahora"
+    },
+    "Navbar": {
+        "roomsNavbar": "Habitaciones",
+        "reviewsNavbar": "Reseñas",
+        "menuNavbar": "Menú",
+        "contactNavbar": "Contáctenos",
+        "aboutNavbar": "Nosotros",
+        "bookNavbar": "Reservar"
+    },
+    "about_us": {
+        "titulo": "A CERCA DE <span>NOSOTROS</span>",
+        "parrafo1": "Sobre el histórico ¨Corredor de la Fe¨ a pocos metros de la Catedral se alza el Hotel Boutique Villa Vicuña, una casona de principios del siglo XIX adecuada según su estilo e inspirada en una novela de la escritora Isabel Allende.",
+        "parrafo2": "Un lugar atípico con una exquisitez en detalles atemporales hacen inolvidable la estadía.",
+        "parrafo3": "Entre corredores, balcones y palmeras se van abriendo paso las 12 habitaciones que anteceden el jardín, un pequeño oasis en medio de la ciudad, donde el tiempo parece detenerse.",
+        "imagenAlt": "Imagen de nosotros"
+    },
+    "desayuno": {
+        "nombre": "El desa<span>yuno</span>",
+        "texto": "En Villa Vicuña entendemos la importancia de un desayuno completo, saludable con productos frescos de estación  realizados en casa. \n\nEn nuestro menú encontrará una selección de cinco platos con distintos sabores y texturas  sugeridos por el chef, además  del buffete  con otras delicias caseras. \n\nPonemos a su disposición nuestras cartas \nque podrán ser consultadas cuando guste disfrutar de nuestros sabores durante su estadia.",
+        "reseñas": [
+        "« -¨...Exquisito el desayuno! la variedad de platos y la sala es espectacular, bellísima decoración...¨»",
+        "« -¨...Un placer desayunar tan rico bajo la buganvilla, nos sentimos muy mimadas por la calidez del servicio, estoy segura de que volveremos¨»",
+        "« -¨...Y el desayuno es muy completo, todo es riquísimo, muy agradable el mini bar en la habitación, gracias, esperamos regresar pronto.¨»"
+        ]
+    },
+    "detalles": {
+        "nombre": "Los det<span>alles</span>",
+        "texto": "Porque nos envuelven, nos desconectan y trasladan a otras epocas, en Villa Vicuña les damos una atención especial a los detalles creando rincones para momentos inolvidables.",
+        "reseñas": [
+        "« -¨Maravilloso Hotel, que delicada decoración, la elección de colores, todo es perfecto...¨»",
+        "« -¨Magnifico Hotel con un estilo cuidado, ubicacion ideal para descubrir Salta. Gracias por la bienvenida chaleurex¨»",
+        "« -¨Que gran ambiente, disfrute mucho al calor del fuego encendido cuando estaba frio, excelente ubicación para recorrer la montaña y la ciudad.¨»"
+        ]
+    },
+    "personal": {
+        "nombre": "El pers<span>onal</span>",
+        "texto": "Nuestro equipo...nuestra familia, los responsables de la excelente calidez y calidad de nuestros servicios, con su esmero y simpatia logran que nuestros huespedes se sientan como en casa.",
+        "reseñas": [
+        "« -¨...El personal fue excepcionalmente amable, particularmente en rescepcion, que hizo lo imposible por ayudarnos, encantador, atento, sonriente, muy amable...¨»",
+        "« -¨...Hermosos recuerdos, en mi corazón presentes por siempre, belleza, atencion, y cariño. Gracias y espero que no sea este el ultimo viaje.¨»",
+        "« -¨Que hermoso Hotel, que descubrimiento!!!, Se lo diré a los demas...Gracias por el maravilloso servicio, Sigan adelante!!.¨»"
+        ]
+    },
+    "reseñas": {
+        "titulo": "RESEÑAS",
+        "descripcion": "En Villa Vicuña  nuestros huéspedes son el principal motor que impulsa el trabajo constante para alcanzar la excelencia en calidad y servicios, son sus reseñas las que atesoramos como fuente de inspiración.",
+        "gracias": "Gracias por elegirnos..."
+    },
+    "menu": {
+        "titulo": "NUESTRA CARTA",
+        "descripcion": "Descubre los sabores exclusivos de Villa Vicuña. Una combinación única de ingredientes locales y recetas tradicionales.",
+        "boton": "Descargar Menú en PDF",
+        "menu_image_left": "Imagen de la izquierda del menú",
+        "menu_image_right": "Imagen de la derecha del menú"
+    },
+    "rooms": {
+        "titulo":"HABITACIONES",
+        "superior": "<h3>SUPER<span>IOR</span></h3",
+        "standard": "<h3>STAND<span>ARD</span></h3",
+        "ver_mas": "Ver más",
+        "twin_interna": {
+            "nombre": "Twin Interna",
+            "descripcion": "Con dimensiones espectaculares propias de siglos pasados, esta magnífica habitación cuenta su historia a través de la boiserie, entablonados de pinotea y postigos con doble altura. Dos camas Twin complementan la atmósfera como si de otra época se tratase, la ventana colinda al pasillo interno.",
+            "detalles": "3 huéspedes / 2 camas / 1 habitación",
+            "boton": "Reservar",
+            "parrafo_minibar": "Entre las Amenidades encontrara un Mini Bar sin cargo  del que podrá  servirse una infusión mientras descansa."
+        },
+        "matrimonial": {
+            "nombre": "Matrimonial",
+            "descripcion": "Frente al corredor de palmeras, en el primer piso con acceso mediante escaleras, se encuentra este precioso recinto de 26m². Su espléndida cama matrimonial descansa sobre las ya características baldosas hidráulicas que identifican nuestro hotel.",
+            "detalles": "2 huéspedes / 1 habitación",
+            "boton": "Reservar",
+            "parrafo_minibar": "Entre las Amenidades encontrara un Mini Bar sin cargo  del que podrá  servirse una infusión mientras descansa."
+        },
+        "triple": {
+            "nombre": "Triple",
+            "descripcion": "Frente al corredor de palmeras, en planta baja, nuestra Triple Standard 26m² donde dos camas, una doble junto a una single descansan sobre las ya características baldosas hidráulicas que identifican nuestro hotel.",
+            "detalles": "3 huéspedes / 2 camas / 1 habitación",
+            "boton": "Reservar",
+            "parrafo_minibar": "Entre las Amenidades encontrara un Mini Bar sin cargo  del que podrá  servirse una infusión mientras descansa."
+        },
+        "balcon": {
+            "nombre": "Balcón",
+            "descripcion": "Al final del corredor en el primer piso, con acceso mediante escaleras, este precioso recinto de 26m² balconea al jardín. Una cama con dosel descansa sobre las ya características baldosas hidráulicas que identifican nuestro hotel.",
+            "detalles": "2 huéspedes / 1 habitación",
+            "boton": "Reservar",
+            "parrafo_minibar": "Entre las Amenidades encontrara un Mini Bar sin cargo  del que podrá  servirse una infusión mientras descansa."
+        },
+        "jardin": {
+            "nombre": "Jardín",
+            "descripcion": "Al final del corredor en planta baja, sobre lo que llamamos nuestra 'Ala Verde', este precioso recinto de 26m² colinda al jardín. Una amplia cama descansa sobre las ya características baldosas hidráulicas que identifican nuestro hotel.",
+            "detalles": "2 huéspedes / 1 habitación",
+            "boton": "Reservar",
+            "parrafo_minibar": "Entre las Amenidades encontrara un Mini Bar sin cargo  del que podrá  servirse una infusión mientras descansa."
+        },
+        "twin_externa": {
+            "nombre": "Twin Externa",
+            "descripcion": "Con dimensiones espectaculares propias de siglos pasados, esta magnífica habitación cuenta su historia a través de la boiserie, entablonados de pinotea y postigos con doble altura. Dos camas Twin complementan la atmósfera como si de otra época se tratase, la ventana colinda al jardín interno.",
+            "detalles": "3 huéspedes / 2 camas / 1 habitación",
+            "boton": "Reservar",
+            "parrafo_minibar": "Entre las Amenidades encontrara un Mini Bar sin cargo  del que podrá  servirse una infusión mientras descansa."
+        },
+        "amenities": [
+            "wifi",
+            "aire",
+            "smart-tv",
+            "minibar",
+            "banera",
+            "ducha",
+            "caja-fuerte",
+            "shampoo",
+            "tetera"
+        ]
+    },
+    "contact": {
+      "titulo": "<h2>CONTAC<span>TENOS</span></h2>",
+      "telefono": "+54 9 387 4649748",
+      "email": "salta@villavicuna.com.ar",
+      "direccion": "CASEROS 266 - SALTA CAPITAL \nPROV. DE .SALTA - C.P 4400 \nARGENTINA",
+      "boton": "Reservar"
+    }
+  }
+  
