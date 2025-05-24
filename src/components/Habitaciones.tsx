@@ -165,8 +165,8 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
                       <Image
                         src={`/images/icons/habitaciones/${amenity.icono}`}
                         alt={amenity.nombre}
-                        width={48}
-                        height={48}
+                        width={42}
+                        height={42}
                         className="object-contain"
                       />
                     </div>
@@ -273,7 +273,7 @@ export default function HabitacionesComponent() {
             alt="Fondo Carta"
             width={250}
             height={250}
-            className="absolute top-[75%] left-[60%] transform -translate-x-1/2 -translate-y-1/2 object-contain lg:hidden"
+            className="absolute top-[-15%] left-[60%] transform -translate-x-1/2 -translate-y-1/2 object-contain lg:hidden"
           />
           <h2 className="relative text-4xl text-center mt-16">{t("titulo")}</h2>
         </div>

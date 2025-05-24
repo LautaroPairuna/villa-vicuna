@@ -193,7 +193,15 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
         onClick={onClose}
       >
         <motion.div
-          className="bg-white pt-4 sm:pt-6 md:pt-8 lg:pt-10 pb-2 sm:pb-4 md:pb-6 lg:pb-8 px-4 sm:px-8 md:px-14 pe-4 sm:pe-6 md:pe-10 lg:pe-16 w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-5xl relative transform overflow-hidden"
+          className="bg-white 
+          pt-4 sm:pt-6 md:pt-8 lg:pt-10 
+          pb-2 sm:pb-4 md:pb-6 lg:pb-8 
+          px-4 sm:px-8 md:px-14 
+          pe-4 sm:pe-6 md:pe-10 lg:pe-16 
+          w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-5xl 
+          overflow-y-auto
+          max-h-[90vh]
+          relative transform overflow-hidden"
           variants={modalVariants}
           initial="hidden"
           animate="visible"
@@ -225,7 +233,19 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
           </h3>
           <div className="grid grid-cols-1 lg:grid-cols-12 text-black gap-6">
             <div className="flex flex-col col-span-1 lg:col-span-7 pt-2 relative lg:pe-[2em]">
-              <div className="absolute lg:top-[75%] top-[50%] lg:-left-[17%] left-[20%] inset-0 pointer-events-none z-10 flex justify-center items-center lg:w-[750px] w-[250px] h-[250px]">
+              <div className={`absolute inset-0 pointer-events-none z-10 flex justify-center items-center lg:w-[750px] w-[250px] h-[250px]
+                  ${
+                    selectedReseña.folder === "reseñas-personal"
+                      ? "lg:top-[75%] top-[22%] lg:-left-[17%] left-[10%]"  // valor para desayuno
+                      : "lg:top-[75%] top-[25%] lg:-left-[17%] left-[10%]"  // valor por defecto
+                  }
+                  ${
+                    selectedReseña.folder === "reseñas-desayuno"
+                      ? "lg:top-[75%] top-[56%] lg:-left-[17%] left-[10%]"  // valor para desayuno
+                      : "lg:top-[75%] top-[25%] lg:-left-[17%] left-[10%]"  // valor por defecto
+                  }
+                
+                `}>
                 <Image
                   src="/images/fondo-carta-5.svg"
                   alt="Personal Review Background"

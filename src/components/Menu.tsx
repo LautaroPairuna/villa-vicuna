@@ -50,7 +50,7 @@ export default function Menu() {
   }, []);
 
   return (
-    <section id="menu" className="relative bg-white text-black md:py-8 md:px-12 xl:py-16 xl:px-16">
+    <section id="menu" className="relative bg-white text-black py-32 md:py-8 md:px-12 xl:py-16 xl:px-16">
       <div className="max-w-[1200px] mx-auto flex flex-col lg:flex-row items-center justify-center">
         {/* Título vertical en Desktop */}
         <div className="hidden lg:flex w-1/6 items-center justify-center relative">
@@ -105,7 +105,7 @@ export default function Menu() {
           <a
             href="/menu.pdf"
             download="menu-villa-vicuna.pdf"
-            className="bg-black text-white px-6 py-3 rounded-md shadow-md text-lg relative z-10"
+            className="bg-[#e3d6b5] text-black px-6 py-3 rounded-md shadow-md text-lg relative z-10"
           >
             {t("boton")}
           </a>

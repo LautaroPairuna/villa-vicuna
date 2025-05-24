@@ -51,7 +51,6 @@ export default function Contacto() {
 
   return (
     <section
-      id="contact"
       className="relative bg-white text-black px-4 sm:px-12 lg:px-16 py-12 lg:py-20"
     >
       <div className="max-w-[1200px] mx-auto relative">
@@ -110,7 +109,7 @@ export default function Contacto() {
             </div>
 
             {/* Información de contacto */}
-            <div className="lg:px-4 lg:pb-16 lg:pt-72 p-2 flex flex-col justify-end md:mt-0 mt-4 ">
+            <div className="lg:px-4 lg:pb-16 lg:pt-72 p-2 flex flex-col justify-end md:mt-0 mt-4" id="contact">
               <div className="gap-4">
                 <div className="space-y-2 2xl:text-xl xl:text-lg sm:text-xl lg:text-base max-w-[350px]">
                   <Image 
