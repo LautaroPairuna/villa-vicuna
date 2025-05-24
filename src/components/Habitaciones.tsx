@@ -119,10 +119,10 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
         </button>
         <h3
           className={`
-            relative lg:absolute md:top-[10%] md:left-1/2 md:-translate-x-1/2
+            relative lg:absolute md:top-[13%] md:left-1/2 md:-translate-x-1/2
             text-4xl lg:text-8xl leading-tight md:leading-normal uppercase z-10 w-full text-center
             lg:mt-0 mt-4 font-normal
-            ${habitacion.categoria === "standard" ? "lg:tracking-[0.55em]" : "lg:tracking-[0.65em]"}
+            ${habitacion.categoria === "standard" ? "lg:tracking-[0.52em]" : "lg:tracking-[0.62em]"}
           `}
         >
           <span className="text-black">{categoriaBlack}</span>
@@ -142,7 +142,7 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
             </h4>
             <div className="relative mt-2">
               <div className="absolute 
-              top-[60%] xl:left-[65%] left-[50%] 
+              top-[50%] xl:left-[65%] left-[50%] 
               md:w-[750px] w-[450px] lg:h-[450px] md:h-[200px] h-[110px] 
               pointer-events-none z-10 
               transform -translate-x-1/2 -translate-y-1/2">
@@ -150,7 +150,7 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
                   src="/images/fondo-carta-3.svg"
                   alt="Fondo Carta"
                   fill
-                  className="object-contain"
+                  className="object-contain  opacity-45"
                 />
               </div>
               <div className="relative z-10 px-2 md:px-0 leading-7 lg:pe-[3rem]">
@@ -159,7 +159,7 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
                   <p className="text-left text-base">{t(`${habitacion.key}.parrafo_minibar`)}</p>
                 </div>
                 {/* Sección de Amenities */}
-                <div className="amenities-gallery flex flex-wrap justify-start items-center lg:mt-24 my-4">
+                <div className="amenities-gallery flex flex-wrap justify-start items-center lg:mt-36">
                   {habitacion.amenities.map((amenity, index) => (
                     <div key={index} className="flex flex-col items-center me-auto">
                       <Image
