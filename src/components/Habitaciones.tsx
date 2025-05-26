@@ -160,14 +160,14 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
                   <p className="text-left text-base">{t(`${habitacion.key}.parrafo_minibar`)}</p>
                 </div>
                 {/* Sección de Amenities */}
-                <div className="amenities-gallery flex flex-wrap justify-start items-center lg:mt-36">
+                <div className="amenities-gallery flex flex-wrap justify-start items-center lg:mt-36 my-4">
                   {habitacion.amenities.map((amenity, index) => (
                     <div key={index} className="flex flex-col items-center me-auto">
                       <Image
                         src={`/images/icons/habitaciones/${amenity.icono}`}
                         alt={amenity.nombre}
-                        width={42}
-                        height={42}
+                        width={32}
+                        height={32}
                         className="object-contain"
                       />
                     </div>
