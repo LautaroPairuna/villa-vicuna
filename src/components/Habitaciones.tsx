@@ -16,6 +16,7 @@ export interface Amenity {
 export interface Habitacion {
   id: number;
   categoria: string;
+  cantidad: string;     // Cantidad de habitaciones disponibles
   key: string;
   imagen: string;
   amenities: Amenity[];
@@ -300,7 +301,7 @@ export default function HabitacionesComponent() {
                 <div className="py-4 text-left">
                   <p className="text-xs text-gray-600">{t(`${hab.key}.detalles`)}</p>
                   <h3 className="text-base mt-2 titulo-habitaciones capitalize tracking-widest">
-                    {hab.categoria} {t(`${hab.key}.nombre`)}
+                    {hab.cantidad} {hab.categoria} {t(`${hab.key}.nombre`)}
                   </h3>
                   <button
                     className="pt-2 text-base transition-all rounded-xl items-center my-0 mx-auto justify-center text-center cursor-pointer titulo-habitaciones"

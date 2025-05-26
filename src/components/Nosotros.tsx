@@ -29,7 +29,7 @@ export default function Nosotros() {
       if (length <= 10) return "1em";
       if (length <= 12) return "0.85em";
       if (length <= 15) return "0.65em";
-      return "0.75em";
+      return "0.85em";
     }
   
     if (screenWidth >= 1281) {
@@ -38,7 +38,7 @@ export default function Nosotros() {
       if (length <= 10) return "0.95em";
       if (length <= 12) return "0.8em";
       if (length <= 15) return "0.6em";
-      return "0.75em";
+      return "0.85em";
     }
   
     if (length <= 5) return "1em";
@@ -46,7 +46,7 @@ export default function Nosotros() {
     if (length <= 10) return "1em";
     if (length <= 12) return "0.75em";
     if (length <= 15) return "0.5em";
-    return "0.42em";
+    return "0.62em";
   };
   
 

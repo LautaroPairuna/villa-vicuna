@@ -5,6 +5,7 @@
 export interface Habitacion {
   id: number;
   categoria: string;
+  cantidad: string;     // Cantidad de habitaciones disponibles
   key: string;
   imagen: string;
   folder: string;        // Carpeta donde se almacenan las imágenes del carrusel
@@ -20,7 +21,8 @@ export function Habitaciones(): Habitacion[] {
   return [
     {
       id: 1,
-      categoria: "superior",
+      categoria: "standard",
+      cantidad: "3", // cantidad de habitaciones disponibles
       key: "twin_interna", // clave base para las traducciones
       imagen: "twin-interna.jpg",
       folder: "habitaciones-twin-interna",
@@ -42,6 +44,7 @@ export function Habitaciones(): Habitacion[] {
     {
       id: 2,
       categoria: "standard",
+      cantidad: "2", // cantidad de habitaciones disponibles
       key: "matrimonial",
       imagen: "standard-matrimonial.jpg",
       folder: "habitaciones-matrimonial",
@@ -65,6 +68,7 @@ export function Habitaciones(): Habitacion[] {
     {
       id: 3,
       categoria: "standard",
+      cantidad: "2", // cantidad de habitaciones disponibles
       key: "triple",
       imagen: "standard-mat-triple.jpg",
       folder: "habitaciones-triple",
@@ -87,6 +91,7 @@ export function Habitaciones(): Habitacion[] {
     {
       id: 4,
       categoria: "superior",
+      cantidad: "2", // cantidad de habitaciones disponibles
       key: "balcon",
       imagen: "superior-balcon.jpg",
       folder: "habitaciones-balcon",
@@ -110,6 +115,7 @@ export function Habitaciones(): Habitacion[] {
     {
       id: 5,
       categoria: "superior",
+      cantidad: "2", // cantidad de habitaciones disponibles
       key: "jardin",
       imagen: "superior-jardin.jpg",
       folder: "habitaciones-jardin",
@@ -133,6 +139,7 @@ export function Habitaciones(): Habitacion[] {
     {
       id: 6,
       categoria: "superior",
+      cantidad: "1", // cantidad de habitaciones disponibles
       key: "twin_externa",
       imagen: "twin-externa.jpg",
       folder: "habitaciones-twin-externa",
