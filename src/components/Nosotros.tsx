@@ -3,10 +3,9 @@
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { toWebpPath } from "@/lib/imagePath";
 import { useWindowSize } from "@/utils/utilsTitle"; // Usamos el hook aquí
 
-export default function Nosotros() {
+export default function Nosotros({ imageUrl = "/images/nosotros.jpg" }: { imageUrl?: string }) {
   const t = useTranslations("about_us");
   const tituloHTML = t.raw("titulo");
   const { tituloParte1, tituloParte2, tituloCompleto } = parseTitleWithSpan(tituloHTML);
@@ -104,7 +103,7 @@ export default function Nosotros() {
         {/* Imagen */}
         <div className="relative lg:col-span-6 col-span-12 h-[650px] sm:h-[600px] md:h-[725px] w-full lg:ms-12">
           <Image
-            src={toWebpPath("/images/nosotros.jpg")}
+            src={imageUrl}
             alt={t("imagenAlt")}
             fill
             className="object-cover shadow-lg"

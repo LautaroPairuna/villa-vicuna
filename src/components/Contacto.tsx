@@ -4,13 +4,13 @@
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { toWebpPath } from "@/lib/imagePath";
 import dynamic from "next/dynamic";
 
 const CLOUDBEDS_PROPERTY_CODE = "pwSXnD";
 
 interface ContactoProps {
   isCloudbedsReady?: boolean;
+  imageUrl?: string;
 }
 
 const CloudbedsBookNow = dynamic(() => import("./CloudbedsBookNow"), {
@@ -18,7 +18,10 @@ const CloudbedsBookNow = dynamic(() => import("./CloudbedsBookNow"), {
   loading: () => null, // acá no hace falta mostrar nada mientras carga
 });
 
-export default function Contacto({ isCloudbedsReady = false }: ContactoProps) {
+export default function Contacto({
+  isCloudbedsReady = false,
+  imageUrl = "/images/contactenos.jpg",
+}: ContactoProps) {
   const t = useTranslations("contact");
 
   const tituloHTML = t.raw("titulo");
@@ -88,7 +91,7 @@ export default function Contacto({ isCloudbedsReady = false }: ContactoProps) {
             <div className="block lg:hidden text-center">
               <div className="relative w-full aspect-[4/4] flex justify-center items-center">
                 <Image
-                  src={toWebpPath("/images/contactenos.jpg")}
+                  src={imageUrl}
                   alt="Hotel Interior"
                   fill
                   className="w-full object-cover"
@@ -208,7 +211,7 @@ export default function Contacto({ isCloudbedsReady = false }: ContactoProps) {
           {/* Bloque derecho: Imagen */}
           <div className="relative w-full aspect-[6/7] justify-center items-center lg:flex hidden xl:ms-6 2xl:ms-10">
             <Image
-              src={toWebpPath("/images/contactenos.jpg")}
+              src={imageUrl}
               alt="Hotel Interior"
               fill
               className="w-full object-cover"

@@ -58,7 +58,24 @@ de next-intl (ya no hace falta `.htaccess`).
   npm run db:seed
   ```
 
-## 6. Build local / pruebas
+## 6. Panel administrativo (`/admin`)
+
+- Login en `https://villavicuna.com.ar/admin` (NextAuth + credenciales).
+- Crear el usuario admin (una vez):
+
+  ```bash
+  ADMIN_EMAIL=tu@email.com ADMIN_PASSWORD=tu-clave npm run db:seed:admin
+  ```
+
+- Variables necesarias: `AUTH_SECRET` (obligatoria) y `AUTH_URL` (URL pública).
+- Desde el panel se editan las imágenes de **secciones** (hero, nosotros, contacto,
+  menú), **habitaciones** y **reseñas** (portada + carrusel, con reordenamiento).
+- Las imágenes subidas se optimizan a WebP (`sharp`) y se guardan en el volumen
+  (`/app/public/uploads`), sirviéndose en `/uploads/...`.
+- El sitio público es `force-dynamic` y además se revalida al guardar, así que los
+  cambios se ven al instante.
+
+## 7. Build local / pruebas
 
 ```bash
 # Levantar MySQL local + app

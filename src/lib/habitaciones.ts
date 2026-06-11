@@ -1,5 +1,5 @@
 // lib/habitaciones.ts
-"use client";
+// (datos puros: usable tanto en servidor como en cliente)
 
 // Definición de la interfaz para una habitación
 export interface Habitacion {

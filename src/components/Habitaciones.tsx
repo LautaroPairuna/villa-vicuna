@@ -1,35 +1,20 @@
 "use client";
 
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { Habitaciones as getHabitaciones } from "@/lib/habitaciones";
 import { useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { toWebpPath } from "@/lib/imagePath";
 import dynamic from "next/dynamic";
+import type { RoomContent } from "@/lib/contentTypes";
+import { staticRoomsContent } from "@/lib/staticContent";
 
 const CloudbedsBookNow = dynamic(() => import("./CloudbedsBookNow"), {
   ssr: false,
   loading: () => null,
 });
 
-// Interfaz para cada amenidad.
-export interface Amenity {
-  nombre: string;
-  icono: string;
-}
-
-// Interfaz que describe una habitación con carrusel.
-export interface Habitacion {
-  id: number;
-  categoria: string;
-  cantidad: string;     // Cantidad de habitaciones disponibles
-  key: string;
-  imagen: string;
-  amenities: Amenity[];
-  folder: string;        // Carpeta donde se almacenan las imágenes del carrusel
-  carrusel: string[];    // Array de imágenes para el carrusel
-}
+// La habitación con imágenes ya resueltas (URLs completas desde DB o fallback).
+export type Habitacion = RoomContent;
 
 // Tipo para la función de traducción (next-intl).
 export interface Translations {
@@ -61,7 +46,7 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
   const [currentImage, setCurrentImage] = useState(0);
   // Para animar la dirección de la transición: 1 => next, -1 => prev
   const [direction, setDirection] = useState(0);
-  const totalImages = habitacion.carrusel.length;
+  const totalImages = habitacion.images.length;
 
   const nextImage = useCallback(() => {
     setDirection(1);
@@ -198,7 +183,7 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
                   transition={{ duration: 0.5 }}
                 >
                   <Image
-                    src={toWebpPath(`/images/habitaciones/${habitacion.folder}/${habitacion.carrusel[currentImage]}`)}
+                    src={habitacion.images[currentImage]}
                     alt={`Imagen ${currentImage + 1}`}
                     fill
                     className="object-cover"
@@ -245,10 +230,13 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
   );
 }
 
-export default function HabitacionesComponent() {
+export default function HabitacionesComponent({ rooms }: { rooms?: RoomContent[] }) {
   const [selected, setSelected] = useState<number | null>(null);
   const t = useTranslations("rooms") as Translations;
-  const habitaciones = getHabitaciones() as Habitacion[];
+  const habitaciones = useMemo<Habitacion[]>(
+    () => rooms ?? staticRoomsContent(),
+    [rooms]
+  );
 
   const selectedHabitacion = useMemo(
     () => habitaciones.find((hab) => hab.id === selected) || null,
@@ -299,7 +287,7 @@ export default function HabitacionesComponent() {
               <div key={hab.id} className="relative mx-auto 2xl:max-w-[300px] xl:max-w-[225px] lg:max-w-[350px]">
                 <div className="relative 2xl:w-[300px] 2xl:h-[300px] sm:w-[250px] sm:h-[250px] w-[300px] h-[300px] overflow-hidden mx-auto group cursor-pointer" onClick={() => handleSelect(hab.id)}>
                   <Image
-                    src={toWebpPath(`/images/habitaciones/${hab.imagen}`)}
+                    src={hab.coverUrl}
                     alt={t(`${hab.key}.nombre`)}
                     fill
                     className="object-cover transition-opacity duration-300 group-hover:opacity-80"

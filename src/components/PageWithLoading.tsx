@@ -8,13 +8,28 @@ import Navbar from "./Navbar";
 import Hero from "./Hero";
 import WhatsappLink from "./WhatsappLink";
 import Contacto from "./Contacto";
+import type {
+  RoomContent,
+  ReviewContent,
+  SectionImages,
+} from "@/lib/contentTypes";
 
 const Nosotros = dynamic(() => import("./Nosotros"), { ssr: false });
 const Reseñas = dynamic(() => import("./Reseñas"), { ssr: false });
 const Menu = dynamic(() => import("./Menu"), { ssr: false });
 const Habitaciones = dynamic(() => import("./Habitaciones"), { ssr: false });
 
-export default function PageWithLoading() {
+interface PageWithLoadingProps {
+  rooms?: RoomContent[];
+  reviews?: ReviewContent[];
+  sections?: SectionImages;
+}
+
+export default function PageWithLoading({
+  rooms,
+  reviews,
+  sections = {},
+}: PageWithLoadingProps) {
   const [isHeroLoaded, setIsHeroLoaded] = useState(false);
   const [isCloudbedsLoaded, setIsCloudbedsLoaded] = useState(false);
   const [showContent, setShowContent] = useState(false);
@@ -35,7 +50,6 @@ export default function PageWithLoading() {
   // Timeout de seguridad (6s) para evitar pantalla infinita
   useEffect(() => {
     const safetyTimer = setTimeout(() => {
-      console.log("🚨 Timeout de seguridad activado - revelando sitio");
       setIsHeroLoaded(true);
       setIsLoadingVisible(false);
       setTimeout(() => setShowContent(true), 200);
@@ -46,23 +60,11 @@ export default function PageWithLoading() {
 
   // Cuando Hero está listo + tiempo mínimo cumplido → revelar sitio
   useEffect(() => {
-    const state = {
-      isHeroLoaded,
-      isCloudbedsLoaded,
-      minLoadingTime,
-      allReady: isHeroLoaded && minLoadingTime,
-    };
-
-    console.log("📊 Estado de carga:", state);
-
     if (isHeroLoaded && minLoadingTime) {
-      console.log("✅ Hero listo + tiempo mínimo cumplido - iniciando revelación");
-
       setIsLoadingVisible(false);
 
       const contentTimer = setTimeout(() => {
         setShowContent(true);
-        console.log("🎉 Sitio revelado completamente");
       }, 200);
 
       return () => clearTimeout(contentTimer);
@@ -70,12 +72,10 @@ export default function PageWithLoading() {
   }, [isHeroLoaded, minLoadingTime]);
 
   const handleHeroLoaded = () => {
-    console.log("🎬 Hero cargado (video + logo listos)");
     setIsHeroLoaded(true);
   };
 
   const handleCloudbedsLoaded = () => {
-    console.log("☁️ Cloudbeds cargado");
     setIsCloudbedsLoaded(true);
   };
 
@@ -95,17 +95,20 @@ export default function PageWithLoading() {
         </header>
 
         <main>
-          <Hero onLoaded={handleHeroLoaded} />
-          <Nosotros />
-          <Reseñas />
-          <Menu />
-          <Habitaciones />
+          <Hero onLoaded={handleHeroLoaded} posterUrl={sections.hero_poster} />
+          <Nosotros imageUrl={sections.nosotros} />
+          <Reseñas reviews={reviews} />
+          <Menu foodsUrl={sections.menu_foods} drinksUrl={sections.menu_drinks} />
+          <Habitaciones rooms={rooms} />
         </main>
 
         <WhatsappLink />
 
         <footer>
-          <Contacto isCloudbedsReady={isCloudbedsLoaded} />
+          <Contacto
+            isCloudbedsReady={isCloudbedsLoaded}
+            imageUrl={sections.contactenos}
+          />
         </footer>
       </div>
 

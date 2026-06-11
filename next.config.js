@@ -13,8 +13,8 @@ const nextConfig = {
     formats: ["image/avif", "image/webp"],
   },
 
-  // El driver de MySQL y el adapter solo deben cargarse en el servidor.
-  serverExternalPackages: ["@prisma/adapter-mariadb", "mariadb"],
+  // Paquetes nativos / solo-servidor que no deben bundlearse.
+  serverExternalPackages: ["@prisma/adapter-mariadb", "mariadb", "sharp"],
 };
 
 module.exports = withNextIntl(nextConfig);

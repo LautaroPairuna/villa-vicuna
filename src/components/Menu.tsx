@@ -37,7 +37,15 @@ function ImageModal({ image, onClose }: { image: ModalImage; onClose: () => void
   );
 }
 
-export default function Menu() {
+interface MenuProps {
+  foodsUrl?: string;
+  drinksUrl?: string;
+}
+
+export default function Menu({
+  foodsUrl = "/images/menu-foods.svg",
+  drinksUrl = "/images/menu-drinks.svg",
+}: MenuProps) {
   const t = useTranslations("menu");
   const [selectedImage, setSelectedImage] = useState<ModalImage | null>(null);
 
@@ -70,18 +78,18 @@ export default function Menu() {
         {/* Imágenes en Desktop */}
         <div className="md:w-5/6 w-full flex justify-center items-center">
           <div className="hidden lg:flex justify-between space-x-6">
-            <div className="cursor-pointer" onClick={() => openModal("/images/menu-foods.svg", t("menu_image_left"))}>
+            <div className="cursor-pointer" onClick={() => openModal(foodsUrl, t("menu_image_left"))}>
               <Image
-                src="/images/menu-foods.svg"
+                src={foodsUrl}
                 alt={t("menu_image_left")}
                 width={600}
                 height={700}
                 className="shadow-lg max-w-full h-auto border-2 border-black"
               />
             </div>
-            <div className="cursor-pointer" onClick={() => openModal("/images/menu-drinks.svg", t("menu_image_right"))}>
+            <div className="cursor-pointer" onClick={() => openModal(drinksUrl, t("menu_image_right"))}>
               <Image
-                src="/images/menu-drinks.svg"
+                src={drinksUrl}
                 alt={t("menu_image_right")}
                 width={600}
                 height={700}

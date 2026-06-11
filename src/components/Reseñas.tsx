@@ -6,22 +6,17 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Image from "next/image";
-import { toWebpPath } from "@/lib/imagePath";
 import { useLocale, useTranslations } from "next-intl";
-import { reseñas, reseñasDetalles } from "../lib/reseñas";
+import { reseñasDetalles } from "../lib/reseñas";
+import { staticReviewsContent } from "@/lib/staticContent";
+import type { ReviewContent } from "@/lib/contentTypes";
 import { motion, AnimatePresence } from "framer-motion";
 
 // -----------------------------------------------------------------------------
 // Tipos e Interfaces
 // -----------------------------------------------------------------------------
-export interface ReseñaItem {
-  id: number;
-  nombreKey: string;
-  textoKey: string;
-  imagen: string;
-  folder: string;
-  carrusel: string[];
-}
+// La reseña con imágenes ya resueltas (URLs completas desde DB o fallback).
+export type ReseñaItem = ReviewContent;
 
 export interface ReseñaDetalle {
   comentarioKey: string;
@@ -141,7 +136,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
   const [currentImage, setCurrentImage] = useState(0);
   // Para animar la dirección de la transición: 1 => next, -1 => prev
   const [direction, setDirection] = useState(0);
-  const totalImages = selectedReseña.carrusel.length;
+  const totalImages = selectedReseña.images.length;
 
   const nextImage = useCallback(() => {
     setDirection(1);
@@ -325,7 +320,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
                     transition={{ duration: 0.5 }}
                   >
                     <Image
-                      src={toWebpPath(`/images/reseñas/${selectedReseña.folder}/${selectedReseña.carrusel[currentImage]}`)}
+                      src={selectedReseña.images[currentImage]}
                       alt={`Imagen ${currentImage + 1}`}
                       fill
                       className="object-cover"
@@ -395,7 +390,7 @@ function ReseñaCard({ reseña, onClick }: ReseñaCardProps) {
       onClick={handleClick}
     >
       <Image
-        src={toWebpPath(`/images/reseñas/${reseña.imagen}`)}
+        src={reseña.coverUrl}
         alt={cardTitle}
         width={500}
         height={500}
@@ -413,10 +408,15 @@ function ReseñaCard({ reseña, onClick }: ReseñaCardProps) {
 // -----------------------------------------------------------------------------
 // Componente Principal
 // -----------------------------------------------------------------------------
-export default function ReseñasSection() {
+export default function ReseñasSection({ reviews }: { reviews?: ReviewContent[] }) {
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [mounted, setMounted] = useState<boolean>(false);
   const tReseñas = useTranslations("reseñas");
+
+  const reseñas = useMemo<ReseñaItem[]>(
+    () => reviews ?? staticReviewsContent(),
+    [reviews]
+  );
 
   useEffect(() => {
     setMounted(true);
@@ -424,7 +424,7 @@ export default function ReseñasSection() {
 
   const selectedReseña = useMemo(
     () => reseñas.find((item: ReseñaItem) => item.id === selectedId),
-    [selectedId]
+    [reseñas, selectedId]
   );
 
   const handleCardClick = useCallback((id: number) => {

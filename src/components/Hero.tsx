@@ -6,9 +6,10 @@ import React, { memo, useRef } from "react";
 
 interface HeroProps {
   onLoaded?: () => void;
+  posterUrl?: string;
 }
 
-const Hero = memo(({ onLoaded }: HeroProps) => {
+const Hero = memo(({ onLoaded, posterUrl = "/images/hero-poster.webp" }: HeroProps) => {
   const videoReadyRef = useRef(false);
   const logoReadyRef = useRef(false);
   const notifiedRef = useRef(false);
@@ -49,7 +50,7 @@ const Hero = memo(({ onLoaded }: HeroProps) => {
           muted
           playsInline
           preload="metadata"
-          poster="/images/hero-poster.webp"
+          poster={posterUrl}
           onLoadedData={handleVideoEvent}
           onCanPlayThrough={handleVideoEvent}
         >

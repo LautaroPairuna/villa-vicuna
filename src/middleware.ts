@@ -1,44 +1,34 @@
-// middleware.ts
-import createMiddleware from 'next-intl/middleware';
-import { routing } from './i18n/routing';
+import createIntlMiddleware from "next-intl/middleware";
+import NextAuth from "next-auth";
+import { authConfig } from "./auth.config";
+import { routing } from "./i18n/routing";
 
-// Create the middleware with more configuration options
-export default createMiddleware({
-  // A list of all locales that are supported
-  locales: routing.locales,
-  
-  // The default locale to use when a non-locale path is visited
-  defaultLocale: routing.defaultLocale,
-  
-  // Optional: Specify domains for different locales
-  // domains: [
-  //   {
-  //     domain: 'example.com',
-  //     defaultLocale: 'en'
-  //   },
-  //   {
-  //     domain: 'example.es',
-  //     defaultLocale: 'es'
-  //   }
-  // ],
-  
-  // Optional: Redirect to locale-prefixed paths by default
-  localePrefix: 'always', // 'as-needed' would only add the locale prefix when it's not the default locale
-  
-  // Optional: Prevent specific paths from being internationalized
-  // pathnames: {
-  //   '/api': { 
-  //     locale: false  // Disable locale for /api routes
-  //   },
-  //   '/dashboard': {
-  //     locale: 'always'  // Always add locale prefix for dashboard routes
-  //   }
-  // }
+// Instancia edge-safe solo para leer la sesión (JWT) en el middleware.
+const { auth } = NextAuth(authConfig);
+const intlMiddleware = createIntlMiddleware(routing);
+
+export default auth((req) => {
+  const { nextUrl } = req;
+  const isLoggedIn = !!req.auth;
+  const isAdmin = nextUrl.pathname.startsWith("/admin");
+  const isLogin = nextUrl.pathname === "/admin/login";
+
+  // Rutas /admin: protegidas y NO localizadas (no pasan por next-intl).
+  if (isAdmin) {
+    if (!isLoggedIn && !isLogin) {
+      return Response.redirect(new URL("/admin/login", nextUrl));
+    }
+    if (isLoggedIn && isLogin) {
+      return Response.redirect(new URL("/admin", nextUrl));
+    }
+    return;
+  }
+
+  // Resto del sitio: internacionalización (es/en/fr).
+  return intlMiddleware(req);
 });
 
-// Configure the matcher for the middleware
 export const config = {
-  // Match all pathnames except for:
-  // - API routes, static files, images, etc.
-  matcher: ['/((?!api|_next|.*\\..*).*)']
+  // Todo excepto API, estáticos de Next y archivos con extensión.
+  matcher: ["/((?!api|_next|.*\\..*).*)"],
 };
