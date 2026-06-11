@@ -1,7 +1,7 @@
 // src/app/[locale]/layout.tsx
 import type { Metadata, Viewport } from "next";
 import { NextIntlClientProvider } from "next-intl";
-import { setRequestLocale, getMessages } from "next-intl/server";
+import { setRequestLocale, getMessages, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import Script from "next/script";
 import SwRegister from "@/components/SwRegister";
@@ -13,22 +13,21 @@ const BASE_URL = "https://villavicuna.com.ar"; // dominio del sitio
 const FAV_VERSION = "20250730"; // cambia al actualizar favicon
 const LOCALES = ["es", "en", "fr"] as const; // locales permitidos
 
-const TITLE = "Villa Vicuña | Salta, Argentina";
-const DESCRIPTION =
-  "Hotel boutique en el corazón de Salta capital, a pasos del centro histórico. 12 habitaciones estilo colonial español y atención personalizada.";
-
-/*─── METADATA (fuente única de verdad para el SEO) ────────────*/
+/*─── METADATA (fuente única de verdad para el SEO, localizado) ─*/
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "metadata" });
+  const title = t("title");
+  const description = t("description");
 
   return {
     metadataBase: new URL(BASE_URL),
-    title: TITLE,
-    description: DESCRIPTION,
+    title,
+    description,
     alternates: {
       canonical: `/${locale}`,
       languages: Object.fromEntries(LOCALES.map((l) => [l, `/${l}`])),
@@ -36,8 +35,8 @@ export async function generateMetadata({
     openGraph: {
       type: "website",
       siteName: "Hotel Villa Vicuña",
-      title: TITLE,
-      description: DESCRIPTION,
+      title,
+      description,
       url: `${BASE_URL}/${locale}`,
       locale,
       images: ["/opengraph.jpg"],
