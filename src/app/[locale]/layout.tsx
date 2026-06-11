@@ -5,6 +5,7 @@ import { setRequestLocale, getMessages, getTranslations } from "next-intl/server
 import { notFound } from "next/navigation";
 import Script from "next/script";
 import SwRegister from "@/components/SwRegister";
+import { getStructuredData } from "@/lib/structuredData";
 import "../../styles/globals.css";
 
 /*─── CONFIG GENERAL ───────────────────────────────────────────*/
@@ -70,10 +71,21 @@ export default async function LocaleLayout({
 
   setRequestLocale(locale);
   const messages = await getMessages({ locale });
+  const { hotel, faq } = await getStructuredData(locale);
 
   return (
     <html lang={locale}>
       <head>
+        {/* Datos estructurados (GEO/SEO): Hotel + FAQ en JSON-LD */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(hotel) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faq) }}
+        />
+
         {/* Solo recursos que la Metadata API no maneja: preloads y preconexiones.
             El SEO (title, description, canonical, hreflang, OG, favicons) lo
             genera generateMetadata. */}

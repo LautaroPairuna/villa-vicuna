@@ -33,7 +33,19 @@ module.exports = {
 
   // -------- ❷ ajustes del robots.txt --------
   robotsTxtOptions: {
-    policies: [{ userAgent: '*', allow: '/' }],
+    // Permitimos explícitamente los crawlers de IA (GEO) además del resto.
+    policies: [
+      { userAgent: '*', allow: '/' },
+      { userAgent: 'GPTBot', allow: '/' },
+      { userAgent: 'OAI-SearchBot', allow: '/' },
+      { userAgent: 'ChatGPT-User', allow: '/' },
+      { userAgent: 'ClaudeBot', allow: '/' },
+      { userAgent: 'Claude-Web', allow: '/' },
+      { userAgent: 'PerplexityBot', allow: '/' },
+      { userAgent: 'Google-Extended', allow: '/' },
+      { userAgent: 'Applebot-Extended', allow: '/' },
+      { userAgent: 'Bingbot', allow: '/' },
+    ],
     additionalSitemaps: [`${BASE_URL}/sitemap.xml`],
   },
 };
