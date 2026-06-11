@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://villavicuna.com.ar
+
+# Sitemaps
+Sitemap: https://villavicuna.com.ar/sitemap.xml

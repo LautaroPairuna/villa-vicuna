@@ -35,9 +35,7 @@ export const reseñas = [
     imagen: "el-personal.jpg",
     folder: "reseñas-personal",
     carrusel: [
-      "personal-1.jpg",
       "personal-2.jpeg",
-      "personal-3.jpg",
       "personal-4.jpg",
     ],
   },

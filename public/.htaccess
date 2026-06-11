@@ -1,0 +1,27 @@
+# public/.htaccess 
+<IfModule mod_rewrite.c> 
+  RewriteEngine On 
+  RewriteBase / 
+  # Redirigir sólo la petición original a "/" hacia "/es/" 
+  RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /\ HTTP/ RewriteRule ^$ /es/ [R=302,L] 
+</IfModule> 
+<IfModule mod_headers.c> 
+  # Fuentes (woff/woff2) con CORS + cache largo 
+  <FilesMatch "\.(woff2?|ttf|otf|eot)$"> Header set Access-Control-Allow-Origin "*" Header set Cache-Control "public, max-age=31536000, immutable" 
+  # Opcional, por prolijidad: 
+  <If 
+    "%{REQUEST_URI} =~ /\.woff2$/"> Header set Content-Type "font/woff2" 
+  </If> 
+  <If "%{REQUEST_URI} =~ /\.woff$/"> 
+    Header set Content-Type "font/woff" 
+  </If> 
+  </FilesMatch> 
+  # Imágenes estáticas (incluimos WEBP) 
+  <FilesMatch 
+    "\.(png|jpe?g|gif|svg|webp|avif)$"> Header set Cache-Control "public, max-age=31536000, immutable" 
+  </FilesMatch> 
+  # JS/CSS sueltos que sirvas desde /public (no los de Next) 
+  <FilesMatch 
+  "\.(js|css)$"> Header set Cache-Control "public, max-age=2592000" 
+  </FilesMatch> 
+</IfModule>

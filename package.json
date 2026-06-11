@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "next-sitemap && node scripts/optimize-images.js",
+    "preview": "npx serve out",
     "start": "next start",
     "lint": "next lint"
   },
@@ -12,6 +14,7 @@
     "framer-motion": "^12.4.7",
     "next": "^15.1.7",
     "next-intl": "^3.26.3",
+    "@builder.io/partytown": "^0.8.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-icons": "^5.5.0",
@@ -27,8 +30,10 @@
     "autoprefixer": "^10.4.20",
     "eslint": "^9",
     "eslint-config-next": "15.1.6",
+    "next-sitemap": "^4.2.3",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
+    "sharp": "^0.33.4",
     "typescript": "^5"
   }
 }

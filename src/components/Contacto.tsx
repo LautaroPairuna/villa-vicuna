@@ -1,10 +1,24 @@
+// src/components/Contacto.tsx
 "use client";
 
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+import { toWebpPath } from "@/lib/imagePath";
+import dynamic from "next/dynamic";
 
-export default function Contacto() {
+const CLOUDBEDS_PROPERTY_CODE = "pwSXnD";
+
+interface ContactoProps {
+  isCloudbedsReady?: boolean;
+}
+
+const CloudbedsBookNow = dynamic(() => import("./CloudbedsBookNow"), {
+  ssr: false,
+  loading: () => null, // acá no hace falta mostrar nada mientras carga
+});
+
+export default function Contacto({ isCloudbedsReady = false }: ContactoProps) {
   const t = useTranslations("contact");
 
   const tituloHTML = t.raw("titulo");
@@ -50,9 +64,7 @@ export default function Contacto() {
   };
 
   return (
-    <section
-      className="relative bg-white text-black px-4 sm:px-12 lg:px-16 py-12 lg:py-20"
-    >
+    <section className="relative bg-white text-black px-4 sm:px-12 lg:px-16 py-12 lg:py-20">
       <div className="max-w-[1200px] mx-auto relative">
         {/* Título móvil */}
         <h2 className="block lg:hidden text-4xl text-center uppercase mb-6">
@@ -61,85 +73,92 @@ export default function Contacto() {
 
         {/* Título desktop */}
         <h2
-          className={`hidden lg:block absolute top-[10%] left-1/2 -translate-x-1/2 text-[2.25em] lg:text-[4.8em] uppercase text-center z-10 w-full ${calculateTracking(
+          className={`hidden lg:block absolute top-[10%] left-1/2 -translate-x-1/2 text-[2.25em] lg:text-[3.8em] xl:text-[4.8em] uppercase text-center z-10 w-full ${calculateTracking(
             tituloCompleto
           )}`}
         >
-          <span className="text-black">
-            {tituloParte1}
-          </span>
+          <span className="text-black">{tituloParte1}</span>
           <span className="text-white">{tituloParte2}</span>
         </h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
           {/* Bloque izquierdo: Botón móvil e información de contacto */}
           <div>
-            {/* Botón mobile */}
+            {/* Botón mobile (variant contact) */}
             <div className="block lg:hidden text-center">
               <div className="relative w-full aspect-[4/4] flex justify-center items-center">
                 <Image
-                  src="/images/contactenos.jpg"
+                  src={toWebpPath("/images/contactenos.jpg")}
                   alt="Hotel Interior"
                   fill
                   className="w-full object-cover"
                 />
               </div>
+
               <div className="relative w-[300px] h-[200px] mx-auto opacity-85">
                 <Image
-                  src="/images/fondo-carta-4.svg"
-                  alt="Fondo Carta 4"
+                  src="/images/fondo-carta-6.svg"
+                  alt="Fondo Carta 6"
                   fill
                   className="object-contain"
                 />
               </div>
-              <button className="bg-[#e3d6b5] text-black p-4 text-lg hover:bg-[#d6c3a2] transition-all rounded-full mt-4">
-                <a
-                  href="https://goo.su/4Nkqe"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Image 
-                    src="/images/icons/ico-reservar.svg" 
-                    alt=""
-                    width={64}
-                    height={64} 
-                  />
-                </a>
-              </button>
+
+              <CloudbedsBookNow
+                propertyCode={CLOUDBEDS_PROPERTY_CODE}
+                variant="contact"
+                // TU diseño del botón visible (idéntico a la versión original)
+                contactButtonClassName="bg-[#e3d6b5] text-black p-4 text-lg hover:bg-[#d6c3a2] transition-all rounded-full mt-4"
+                contactIconSrc="/images/icons/ico-reservar.svg"
+                contactIconSize={64}
+                contactAriaLabel="Reservar ahora"
+                // Motor
+                mode="popup"
+                width="90vw"
+                height="90vh"
+                lang="auto"
+                timeout={4000}
+                // Reset/animaciones del wc (si querés sumar)
+                buttonClassName="cb-link-btn"
+                // Estado global sincronizado
+                isGloballyReady={isCloudbedsReady}
+              />
             </div>
 
             {/* Información de contacto */}
-            <div className="lg:px-4 lg:pb-16 lg:pt-72 p-2 flex flex-col justify-end md:mt-0 mt-4" id="contact">
+            <div
+              className="lg:px-4 lg:pb-16 lg:pt-72 p-2 flex flex-col justify-end md:mt-0 mt-4"
+              id="contact"
+            >
               <div className="gap-4">
                 <div className="space-y-2 2xl:text-xl xl:text-lg sm:text-xl lg:text-base max-w-[350px]">
-                  <Image 
-                    src={"/images/logo-villa-vicuna-2.svg"} 
-                    alt="" 
-                    width={160} 
+                  <Image
+                    src={"/images/logo-villa-vicuna-2.svg"}
+                    alt=""
+                    width={160}
                     height={160}
                     className="mb-8 2xl:w-[192px] w-[160px]"
-                  >
-                  </Image>
+                  />
                   <p className="flex items-center gap-3">
-                    <Image 
-                      src="/images/icons/ico-whatsapp.svg" 
+                    <Image
+                      src="/images/icons/ico-whatsapp.svg"
                       alt=""
                       width={24}
-                      height={24} 
+                      height={24}
                     />
                     {t("telefono")}
                   </p>
                   <p className="flex items-center gap-3">
                     <Image
-                      src="/images/icons/ico-email.svg" 
+                      src="/images/icons/ico-email.svg"
                       alt=""
                       width={24}
-                      height={24} 
+                      height={24}
                     />
                     {t("email")}
                   </p>
                   <a
-                    href="https://maps.app.goo.gl/XQzTWx83Ep5vpbN37"
+                    href="https://maps.app.goo.gl/HkENdi1r48xMmqpp6"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-start gap-3 hover:text-gray-500 transition"
@@ -160,11 +179,11 @@ export default function Contacto() {
                     className="flex items-center gap-3 hover:text-gray-500 transition"
                   >
                     <Image
-                      src="/images/icons/ico-instagram.svg" 
+                      src="/images/icons/ico-instagram.svg"
                       alt=""
                       width={24}
-                      height={24} 
-                    /> 
+                      height={24}
+                    />
                     villavicunasalta
                   </a>
                   <a
@@ -174,11 +193,11 @@ export default function Contacto() {
                     className="flex items-center gap-3 hover:text-gray-500 transition"
                   >
                     <Image
-                      src="/images/icons/ico-facebook.svg" 
+                      src="/images/icons/ico-facebook.svg"
                       alt=""
                       width={24}
-                      height={24} 
-                    /> 
+                      height={24}
+                    />
                     villa vicuña salta
                   </a>
                 </div>
@@ -189,7 +208,7 @@ export default function Contacto() {
           {/* Bloque derecho: Imagen */}
           <div className="relative w-full aspect-[6/7] justify-center items-center lg:flex hidden xl:ms-6 2xl:ms-10">
             <Image
-              src="/images/contactenos.jpg"
+              src={toWebpPath("/images/contactenos.jpg")}
               alt="Hotel Interior"
               fill
               className="w-full object-cover"
@@ -200,29 +219,29 @@ export default function Contacto() {
         {/* Fondo carta (desktop) */}
         <div className="hidden lg:block absolute bottom-[15%] lg:left-[56.5%] 2xl:left-[58%] -translate-x-1/2 w-[300px] h-[200px] lg:w-[600px] lg:h-[450px] opacity-55 z-20">
           <Image
-            src="/images/fondo-carta-4.svg"
-            alt="Fondo Carta 4"
+            src="/images/fondo-carta-6.svg"
+            alt="Fondo Carta 6"
             fill
             className="object-contain"
           />
         </div>
 
-        {/* Botón desktop */}
+        {/* Botón desktop (variant contact) */}
         <div className="hidden lg:block absolute bottom-[5%] lg:left-[51%] 2xl:left-[54%] -translate-x-1/2 z-30">
-          <button className="bg-[#e3d6b5] text-black p-4 text-xl font-semibold shadow-md hover:bg-[#d6c3a2] transition-all rounded-full">
-            <a
-              href="https://bit.ly/HotelVillaVicunaSalta"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Image 
-                src="/images/icons/ico-reservar.svg" 
-                alt=""
-                width={64}
-                height={64} 
-              />
-            </a>
-          </button>
+          <CloudbedsBookNow
+            propertyCode={CLOUDBEDS_PROPERTY_CODE}
+            variant="contact"
+            contactButtonClassName="bg-[#e3d6b5] text-black p-4 text-xl font-semibold shadow-md hover:bg-[#d6c3a2] transition-all rounded-full"
+            contactIconSrc="/images/icons/ico-reservar.svg"
+            contactIconSize={64}
+            contactAriaLabel="Reservar ahora"
+            mode="popup"
+            width="90vw"
+            height="90vh"
+            lang="auto"
+            timeout={3000}
+            buttonClassName="cb-link-btn"
+          />
         </div>
       </div>
     </section>

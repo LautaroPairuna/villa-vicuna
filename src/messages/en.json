@@ -5,6 +5,9 @@
       "subtitulo": "Discover the unique experience at our boutique hotel.",
       "reservar": "Book Now"
     },
+    "loading": {
+      "preparando": "Preparing your experience..."
+    },
     "Navbar": {
       "roomsNavbar": "Rooms",
       "reviewsNavbar": "Reviews",
@@ -26,7 +29,7 @@
       "gracias": "Thank you for choosing us..."
     },
     "desayuno": {
-      "nombre": "Breakf<span>ast</span>",
+      "nombre": "The Breakf<span>ast</span>",
       "texto": "At Villa Vicuña we understand the importance of a complete, healthy breakfast with fresh seasonal products made at home. \n\nOn our menu you will find a selection of five dishes with different flavors and textures suggested by the chef, in addition to the buffet with other homemade delicacies. \n\nWe put our menus at your disposal that can be consulted when you like to enjoy our flavors during your stay.",
       "reseñas": [
         "« -¨...Exquisite breakfast! The variety of dishes and the room are spectacular, beautiful decoration...¨»",

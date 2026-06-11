@@ -5,6 +5,9 @@
     "subtitulo": "Descubre la experiencia única en nuestro hotel boutique.",
     "reservar": "Reservar Ahora"
   },
+  "loading": {
+    "preparando": "Preparando tu experiencia..."
+  },
   "Navbar": {
     "roomsNavbar": "Habitaciones",
     "reviewsNavbar": "Reseñas",

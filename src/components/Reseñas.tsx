@@ -3,7 +3,10 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { createPortal } from "react-dom";
 import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import Image from "next/image";
+import { toWebpPath } from "@/lib/imagePath";
 import { useLocale, useTranslations } from "next-intl";
 import { reseñas, reseñasDetalles } from "../lib/reseñas";
 import { motion, AnimatePresence } from "framer-motion";
@@ -201,7 +204,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
           w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-5xl 
           overflow-y-auto
           max-h-[90vh]
-          relative transform overflow-hidden"
+          relative transform md:overflow-hidden"
           variants={modalVariants}
           initial="hidden"
           animate="visible"
@@ -287,7 +290,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
                               height={32}
                             />
                           </div>
-                          <p className="text-base leading-6 resenas-texto text-left pe-[1em]">
+                          <p className="text-base leading-6 resenas-texto text-left lg:pe-[1em]">
                             {tGlobal(detalle.comentarioKey)}
                           </p>
                           <div className="flex items-center justify-end space-x-2 mb-2">
@@ -308,7 +311,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
             </div>
 
             {/* Carrusel de imágenes manual con animación */}
-            <div className="relative col-span-1 lg:col-span-5 w-full aspect-[4/3] lg:aspect-[6/9] flex items-center justify-center">
+            <div className="relative col-span-1 lg:col-span-5 w-full aspect-[3/4] lg:aspect-[6/9] flex items-center justify-center">
               <div className="relative w-full h-full overflow-hidden">
                 <AnimatePresence custom={direction}>
                   <motion.div
@@ -322,7 +325,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
                     transition={{ duration: 0.5 }}
                   >
                     <Image
-                      src={`/images/reseñas/${selectedReseña.folder}/${selectedReseña.carrusel[currentImage]}`}
+                      src={toWebpPath(`/images/reseñas/${selectedReseña.folder}/${selectedReseña.carrusel[currentImage]}`)}
                       alt={`Imagen ${currentImage + 1}`}
                       fill
                       className="object-cover"
@@ -392,7 +395,7 @@ function ReseñaCard({ reseña, onClick }: ReseñaCardProps) {
       onClick={handleClick}
     >
       <Image
-        src={`/images/reseñas/${reseña.imagen}`}
+        src={toWebpPath(`/images/reseñas/${reseña.imagen}`)}
         alt={cardTitle}
         width={500}
         height={500}

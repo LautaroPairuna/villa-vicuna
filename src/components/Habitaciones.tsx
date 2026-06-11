@@ -5,6 +5,13 @@ import { Habitaciones as getHabitaciones } from "@/lib/habitaciones";
 import { useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { toWebpPath } from "@/lib/imagePath";
+import dynamic from "next/dynamic";
+
+const CloudbedsBookNow = dynamic(() => import("./CloudbedsBookNow"), {
+  ssr: false,
+  loading: () => null,
+});
 
 // Interfaz para cada amenidad.
 export interface Amenity {
@@ -177,7 +184,7 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
             </div>
           </div>
           {/* Sección del carrusel de imágenes */}
-          <div className="relative col-span-1 lg:col-span-5 w-full aspect-[4/3] lg:aspect-[2/3] flex items-center justify-center">
+          <div className="relative col-span-1 lg:col-span-5 w-full aspect-[3/4] lg:aspect-[6/9] flex items-center justify-center">
             <div className="relative w-full h-full overflow-hidden">
               <AnimatePresence custom={direction}>
                 <motion.div
@@ -191,7 +198,7 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
                   transition={{ duration: 0.5 }}
                 >
                   <Image
-                    src={`/images/habitaciones/${habitacion.folder}/${habitacion.carrusel[currentImage]}`}
+                    src={toWebpPath(`/images/habitaciones/${habitacion.folder}/${habitacion.carrusel[currentImage]}`)}
                     alt={`Imagen ${currentImage + 1}`}
                     fill
                     className="object-cover"
@@ -290,25 +297,38 @@ export default function HabitacionesComponent() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-20 gap-y-1">
             {habitaciones.map((hab) => (
               <div key={hab.id} className="relative mx-auto 2xl:max-w-[300px] xl:max-w-[225px] lg:max-w-[350px]">
-                <div className="relative 2xl:w-[300px] 2xl:h-[300px] sm:w-[250px] sm:h-[250px] w-[300px] h-[300px] overflow-hidden mx-auto">
+                <div className="relative 2xl:w-[300px] 2xl:h-[300px] sm:w-[250px] sm:h-[250px] w-[300px] h-[300px] overflow-hidden mx-auto group cursor-pointer" onClick={() => handleSelect(hab.id)}>
                   <Image
-                    src={`/images/habitaciones/${hab.imagen}`}
+                    src={toWebpPath(`/images/habitaciones/${hab.imagen}`)}
                     alt={t(`${hab.key}.nombre`)}
                     fill
-                    className="object-cover"
+                    className="object-cover transition-opacity duration-300 group-hover:opacity-80"
                   />
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/35 flex items-center justify-center text-white">
+                    <div className="flex items-center gap-2 uppercase tracking-widest">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                        <path d="M10 4a6 6 0 105.293 9.293l3.707 3.707a1 1 0 001.414-1.414l-3.707-3.707A6 6 0 0010 4zm0 2a4 4 0 110 8 4 4 0 010-8z" />
+                      </svg>
+                      <span>{t("ver_mas")}</span>
+                    </div>
+                  </div>
                 </div>
                 <div className="py-4 text-left">
                   <p className="text-xs text-gray-600">{t(`${hab.key}.detalles`)}</p>
                   <h3 className="text-base mt-2 titulo-habitaciones capitalize tracking-widest">
                     {hab.cantidad} {hab.categoria} {t(`${hab.key}.nombre`)}
                   </h3>
-                  <button
-                    className="pt-2 text-base transition-all rounded-xl items-center my-0 mx-auto justify-center text-center cursor-pointer titulo-habitaciones"
-                    onClick={() => handleSelect(hab.id)}
-                  >
-                    {t("ver_mas")}
-                  </button>
+                  <CloudbedsBookNow
+                    propertyCode="pwSXnD"
+                    variant="rooms"
+                    roomsButtonClassName="pt-2 text-base transition-all rounded-xl items-center my-0 mx-auto justify-center text-center cursor-pointer titulo-habitaciones"
+                    roomsLabel={t(`${hab.key}.boton`)}
+                    mode="popup"
+                    width="90vw"
+                    height="90vh"
+                    lang="auto"
+                    timeout={4000}
+                  />
                 </div>
               </div>
             ))}
@@ -321,6 +341,3 @@ export default function HabitacionesComponent() {
     </section>
   );
 }
-
-
-

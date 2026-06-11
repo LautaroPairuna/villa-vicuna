@@ -5,6 +5,9 @@
       "subtitulo": "Découvrez l'expérience unique dans notre hôtel boutique.",
       "reservar": "Réservez maintenant"
     },
+    "loading": {
+      "preparando": "Préparation de votre expérience..."
+    },
     "Navbar": {
       "roomsNavbar": "Chambres",
       "reviewsNavbar": "Avis",
