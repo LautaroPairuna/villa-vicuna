@@ -1,0 +1,100 @@
+// Prisma 7 — usa driver adapters (engine "client") con MySQL/MariaDB.
+// La conexión se inyecta en código vía @prisma/adapter-mariadb (ver src/lib/prisma.ts).
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+// ── Autenticación (NextAuth / Credentials) ──────────────────────────
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String?
+  role         String   @default("admin")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+// ── Biblioteca de medios ────────────────────────────────────────────
+model Media {
+  id        String   @id @default(cuid())
+  path      String   // ruta pública servida desde el volumen, p.ej. /uploads/rooms/twin-1.webp
+  alt       String   @default("")
+  width     Int?
+  height    Int?
+  mime      String?
+  size      Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  roomCovers    Room[]         @relation("RoomCover")
+  reviewCovers  Review[]       @relation("ReviewCover")
+  roomImages    RoomImage[]
+  reviewImages  ReviewImage[]
+  sectionImages SectionImage[]
+}
+
+// ── Habitaciones (solo imágenes; los textos siguen en next-intl por `key`) ──
+model Room {
+  id        String      @id @default(cuid())
+  key       String      @unique // coincide con la clave de traducción: twin_interna, matrimonial, ...
+  categoria String              // standard | superior
+  cantidad  String
+  order     Int         @default(0)
+  coverId   String?
+  cover     Media?      @relation("RoomCover", fields: [coverId], references: [id])
+  images    RoomImage[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+}
+
+model RoomImage {
+  id      String @id @default(cuid())
+  roomId  String
+  room    Room   @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  mediaId String
+  media   Media  @relation(fields: [mediaId], references: [id])
+  order   Int    @default(0)
+
+  @@index([roomId])
+  @@index([mediaId])
+}
+
+// ── Reseñas (solo imágenes) ─────────────────────────────────────────
+model Review {
+  id        String        @id @default(cuid())
+  key       String        @unique // desayuno, detalles, personal
+  order     Int           @default(0)
+  coverId   String?
+  cover     Media?        @relation("ReviewCover", fields: [coverId], references: [id])
+  images    ReviewImage[]
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+}
+
+model ReviewImage {
+  id       String @id @default(cuid())
+  reviewId String
+  review   Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  mediaId  String
+  media    Media  @relation(fields: [mediaId], references: [id])
+  order    Int    @default(0)
+
+  @@index([reviewId])
+  @@index([mediaId])
+}
+
+// ── Imágenes sueltas de secciones (hero, nosotros, contacto, menú) ──
+model SectionImage {
+  id        String   @id @default(cuid())
+  slug      String   @unique // hero_poster, nosotros, contactenos, menu_foods, menu_drinks
+  mediaId   String?
+  media     Media?   @relation(fields: [mediaId], references: [id])
+  updatedAt DateTime @updatedAt
+}

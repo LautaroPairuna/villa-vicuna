@@ -5,7 +5,7 @@ const LOCALES  = ['es', 'en', 'fr'];
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
   siteUrl: BASE_URL,          // prefijo para todas las <loc>
-  outDir: 'out',           // los copia aquí tras el build
+  outDir: 'public',           // app con servidor Node: robots/sitemap van a /public
   generateRobotsTxt: true,    // también crea robots.txt
   generateIndexSitemap: false, // ⟵  un único sitemap, sin sitemap-index
   changefreq: 'daily',
