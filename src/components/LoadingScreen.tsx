@@ -13,7 +13,7 @@ export default function LoadingScreen({ isVisible = true }: LoadingScreenProps) 
 
   return (
     <div
-      className={`fixed inset-0 z-[100] bg-gradient-to-br from-[#f8f5f0]/95 via-[#f0ebe3]/90 to-[#e8e0d5]/85 backdrop-blur-sm flex flex-col items-center justify-center transition-opacity duration-700 ease-in-out ${
+      className={`loading-overlay fixed inset-0 z-[100] bg-gradient-to-br from-[#f8f5f0]/95 via-[#f0ebe3]/90 to-[#e8e0d5]/85 backdrop-blur-sm flex flex-col items-center justify-center transition-opacity duration-700 ease-in-out ${
         isVisible ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
       }`}
     >

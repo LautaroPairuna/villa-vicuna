@@ -14,10 +14,13 @@ import type {
   SectionImages,
 } from "@/lib/contentTypes";
 
-const Nosotros = dynamic(() => import("./Nosotros"), { ssr: false });
-const Reseñas = dynamic(() => import("./Reseñas"), { ssr: false });
-const Menu = dynamic(() => import("./Menu"), { ssr: false });
-const Habitaciones = dynamic(() => import("./Habitaciones"), { ssr: false });
+// SSR habilitado (sin ssr:false): el contenido entra en el HTML para SEO/GEO.
+// Seguimos usando dynamic para code-splitting por sección. Los modales/portales
+// (react-slick, createPortal) solo se montan al abrirse, así que el SSR es seguro.
+const Nosotros = dynamic(() => import("./Nosotros"));
+const Reseñas = dynamic(() => import("./Reseñas"));
+const Menu = dynamic(() => import("./Menu"));
+const Habitaciones = dynamic(() => import("./Habitaciones"));
 
 interface PageWithLoadingProps {
   rooms?: RoomContent[];
@@ -81,9 +84,15 @@ export default function PageWithLoading({
 
   return (
     <>
+      {/* Sin JS, el contenido queda visible y se oculta el loader (el contenido
+          ya está en el HTML por el SSR). */}
+      <noscript>
+        <style>{`.site-reveal{opacity:1 !important} .loading-overlay{display:none !important}`}</style>
+      </noscript>
+
       {/* Contenido principal que se revela gradualmente */}
       <div
-        className={`transition-opacity duration-1000 ease-in-out ${
+        className={`site-reveal transition-opacity duration-1000 ease-in-out ${
           showContent ? "opacity-100" : "opacity-0"
         }`}
       >
