@@ -7,16 +7,8 @@ import {
   getSectionImages,
 } from "@/lib/content";
 
-/* Metadata básico (solo se actualiza el canonical al nuevo dominio) */
-export const metadata = {
-  title: "Villa Vicuña | Salta, Argentina",
-  description:
-    "Bienvenido a Villa Vicuña Hotel Boutique. Mansión colonial del siglo XX a 250 m del centro histórico de Salta. 12 habitaciones y atención personalizada.",
-  alternates: { canonical: "https://villavicuna.com.ar" },
-};
-
-/* Viewport sin cambios */
-export const viewport = { width: "device-width", initialScale: 1 };
+// El SEO (title, description, canonical por idioma, hreflang, OG, favicons)
+// se define una sola vez en generateMetadata del layout.
 
 // ISR: la página se sirve estática (cacheada) y se regenera de la DB solo
 // cuando el panel guarda un cambio (revalidatePath) o cada `revalidate` seg.

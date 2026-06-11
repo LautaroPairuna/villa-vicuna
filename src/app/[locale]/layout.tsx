@@ -1,4 +1,5 @@
 // src/app/[locale]/layout.tsx
+import type { Metadata, Viewport } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { setRequestLocale, getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -8,9 +9,53 @@ import "../../styles/globals.css";
 
 /*─── CONFIG GENERAL ───────────────────────────────────────────*/
 // Sin force-dynamic: el layout se cachea (ISR). Ver revalidate en page.tsx.
-const BASE_URL    = "https://villavicuna.com.ar";  // dominio del sitio
-const FAV_VERSION = "20250730";                    // cambia al actualizar favicon
-const LOCALES     = ["es", "en", "fr"] as const;   // locales permitidos
+const BASE_URL = "https://villavicuna.com.ar"; // dominio del sitio
+const FAV_VERSION = "20250730"; // cambia al actualizar favicon
+const LOCALES = ["es", "en", "fr"] as const; // locales permitidos
+
+const TITLE = "Villa Vicuña | Salta, Argentina";
+const DESCRIPTION =
+  "Hotel boutique en el corazón de Salta capital, a pasos del centro histórico. 12 habitaciones estilo colonial español y atención personalizada.";
+
+/*─── METADATA (fuente única de verdad para el SEO) ────────────*/
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+
+  return {
+    metadataBase: new URL(BASE_URL),
+    title: TITLE,
+    description: DESCRIPTION,
+    alternates: {
+      canonical: `/${locale}`,
+      languages: Object.fromEntries(LOCALES.map((l) => [l, `/${l}`])),
+    },
+    openGraph: {
+      type: "website",
+      siteName: "Hotel Villa Vicuña",
+      title: TITLE,
+      description: DESCRIPTION,
+      url: `${BASE_URL}/${locale}`,
+      locale,
+      images: ["/opengraph.jpg"],
+    },
+    icons: {
+      icon: `/favicon.ico?v=${FAV_VERSION}`,
+      apple: `/apple-touch-icon.png?v=${FAV_VERSION}`,
+    },
+    other: {
+      "facebook-domain-verification": "4ufy7e1ckl75tdmrfpqn7qcsqbtlmo",
+    },
+  };
+}
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
 
 /*─── LAYOUT ─────────────────────────────────────────────────*/
 export default async function LocaleLayout({
@@ -27,53 +72,15 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
   const messages = await getMessages({ locale });
 
-  const title = "Villa Vicuña | Salta, Argentina";
-  const description =
-    "Hotel boutique en el corazón de Salta capital, a pasos del centro histórico. 12 habitaciones estilo colonial español y atención personalizada.";
-
-  const hrefLangs = Object.fromEntries(
-    LOCALES.map((l) => [l, `${BASE_URL}/${l}`]),
-  ) as Record<(typeof LOCALES)[number], string>;
-
   return (
     <html lang={locale}>
       <head>
-        {/* Meta básicos */}
-        <meta charSet="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {/* Solo recursos que la Metadata API no maneja: preloads y preconexiones.
+            El SEO (title, description, canonical, hreflang, OG, favicons) lo
+            genera generateMetadata. */}
 
-        {/* SEO */}
-        <title>{title}</title>
-        <meta name="description" content={description} />
-        <link rel="canonical" href={`${BASE_URL}/${locale}`} />
-        {Object.entries(hrefLangs).map(([lang, url]) => (
-          <link key={lang} rel="alternate" hrefLang={lang} href={url} />
-        ))}
-
-        {/* Favicons versionados */}
-        <link rel="icon" href={`/favicon.ico?v=${FAV_VERSION}`} />
-        <link
-          rel="apple-touch-icon"
-          href={`/apple-touch-icon.png?v=${FAV_VERSION}`}
-        />
-
-        {/* Open Graph mínimo */}
-        <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="Hotel Villa Vicuña" />
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta property="og:url" content={`${BASE_URL}/${locale}`} />
-        <meta property="og:locale" content={locale} />
-        <meta property="og:image" content={`${BASE_URL}/opengraph.jpg`} />
-
-        {/* Verificación de dominio Facebook */}
-        <meta
-          name="facebook-domain-verification"
-          content="4ufy7e1ckl75tdmrfpqn7qcsqbtlmo"
-        />
-
-        {/* Preload crítico (solo lo realmente above-the-fold) */}
-        <link rel="preload" as="image" href="/images/hero-poster.jpg" />
+        {/* Preload crítico (above-the-fold) */}
+        <link rel="preload" as="image" href="/images/hero-poster.webp" />
         <link
           rel="preload"
           as="image"
@@ -193,7 +200,7 @@ export default async function LocaleLayout({
       <body>
         {/* Facebook Pixel (noscript): usar <img>, no <Image /> */}
         <noscript>
-          {/* en JSX, <img> dentro de noscript funciona si no usás props dinámicas */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             height="1"
             width="1"
