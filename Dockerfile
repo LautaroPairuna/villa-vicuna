@@ -18,6 +18,7 @@ RUN npm ci
 ############################
 FROM node:22-alpine AS builder
 WORKDIR /app
+ENV NEXT_TELEMETRY_DISABLED=1
 RUN apk add --no-cache libc6-compat
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
@@ -33,6 +34,7 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
+ENV NEXT_TELEMETRY_DISABLED=1
 RUN apk add --no-cache libc6-compat \
   && addgroup -g 1001 -S nodejs \
   && adduser -S nextjs -u 1001
@@ -50,8 +52,10 @@ COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
 COPY --chown=nextjs:nodejs docker-entrypoint.sh ./docker-entrypoint.sh
 RUN chmod +x ./docker-entrypoint.sh
 
-# Carpeta de uploads (se sobreescribe con el volumen persistente de Dokploy)
-RUN mkdir -p /app/public/uploads && chown -R nextjs:nodejs /app/public/uploads
+# Carpeta de uploads (volumen persistente) y caché de next/image
+# (montá un volumen en /app/.next/cache para no re-optimizar tras cada deploy).
+RUN mkdir -p /app/public/uploads /app/.next/cache \
+  && chown -R nextjs:nodejs /app/public/uploads /app/.next/cache
 
 USER nextjs
 EXPOSE 3000

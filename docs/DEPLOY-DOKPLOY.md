@@ -83,6 +83,22 @@ docker build -t villa-vicuna .
 docker run --env-file .env -p 3000:3000 villa-vicuna
 ```
 
+## 8. Optimización de consumo (CPU / RAM / ancho de banda)
+
+- **ISR (no dinámico):** el sitio público se sirve como HTML estático cacheado y
+  solo se regenera de MySQL cuando el panel guarda un cambio (o cada 24 h). No hay
+  consulta a la base ni render en cada visita → CPU casi nula por request.
+- **Pool MySQL chico:** `DB_CONNECTION_LIMIT` (default 3). Subilo solo si hace falta.
+- **Caché de imágenes de Next:** montá un volumen en `/app/.next/cache` para no
+  re-optimizar las imágenes después de cada deploy.
+- **Cache-Control largo** (`immutable`) en `/images`, `/uploads`, `/videos`, `/fonts`
+  → el navegador no las vuelve a descargar (ahorra ancho de banda del VPS).
+- **Variantes de imagen acotadas** (`deviceSizes`/`imageSizes`) → menos CPU y disco.
+- **Video del hero:** es lo más pesado en ancho de banda. Asegurate de subir
+  `video-home.webm` (más liviano que el mp4) y, si podés, comprimilo bien.
+- Memoria del contenedor: el server standalone arranca en ~100-150 MB. Si tu VPS es
+  muy chico, podés limitar Node con `NODE_OPTIONS=--max-old-space-size=512`.
+
 ## Notas de la migración desde Apache
 - Eliminados: `public/.htaccess`, `public/index.html` (eran solo para hosting estático).
 - `next.config.js`: `output: "standalone"`, `next/image` reactivado.

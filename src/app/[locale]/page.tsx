@@ -18,9 +18,10 @@ export const metadata = {
 /* Viewport sin cambios */
 export const viewport = { width: "device-width", initialScale: 1 };
 
-// Render dinámico: refleja siempre el contenido actual de la base de datos
-// (las imágenes editadas desde el panel) sin necesidad de rebuild.
-export const dynamic = "force-dynamic";
+// ISR: la página se sirve estática (cacheada) y se regenera de la DB solo
+// cuando el panel guarda un cambio (revalidatePath) o cada `revalidate` seg.
+// Así no se consulta MySQL ni se renderiza en cada visita → mínimo consumo.
+export const revalidate = 86400; // 24 h (red de seguridad; el panel revalida al instante)
 
 interface LocalePageProps {
   params: Promise<{ locale: string }>;

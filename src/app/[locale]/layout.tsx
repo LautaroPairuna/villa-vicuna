@@ -7,7 +7,7 @@ import SwRegister from "@/components/SwRegister";
 import "../../styles/globals.css";
 
 /*─── CONFIG GENERAL ───────────────────────────────────────────*/
-export const dynamic = "force-dynamic";            // servidor Node (Dokploy)
+// Sin force-dynamic: el layout se cachea (ISR). Ver revalidate en page.tsx.
 const BASE_URL    = "https://villavicuna.com.ar";  // dominio del sitio
 const FAV_VERSION = "20250730";                    // cambia al actualizar favicon
 const LOCALES     = ["es", "en", "fr"] as const;   // locales permitidos

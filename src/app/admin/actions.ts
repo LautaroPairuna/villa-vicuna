@@ -11,8 +11,11 @@ async function requireAdmin() {
 }
 
 function refresh() {
-  // El sitio público es force-dynamic, pero revalidamos por las dudas.
-  revalidatePath("/", "layout");
+  // El sitio público es ISR: regeneramos las páginas por idioma al guardar,
+  // así el cambio se ve al instante sin tener que renderizar en cada visita.
+  for (const locale of ["es", "en", "fr"]) {
+    revalidatePath(`/${locale}`);
+  }
   revalidatePath("/admin");
 }
 
