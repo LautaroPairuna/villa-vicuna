@@ -6,14 +6,16 @@ import {
   moveRoomImageAction,
 } from "@/app/admin/actions";
 import {
-  PageTitle,
+  PageHeader,
   Card,
-  Thumb,
-  UploadForm,
-  MoveBtn,
-  DeleteBtn,
+  CardTitle,
+  CoverPreview,
+  FieldLabel,
+  MediaTile,
   DbErrorNotice,
+  EmptyHint,
 } from "@/components/admin/ui";
+import UploadField from "@/components/admin/UploadField";
 
 export const dynamic = "force-dynamic";
 
@@ -38,62 +40,64 @@ export default async function HabitacionesPage() {
   }
 
   return (
-    <>
-      <PageTitle subtitle="Portada y carrusel de cada habitación.">Habitaciones</PageTitle>
+    <div className="max-w-5xl">
+      <PageHeader title="Habitaciones" subtitle="Portada y carrusel de cada habitación." />
 
       {dbError && <DbErrorNotice />}
       {!dbError && rooms.length === 0 && (
-        <p className="text-sm text-[#17273f]/60">
+        <EmptyHint>
           No hay habitaciones cargadas. Corré <code>npm run prisma:seed</code>.
-        </p>
+        </EmptyHint>
       )}
 
       <div className="space-y-5">
         {rooms.map((room) => (
           <Card key={room.id}>
-            <h3 className="text-lg uppercase tracking-[0.2em] text-[#17273f] capitalize mb-4">
+            <CardTitle>
               {room.categoria} · {room.key.replace(/_/g, " ")}
-            </h3>
+            </CardTitle>
 
-            <div className="flex gap-4 items-start mb-5">
-              <div className="space-y-1">
-                <p className="text-[10px] uppercase tracking-widest text-[#17273f]/50">Portada</p>
-                <Thumb src={room.cover?.path} alt={room.key} />
+            <div className="grid lg:grid-cols-[auto_1fr] gap-6 lg:gap-8">
+              {/* Portada */}
+              <div className="space-y-3">
+                <FieldLabel>Portada</FieldLabel>
+                <CoverPreview src={room.cover?.path} alt={room.key} />
+                <div className="max-w-xs">
+                  <UploadField
+                    action={setRoomCoverAction}
+                    hidden={{ roomId: room.id }}
+                    label="Cambiar"
+                  />
+                </div>
               </div>
-              <div className="pt-5">
-                <UploadForm
-                  action={setRoomCoverAction}
-                  hidden={{ roomId: room.id }}
-                  label="Cambiar portada"
-                />
-              </div>
-            </div>
 
-            <div className="space-y-2">
-              <p className="text-[10px] uppercase tracking-widest text-[#17273f]/50">Carrusel</p>
-              <div className="flex flex-wrap gap-3">
-                {room.images.map((img) => (
-                  <div key={img.id} className="space-y-1">
-                    <Thumb src={img.media.path} alt={img.id} />
-                    <div className="flex gap-1">
-                      <MoveBtn action={moveRoomImageAction} id={img.id} dir="up" />
-                      <MoveBtn action={moveRoomImageAction} id={img.id} dir="down" />
-                      <DeleteBtn action={deleteRoomImageAction} id={img.id} />
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="pt-1">
-                <UploadForm
-                  action={addRoomImageAction}
-                  hidden={{ roomId: room.id }}
-                  label="Agregar imagen"
-                />
+              {/* Carrusel */}
+              <div className="space-y-3 min-w-0">
+                <FieldLabel>Carrusel ({room.images.length})</FieldLabel>
+                <div className="flex flex-wrap gap-3">
+                  {room.images.map((img) => (
+                    <MediaTile
+                      key={img.id}
+                      id={img.id}
+                      src={img.media.path}
+                      alt={img.id}
+                      moveAction={moveRoomImageAction}
+                      deleteAction={deleteRoomImageAction}
+                    />
+                  ))}
+                </div>
+                <div className="max-w-md">
+                  <UploadField
+                    action={addRoomImageAction}
+                    hidden={{ roomId: room.id }}
+                    label="Agregar"
+                  />
+                </div>
               </div>
             </div>
           </Card>
         ))}
       </div>
-    </>
+    </div>
   );
 }

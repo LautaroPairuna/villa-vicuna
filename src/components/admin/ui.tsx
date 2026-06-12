@@ -1,69 +1,127 @@
-// Piezas de UI reutilizables del panel (server components que renderizan
-// formularios con server actions). Estética del sitio: crema/dorado/navy.
+import { FiChevronLeft, FiChevronRight, FiTrash2, FiImage } from "react-icons/fi";
 
-export function Thumb({ src, alt }: { src?: string | null; alt: string }) {
+// ── Encabezado de página ────────────────────────────────────────────
+export function PageHeader({
+  title,
+  subtitle,
+}: {
+  title: string;
+  subtitle?: string;
+}) {
+  return (
+    <div className="mb-8">
+      <h1 className="text-3xl md:text-4xl uppercase tracking-[0.2em] text-[#17273f]">{title}</h1>
+      <div className="mt-3 h-[2px] w-14 bg-[#e3d6b5]" />
+      {subtitle && <p className="text-sm text-[#17273f]/60 mt-3">{subtitle}</p>}
+    </div>
+  );
+}
+
+// ── Tarjeta blanca ──────────────────────────────────────────────────
+export function Card({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="bg-white border border-[#e7ddc4] shadow-[0_1px_3px_rgba(23,39,63,0.06)] p-5 md:p-6">
+      {children}
+    </div>
+  );
+}
+
+// Título dentro de una tarjeta (con bullet dorado).
+export function CardTitle({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="flex items-center gap-3 mb-5 pb-3 border-b border-[#efe7d2]">
+      <span className="w-2 h-2 bg-[#e3d6b5] shrink-0" />
+      <h3 className="text-base md:text-lg uppercase tracking-[0.2em] text-[#17273f] capitalize">
+        {children}
+      </h3>
+    </div>
+  );
+}
+
+export function FieldLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="text-[10px] uppercase tracking-[0.2em] text-[#17273f]/50 mb-2">{children}</p>
+  );
+}
+
+// ── Vista previa de portada (grande) ────────────────────────────────
+export function CoverPreview({ src, alt }: { src?: string | null; alt: string }) {
   if (!src) {
     return (
-      <div className="w-24 h-24 border border-[#e3d6b5] bg-[#f8f4ea] flex items-center justify-center text-[10px] uppercase tracking-widest text-[#17273f]/50">
-        sin imagen
+      <div className="w-44 h-32 border border-dashed border-[#d8cdb0] bg-[#f8f4ea] flex flex-col items-center justify-center gap-1 text-[#17273f]/40">
+        <FiImage className="w-5 h-5" />
+        <span className="text-[10px] uppercase tracking-widest">Sin portada</span>
       </div>
     );
   }
   return (
     // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={src}
-      alt={alt}
-      className="w-24 h-24 object-cover border border-[#e3d6b5] bg-white"
-    />
+    <img src={src} alt={alt} className="w-44 h-32 object-cover border border-[#e3d6b5] bg-white" />
   );
 }
 
-export function UploadForm({
+// ── Botón de acción dentro de la barra de una miniatura ─────────────
+function IconForm({
   action,
-  hidden,
-  label = "Subir",
+  fields,
+  title,
+  danger,
+  children,
 }: {
   action: (formData: FormData) => void;
-  hidden: Record<string, string>;
-  label?: string;
+  fields: Record<string, string>;
+  title: string;
+  danger?: boolean;
+  children: React.ReactNode;
 }) {
   return (
-    <form action={action} className="flex items-center gap-2 flex-wrap">
-      {Object.entries(hidden).map(([k, v]) => (
+    <form action={action}>
+      {Object.entries(fields).map(([k, v]) => (
         <input key={k} type="hidden" name={k} value={v} />
       ))}
-      <input
-        type="file"
-        name="file"
-        accept="image/*"
-        required
-        className="text-sm text-[#17273f]/70 file:mr-3 file:border-0 file:bg-[#e3d6b5] file:text-[#17273f] file:px-3 file:py-1.5 file:uppercase file:tracking-wider file:text-xs file:cursor-pointer hover:file:bg-[#d6c3a2]"
-      />
-      <button className="text-xs uppercase tracking-[0.2em] bg-[#17273f] text-white px-4 py-2 hover:bg-[#24395c] transition-colors">
-        {label}
+      <button
+        title={title}
+        className={`w-7 h-7 flex items-center justify-center text-white/80 transition-colors ${
+          danger ? "hover:text-red-300" : "hover:text-[#e3d6b5]"
+        }`}
+      >
+        {children}
       </button>
     </form>
   );
 }
 
-export function PageTitle({
-  children,
-  subtitle,
+// ── Miniatura de carrusel con barra de acciones sobre la imagen ─────
+export function MediaTile({
+  id,
+  src,
+  alt,
+  moveAction,
+  deleteAction,
 }: {
-  children: React.ReactNode;
-  subtitle?: string;
+  id: string;
+  src: string;
+  alt: string;
+  moveAction: (formData: FormData) => void;
+  deleteAction: (formData: FormData) => void;
 }) {
   return (
-    <div className="mb-8">
-      <h1 className="text-3xl uppercase tracking-[0.2em] text-[#17273f]">{children}</h1>
-      {subtitle && <p className="text-sm text-[#17273f]/60 mt-1">{subtitle}</p>}
+    <div className="relative w-32 h-32 border border-[#e3d6b5] bg-white overflow-hidden group">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={src} alt={alt} className="w-full h-full object-cover" />
+      <div className="absolute inset-x-0 bottom-0 flex items-center justify-between px-1 bg-[#17273f]/85 backdrop-blur-[1px]">
+        <IconForm action={moveAction} fields={{ id, dir: "up" }} title="Mover antes">
+          <FiChevronLeft className="w-4 h-4" />
+        </IconForm>
+        <IconForm action={deleteAction} fields={{ id }} title="Eliminar" danger>
+          <FiTrash2 className="w-3.5 h-3.5" />
+        </IconForm>
+        <IconForm action={moveAction} fields={{ id, dir: "down" }} title="Mover después">
+          <FiChevronRight className="w-4 h-4" />
+        </IconForm>
+      </div>
     </div>
   );
-}
-
-export function Card({ children }: { children: React.ReactNode }) {
-  return <div className="bg-white border border-black/5 shadow-sm p-5">{children}</div>;
 }
 
 export function DbErrorNotice() {
@@ -75,45 +133,6 @@ export function DbErrorNotice() {
   );
 }
 
-export function MoveBtn({
-  action,
-  id,
-  dir,
-}: {
-  action: (formData: FormData) => void;
-  id: string;
-  dir: "up" | "down";
-}) {
-  return (
-    <form action={action}>
-      <input type="hidden" name="id" value={id} />
-      <input type="hidden" name="dir" value={dir} />
-      <button
-        className="text-xs border border-[#17273f]/30 text-[#17273f] w-7 h-7 bg-white hover:bg-[#f8f4ea] transition-colors"
-        title={dir === "up" ? "Mover antes" : "Mover después"}
-      >
-        {dir === "up" ? "←" : "→"}
-      </button>
-    </form>
-  );
-}
-
-export function DeleteBtn({
-  action,
-  id,
-}: {
-  action: (formData: FormData) => void;
-  id: string;
-}) {
-  return (
-    <form action={action}>
-      <input type="hidden" name="id" value={id} />
-      <button
-        className="text-xs border border-red-300 text-red-600 w-7 h-7 bg-white hover:bg-red-50 transition-colors"
-        title="Eliminar"
-      >
-        ✕
-      </button>
-    </form>
-  );
+export function EmptyHint({ children }: { children: React.ReactNode }) {
+  return <p className="text-sm text-[#17273f]/60">{children}</p>;
 }
