@@ -1,15 +1,19 @@
-// Root layout independiente para el panel admin (fuera de [locale], sin next-intl).
+// Root layout del panel admin (fuera de [locale], sin next-intl).
+// Usa la identidad visual del sitio: crema + Montserrat, encabezados en Cinzel.
 import "../../styles/globals.css";
 
 export const metadata = {
-  title: "Admin · Villa Vicuña",
+  title: "Administración · Villa Vicuña",
   robots: { index: false, follow: false },
 };
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es">
-      <body className="min-h-screen bg-gray-100 text-gray-900 antialiased">
+      <body
+        style={{ fontFamily: '"Montserrat", sans-serif' }}
+        className="min-h-screen bg-[#f6f0e1] text-[#17273f] antialiased"
+      >
         {children}
       </body>
     </html>
