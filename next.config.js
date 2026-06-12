@@ -25,6 +25,12 @@ const nextConfig = {
   // Paquetes nativos / solo-servidor que no deben bundlearse.
   serverExternalPackages: ["@prisma/adapter-mariadb", "mariadb", "sharp"],
 
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "50mb",
+    },
+  },
+
   // Cache-Control largo para assets que no cambian (los uploads usan nombre
   // único por archivo, así que también son "immutable" de forma segura).
   async headers() {
