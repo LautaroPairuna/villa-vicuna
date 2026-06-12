@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { STATIC_SECTION_IMAGES } from "@/lib/contentTypes";
@@ -27,7 +28,7 @@ const SECTION_LABELS: Record<string, string> = {
 function Thumb({ src, alt }: { src?: string | null; alt: string }) {
   if (!src) {
     return (
-      <div className="w-24 h-24 rounded-md bg-gray-200 flex items-center justify-center text-xs text-gray-500">
+      <div className="w-24 h-24 border border-[#e3d6b5] bg-[#f8f4ea] flex items-center justify-center text-[10px] uppercase tracking-widest text-[#17273f]/50">
         sin imagen
       </div>
     );
@@ -37,7 +38,7 @@ function Thumb({ src, alt }: { src?: string | null; alt: string }) {
     <img
       src={src}
       alt={alt}
-      className="w-24 h-24 rounded-md object-cover border bg-white"
+      className="w-24 h-24 object-cover border border-[#e3d6b5] bg-white"
     />
   );
 }
@@ -61,13 +62,25 @@ function UploadForm({
         name="file"
         accept="image/*"
         required
-        className="text-sm file:mr-3 file:rounded-md file:border-0 file:bg-black file:px-3 file:py-1.5 file:text-white"
+        className="text-sm text-[#17273f]/70 file:mr-3 file:border-0 file:bg-[#e3d6b5] file:text-[#17273f] file:px-3 file:py-1.5 file:uppercase file:tracking-wider file:text-xs file:cursor-pointer hover:file:bg-[#d6c3a2]"
       />
-      <button className="text-sm bg-gray-900 text-white rounded-md px-3 py-1.5">
+      <button className="text-xs uppercase tracking-[0.2em] bg-[#17273f] text-white px-4 py-2 hover:bg-[#24395c] transition-colors">
         {label}
       </button>
     </form>
   );
+}
+
+function SectionTitle({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="border-b-2 border-[#e3d6b5] pb-2">
+      <h2 className="text-2xl uppercase tracking-[0.25em] text-[#17273f]">{children}</h2>
+    </div>
+  );
+}
+
+function Card({ children }: { children: React.ReactNode }) {
+  return <div className="bg-white border border-black/5 shadow-sm p-5">{children}</div>;
 }
 
 export default async function AdminDashboard() {
@@ -92,146 +105,179 @@ export default async function AdminDashboard() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8 space-y-10">
-      <header className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold">Panel de imágenes</h1>
-          <p className="text-sm text-gray-500">{session?.user?.email}</p>
+    <>
+      {/* Barra superior */}
+      <header className="sticky top-0 z-20 bg-[#f8f4ea] border-b border-[#e3d6b5]">
+        <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <Image
+              src="/images/logo-villa-vicuna-2.svg"
+              alt="Villa Vicuña"
+              width={120}
+              height={40}
+              className="h-9 w-auto"
+            />
+            <span className="hidden sm:block text-sm uppercase tracking-[0.3em] text-[#17273f]/70 border-l border-[#e3d6b5] pl-3">
+              Administración
+            </span>
+          </div>
+          <div className="flex items-center gap-4">
+            <span className="hidden sm:block text-xs text-[#17273f]/60">
+              {session?.user?.email}
+            </span>
+            <form action={logoutAction}>
+              <button className="text-xs uppercase tracking-[0.2em] border border-[#17273f] text-[#17273f] px-3 py-1.5 hover:bg-[#17273f] hover:text-white transition-colors">
+                Salir
+              </button>
+            </form>
+          </div>
         </div>
-        <form action={logoutAction}>
-          <button className="text-sm border rounded-md px-3 py-1.5 hover:bg-gray-200">
-            Cerrar sesión
-          </button>
-        </form>
       </header>
 
-      {dbError && (
-        <div className="rounded-md bg-yellow-100 text-yellow-900 p-4 text-sm">
-          No se pudo leer la base de datos. Verificá <code>DATABASE_URL</code> y que las
-          migraciones y el seed se hayan corrido.
-        </div>
-      )}
-
-      {/* ── Secciones ── */}
-      <section className="space-y-4">
-        <h2 className="text-lg font-semibold border-b pb-2">Secciones</h2>
-        <div className="grid sm:grid-cols-2 gap-4">
-          {sections.map((s) => (
-            <div key={s.slug} className="bg-white rounded-lg shadow p-4 flex gap-4">
-              <Thumb src={s.path} alt={s.slug} />
-              <div className="flex-1 space-y-2">
-                <p className="font-medium text-sm">{SECTION_LABELS[s.slug]}</p>
-                <UploadForm action={setSectionImageAction} hidden={{ slug: s.slug }} />
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── Habitaciones ── */}
-      <section className="space-y-4">
-        <h2 className="text-lg font-semibold border-b pb-2">Habitaciones</h2>
-        {rooms.length === 0 && !dbError && (
-          <p className="text-sm text-gray-500">
-            No hay habitaciones cargadas. Corré <code>npm run db:seed</code>.
+      <div className="max-w-5xl mx-auto px-4 py-10 space-y-12">
+        <div>
+          <h1 className="text-3xl uppercase tracking-[0.2em] text-[#17273f]">Panel de imágenes</h1>
+          <p className="text-sm text-[#17273f]/60 mt-1">
+            Gestioná las imágenes de las secciones, habitaciones y reseñas del sitio.
           </p>
+        </div>
+
+        {dbError && (
+          <div className="border border-amber-300 bg-amber-50 text-amber-900 p-4 text-sm">
+            No se pudo leer la base de datos. Verificá <code>DATABASE_URL</code> y que las
+            migraciones y el seed se hayan corrido.
+          </div>
         )}
-        {rooms.map((room) => (
-          <div key={room.id} className="bg-white rounded-lg shadow p-4 space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="font-medium capitalize">
-                {room.categoria} · {room.key}
+
+        {/* ── Secciones ── */}
+        <section className="space-y-5">
+          <SectionTitle>Secciones</SectionTitle>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {sections.map((s) => (
+              <Card key={s.slug}>
+                <div className="flex gap-4">
+                  <Thumb src={s.path} alt={s.slug} />
+                  <div className="flex-1 space-y-3">
+                    <p className="text-sm uppercase tracking-wider text-[#17273f]">
+                      {SECTION_LABELS[s.slug]}
+                    </p>
+                    <UploadForm action={setSectionImageAction} hidden={{ slug: s.slug }} />
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </section>
+
+        {/* ── Habitaciones ── */}
+        <section className="space-y-5">
+          <SectionTitle>Habitaciones</SectionTitle>
+          {rooms.length === 0 && !dbError && (
+            <p className="text-sm text-[#17273f]/60">
+              No hay habitaciones cargadas. Corré <code>npm run prisma:seed</code>.
+            </p>
+          )}
+          {rooms.map((room) => (
+            <Card key={room.id}>
+              <h3 className="text-lg uppercase tracking-[0.2em] text-[#17273f] capitalize mb-4">
+                {room.categoria} · {room.key.replace(/_/g, " ")}
               </h3>
-            </div>
 
-            <div className="flex gap-4 items-start">
-              <div className="space-y-1">
-                <p className="text-xs text-gray-500">Portada</p>
-                <Thumb src={room.cover?.path} alt={room.key} />
+              <div className="flex gap-4 items-start mb-5">
+                <div className="space-y-1">
+                  <p className="text-[10px] uppercase tracking-widest text-[#17273f]/50">Portada</p>
+                  <Thumb src={room.cover?.path} alt={room.key} />
+                </div>
+                <div className="pt-5">
+                  <UploadForm
+                    action={setRoomCoverAction}
+                    hidden={{ roomId: room.id }}
+                    label="Cambiar portada"
+                  />
+                </div>
               </div>
-              <div className="pt-5">
-                <UploadForm
-                  action={setRoomCoverAction}
-                  hidden={{ roomId: room.id }}
-                  label="Cambiar portada"
-                />
-              </div>
-            </div>
 
-            <div className="space-y-2">
-              <p className="text-xs text-gray-500">Carrusel</p>
-              <div className="flex flex-wrap gap-3">
-                {room.images.map((img) => (
-                  <div key={img.id} className="space-y-1">
-                    <Thumb src={img.media.path} alt={img.id} />
-                    <div className="flex gap-1">
-                      <MoveBtn action={moveRoomImageAction} id={img.id} dir="up" />
-                      <MoveBtn action={moveRoomImageAction} id={img.id} dir="down" />
-                      <DeleteBtn action={deleteRoomImageAction} id={img.id} />
+              <div className="space-y-2">
+                <p className="text-[10px] uppercase tracking-widest text-[#17273f]/50">Carrusel</p>
+                <div className="flex flex-wrap gap-3">
+                  {room.images.map((img) => (
+                    <div key={img.id} className="space-y-1">
+                      <Thumb src={img.media.path} alt={img.id} />
+                      <div className="flex gap-1">
+                        <MoveBtn action={moveRoomImageAction} id={img.id} dir="up" />
+                        <MoveBtn action={moveRoomImageAction} id={img.id} dir="down" />
+                        <DeleteBtn action={deleteRoomImageAction} id={img.id} />
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
+                <div className="pt-1">
+                  <UploadForm
+                    action={addRoomImageAction}
+                    hidden={{ roomId: room.id }}
+                    label="Agregar imagen"
+                  />
+                </div>
               </div>
-              <UploadForm
-                action={addRoomImageAction}
-                hidden={{ roomId: room.id }}
-                label="Agregar imagen"
-              />
-            </div>
-          </div>
-        ))}
-      </section>
+            </Card>
+          ))}
+        </section>
 
-      {/* ── Reseñas ── */}
-      <section className="space-y-4">
-        <h2 className="text-lg font-semibold border-b pb-2">Reseñas</h2>
-        {reviews.length === 0 && !dbError && (
-          <p className="text-sm text-gray-500">
-            No hay reseñas cargadas. Corré <code>npm run db:seed</code>.
-          </p>
-        )}
-        {reviews.map((review) => (
-          <div key={review.id} className="bg-white rounded-lg shadow p-4 space-y-4">
-            <h3 className="font-medium capitalize">{review.key}</h3>
+        {/* ── Reseñas ── */}
+        <section className="space-y-5">
+          <SectionTitle>Reseñas</SectionTitle>
+          {reviews.length === 0 && !dbError && (
+            <p className="text-sm text-[#17273f]/60">
+              No hay reseñas cargadas. Corré <code>npm run prisma:seed</code>.
+            </p>
+          )}
+          {reviews.map((review) => (
+            <Card key={review.id}>
+              <h3 className="text-lg uppercase tracking-[0.2em] text-[#17273f] capitalize mb-4">
+                {review.key}
+              </h3>
 
-            <div className="flex gap-4 items-start">
-              <div className="space-y-1">
-                <p className="text-xs text-gray-500">Portada</p>
-                <Thumb src={review.cover?.path} alt={review.key} />
+              <div className="flex gap-4 items-start mb-5">
+                <div className="space-y-1">
+                  <p className="text-[10px] uppercase tracking-widest text-[#17273f]/50">Portada</p>
+                  <Thumb src={review.cover?.path} alt={review.key} />
+                </div>
+                <div className="pt-5">
+                  <UploadForm
+                    action={setReviewCoverAction}
+                    hidden={{ reviewId: review.id }}
+                    label="Cambiar portada"
+                  />
+                </div>
               </div>
-              <div className="pt-5">
-                <UploadForm
-                  action={setReviewCoverAction}
-                  hidden={{ reviewId: review.id }}
-                  label="Cambiar portada"
-                />
-              </div>
-            </div>
 
-            <div className="space-y-2">
-              <p className="text-xs text-gray-500">Carrusel</p>
-              <div className="flex flex-wrap gap-3">
-                {review.images.map((img) => (
-                  <div key={img.id} className="space-y-1">
-                    <Thumb src={img.media.path} alt={img.id} />
-                    <div className="flex gap-1">
-                      <MoveBtn action={moveReviewImageAction} id={img.id} dir="up" />
-                      <MoveBtn action={moveReviewImageAction} id={img.id} dir="down" />
-                      <DeleteBtn action={deleteReviewImageAction} id={img.id} />
+              <div className="space-y-2">
+                <p className="text-[10px] uppercase tracking-widest text-[#17273f]/50">Carrusel</p>
+                <div className="flex flex-wrap gap-3">
+                  {review.images.map((img) => (
+                    <div key={img.id} className="space-y-1">
+                      <Thumb src={img.media.path} alt={img.id} />
+                      <div className="flex gap-1">
+                        <MoveBtn action={moveReviewImageAction} id={img.id} dir="up" />
+                        <MoveBtn action={moveReviewImageAction} id={img.id} dir="down" />
+                        <DeleteBtn action={deleteReviewImageAction} id={img.id} />
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
+                <div className="pt-1">
+                  <UploadForm
+                    action={addReviewImageAction}
+                    hidden={{ reviewId: review.id }}
+                    label="Agregar imagen"
+                  />
+                </div>
               </div>
-              <UploadForm
-                action={addReviewImageAction}
-                hidden={{ reviewId: review.id }}
-                label="Agregar imagen"
-              />
-            </div>
-          </div>
-        ))}
-      </section>
-    </div>
+            </Card>
+          ))}
+        </section>
+      </div>
+    </>
   );
 }
 
@@ -249,7 +295,7 @@ function MoveBtn({
       <input type="hidden" name="id" value={id} />
       <input type="hidden" name="dir" value={dir} />
       <button
-        className="text-xs border rounded px-2 py-0.5 bg-white hover:bg-gray-100"
+        className="text-xs border border-[#17273f]/30 text-[#17273f] w-7 h-7 bg-white hover:bg-[#f8f4ea] transition-colors"
         title={dir === "up" ? "Mover antes" : "Mover después"}
       >
         {dir === "up" ? "←" : "→"}
@@ -268,7 +314,10 @@ function DeleteBtn({
   return (
     <form action={action}>
       <input type="hidden" name="id" value={id} />
-      <button className="text-xs border border-red-300 text-red-600 rounded px-2 py-0.5 bg-white hover:bg-red-50">
+      <button
+        className="text-xs border border-red-300 text-red-600 w-7 h-7 bg-white hover:bg-red-50 transition-colors"
+        title="Eliminar"
+      >
         ✕
       </button>
     </form>
