@@ -1,7 +1,14 @@
 import { prisma } from "@/lib/prisma";
 import { STATIC_SECTION_IMAGES } from "@/lib/contentTypes";
 import { setSectionImageAction } from "@/app/admin/actions";
-import { PageTitle, Card, Thumb, UploadForm, DbErrorNotice } from "@/components/admin/ui";
+import {
+  PageHeader,
+  Card,
+  CoverPreview,
+  FieldLabel,
+  DbErrorNotice,
+} from "@/components/admin/ui";
+import UploadField from "@/components/admin/UploadField";
 
 export const dynamic = "force-dynamic";
 
@@ -29,28 +36,32 @@ export default async function SeccionesPage() {
   }
 
   return (
-    <>
-      <PageTitle subtitle="Imágenes sueltas de las secciones del sitio.">Secciones</PageTitle>
+    <div className="max-w-5xl">
+      <PageHeader title="Secciones" subtitle="Imágenes sueltas de las secciones del sitio." />
 
       {dbError ? (
         <DbErrorNotice />
       ) : (
-        <div className="grid sm:grid-cols-2 gap-4">
+        <div className="grid lg:grid-cols-2 gap-4">
           {sections.map((s) => (
             <Card key={s.slug}>
-              <div className="flex gap-4">
-                <Thumb src={s.path} alt={s.slug} />
-                <div className="flex-1 space-y-3">
-                  <p className="text-sm uppercase tracking-wider text-[#17273f]">
-                    {SECTION_LABELS[s.slug]}
-                  </p>
-                  <UploadForm action={setSectionImageAction} hidden={{ slug: s.slug }} />
+              <div className="flex gap-5">
+                <CoverPreview src={s.path} alt={s.slug} />
+                <div className="flex-1 min-w-0 flex flex-col">
+                  <FieldLabel>{SECTION_LABELS[s.slug]}</FieldLabel>
+                  <div className="mt-auto">
+                    <UploadField
+                      action={setSectionImageAction}
+                      hidden={{ slug: s.slug }}
+                      label="Reemplazar"
+                    />
+                  </div>
                 </div>
               </div>
             </Card>
           ))}
         </div>
       )}
-    </>
+    </div>
   );
 }
