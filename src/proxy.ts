@@ -3,7 +3,7 @@ import NextAuth from "next-auth";
 import { authConfig } from "./auth.config";
 import { routing } from "./i18n/routing";
 
-// Instancia edge-safe solo para leer la sesión (JWT) en el middleware.
+// Instancia edge-safe solo para leer la sesión (JWT) en el proxy.
 const { auth } = NextAuth(authConfig);
 const intlMiddleware = createIntlMiddleware(routing);
 

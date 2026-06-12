@@ -14,7 +14,7 @@ function ImageModal({ image, onClose }: { image: ModalImage; onClose: () => void
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
-      className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
+      className="fixed inset-0 bg-black/75 flex items-center justify-center z-50"
       onClick={onClose}
     >
       <motion.div

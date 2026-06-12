@@ -135,6 +135,7 @@ export default function CloudbedsBookNow({
   directUrlFallback,
   
   // Callback
+  isGloballyReady,
   onLoaded,
 
   ...rest
@@ -239,7 +240,7 @@ export default function CloudbedsBookNow({
       const componentRegistered = typeof window !== "undefined" &&
         "customElements" in window &&
         window.customElements.get("cb-book-now-button") !== undefined;
-      if (componentRegistered || isComponentReady || rest?.isGloballyReady) {
+      if (componentRegistered || isComponentReady || isGloballyReady) {
         const webComponent = createSafeWebComponent({ ...wcAttrs, class: className, ...rest });
         if (webComponent) {
           return webComponent;
@@ -292,7 +293,7 @@ export default function CloudbedsBookNow({
       const componentRegistered = typeof window !== "undefined" &&
         "customElements" in window &&
         window.customElements.get("cb-book-now-button") !== undefined;
-      return (scriptLoaded && componentRegistered) || isComponentReady || !!rest?.isGloballyReady;
+      return (scriptLoaded && componentRegistered) || isComponentReady || !!isGloballyReady;
     } catch (error) {
       console.warn("Error in isReady check:", error);
       return false;
@@ -408,7 +409,7 @@ export default function CloudbedsBookNow({
         const componentRegistered = typeof window !== "undefined" &&
           "customElements" in window &&
           window.customElements.get("cb-book-now-button") !== undefined;
-        return (scriptLoaded && componentRegistered) || isComponentReady || !!rest?.isGloballyReady;
+        return (scriptLoaded && componentRegistered) || isComponentReady || !!isGloballyReady;
       } catch {
         return false;
       }

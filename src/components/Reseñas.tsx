@@ -182,7 +182,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
   return createPortal(
     <AnimatePresence>
       <motion.div
-        className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[9999] px-4 overflow-y-auto"
+        className="fixed inset-0 bg-black/80 flex items-center justify-center z-[9999] px-4 overflow-y-auto"
         variants={overlayVariants}
         initial="hidden"
         animate="visible"
@@ -276,7 +276,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
 
                     return (
                       <div key={i}>
-                        <div className="relative bg-[#f6f0e1] bg-opacity-70 rounded-2xl pb-2 pt-8 px-4">
+                        <div className="relative bg-[#f6f0e1]/70 rounded-2xl pb-2 pt-8 px-4">
                           <div className="absolute top-2 right-2">
                             <Image
                               src={flagSrc}

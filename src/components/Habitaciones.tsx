@@ -79,7 +79,7 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 px-4 overflow-y-auto md:overflow-visible"
+      className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 px-4 overflow-y-auto md:overflow-visible"
       onClick={onClose}
     >
       <div
@@ -112,7 +112,7 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
         </button>
         <h3
           className={`
-            relative lg:absolute md:top-[13%] md:left-1/2 md:-translate-x-1/2
+            relative lg:absolute md:top-[9%] md:left-1/2 md:-translate-x-1/2
             text-4xl lg:text-8xl leading-tight md:leading-normal uppercase z-10 w-full text-center
             lg:mt-0 mt-4 font-normal
             ${habitacion.categoria === "standard" ? "lg:tracking-[0.52em]" : "lg:tracking-[0.62em]"}
