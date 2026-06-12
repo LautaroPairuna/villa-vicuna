@@ -11,8 +11,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <html lang="es">
       <body
-        style={{ fontFamily: '"Montserrat", sans-serif' }}
-        className="min-h-screen bg-[#f6f0e1] text-[#17273f] antialiased"
+        style={{
+          fontFamily: '"Montserrat", sans-serif',
+          backgroundColor: "#f6f0e1",
+          color: "#17273f",
+          colorScheme: "light",
+        }}
+        className="min-h-screen antialiased"
       >
         {children}
       </body>
