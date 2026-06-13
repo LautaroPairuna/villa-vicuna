@@ -4,6 +4,8 @@ import { revalidatePath } from "next/cache";
 import { auth, signOut } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { saveUpload } from "@/lib/media";
+import { getSection, composeSplit } from "@/lib/editableContent";
+import { baseValue } from "@/lib/translations";
 
 async function requireAdmin() {
   const session = await auth();
@@ -122,6 +124,40 @@ export async function moveReviewImageAction(formData: FormData) {
   const id = String(formData.get("id") ?? "");
   const dir = String(formData.get("dir") ?? "");
   await swapOrder("reviewImage", id, dir === "up" ? -1 : 1);
+  refresh();
+}
+
+// ── Textos (overrides de next-intl) ─────────────────────────────────
+export async function saveTranslationsAction(formData: FormData) {
+  await requireAdmin();
+  const locale = String(formData.get("locale") ?? "");
+  const sectionId = String(formData.get("section") ?? "");
+  const section = getSection(sectionId);
+  if (!["es", "en", "fr"].includes(locale) || !section) return;
+
+  for (const field of section.fields) {
+    let value: string;
+    if (field.type === "splitTitle" && field.wrap) {
+      const a = String(formData.get(`${field.key}__a`) ?? "");
+      const b = String(formData.get(`${field.key}__b`) ?? "");
+      value = composeSplit(field.wrap, a, b);
+    } else {
+      value = String(formData.get(field.key) ?? "");
+    }
+
+    // Si el valor vuelve a coincidir con el JSON base, borramos el override
+    // (mantiene la tabla con solo lo realmente editado y permite "resetear").
+    if (value === baseValue(locale, field.key)) {
+      await prisma.translation.deleteMany({ where: { locale, key: field.key } });
+    } else {
+      await prisma.translation.upsert({
+        where: { locale_key: { locale, key: field.key } },
+        update: { value },
+        create: { locale, key: field.key, value },
+      });
+    }
+  }
+
   refresh();
 }
 

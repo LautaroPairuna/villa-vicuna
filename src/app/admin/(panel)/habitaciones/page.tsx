@@ -1,9 +1,11 @@
 import { prisma } from "@/lib/prisma";
+import { getSectionTexts } from "@/lib/translations";
 import {
   setRoomCoverAction,
   addRoomImageAction,
   deleteRoomImageAction,
   moveRoomImageAction,
+  saveTranslationsAction,
 } from "@/app/admin/actions";
 import {
   PageHeader,
@@ -16,6 +18,7 @@ import {
   EmptyHint,
 } from "@/components/admin/ui";
 import UploadField from "@/components/admin/UploadField";
+import TextEditor from "@/components/admin/TextEditor";
 
 export const dynamic = "force-dynamic";
 
@@ -39,9 +42,17 @@ export default async function HabitacionesPage() {
     dbError = true;
   }
 
+  const texts = await getSectionTexts("habitaciones");
+
   return (
     <div className="max-w-5xl">
-      <PageHeader title="Habitaciones" subtitle="Portada y carrusel de cada habitación." />
+      <PageHeader title="Habitaciones" subtitle="Textos de la sección, portada y carrusel de cada habitación." />
+
+      {texts && (
+        <div className="mb-8">
+          <TextEditor section={texts.section} values={texts.values} action={saveTranslationsAction} />
+        </div>
+      )}
 
       {dbError && <DbErrorNotice />}
       {!dbError && rooms.length === 0 && (

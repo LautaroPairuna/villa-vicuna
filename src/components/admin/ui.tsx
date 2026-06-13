@@ -1,4 +1,5 @@
 import { FiChevronLeft, FiChevronRight, FiTrash2, FiImage } from "react-icons/fi";
+import UploadField from "./UploadField";
 
 // ── Encabezado de página ────────────────────────────────────────────
 export function PageHeader({
@@ -119,6 +120,33 @@ export function MediaTile({
         <IconForm action={moveAction} fields={{ id, dir: "down" }} title="Mover después">
           <FiChevronRight className="w-4 h-4" />
         </IconForm>
+      </div>
+    </div>
+  );
+}
+
+// Bloque de imagen de sección: preview + uploader.
+export function ImageField({
+  label,
+  src,
+  action,
+  hidden,
+  uploadLabel = "Reemplazar",
+}: {
+  label: string;
+  src?: string | null;
+  action: (formData: FormData) => void;
+  hidden: Record<string, string>;
+  uploadLabel?: string;
+}) {
+  return (
+    <div className="flex flex-col sm:flex-row gap-5">
+      <CoverPreview src={src} alt={label} />
+      <div className="flex-1 min-w-0 flex flex-col">
+        <FieldLabel>{label}</FieldLabel>
+        <div className="mt-auto">
+          <UploadField action={action} hidden={hidden} label={uploadLabel} />
+        </div>
       </div>
     </div>
   );

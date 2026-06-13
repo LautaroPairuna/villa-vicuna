@@ -1,9 +1,11 @@
 import { prisma } from "@/lib/prisma";
+import { getSectionTexts } from "@/lib/translations";
 import {
   setReviewCoverAction,
   addReviewImageAction,
   deleteReviewImageAction,
   moveReviewImageAction,
+  saveTranslationsAction,
 } from "@/app/admin/actions";
 import {
   PageHeader,
@@ -16,6 +18,7 @@ import {
   EmptyHint,
 } from "@/components/admin/ui";
 import UploadField from "@/components/admin/UploadField";
+import TextEditor from "@/components/admin/TextEditor";
 
 export const dynamic = "force-dynamic";
 
@@ -39,9 +42,17 @@ export default async function ResenasPage() {
     dbError = true;
   }
 
+  const texts = await getSectionTexts("resenas");
+
   return (
     <div className="max-w-5xl">
-      <PageHeader title="Reseñas" subtitle="Portada y carrusel de cada reseña." />
+      <PageHeader title="Reseñas" subtitle="Textos de la sección, portada y carrusel de cada reseña." />
+
+      {texts && (
+        <div className="mb-8">
+          <TextEditor section={texts.section} values={texts.values} action={saveTranslationsAction} />
+        </div>
+      )}
 
       {dbError && <DbErrorNotice />}
       {!dbError && reviews.length === 0 && (
