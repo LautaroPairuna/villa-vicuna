@@ -1,13 +1,11 @@
 import Link from "next/link";
-import { FiImage, FiStar, FiArrowRight } from "react-icons/fi";
+import { FiFilm, FiInfo, FiStar, FiBookOpen, FiPhone, FiArrowRight } from "react-icons/fi";
 import { TbBed } from "react-icons/tb";
 import type { IconType } from "react-icons";
 import { prisma } from "@/lib/prisma";
 import { PageHeader, DbErrorNotice } from "@/components/admin/ui";
 
 export const dynamic = "force-dynamic";
-
-const SECTION_COUNT = 5; // hero, nosotros, contacto, menu_foods, menu_drinks
 
 export default async function AdminOverview() {
   let dbError = false;
@@ -23,15 +21,18 @@ export default async function AdminOverview() {
     dbError = true;
   }
 
-  const cards: { href: string; label: string; count: number; hint: string; icon: IconType }[] = [
-    { href: "/admin/secciones", label: "Secciones", count: SECTION_COUNT, hint: "Hero, Nosotros, Contacto y Menú", icon: FiImage },
-    { href: "/admin/habitaciones", label: "Habitaciones", count: roomsCount, hint: "Portada y carrusel por habitación", icon: TbBed },
-    { href: "/admin/resenas", label: "Reseñas", count: reviewsCount, hint: "Portada y carrusel por reseña", icon: FiStar },
+  const cards: { href: string; label: string; hint: string; icon: IconType; badge?: string }[] = [
+    { href: "/admin/hero", label: "Hero", hint: "Póster del video principal", icon: FiFilm },
+    { href: "/admin/nosotros", label: "Nosotros", hint: "Imagen y textos", icon: FiInfo },
+    { href: "/admin/habitaciones", label: "Habitaciones", hint: "Textos e imágenes por habitación", icon: TbBed, badge: String(roomsCount) },
+    { href: "/admin/resenas", label: "Reseñas", hint: "Textos e imágenes por reseña", icon: FiStar, badge: String(reviewsCount) },
+    { href: "/admin/menu", label: "Menú", hint: "Imágenes de la carta y textos", icon: FiBookOpen },
+    { href: "/admin/contacto", label: "Contacto", hint: "Imagen y datos de contacto", icon: FiPhone },
   ];
 
   return (
     <div className="max-w-5xl">
-      <PageHeader title="Inicio" subtitle="Elegí qué querés administrar." />
+      <PageHeader title="Inicio" subtitle="Elegí la sección que querés administrar." />
 
       {dbError && (
         <div className="mb-6">
@@ -40,7 +41,7 @@ export default async function AdminOverview() {
       )}
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {cards.map(({ href, label, count, hint, icon: Icon }) => (
+        {cards.map(({ href, label, hint, icon: Icon, badge }) => (
           <Link
             key={href}
             href={href}
@@ -50,9 +51,11 @@ export default async function AdminOverview() {
               <span className="w-11 h-11 flex items-center justify-center bg-[#f8f4ea] border border-[#e3d6b5] text-[#17273f]">
                 <Icon className="w-5 h-5" />
               </span>
-              <span className="text-3xl text-[#17273f]/30 group-hover:text-[#17273f] transition-colors">
-                {count}
-              </span>
+              {badge !== undefined && (
+                <span className="text-3xl text-[#17273f]/30 group-hover:text-[#17273f] transition-colors">
+                  {badge}
+                </span>
+              )}
             </div>
             <h2 className="text-lg uppercase tracking-[0.2em] text-[#17273f] mt-5">{label}</h2>
             <p className="text-sm text-[#17273f]/60 mt-1">{hint}</p>

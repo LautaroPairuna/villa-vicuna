@@ -98,3 +98,17 @@ model SectionImage {
   media     Media?   @relation(fields: [mediaId], references: [id])
   updatedAt DateTime @updatedAt
 }
+
+// ── Overrides de textos (next-intl) ─────────────────────────────────
+// Guarda SOLO los textos editados desde el panel. El JSON sigue siendo el
+// valor por defecto; estos overrides se mergean encima en i18n.ts.
+model Translation {
+  id        String   @id @default(cuid())
+  locale    String // es | en | fr
+  key       String // clave punteada, p.ej. "about_us.parrafo1"
+  value     String   @db.Text
+  updatedAt DateTime @updatedAt
+
+  @@unique([locale, key])
+  @@index([locale])
+}
