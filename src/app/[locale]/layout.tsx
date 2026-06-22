@@ -134,6 +134,15 @@ export default async function LocaleLayout({
           crossOrigin="anonymous"
         />
         <link rel="dns-prefetch" href="https://static1.cloudbeds.com" />
+        {/* Precarga del script del web component de Cloudbeds: se descarga
+            temprano para que, al inyectarlo el botón, registre el componente
+            embebido casi al instante (sin pantalla de carga). */}
+        <link
+          rel="preload"
+          as="script"
+          href="https://static1.cloudbeds.com/booking-engine/latest/static/js/immersive-experience/cb-immersive-experience.js"
+          crossOrigin="anonymous"
+        />
         <link
           rel="preconnect"
           href="https://hotels.cloudbeds.com"
