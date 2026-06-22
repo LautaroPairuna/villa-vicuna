@@ -90,14 +90,14 @@ export default async function LocaleLayout({
             El SEO (title, description, canonical, hreflang, OG, favicons) lo
             genera generateMetadata. */}
 
-        {/* Preload crítico (above-the-fold) */}
-        <link rel="preload" as="image" href="/images/hero-poster.webp" />
+        {/* Preload crítico (above-the-fold). El isologo del Hero es el LCP. */}
         <link
           rel="preload"
           as="image"
-          href="/images/logo-villa-vicuna-2.svg"
+          href="/images/logo-villa-vicuna-3.svg"
           fetchPriority="high"
         />
+        <link rel="preload" as="image" href="/images/hero-poster.webp" />
         <link
           rel="preload"
           as="font"

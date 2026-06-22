@@ -23,6 +23,9 @@ const nextConfig = {
   serverExternalPackages: ["@prisma/adapter-mariadb", "mariadb", "sharp"],
 
   experimental: {
+    // Inlinea el CSS en el HTML: elimina las requests de CSS que bloquean el
+    // render inicial (mejora FCP/LCP). El bundle es chico, así que conviene.
+    inlineCss: true,
     serverActions: {
       bodySizeLimit: "50mb",
     },
