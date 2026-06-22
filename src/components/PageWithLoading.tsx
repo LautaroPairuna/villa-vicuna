@@ -1,9 +1,8 @@
 // src/components/PageWithLoading.tsx
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import dynamic from "next/dynamic";
-import LoadingScreen from "./LoadingScreen";
 import Navbar from "./Navbar";
 import Hero from "./Hero";
 import WhatsappLink from "./WhatsappLink";
@@ -33,100 +32,33 @@ export default function PageWithLoading({
   reviews,
   sections = {},
 }: PageWithLoadingProps) {
-  const [isHeroLoaded, setIsHeroLoaded] = useState(false);
-  const [isCloudbedsLoaded, setIsCloudbedsLoaded] = useState(false);
-  const [showContent, setShowContent] = useState(false);
-  const [isLoadingVisible, setIsLoadingVisible] = useState(true);
-
-  // Tiempo mínimo para que el loader no haga "flash"
-  const [minLoadingTime, setMinLoadingTime] = useState(false);
-
-  // Timer de tiempo mínimo (800ms)
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setMinLoadingTime(true);
-    }, 800);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Timeout de seguridad (6s) para evitar pantalla infinita
-  useEffect(() => {
-    const safetyTimer = setTimeout(() => {
-      setIsHeroLoaded(true);
-      setIsLoadingVisible(false);
-      setTimeout(() => setShowContent(true), 200);
-    }, 6000);
-
-    return () => clearTimeout(safetyTimer);
-  }, []);
-
-  // Cuando Hero está listo + tiempo mínimo cumplido → revelar sitio
-  useEffect(() => {
-    if (isHeroLoaded && minLoadingTime) {
-      setIsLoadingVisible(false);
-
-      const contentTimer = setTimeout(() => {
-        setShowContent(true);
-      }, 200);
-
-      return () => clearTimeout(contentTimer);
-    }
-  }, [isHeroLoaded, minLoadingTime]);
-
-  const handleHeroLoaded = () => {
-    setIsHeroLoaded(true);
-  };
-
-  const handleCloudbedsLoaded = () => {
-    setIsCloudbedsLoaded(true);
-  };
+  // Señal compartida: cuando un botón registra el web component de Cloudbeds,
+  // el resto se entera (evita recargas y acelera el primer clic).
+  const [isCloudbedsReady, setIsCloudbedsReady] = useState(false);
+  const handleCloudbedsLoaded = () => setIsCloudbedsReady(true);
 
   return (
     <>
-      {/* Sin JS, el contenido queda visible y se oculta el loader (el contenido
-          ya está en el HTML por el SSR). */}
-      <noscript>
-        <style>{`.site-reveal{opacity:1 !important} .loading-overlay{display:none !important}`}</style>
-      </noscript>
+      <header>
+        <Navbar
+          onCloudbedsLoaded={handleCloudbedsLoaded}
+          isCloudbedsReady={isCloudbedsReady}
+        />
+      </header>
 
-      {/* Contenido principal que se revela gradualmente */}
-      <div
-        className={`site-reveal transition-opacity duration-1000 ease-in-out ${
-          showContent ? "opacity-100" : "opacity-0"
-        }`}
-      >
-        <header>
-          <Navbar
-            onCloudbedsLoaded={handleCloudbedsLoaded}
-            isCloudbedsReady={isCloudbedsLoaded}
-          />
-        </header>
+      <main>
+        <Hero posterUrl={sections.hero_poster} videoUrl={sections.hero_video} />
+        <Nosotros imageUrl={sections.nosotros} />
+        <Reseñas reviews={reviews} />
+        <Menu foodsUrl={sections.menu_foods} drinksUrl={sections.menu_drinks} />
+        <Habitaciones rooms={rooms} />
+      </main>
 
-        <main>
-          <Hero
-            onLoaded={handleHeroLoaded}
-            posterUrl={sections.hero_poster}
-            videoUrl={sections.hero_video}
-          />
-          <Nosotros imageUrl={sections.nosotros} />
-          <Reseñas reviews={reviews} />
-          <Menu foodsUrl={sections.menu_foods} drinksUrl={sections.menu_drinks} />
-          <Habitaciones rooms={rooms} />
-        </main>
+      <WhatsappLink />
 
-        <WhatsappLink />
-
-        <footer>
-          <Contacto
-            isCloudbedsReady={isCloudbedsLoaded}
-            imageUrl={sections.contactenos}
-          />
-        </footer>
-      </div>
-
-      {/* Pantalla de carga superpuesta */}
-      {!showContent && <LoadingScreen isVisible={isLoadingVisible} />}
+      <footer>
+        <Contacto isCloudbedsReady={isCloudbedsReady} imageUrl={sections.contactenos} />
+      </footer>
     </>
   );
 }

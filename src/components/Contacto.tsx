@@ -112,7 +112,6 @@ export default function Contacto({
                 variant="contact"
                 // TU diseño del botón visible (idéntico a la versión original)
                 contactButtonClassName="bg-[#e3d6b5] text-black p-4 text-lg hover:bg-[#d6c3a2] transition-all rounded-full mt-4"
-                contactLabel={t("boton")}
                 contactIconSrc="/images/icons/ico-reservar.svg"
                 contactIconSize={64}
                 contactAriaLabel={t("boton")}
@@ -236,7 +235,6 @@ export default function Contacto({
             propertyCode={CLOUDBEDS_PROPERTY_CODE}
             variant="contact"
             contactButtonClassName="bg-[#e3d6b5] text-black p-4 text-xl font-semibold shadow-md hover:bg-[#d6c3a2] transition-all rounded-full"
-            contactLabel={t("boton")}
             contactIconSrc="/images/icons/ico-reservar.svg"
             contactIconSize={64}
             contactAriaLabel={t("boton")}
