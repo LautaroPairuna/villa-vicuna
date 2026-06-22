@@ -40,26 +40,48 @@ export default async function AdminOverview() {
         </div>
       )}
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="mb-6 grid gap-4 lg:grid-cols-[1.25fr_0.75fr]">
+        <div className="rounded-[28px] border border-[#e3d6b5] bg-[linear-gradient(135deg,#17273f_0%,#24395c_100%)] px-6 py-6 text-white shadow-[0_24px_50px_rgba(23,39,63,0.18)] md:px-8">
+          <p className="mb-3 text-[10px] uppercase tracking-[0.35em] text-white/55">
+            Dashboard
+          </p>
+          <h2 className="text-2xl uppercase tracking-[0.2em]">Administración centralizada</h2>
+          <p className="mt-4 max-w-2xl text-sm leading-6 text-white/75">
+            Gestioná imágenes, textos y contenido clave del sitio desde un solo lugar, con la misma estética sobria de la marca.
+          </p>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="rounded-[28px] border border-[#e3d6b5] bg-white/80 px-5 py-5 shadow-[0_18px_40px_rgba(23,39,63,0.08)]">
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#17273f]/45">Habitaciones</p>
+            <p className="mt-3 text-4xl text-[#17273f]">{roomsCount}</p>
+          </div>
+          <div className="rounded-[28px] border border-[#e3d6b5] bg-white/80 px-5 py-5 shadow-[0_18px_40px_rgba(23,39,63,0.08)]">
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#17273f]/45">Reseñas</p>
+            <p className="mt-3 text-4xl text-[#17273f]">{reviewsCount}</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {cards.map(({ href, label, hint, icon: Icon, badge }) => (
           <Link
             key={href}
             href={href}
-            className="group bg-white border border-[#e7ddc4] shadow-[0_1px_3px_rgba(23,39,63,0.06)] p-6 hover:border-[#17273f] transition-colors flex flex-col"
+            className="group flex flex-col rounded-[28px] border border-[#e7ddc4] bg-[linear-gradient(180deg,rgba(255,255,255,0.95)_0%,rgba(248,244,234,0.92)_100%)] p-6 shadow-[0_20px_45px_rgba(23,39,63,0.07)] transition-all hover:-translate-y-1 hover:border-[#17273f]/40 hover:shadow-[0_28px_54px_rgba(23,39,63,0.12)]"
           >
             <div className="flex items-start justify-between">
-              <span className="w-11 h-11 flex items-center justify-center bg-[#f8f4ea] border border-[#e3d6b5] text-[#17273f]">
+              <span className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[#e3d6b5] bg-[#f8f4ea] text-[#17273f]">
                 <Icon className="w-5 h-5" />
               </span>
               {badge !== undefined && (
-                <span className="text-3xl text-[#17273f]/30 group-hover:text-[#17273f] transition-colors">
+                <span className="rounded-full border border-[#e3d6b5] bg-white/80 px-3 py-1 text-2xl text-[#17273f]/55 transition-colors group-hover:text-[#17273f]">
                   {badge}
                 </span>
               )}
             </div>
             <h2 className="text-lg uppercase tracking-[0.2em] text-[#17273f] mt-5">{label}</h2>
-            <p className="text-sm text-[#17273f]/60 mt-1">{hint}</p>
-            <span className="inline-flex items-center gap-1.5 mt-5 text-xs uppercase tracking-[0.2em] text-[#17273f]">
+            <p className="mt-2 text-sm leading-6 text-[#17273f]/60">{hint}</p>
+            <span className="mt-6 inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.2em] text-[#17273f]">
               Administrar
               <FiArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
             </span>

@@ -9,14 +9,15 @@ import { prisma } from "./prisma";
 const UPLOADS_FS_DIR = path.resolve(process.env.UPLOADS_DIR ?? "public/uploads");
 
 const MAX_DIMENSION = 2000;
+type SharpFn = typeof import("sharp");
 
 // Carga sharp de forma perezosa y tolerante: si el binario nativo no carga
 // (p.ej. problemas de sharp en Windows), devolvemos null y guardamos el
 // original sin convertir, en vez de romper la subida.
-async function tryLoadSharp() {
+async function tryLoadSharp(): Promise<SharpFn | null> {
   try {
     const mod = await import("sharp");
-    return (mod.default ?? mod) as typeof import("sharp");
+    return (mod as unknown as { default?: SharpFn }).default ?? (mod as unknown as SharpFn);
   } catch (err) {
     console.warn("sharp no disponible; se guarda la imagen sin optimizar.", err);
     return null;
@@ -33,6 +34,9 @@ function extFromFile(file: File): string {
     "image/avif": ".avif",
     "image/gif": ".gif",
     "image/svg+xml": ".svg",
+    "video/mp4": ".mp4",
+    "video/webm": ".webm",
+    "video/quicktime": ".mov",
   };
   return byMime[file.type] ?? ".bin";
 }
@@ -52,8 +56,9 @@ export async function saveUpload(file: File, subdir: string, alt = "") {
   await fs.mkdir(dir, { recursive: true });
 
   const ext = extFromFile(file);
+  const isImage = file.type.startsWith("image/");
   const isSvg = file.type === "image/svg+xml" || ext === ".svg";
-  const sharp = isSvg ? null : await tryLoadSharp();
+  const sharp = isImage && !isSvg ? await tryLoadSharp() : null;
 
   let outName: string;
   let outBuf: Buffer;

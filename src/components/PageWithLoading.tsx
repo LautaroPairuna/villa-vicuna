@@ -104,7 +104,11 @@ export default function PageWithLoading({
         </header>
 
         <main>
-          <Hero onLoaded={handleHeroLoaded} posterUrl={sections.hero_poster} />
+          <Hero
+            onLoaded={handleHeroLoaded}
+            posterUrl={sections.hero_poster}
+            videoUrl={sections.hero_video}
+          />
           <Nosotros imageUrl={sections.nosotros} />
           <Reseñas reviews={reviews} />
           <Menu foodsUrl={sections.menu_foods} drinksUrl={sections.menu_drinks} />

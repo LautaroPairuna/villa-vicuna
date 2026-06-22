@@ -22,6 +22,10 @@ export interface Translations {
   raw: (key: string) => string;
 }
 
+function stripHtmlTags(str: string): string {
+  return str.replace(/<[^>]+>/g, "");
+}
+
 // Props del modal de detalle de habitación.
 interface HabitacionModalProps {
   habitacion: Habitacion;
@@ -304,7 +308,7 @@ export default function HabitacionesComponent({ rooms }: { rooms?: RoomContent[]
                 <div className="py-4 text-left">
                   <p className="text-xs text-gray-600">{t(`${hab.key}.detalles`)}</p>
                   <h3 className="text-base mt-2 titulo-habitaciones capitalize tracking-widest">
-                    {hab.cantidad} {hab.categoria} {t(`${hab.key}.nombre`)}
+                    {hab.cantidad} {stripHtmlTags(t.raw(hab.categoria))} {t(`${hab.key}.nombre`)}
                   </h3>
                   <CloudbedsBookNow
                     propertyCode="pwSXnD"

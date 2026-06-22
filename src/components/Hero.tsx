@@ -7,9 +7,14 @@ import React, { memo, useRef } from "react";
 interface HeroProps {
   onLoaded?: () => void;
   posterUrl?: string;
+  videoUrl?: string;
 }
 
-const Hero = memo(({ onLoaded, posterUrl = "/images/hero-poster.webp" }: HeroProps) => {
+const Hero = memo(({
+  onLoaded,
+  posterUrl = "/images/hero-poster.webp",
+  videoUrl = "/videos/video-home.mp4",
+}: HeroProps) => {
   const videoReadyRef = useRef(false);
   const logoReadyRef = useRef(false);
   const notifiedRef = useRef(false);
@@ -54,10 +59,7 @@ const Hero = memo(({ onLoaded, posterUrl = "/images/hero-poster.webp" }: HeroPro
           onLoadedData={handleVideoEvent}
           onCanPlayThrough={handleVideoEvent}
         >
-          {/* Versión WebM (más eficiente) */}
-          <source src="/videos/video-home.webm" type="video/webm" />
-          {/* Fallback MP4 */}
-          <source src="/videos/video-home.mp4" type="video/mp4" />
+          <source src={videoUrl} />
           Tu navegador no soporta videos en HTML5.
         </video>
         <div className="absolute inset-0 bg-black/10" />

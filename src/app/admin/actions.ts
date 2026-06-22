@@ -37,6 +37,24 @@ export async function setSectionImageAction(formData: FormData) {
   refresh();
 }
 
+export async function setSectionVideoAction(formData: FormData) {
+  await requireAdmin();
+  const slug = String(formData.get("slug") ?? "");
+  const file = formData.get("file") as File | null;
+  if (!slug || !file || file.size === 0) return;
+  if (!file.type.startsWith("video/")) {
+    throw new Error("El archivo debe ser un video.");
+  }
+
+  const media = await saveUpload(file, "sections", slug);
+  await prisma.sectionImage.upsert({
+    where: { slug },
+    update: { mediaId: media.id },
+    create: { slug, mediaId: media.id },
+  });
+  refresh();
+}
+
 // ── Habitaciones ────────────────────────────────────────────────────
 export async function setRoomCoverAction(formData: FormData) {
   await requireAdmin();
@@ -135,6 +153,7 @@ export async function saveTranslationsAction(formData: FormData) {
   const section = getSection(sectionId);
   if (!["es", "en", "fr"].includes(locale) || !section) return;
 
+  const operations = [];
   for (const field of section.fields) {
     let value: string;
     if (field.type === "splitTitle" && field.wrap) {
@@ -148,16 +167,17 @@ export async function saveTranslationsAction(formData: FormData) {
     // Si el valor vuelve a coincidir con el JSON base, borramos el override
     // (mantiene la tabla con solo lo realmente editado y permite "resetear").
     if (value === baseValue(locale, field.key)) {
-      await prisma.translation.deleteMany({ where: { locale, key: field.key } });
+      operations.push(prisma.translation.deleteMany({ where: { locale, key: field.key } }));
     } else {
-      await prisma.translation.upsert({
+      operations.push(prisma.translation.upsert({
         where: { locale_key: { locale, key: field.key } },
         update: { value },
         create: { locale, key: field.key, value },
-      });
+      }));
     }
   }
 
+  await prisma.$transaction(operations);
   refresh();
 }
 

@@ -104,8 +104,8 @@ model SectionImage {
 // valor por defecto; estos overrides se mergean encima en i18n.ts.
 model Translation {
   id        String   @id @default(cuid())
-  locale    String // es | en | fr
-  key       String // clave punteada, p.ej. "about_us.parrafo1"
+  locale    String   @db.VarChar(8) // es | en | fr
+  key       String   @db.VarChar(191) // clave punteada, p.ej. "about_us.parrafo1"
   value     String   @db.Text
   updatedAt DateTime @updatedAt
 

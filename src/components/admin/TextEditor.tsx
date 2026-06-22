@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useFormStatus } from "react-dom";
+import { toast } from "sonner";
 import { type EditableSection, decomposeSplit } from "@/lib/editableContent";
 
 const LOCALES = [
@@ -10,13 +11,26 @@ const LOCALES = [
   { id: "fr", label: "Français" },
 ];
 
-function SaveButton() {
+function SaveButton({
+  localeLabel,
+}: {
+  localeLabel: string;
+}) {
   const { pending } = useFormStatus();
+  const wasPending = useRef(false);
+
+  useEffect(() => {
+    if (wasPending.current && !pending) {
+      toast.success(`Textos guardados en ${localeLabel}.`);
+    }
+    wasPending.current = pending;
+  }, [pending, localeLabel]);
+
   return (
     <button
       type="submit"
       disabled={pending}
-      className="text-xs uppercase tracking-[0.2em] bg-[#17273f] text-white px-5 py-2.5 hover:bg-[#24395c] transition-colors disabled:opacity-50"
+      className="rounded-2xl bg-[#17273f] px-5 py-3 text-xs uppercase tracking-[0.22em] text-white shadow-[0_14px_32px_rgba(23,39,63,0.18)] transition-all hover:bg-[#24395c] hover:shadow-[0_18px_36px_rgba(23,39,63,0.22)] disabled:opacity-50"
     >
       {pending ? "Guardando…" : "Guardar"}
     </button>
@@ -24,7 +38,7 @@ function SaveButton() {
 }
 
 const inputCls =
-  "w-full border border-[#d8cdb0] bg-[#f8f4ea] px-3 py-2 text-sm text-[#17273f] outline-none focus:border-[#17273f] transition-colors";
+  "w-full rounded-2xl border border-[#d8cdb0] bg-[#f8f4ea] px-4 py-3 text-sm text-[#17273f] outline-none transition-all focus:border-[#17273f] focus:bg-white focus:shadow-[0_0_0_4px_rgba(227,214,181,0.28)]";
 
 export default function TextEditor({
   section,
@@ -38,17 +52,17 @@ export default function TextEditor({
   const [active, setActive] = useState("es");
 
   return (
-    <div className="bg-white border border-[#e7ddc4] shadow-[0_1px_3px_rgba(23,39,63,0.06)]">
+    <div className="overflow-hidden rounded-[28px] border border-[#e7ddc4] bg-[linear-gradient(180deg,rgba(255,255,255,0.96)_0%,rgba(248,244,234,0.92)_100%)] shadow-[0_20px_45px_rgba(23,39,63,0.07)]">
       {/* Pestañas de idioma */}
-      <div className="flex border-b border-[#efe7d2]">
+      <div className="flex border-b border-[#efe7d2] bg-white/70 p-2">
         {LOCALES.map((l) => (
           <button
             key={l.id}
             type="button"
             onClick={() => setActive(l.id)}
-            className={`px-5 py-3 text-xs uppercase tracking-[0.2em] transition-colors ${
+            className={`rounded-2xl px-5 py-3 text-xs uppercase tracking-[0.2em] transition-all ${
               active === l.id
-                ? "bg-[#17273f] text-white"
+                ? "bg-[#17273f] text-white shadow-[0_12px_28px_rgba(23,39,63,0.18)]"
                 : "text-[#17273f]/70 hover:bg-[#f8f4ea]"
             }`}
           >
@@ -73,8 +87,8 @@ export default function TextEditor({
               if (f.type === "splitTitle" && f.wrap) {
                 const { a, b } = decomposeSplit(f.wrap, raw);
                 return (
-                  <div key={f.key}>
-                    <label className="block text-xs uppercase tracking-widest text-[#17273f]/60 mb-2">
+                  <div key={f.key} className="rounded-[24px] border border-[#efe7d2] bg-white/60 p-4">
+                    <label className="mb-2 block text-xs uppercase tracking-widest text-[#17273f]/60">
                       {f.label}
                     </label>
                     <div className="grid grid-cols-2 gap-2">
@@ -97,18 +111,18 @@ export default function TextEditor({
 
               if (f.type === "textarea") {
                 return (
-                  <div key={f.key}>
-                    <label className="block text-xs uppercase tracking-widest text-[#17273f]/60 mb-2">
+                  <div key={f.key} className="rounded-[24px] border border-[#efe7d2] bg-white/60 p-4">
+                    <label className="mb-2 block text-xs uppercase tracking-widest text-[#17273f]/60">
                       {f.label}
                     </label>
-                    <textarea name={f.key} defaultValue={raw} rows={3} className={inputCls} />
+                    <textarea name={f.key} defaultValue={raw} rows={4} className={`${inputCls} resize-y`} />
                   </div>
                 );
               }
 
               return (
-                <div key={f.key}>
-                  <label className="block text-xs uppercase tracking-widest text-[#17273f]/60 mb-2">
+                <div key={f.key} className="rounded-[24px] border border-[#efe7d2] bg-white/60 p-4">
+                  <label className="mb-2 block text-xs uppercase tracking-widest text-[#17273f]/60">
                     {f.label}
                   </label>
                   <input name={f.key} defaultValue={raw} className={inputCls} />
@@ -117,8 +131,8 @@ export default function TextEditor({
             })}
           </div>
 
-          <div className="mt-6">
-            <SaveButton />
+          <div className="mt-6 flex items-center justify-end border-t border-[#efe7d2] pt-5">
+            <SaveButton localeLabel={l.label} />
           </div>
         </form>
       ))}

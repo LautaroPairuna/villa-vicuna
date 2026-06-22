@@ -1,7 +1,7 @@
 -- CreateTable
 CREATE TABLE `Translation` (
     `id` VARCHAR(191) NOT NULL,
-    `locale` VARCHAR(191) NOT NULL,
+    `locale` VARCHAR(8) NOT NULL,
     `key` VARCHAR(191) NOT NULL,
     `value` TEXT NOT NULL,
     `updatedAt` DATETIME(3) NOT NULL,

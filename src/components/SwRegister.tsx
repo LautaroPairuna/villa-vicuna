@@ -5,9 +5,18 @@ export default function SwRegister() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (!("serviceWorker" in navigator)) return;
-    const isSecure = window.location.protocol === "https:" || window.location.hostname === "localhost";
-    if (!isSecure) return;
-    navigator.serviceWorker.register("/sw.js").catch(() => {});
+    navigator.serviceWorker
+      .getRegistrations()
+      .then(async (registrations) => {
+        await Promise.all(registrations.map((registration) => registration.unregister()));
+        if ("caches" in window) {
+          const keys = await caches.keys();
+          await Promise.all(
+            keys.filter((key) => key.startsWith("vv-static-")).map((key) => caches.delete(key)),
+          );
+        }
+      })
+      .catch(() => {});
   }, []);
   return null;
 }

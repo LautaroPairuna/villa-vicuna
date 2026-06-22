@@ -8,7 +8,7 @@ import { routing } from "./i18n/routing";
 // Instancia edge-safe solo para leer la sesión (JWT) en el proxy.
 const { auth } = NextAuth(authConfig);
 const intlMiddleware = createIntlMiddleware(routing);
-const adminAuthMiddleware = auth((req) => {
+const adminAuthMiddleware = auth((req: NextRequest & { auth: Session | null }, _event: NextFetchEvent) => {
   const authReq = req as NextRequest & { auth: Session | null };
   const { nextUrl } = authReq;
   const isLoggedIn = !!authReq.auth;

@@ -225,7 +225,7 @@ export default async function LocaleLayout({
           {children}
         </NextIntlClientProvider>
 
-        {/* Registro del Service Worker */}
+        {/* Limpia service workers viejos y sus caches */}
         <SwRegister />
       </body>
     </html>
