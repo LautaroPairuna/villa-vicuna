@@ -11,12 +11,12 @@ const nextConfig = {
   poweredByHeader: false,
 
   images: {
-    formats: ["image/avif", "image/webp"],
-    // Acotamos las variantes que genera next/image: menos CPU y menos disco.
-    deviceSizes: [360, 640, 828, 1200, 1920],
-    imageSizes: [96, 200, 300],
-    // Las imágenes optimizadas se cachean ~31 días.
-    minimumCacheTTL: 2678400,
+    // Las imágenes ya vienen optimizadas: las que se suben por el panel se
+    // convierten a WebP con sharp (media.ts) y las estáticas se cachean fuerte
+    // (headers immutable + service worker). Desactivamos la optimización en
+    // runtime de next/image para NO mantener sharp/libvips cargado en el
+    // servidor → bastante menos RAM.
+    unoptimized: true,
   },
 
   // Paquetes nativos / solo-servidor que no deben bundlearse.
