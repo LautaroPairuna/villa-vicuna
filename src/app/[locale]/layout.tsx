@@ -151,18 +151,6 @@ export default async function LocaleLayout({
         <link rel="dns-prefetch" href="https://hotels.cloudbeds.com" />
         <link
           rel="preconnect"
-          href="https://clientstream.launchdarkly.com"
-          crossOrigin="anonymous"
-        />
-        <link rel="dns-prefetch" href="https://clientstream.launchdarkly.com" />
-        <link
-          rel="preconnect"
-          href="https://clientsdk.launchdarkly.com"
-          crossOrigin="anonymous"
-        />
-        <link rel="dns-prefetch" href="https://clientsdk.launchdarkly.com" />
-        <link
-          rel="preconnect"
           href="https://www.clarity.ms"
           crossOrigin="anonymous"
         />
