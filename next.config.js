@@ -6,9 +6,6 @@ const ONE_YEAR = "public, max-age=31536000, immutable";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Servidor Node (Dokploy/Docker) en vez de export estático.
-  output: "standalone",
-
   // Comprime las respuestas (HTML/JSON) desde el server Node.
   compress: true,
   poweredByHeader: false,
