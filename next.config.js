@@ -39,6 +39,21 @@ const nextConfig = {
       { source: "/uploads/:path*", headers: longCache },
     ];
   },
+
+  async redirects() {
+    return [
+      {
+        source: "/es",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/es/:path*",
+        destination: "/:path*",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 module.exports = withNextIntl(nextConfig);

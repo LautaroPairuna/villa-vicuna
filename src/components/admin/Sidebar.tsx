@@ -82,7 +82,7 @@ export default function Sidebar({ email }: { email?: string | null }) {
             </div>
           )}
           <Link
-            href="/es"
+            href="/"
             className="mb-3 flex w-full items-center justify-center gap-2 rounded-2xl border border-[#e3d6b5] bg-white/70 px-4 py-3 text-xs uppercase tracking-[0.24em] text-[#17273f] transition-all hover:border-[#17273f] hover:bg-white hover:shadow-[0_12px_30px_rgba(23,39,63,0.10)]"
           >
             <FiExternalLink className="h-3.5 w-3.5" />

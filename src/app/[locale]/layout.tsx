@@ -13,6 +13,11 @@ import "../../styles/globals.css";
 const BASE_URL = "https://villavicuna.com.ar"; // dominio del sitio
 const FAV_VERSION = "20250730"; // cambia al actualizar favicon
 const LOCALES = ["es", "en", "fr"] as const; // locales permitidos
+const DEFAULT_LOCALE = "es";
+
+function localePath(locale: string) {
+  return locale === DEFAULT_LOCALE ? "/" : `/${locale}`;
+}
 
 /*─── METADATA (fuente única de verdad para el SEO, localizado) ─*/
 export async function generateMetadata({
@@ -30,15 +35,15 @@ export async function generateMetadata({
     title,
     description,
     alternates: {
-      canonical: `/${locale}`,
-      languages: Object.fromEntries(LOCALES.map((l) => [l, `/${l}`])),
+      canonical: localePath(locale),
+      languages: Object.fromEntries(LOCALES.map((l) => [l, localePath(l)])),
     },
     openGraph: {
       type: "website",
       siteName: "Hotel Villa Vicuña",
       title,
       description,
-      url: `${BASE_URL}/${locale}`,
+      url: `${BASE_URL}${localePath(locale)}`,
       locale,
       images: ["/opengraph.jpg"],
     },

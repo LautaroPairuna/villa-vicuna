@@ -10,6 +10,7 @@ const TELEPHONE = "+5493874649748";
 const EMAIL = "salta@villavicuna.com.ar";
 const CLOUDBEDS_RESERVATION = "https://hotels.cloudbeds.com/reservation/pwSXnD";
 const MAPS_URL = "https://maps.app.goo.gl/HkENdi1r48xMmqpp6";
+const DEFAULT_LOCALE = "es";
 const SAME_AS = [
   "https://instagram.com/villavicunasalta",
   "https://facebook.com/villavicunasalta",
@@ -62,6 +63,7 @@ const FAQ: Record<string, { q: string; a: string }[]> = {
 };
 
 export async function getStructuredData(locale: string) {
+  const localePath = locale === DEFAULT_LOCALE ? "" : `/${locale}`;
   const t = await getTranslations({ locale });
   const tRooms = await getTranslations({ locale, namespace: "rooms" });
   const tMeta = await getTranslations({ locale, namespace: "metadata" });
@@ -110,7 +112,7 @@ export async function getStructuredData(locale: string) {
     "@id": `${BASE_URL}/#hotel`,
     name: HOTEL_NAME,
     description: tMeta("description"),
-    url: `${BASE_URL}/${locale}`,
+    url: `${BASE_URL}${localePath || "/"}`,
     telephone: TELEPHONE,
     email: EMAIL,
     image: [`${BASE_URL}/opengraph.jpg`],
