@@ -1,0 +1,149 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import Image from "next/image";
+import { redirect } from "next/navigation";
+import EditorialBookButton from "@/components/EditorialBookButton";
+import EditorialVideoHero from "@/components/EditorialVideoHero";
+import PublicEditorialLayout from "@/components/PublicEditorialLayout";
+import { getSectionImages } from "@/lib/content";
+import { getPublishedPromotions } from "@/lib/editorial";
+
+export const revalidate = 3600;
+
+export const metadata: Metadata = {
+  title: "Promociones en Villa Vicuña | Salta Capital",
+  description:
+    "Conocé las promociones activas de Villa Vicuña y planificá tu estadía en Salta Capital con beneficios y propuestas especiales.",
+  alternates: { canonical: "/promociones" },
+};
+
+function formatDate(date: Date | null) {
+  if (!date) return null;
+  return new Intl.DateTimeFormat("es-AR", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  }).format(date);
+}
+
+export default async function PromotionsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  if (locale !== "es") {
+    redirect("/promociones");
+  }
+
+  const promotions = await getPublishedPromotions();
+  const sectionImages = await getSectionImages();
+
+  return (
+    <PublicEditorialLayout
+      eyebrow="Promociones"
+      title="Propuestas pensadas para tu estadía en Salta Capital"
+      description="Encontrá promociones activas con una explicación clara de beneficios, vigencia y forma de reserva. Mantenemos esta sección enfocada en propuestas concretas, sin mezclar contenido genérico."
+      hideIntro
+      topHero={
+        <EditorialVideoHero
+          eyebrow="Promociones"
+          title="Promociones pensadas para vivir Salta Capital con el ritmo de Villa Vicuña"
+          description="Un recorrido visual primero, y después propuestas concretas para reservar mejor tu estadía. La idea es que esta página respire como el sitio antes de entrar al detalle comercial."
+          videoUrl={sectionImages.hero_video}
+          posterUrl={sectionImages.hero_poster}
+        />
+      }
+    >
+      <section className="relative overflow-hidden bg-white px-2 py-4 lg:px-8 lg:py-8">
+        <div className="pointer-events-none absolute left-1/2 top-1/2 hidden h-[320px] w-[320px] -translate-x-1/2 -translate-y-1/2 opacity-50 lg:block">
+          <Image src="/images/fondo-carta-2.svg" alt="" fill className="object-contain" />
+        </div>
+        <div className="relative z-10 mx-auto max-w-4xl text-center">
+          <p className="text-[10px] uppercase tracking-[0.35em] text-[#17273f]/45">Promociones</p>
+          <h2 className="mt-5 text-3xl uppercase tracking-[0.18em] text-[#17273f] md:text-5xl md:leading-[1.2]">
+            Propuestas concretas para reservar con contexto, no solo con precio
+          </h2>
+          <p className="mt-6 text-base leading-8 text-[#17273f]/72">
+            Acá mostramos promociones activas con una explicación clara de beneficios, vigencia y
+            forma de reserva. Primero la atmósfera del hotel y después el contenido comercial.
+          </p>
+        </div>
+      </section>
+
+      {promotions.length === 0 ? (
+        <section className="relative overflow-hidden bg-white px-6 py-10">
+          <div className="pointer-events-none absolute right-0 top-1/2 h-[220px] w-[220px] -translate-y-1/2 opacity-55 md:h-[360px] md:w-[360px]">
+            <Image src="/images/fondo-carta-3.svg" alt="" fill className="object-contain" />
+          </div>
+          <p className="text-sm leading-7 text-[#17273f]/70">
+            En este momento no hay promociones publicadas. Podés volver al{" "}
+            <Link href="/" className="underline underline-offset-4">
+              sitio principal
+            </Link>{" "}
+            o avanzar directo con tu reserva.
+          </p>
+        </section>
+      ) : (
+        <div className="space-y-16">
+          {promotions.map((promotion, index) => (
+            <article
+              key={promotion.id}
+              className="grid items-center gap-8 bg-white py-4 lg:grid-cols-12"
+            >
+              <div
+                className={`relative aspect-[5/6] overflow-hidden lg:col-span-6 ${
+                  index % 2 === 0 ? "lg:order-2" : ""
+                }`}
+              >
+                {promotion.coverUrl ? (
+                  <Image
+                    src={promotion.coverUrl}
+                    alt={promotion.title}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 45vw"
+                    className="object-cover"
+                  />
+                ) : (
+                  <div className="flex h-full items-end bg-[#17273f] p-6 text-white">
+                    <p className="text-lg uppercase tracking-[0.18em]">{promotion.title}</p>
+                  </div>
+                )}
+              </div>
+              <div className={`relative lg:col-span-6 ${index % 2 === 0 ? "lg:order-1" : ""}`}>
+                <div className="pointer-events-none absolute -left-10 top-1/2 hidden h-[280px] w-[280px] -translate-y-1/2 opacity-55 lg:block">
+                  <Image src="/images/fondo-carta-2.svg" alt="" fill className="object-contain" />
+                </div>
+                <div className="relative z-10 bg-white px-2 py-6 lg:px-8">
+                  <div className="flex flex-wrap gap-3 text-[11px] uppercase tracking-[0.24em] text-[#17273f]/45">
+                  {formatDate(promotion.validFrom) && (
+                    <span>Desde {formatDate(promotion.validFrom)}</span>
+                  )}
+                  {formatDate(promotion.validTo) && <span>Hasta {formatDate(promotion.validTo)}</span>}
+                  </div>
+                  <h2 className="mt-5 text-3xl uppercase tracking-[0.16em] text-[#17273f] lg:text-[2.35rem] lg:leading-[1.35]">
+                    {promotion.title}
+                  </h2>
+                  <p className="mt-6 text-base leading-8 text-[#17273f]/72">{promotion.summary}</p>
+                  <div className="mt-8 flex flex-wrap gap-3">
+                    <Link
+                      href={`/promociones/${promotion.slug}`}
+                      className="rounded-full bg-[#17273f] px-6 py-3 text-xs uppercase tracking-[0.22em] text-white transition-all hover:bg-[#24395c]"
+                    >
+                      Ver detalle
+                    </Link>
+                    <EditorialBookButton
+                      label={promotion.ctaLabel || "Reservar"}
+                      fallbackUrl={promotion.ctaHref}
+                      className="rounded-full border border-[#17273f]/10 bg-[#e3d6b5] px-6 py-3 text-xs uppercase tracking-[0.22em] text-[#17273f] transition-all hover:bg-[#d9c8a0]"
+                    />
+                  </div>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
+    </PublicEditorialLayout>
+  );
+}

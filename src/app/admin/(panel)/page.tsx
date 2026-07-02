@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FiFilm, FiInfo, FiStar, FiBookOpen, FiPhone, FiArrowRight } from "react-icons/fi";
+import { FiFilm, FiInfo, FiStar, FiBookOpen, FiPhone, FiArrowRight, FiTag, FiMapPin } from "react-icons/fi";
 import { TbBed } from "react-icons/tb";
 import type { IconType } from "react-icons";
 import { prisma } from "@/lib/prisma";
@@ -11,11 +11,15 @@ export default async function AdminOverview() {
   let dbError = false;
   let roomsCount = 0;
   let reviewsCount = 0;
+  let promotionsCount = 0;
+  let saltaCount = 0;
 
   try {
-    [roomsCount, reviewsCount] = await Promise.all([
+    [roomsCount, reviewsCount, promotionsCount, saltaCount] = await Promise.all([
       prisma.room.count(),
       prisma.review.count(),
+      prisma.promotion.count(),
+      prisma.saltaPlace.count(),
     ]);
   } catch {
     dbError = true;
@@ -28,6 +32,8 @@ export default async function AdminOverview() {
     { href: "/admin/resenas", label: "Reseñas", hint: "Textos e imágenes por reseña", icon: FiStar, badge: String(reviewsCount) },
     { href: "/admin/menu", label: "Menú", hint: "Imágenes de la carta y textos", icon: FiBookOpen },
     { href: "/admin/contacto", label: "Contacto", hint: "Imagen y datos de contacto", icon: FiPhone },
+    { href: "/admin/promociones", label: "Promociones", hint: "Landing comerciales indexables", icon: FiTag, badge: String(promotionsCount) },
+    { href: "/admin/salta", label: "Salta", hint: "Guía local de Salta Capital", icon: FiMapPin, badge: String(saltaCount) },
   ];
 
   return (
@@ -58,6 +64,14 @@ export default async function AdminOverview() {
           <div className="rounded-[28px] border border-[#e3d6b5] bg-white/80 px-5 py-5 shadow-[0_18px_40px_rgba(23,39,63,0.08)]">
             <p className="text-[10px] uppercase tracking-[0.3em] text-[#17273f]/45">Reseñas</p>
             <p className="mt-3 text-4xl text-[#17273f]">{reviewsCount}</p>
+          </div>
+          <div className="rounded-[28px] border border-[#e3d6b5] bg-white/80 px-5 py-5 shadow-[0_18px_40px_rgba(23,39,63,0.08)]">
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#17273f]/45">Promociones</p>
+            <p className="mt-3 text-4xl text-[#17273f]">{promotionsCount}</p>
+          </div>
+          <div className="rounded-[28px] border border-[#e3d6b5] bg-white/80 px-5 py-5 shadow-[0_18px_40px_rgba(23,39,63,0.08)]">
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#17273f]/45">Salta</p>
+            <p className="mt-3 text-4xl text-[#17273f]">{saltaCount}</p>
           </div>
         </div>
       </div>

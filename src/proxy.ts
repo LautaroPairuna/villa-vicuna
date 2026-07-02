@@ -1,5 +1,6 @@
 import createIntlMiddleware from "next-intl/middleware";
 import type { NextFetchEvent, NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import NextAuth from "next-auth";
 import type { Session } from "next-auth";
 import { authConfig } from "./auth.config";
@@ -26,9 +27,15 @@ const adminAuthMiddleware = auth((req: NextRequest & { auth: Session | null }, _
 export function proxy(req: NextRequest, event: NextFetchEvent) {
   const { nextUrl } = req;
   const isAdmin = nextUrl.pathname.startsWith("/admin");
+  const hasExplicitLocale = /^\/(en|fr)(\/|$)/.test(nextUrl.pathname);
 
-  // Rutas públicas: next-intl maneja la redirección / -> /es (o el locale detectado).
+  // Rutas públicas: mantenemos URLs limpias sin /es y reescribimos internamente al locale default.
   if (!isAdmin) {
+    if (!hasExplicitLocale) {
+      const url = nextUrl.clone();
+      url.pathname = `/es${nextUrl.pathname === "/" ? "" : nextUrl.pathname}`;
+      return NextResponse.rewrite(url);
+    }
     return intlMiddleware(req);
   }
 

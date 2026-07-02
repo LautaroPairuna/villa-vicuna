@@ -1,9 +1,9 @@
 import { PrismaMariaDb } from "@prisma/adapter-mariadb";
-import { PrismaClient } from "@/generated/prisma/client";
+import { PrismaClient, type PrismaClient as PrismaClientInstance } from "@/generated/prisma/client";
 
 // Prisma 7: conexión vía driver adapter (MySQL/MariaDB sobre TCP).
 const globalForPrisma = globalThis as unknown as {
-  prisma?: PrismaClient;
+  prisma?: PrismaClientInstance;
 };
 
 // Parseamos DATABASE_URL para poder limitar el pool (menos RAM en el VPS).
@@ -24,7 +24,7 @@ function buildAdapter() {
   });
 }
 
-export const prisma =
+export const prisma: PrismaClientInstance =
   globalForPrisma.prisma ?? new PrismaClient({ adapter: buildAdapter() });
 
 if (process.env.NODE_ENV !== "production") {

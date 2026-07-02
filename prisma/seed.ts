@@ -127,6 +127,122 @@ const SECTIONS: Record<string, string> = {
   menu_drinks: "/images/menu-drinks.svg",
 };
 
+const PROMOTIONS = [
+  {
+    slug: "escapada-romantica-salta-capital",
+    title: "Escapada romantica en Salta Capital",
+    summary:
+      "Una propuesta pensada para parejas que buscan combinar descanso, arquitectura colonial y gastronomia local en el casco historico de Salta.",
+    content:
+      "Esta promocion esta pensada para una estadia breve con foco en descanso, ubicacion y experiencia.\n\nVilla Vicuna permite recorrer a pie buena parte del centro historico, volver al hotel con facilidad y aprovechar la atmosfera serena de la casa durante la tarde.\n\nEs una opcion ideal para escapadas de dos o tres noches, celebraciones especiales o viajes en pareja que priorizan caminar la ciudad, disfrutar la arquitectura y salir a cenar sin depender del auto.",
+    cover: "/images/habitaciones/superior-balcon.jpg",
+    ctaLabel: "Consultar disponibilidad",
+    ctaHref: "https://hotels.cloudbeds.com/reservation/pwSXnD",
+    validFrom: new Date("2026-06-01"),
+    validTo: new Date("2026-12-31"),
+    seoTitle: "Escapada romantica en Salta Capital | Villa Vicuna",
+    seoDescription:
+      "Propuesta ideal para parejas que buscan hospedarse en el centro historico de Salta Capital y vivir una experiencia boutique.",
+    published: true,
+  },
+  {
+    slug: "estadias-largas-en-el-centro-de-salta",
+    title: "Estadias largas en el centro de Salta",
+    summary:
+      "Una opcion para quienes necesitan pasar varios dias en la ciudad y valoran ubicacion, tranquilidad y acceso rapido a los principales puntos de interes.",
+    content:
+      "Esta propuesta esta orientada a viajeros que planean quedarse varios dias en Salta Capital y necesitan una base comoda para moverse por el centro.\n\nLa ubicacion de Villa Vicuna facilita organizar reuniones, recorridos urbanos, salidas gastronomicas y paseos culturales sin tiempos muertos.\n\nTambien es una buena alternativa para quienes combinan trabajo remoto con una estadia corta en el norte argentino y quieren un entorno mas tranquilo que un hotel corporativo tradicional.",
+    cover: "/images/habitaciones/standard-matrimonial.jpg",
+    ctaLabel: "Reservar estadia",
+    ctaHref: "https://hotels.cloudbeds.com/reservation/pwSXnD",
+    validFrom: new Date("2026-06-01"),
+    validTo: new Date("2027-03-31"),
+    seoTitle: "Estadias largas en Salta Capital | Villa Vicuna",
+    seoDescription:
+      "Hospedaje boutique en el centro historico de Salta para quienes necesitan ubicacion, calma y buena conectividad durante varios dias.",
+    published: true,
+  },
+];
+
+const SALTA_PLACES = [
+  {
+    slug: "plaza-9-de-julio",
+    title: "Plaza 9 de Julio",
+    category: "Paseos",
+    summary:
+      "El corazon historico de Salta Capital y uno de los mejores puntos de partida para entender la ciudad a pie.",
+    content:
+      "La Plaza 9 de Julio concentra buena parte del ritmo urbano de Salta Capital y funciona como punto de referencia para cualquier primer recorrido por la ciudad.\n\nDesde aqui se conectan iglesias, museos, cafes y calles historicas que se pueden recorrer sin apuro.\n\nPara un huesped de Villa Vicuna es una salida natural: permite empezar con una caminata corta, orientarse rapido y despues seguir hacia otros puntos del casco historico.",
+    cover: "/images/nosotros.jpg",
+    address: "Plaza 9 de Julio, Salta Capital",
+    mapsUrl: "https://maps.app.goo.gl/HkENdi1r48xMmqpp6",
+    distanceFromHotel: "A pocos minutos a pie",
+    recommendedDuration: "45 minutos a 1 hora",
+    seoTitle: "Plaza 9 de Julio en Salta Capital | Que hacer cerca de Villa Vicuna",
+    seoDescription:
+      "Guia rapida para visitar la Plaza 9 de Julio durante una estadia en Salta Capital, a pocos minutos de Villa Vicuna.",
+    featured: true,
+    published: true,
+  },
+  {
+    slug: "catedral-basilica-de-salta",
+    title: "Catedral Basilica de Salta",
+    category: "Historia",
+    summary:
+      "Uno de los edificios mas reconocibles del centro historico, ideal para una visita corta dentro de un recorrido peatonal.",
+    content:
+      "La Catedral Basilica es uno de los hitos mas visibles de la Plaza 9 de Julio y forma parte del perfil arquitectonico mas reconocible de Salta Capital.\n\nVale la pena detenerse en su fachada, en el contexto urbano que la rodea y en el modo en que se integra con la vida cotidiana del centro.\n\nPara quienes se hospedan en Villa Vicuna, es una visita muy simple de incorporar en una caminata de manana o al atardecer, sin alterar el resto del plan del dia.",
+    cover: "/images/contactenos.jpg",
+    address: "Espana 558, Salta Capital",
+    mapsUrl: "https://maps.app.goo.gl/HkENdi1r48xMmqpp6",
+    distanceFromHotel: "Menos de 10 minutos a pie",
+    recommendedDuration: "30 a 45 minutos",
+    seoTitle: "Catedral Basilica de Salta | Guia para visitantes en Salta Capital",
+    seoDescription:
+      "Que ver en la Catedral Basilica de Salta y como integrarla a una recorrida a pie desde Villa Vicuna.",
+    featured: true,
+    published: true,
+  },
+  {
+    slug: "museo-maam",
+    title: "Museo MAAM",
+    category: "Museos",
+    summary:
+      "Una parada clave para quienes quieren sumar una experiencia cultural fuerte dentro del centro historico de la ciudad.",
+    content:
+      "El MAAM es una de las visitas culturales mas relevantes de Salta Capital y suele ser una excelente opcion para complementar una estadia urbana.\n\nEs una propuesta que funciona especialmente bien en dias templados o como parte de una manana dedicada al casco historico.\n\nDesde Villa Vicuna se puede llegar caminando y combinar la visita con cafes, librerias o una recorrida mas amplia por el centro.",
+    cover: "/images/reseñas/los-detalles.jpg",
+    address: "Mitre 77, Salta Capital",
+    mapsUrl: "https://maps.app.goo.gl/HkENdi1r48xMmqpp6",
+    distanceFromHotel: "10 minutos a pie",
+    recommendedDuration: "1 a 2 horas",
+    seoTitle: "Visitar el MAAM en Salta Capital | Guia local desde Villa Vicuna",
+    seoDescription:
+      "Informacion practica para sumar el Museo MAAM a una estadia en Salta Capital, a distancia caminable desde Villa Vicuna.",
+    featured: false,
+    published: true,
+  },
+  {
+    slug: "pena-folclorica-en-balneario-y-centro",
+    title: "Pena folclorica en el centro de Salta",
+    category: "Gastronomia",
+    summary:
+      "Una experiencia muy asociada a la ciudad para quienes quieren cerrar el dia con musica, cocina regional y ambiente local.",
+    content:
+      "Salir a una pena es una de las formas mas directas de acercarse al costado mas vivo y social de Salta Capital.\n\nSegun el dia y la agenda cultural, puede ser una muy buena opcion para la cena o para extender la noche despues de recorrer el centro.\n\nDesde Villa Vicuna se puede organizar facilmente sin grandes traslados, lo que vuelve esta salida especialmente comoda para huespedes que prefieren moverse a pie o en trayectos cortos.",
+    cover: "/images/reseñas/el-desayuno.jpg",
+    address: "Zona centro, Salta Capital",
+    mapsUrl: "https://maps.app.goo.gl/HkENdi1r48xMmqpp6",
+    distanceFromHotel: "Trayecto corto desde el hotel",
+    recommendedDuration: "2 a 3 horas",
+    seoTitle: "Pena folclorica en Salta Capital | Que hacer de noche en el centro",
+    seoDescription:
+      "Idea para sumar una noche de musica y gastronomia regional durante una estadia en Salta Capital.",
+    featured: false,
+    published: true,
+  },
+];
+
 // Crea (o reutiliza) una Media por su path.
 async function media(path: string, alt = "") {
   const existing = await prisma.media.findFirst({ where: { path } });
@@ -174,6 +290,80 @@ async function main() {
       where: { slug },
       update: { mediaId: m.id },
       create: { slug, mediaId: m.id },
+    });
+  }
+
+  // ── Promociones ──
+  for (const promotion of PROMOTIONS) {
+    const cover = await media(promotion.cover, promotion.slug);
+    await prisma.promotion.upsert({
+      where: { slug: promotion.slug },
+      update: {
+        title: promotion.title,
+        summary: promotion.summary,
+        content: promotion.content,
+        coverId: cover.id,
+        ctaLabel: promotion.ctaLabel,
+        ctaHref: promotion.ctaHref,
+        validFrom: promotion.validFrom,
+        validTo: promotion.validTo,
+        seoTitle: promotion.seoTitle,
+        seoDescription: promotion.seoDescription,
+        published: promotion.published,
+      },
+      create: {
+        slug: promotion.slug,
+        title: promotion.title,
+        summary: promotion.summary,
+        content: promotion.content,
+        coverId: cover.id,
+        ctaLabel: promotion.ctaLabel,
+        ctaHref: promotion.ctaHref,
+        validFrom: promotion.validFrom,
+        validTo: promotion.validTo,
+        seoTitle: promotion.seoTitle,
+        seoDescription: promotion.seoDescription,
+        published: promotion.published,
+      },
+    });
+  }
+
+  // ── Salta Capital ──
+  for (const place of SALTA_PLACES) {
+    const cover = await media(place.cover, place.slug);
+    await prisma.saltaPlace.upsert({
+      where: { slug: place.slug },
+      update: {
+        title: place.title,
+        category: place.category,
+        summary: place.summary,
+        content: place.content,
+        coverId: cover.id,
+        address: place.address,
+        mapsUrl: place.mapsUrl,
+        distanceFromHotel: place.distanceFromHotel,
+        recommendedDuration: place.recommendedDuration,
+        seoTitle: place.seoTitle,
+        seoDescription: place.seoDescription,
+        featured: place.featured,
+        published: place.published,
+      },
+      create: {
+        slug: place.slug,
+        title: place.title,
+        category: place.category,
+        summary: place.summary,
+        content: place.content,
+        coverId: cover.id,
+        address: place.address,
+        mapsUrl: place.mapsUrl,
+        distanceFromHotel: place.distanceFromHotel,
+        recommendedDuration: place.recommendedDuration,
+        seoTitle: place.seoTitle,
+        seoDescription: place.seoDescription,
+        featured: place.featured,
+        published: place.published,
+      },
     });
   }
 

@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { auth, signOut } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { saveUpload } from "@/lib/media";
@@ -19,6 +20,44 @@ function refresh() {
     revalidatePath(locale === "es" ? "/" : `/${locale}`);
   }
   revalidatePath("/admin");
+}
+
+function optionalText(formData: FormData, key: string) {
+  const value = String(formData.get(key) ?? "").trim();
+  return value || null;
+}
+
+function requiredText(formData: FormData, key: string) {
+  return String(formData.get(key) ?? "").trim();
+}
+
+function parseCheckbox(formData: FormData, key: string) {
+  return formData.get(key) === "on";
+}
+
+function parseDate(value: string | null) {
+  if (!value) return null;
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
+function slugify(value: string) {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80);
+}
+
+function refreshEditorial(kind: "promociones" | "salta", slug?: string) {
+  const basePath = kind === "promociones" ? "/promociones" : "/salta";
+  revalidatePath(basePath);
+  if (slug) {
+    revalidatePath(`${basePath}/${slug}`);
+  }
+  revalidatePath(`/admin/${kind}`);
 }
 
 // ── Secciones (hero, nosotros, contacto, menú) ──────────────────────
@@ -179,6 +218,202 @@ export async function saveTranslationsAction(formData: FormData) {
 
   await prisma.$transaction(operations);
   refresh();
+}
+
+export async function createPromotionAction(formData: FormData) {
+  await requireAdmin();
+
+  const title = requiredText(formData, "title");
+  const slugInput = requiredText(formData, "slug");
+  const summary = requiredText(formData, "summary");
+  const content = requiredText(formData, "content");
+  const slug = slugify(slugInput || title);
+
+  if (!title || !slug || !summary || !content) {
+    throw new Error("Faltan campos obligatorios para la promoción.");
+  }
+
+  const promotion = await prisma.promotion.create({
+    data: {
+      title,
+      slug,
+      summary,
+      content,
+      ctaLabel: optionalText(formData, "ctaLabel"),
+      ctaHref: optionalText(formData, "ctaHref"),
+      validFrom: parseDate(optionalText(formData, "validFrom")),
+      validTo: parseDate(optionalText(formData, "validTo")),
+      seoTitle: optionalText(formData, "seoTitle"),
+      seoDescription: optionalText(formData, "seoDescription"),
+      published: parseCheckbox(formData, "published"),
+    },
+  });
+
+  refreshEditorial("promociones", promotion.slug);
+  redirect(`/admin/promociones/${promotion.id}`);
+}
+
+export async function updatePromotionAction(formData: FormData) {
+  await requireAdmin();
+
+  const id = requiredText(formData, "id");
+  const title = requiredText(formData, "title");
+  const slugInput = requiredText(formData, "slug");
+  const summary = requiredText(formData, "summary");
+  const content = requiredText(formData, "content");
+  const slug = slugify(slugInput || title);
+
+  if (!id || !title || !slug || !summary || !content) {
+    throw new Error("Faltan campos obligatorios para la promoción.");
+  }
+
+  await prisma.promotion.update({
+    where: { id },
+    data: {
+      title,
+      slug,
+      summary,
+      content,
+      ctaLabel: optionalText(formData, "ctaLabel"),
+      ctaHref: optionalText(formData, "ctaHref"),
+      validFrom: parseDate(optionalText(formData, "validFrom")),
+      validTo: parseDate(optionalText(formData, "validTo")),
+      seoTitle: optionalText(formData, "seoTitle"),
+      seoDescription: optionalText(formData, "seoDescription"),
+      published: parseCheckbox(formData, "published"),
+    },
+  });
+
+  refreshEditorial("promociones", slug);
+}
+
+export async function deletePromotionAction(formData: FormData) {
+  await requireAdmin();
+
+  const id = requiredText(formData, "id");
+  if (!id) return;
+
+  const current = await prisma.promotion.findUnique({ where: { id } });
+  await prisma.promotion.delete({ where: { id } });
+  refreshEditorial("promociones", current?.slug);
+  redirect("/admin/promociones");
+}
+
+export async function setPromotionCoverAction(formData: FormData) {
+  await requireAdmin();
+
+  const id = requiredText(formData, "id");
+  const file = formData.get("file") as File | null;
+  if (!id || !file || file.size === 0) return;
+
+  const media = await saveUpload(file, "promotions", id);
+  const promotion = await prisma.promotion.update({
+    where: { id },
+    data: { coverId: media.id },
+  });
+
+  refreshEditorial("promociones", promotion.slug);
+}
+
+export async function createSaltaPlaceAction(formData: FormData) {
+  await requireAdmin();
+
+  const title = requiredText(formData, "title");
+  const slugInput = requiredText(formData, "slug");
+  const category = requiredText(formData, "category");
+  const summary = requiredText(formData, "summary");
+  const content = requiredText(formData, "content");
+  const slug = slugify(slugInput || title);
+
+  if (!title || !slug || !category || !summary || !content) {
+    throw new Error("Faltan campos obligatorios para el lugar de Salta.");
+  }
+
+  const place = await prisma.saltaPlace.create({
+    data: {
+      title,
+      slug,
+      category,
+      summary,
+      content,
+      address: optionalText(formData, "address"),
+      mapsUrl: optionalText(formData, "mapsUrl"),
+      distanceFromHotel: optionalText(formData, "distanceFromHotel"),
+      recommendedDuration: optionalText(formData, "recommendedDuration"),
+      seoTitle: optionalText(formData, "seoTitle"),
+      seoDescription: optionalText(formData, "seoDescription"),
+      featured: parseCheckbox(formData, "featured"),
+      published: parseCheckbox(formData, "published"),
+    },
+  });
+
+  refreshEditorial("salta", place.slug);
+  redirect(`/admin/salta/${place.id}`);
+}
+
+export async function updateSaltaPlaceAction(formData: FormData) {
+  await requireAdmin();
+
+  const id = requiredText(formData, "id");
+  const title = requiredText(formData, "title");
+  const slugInput = requiredText(formData, "slug");
+  const category = requiredText(formData, "category");
+  const summary = requiredText(formData, "summary");
+  const content = requiredText(formData, "content");
+  const slug = slugify(slugInput || title);
+
+  if (!id || !title || !slug || !category || !summary || !content) {
+    throw new Error("Faltan campos obligatorios para el lugar de Salta.");
+  }
+
+  await prisma.saltaPlace.update({
+    where: { id },
+    data: {
+      title,
+      slug,
+      category,
+      summary,
+      content,
+      address: optionalText(formData, "address"),
+      mapsUrl: optionalText(formData, "mapsUrl"),
+      distanceFromHotel: optionalText(formData, "distanceFromHotel"),
+      recommendedDuration: optionalText(formData, "recommendedDuration"),
+      seoTitle: optionalText(formData, "seoTitle"),
+      seoDescription: optionalText(formData, "seoDescription"),
+      featured: parseCheckbox(formData, "featured"),
+      published: parseCheckbox(formData, "published"),
+    },
+  });
+
+  refreshEditorial("salta", slug);
+}
+
+export async function deleteSaltaPlaceAction(formData: FormData) {
+  await requireAdmin();
+
+  const id = requiredText(formData, "id");
+  if (!id) return;
+
+  const current = await prisma.saltaPlace.findUnique({ where: { id } });
+  await prisma.saltaPlace.delete({ where: { id } });
+  refreshEditorial("salta", current?.slug);
+  redirect("/admin/salta");
+}
+
+export async function setSaltaPlaceCoverAction(formData: FormData) {
+  await requireAdmin();
+
+  const id = requiredText(formData, "id");
+  const file = formData.get("file") as File | null;
+  if (!id || !file || file.size === 0) return;
+
+  const media = await saveUpload(file, "salta", id);
+  const place = await prisma.saltaPlace.update({
+    where: { id },
+    data: { coverId: media.id },
+  });
+
+  refreshEditorial("salta", place.slug);
 }
 
 export async function logoutAction() {
