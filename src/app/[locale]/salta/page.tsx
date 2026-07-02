@@ -3,6 +3,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import PublicEditorialLayout from "@/components/PublicEditorialLayout";
+import {
+  editorialBody,
+  editorialEyebrow,
+  editorialPrimaryButton,
+  editorialSecondaryButton,
+} from "@/components/editorialUi";
 import { getPublishedSaltaPlaces } from "@/lib/editorial";
 
 export const revalidate = 3600;
@@ -37,7 +43,7 @@ export default async function SaltaPage({
           <div className="pointer-events-none absolute right-0 top-1/2 h-[220px] w-[220px] -translate-y-1/2 opacity-55 md:h-[360px] md:w-[360px]">
             <Image src="/images/fondo-carta-3.svg" alt="" fill className="object-contain" />
           </div>
-          <p className="text-sm leading-7 text-[#17273f]/70">
+          <p className={`relative z-10 ${editorialBody}`}>
             Todavía no hay lugares publicados en esta guía. Podés volver al{" "}
             <Link href="/" className="underline underline-offset-4">
               sitio principal
@@ -76,19 +82,16 @@ export default async function SaltaPage({
                   <Image src="/images/fondo-carta-2.svg" alt="" fill className="object-contain" />
                 </div>
                 <div className="relative z-10 bg-white px-2 py-6 lg:px-8">
-                  <div className="flex flex-wrap gap-3 text-[11px] uppercase tracking-[0.24em] text-[#17273f]/45">
+                  <div className={`flex flex-wrap gap-3 ${editorialEyebrow}`}>
                     <span>{place.category}</span>
                     {place.distanceFromHotel && <span>{place.distanceFromHotel}</span>}
                   </div>
-                  <h2 className="mt-5 text-3xl uppercase tracking-[0.16em] text-[#17273f] lg:text-[2.35rem] lg:leading-[1.35]">
+                  <h2 className="mt-5 text-3xl uppercase tracking-[0.18em] text-black lg:text-[2.35rem] lg:leading-[1.35]">
                     {place.title}
                   </h2>
-                  <p className="mt-6 text-base leading-8 text-[#17273f]/72">{place.summary}</p>
-                  <div className="mt-8 flex flex-wrap gap-3">
-                    <Link
-                      href={`/salta/${place.slug}`}
-                      className="rounded-full bg-[#17273f] px-6 py-3 text-xs uppercase tracking-[0.22em] text-white transition-all hover:bg-[#24395c]"
-                    >
+                  <p className={`mt-6 ${editorialBody}`}>{place.summary}</p>
+                  <div className="mt-8 flex flex-wrap gap-4">
+                    <Link href={`/salta/${place.slug}`} className={editorialPrimaryButton}>
                       Ver lugar
                     </Link>
                     {place.mapsUrl && (
@@ -96,7 +99,7 @@ export default async function SaltaPage({
                         href={place.mapsUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="rounded-full border border-[#17273f]/10 bg-[#e3d6b5] px-6 py-3 text-xs uppercase tracking-[0.22em] text-[#17273f] transition-all hover:bg-[#d9c8a0]"
+                        className={editorialSecondaryButton}
                       >
                         Ver mapa
                       </a>

@@ -3,6 +3,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import PublicEditorialLayout from "@/components/PublicEditorialLayout";
+import {
+  editorialBody,
+  editorialEyebrow,
+  editorialPrimaryButton,
+  editorialSecondaryButton,
+} from "@/components/editorialUi";
 import { getSaltaPlaceBySlug } from "@/lib/editorial";
 
 export const revalidate = 3600;
@@ -60,13 +66,13 @@ export default async function SaltaPlacePage({
             <Image src="/images/fondo-carta-3.svg" alt="" fill className="object-contain" />
           </div>
           <div className="relative z-10">
-            <div className="flex flex-wrap gap-3 text-[11px] uppercase tracking-[0.24em] text-[#17273f]/45">
+            <div className={`flex flex-wrap gap-3 ${editorialEyebrow}`}>
               <span>{place.category}</span>
               {place.distanceFromHotel && <span>{place.distanceFromHotel}</span>}
               {place.recommendedDuration && <span>{place.recommendedDuration}</span>}
             </div>
 
-            <div className="mt-8 space-y-6 text-base leading-8 text-[#17273f]/78">
+            <div className={`mt-8 space-y-6 ${editorialBody}`}>
               {paragraphs.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
@@ -78,10 +84,10 @@ export default async function SaltaPlacePage({
                   <Image src="/images/fondo-carta-6.svg" alt="" fill className="object-contain" />
                 </div>
                 <div className="relative z-10">
-                  <p className="text-[10px] uppercase tracking-[0.3em] text-[#17273f]/45">Información útil</p>
+                  <p className={editorialEyebrow}>Información útil</p>
                   {place.address && (
-                    <p className="mt-4 max-w-2xl text-base leading-8 text-[#17273f]/72">
-                      <strong className="text-[#17273f]">Dirección:</strong> {place.address}
+                    <p className={`mt-4 max-w-2xl ${editorialBody}`}>
+                      <strong className="text-black">Dirección:</strong> {place.address}
                     </p>
                   )}
                   {place.mapsUrl && (
@@ -89,7 +95,7 @@ export default async function SaltaPlacePage({
                       href={place.mapsUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-6 inline-flex rounded-full border border-[#17273f]/10 bg-[#e3d6b5] px-6 py-3 text-xs uppercase tracking-[0.22em] text-[#17273f] transition-all hover:bg-[#d9c8a0]"
+                      className={`mt-6 ${editorialSecondaryButton}`}
                     >
                       Abrir en Google Maps
                     </a>
@@ -98,17 +104,11 @@ export default async function SaltaPlacePage({
               </div>
             )}
 
-            <div className="mt-10 flex flex-wrap gap-3">
-              <Link
-                href="/salta"
-                className="rounded-full border border-[#17273f]/10 bg-[#e3d6b5] px-6 py-3 text-xs uppercase tracking-[0.22em] text-[#17273f] transition-all hover:bg-[#d9c8a0]"
-              >
+            <div className="mt-10 flex flex-wrap gap-4">
+              <Link href="/salta" className={editorialSecondaryButton}>
                 Volver a Salta Capital
               </Link>
-              <Link
-                href="/"
-                className="rounded-full bg-[#17273f] px-6 py-3 text-xs uppercase tracking-[0.22em] text-white transition-all hover:bg-[#24395c]"
-              >
+              <Link href="/" className={editorialPrimaryButton}>
                 Ver el hotel
               </Link>
             </div>

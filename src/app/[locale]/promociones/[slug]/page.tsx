@@ -4,6 +4,12 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import EditorialBookButton from "@/components/EditorialBookButton";
 import PublicEditorialLayout from "@/components/PublicEditorialLayout";
+import {
+  editorialBody,
+  editorialEyebrow,
+  editorialPrimaryButton,
+  editorialSecondaryButton,
+} from "@/components/editorialUi";
 import { getPromotionBySlug } from "@/lib/editorial";
 
 export const revalidate = 3600;
@@ -74,28 +80,25 @@ export default async function PromotionDetailPage({
             <Image src="/images/fondo-carta-3.svg" alt="" fill className="object-contain" />
           </div>
           <div className="relative z-10">
-            <div className="flex flex-wrap gap-3 text-[11px] uppercase tracking-[0.24em] text-[#17273f]/45">
+            <div className={`flex flex-wrap gap-3 ${editorialEyebrow}`}>
             {formatDate(promotion.validFrom) && <span>Desde {formatDate(promotion.validFrom)}</span>}
             {formatDate(promotion.validTo) && <span>Hasta {formatDate(promotion.validTo)}</span>}
             </div>
 
-            <div className="mt-8 space-y-6 text-base leading-8 text-[#17273f]/78">
+            <div className={`mt-8 space-y-6 ${editorialBody}`}>
               {paragraphs.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
             </div>
 
-            <div className="mt-10 flex flex-wrap gap-3">
-              <Link
-                href="/promociones"
-                className="rounded-full border border-[#17273f]/10 bg-[#e3d6b5] px-6 py-3 text-xs uppercase tracking-[0.22em] text-[#17273f] transition-all hover:bg-[#d9c8a0]"
-              >
+            <div className="mt-10 flex flex-wrap gap-4">
+              <Link href="/promociones" className={editorialSecondaryButton}>
                 Volver a promociones
               </Link>
               <EditorialBookButton
                 label={promotion.ctaLabel || "Reservar"}
                 fallbackUrl={promotion.ctaHref}
-                className="rounded-full bg-[#17273f] px-6 py-3 text-xs uppercase tracking-[0.22em] text-white transition-all hover:bg-[#24395c]"
+                className={editorialPrimaryButton}
               />
             </div>
           </div>
