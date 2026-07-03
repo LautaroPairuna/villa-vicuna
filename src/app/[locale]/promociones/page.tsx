@@ -120,7 +120,7 @@ export default async function PromotionsPage({
                 <div className="pointer-events-none absolute -left-10 top-1/2 hidden h-[280px] w-[280px] -translate-y-1/2 opacity-55 lg:block">
                   <Image src="/images/fondo-carta-2.svg" alt="" fill className="object-contain" />
                 </div>
-                <div className="relative z-10 bg-white px-2 py-6 lg:px-8">
+                <div className="relative z-10 px-2 py-6 lg:px-8">
                   <div className={`flex flex-wrap gap-3 ${editorialEyebrow}`}>
                   {formatDate(promotion.validFrom) && (
                     <span>Desde {formatDate(promotion.validFrom)}</span>
