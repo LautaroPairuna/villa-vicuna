@@ -25,7 +25,7 @@ function CloudbedsNavFallback() {
   const t = useTranslations("Navbar");
 
   return (
-    <button className="cb-link-btn align-middle font-medium text-base uppercase">
+    <button className="cb-link-btn cb-link-btn--nav align-middle font-medium text-sm 2xl:text-base uppercase">
       {t("bookNavbar")}
     </button>
   );
@@ -101,7 +101,7 @@ export default function Navbar({
 
   return (
     <nav
-      className="fixed top-0 left-0 w-full bg-[#f8f4ea] text-black py-2 pe-4 md:ps-16 ps-4 z-40 shadow-md"
+      className="fixed top-0 left-0 w-full bg-[#f8f4ea] text-black py-2 pe-4 ps-4 md:ps-8 2xl:ps-16 z-40 shadow-md"
       role="navigation"
       aria-label="Main Navigation"
     >
@@ -114,7 +114,7 @@ export default function Navbar({
               alt="Villa Vicuña"
               width={120}
               height={120}
-              className="w-32 cursor-pointer transition-transform duration-300 hover:scale-105"
+              className="w-24 2xl:w-32 cursor-pointer transition-transform duration-300 hover:scale-105"
             />
           </Link>
         </div>
@@ -131,7 +131,7 @@ export default function Navbar({
                     {item.type === "link" ? (
                       <Link
                         href={item.href}
-                        className="relative group py-1 font-medium text-base transition-colors duration-300 hover:text-gray-800 uppercase text-black"
+                        className="relative group py-1 font-medium text-sm 2xl:text-base transition-colors duration-300 hover:text-gray-800 uppercase text-black"
                       >
                         {item.label}
                         <span className="absolute left-1/2 bottom-0 h-[2px] w-0 bg-black transition-all duration-300 group-hover:w-full group-hover:left-0" />
@@ -140,7 +140,7 @@ export default function Navbar({
                       <CloudbedsBookNow
                         propertyCode={CLOUDBEDS_PROPERTY_CODE}
                         label={item.label}
-                        buttonClassName="cb-link-btn"
+                        buttonClassName="cb-link-btn cb-link-btn--nav"
                         mode="popup"
                         width="90vw"
                         height="90vh"
@@ -153,7 +153,7 @@ export default function Navbar({
                     )}
                   </li>
                   {index < menuItems.length - 1 && (
-                    <li className="flex items-center mx-6">
+                    <li className="flex items-center mx-2 2xl:mx-5">
                       <span className="text-lg">•</span>
                     </li>
                   )}
