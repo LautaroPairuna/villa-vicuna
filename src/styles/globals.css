@@ -403,7 +403,7 @@ section {
    para que "Reservar" acompañe el text-sm del resto de los enlaces. */
 @media (min-width: 1280px) and (max-width: 1535px) {
   .cb-link-btn.cb-link-btn--nav {
-    font-size: 0.875rem !important;
+    font-size: 0.8rem !important;
   }
 }
 

@@ -25,7 +25,7 @@ function CloudbedsNavFallback() {
   const t = useTranslations("Navbar");
 
   return (
-    <button className="cb-link-btn cb-link-btn--nav align-middle font-medium text-sm 2xl:text-base uppercase">
+    <button className="cb-link-btn cb-link-btn--nav align-middle font-medium text-[0.8rem] 2xl:text-base uppercase">
       {t("bookNavbar")}
     </button>
   );
@@ -153,7 +153,7 @@ export default function Navbar({
                     )}
                   </li>
                   {index < menuItems.length - 1 && (
-                    <li className="flex items-center mx-2 2xl:mx-5">
+                    <li className="flex items-center mx-4 2xl:mx-5">
                       <span className="text-lg">•</span>
                     </li>
                   )}
