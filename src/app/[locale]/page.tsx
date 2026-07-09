@@ -32,7 +32,14 @@ export default async function LocalePage({ params }: LocalePageProps) {
   return <PageWithLoading rooms={rooms} reviews={reviews} sections={sections} />;
 }
 
-/* Rutas estáticas para SSG de los locales */
+/* NO pre-renderizamos en el build. El build de Docker corre SIN acceso a la
+   base (ver los try/catch en src/lib/content.ts y translations.ts), así que
+   prehornear acá dejaría la home con el texto base del JSON hasta el próximo
+   revalidate/guardado. Devolviendo [] la página se genera on-demand en la
+   primera visita —ya en runtime, con la DB disponible— y luego queda cacheada
+   por ISR (revalidate arriba + revalidatePath desde el panel). Es el mismo
+   patrón que ya usan /promociones y /salta. dynamicParams (true por defecto)
+   permite es | en | fr; el locale lo valida el layout con notFound(). */
 export function generateStaticParams() {
-  return [{ locale: "es" }, { locale: "en" }, { locale: "fr" }];
+  return [];
 }
