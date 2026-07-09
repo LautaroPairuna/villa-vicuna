@@ -29,9 +29,10 @@ const nextConfig = {
     // Sin esto, el navegador puede seguir mostrando una copia cacheada de
     // las páginas públicas por hasta 180s tras navegar, aunque el panel ya
     // haya revalidado el ISR del lado del servidor con revalidatePath.
+    // "static" no acepta 0: Next.js exige un mínimo de 30s.
     staleTimes: {
       dynamic: 0,
-      static: 0,
+      static: 30,
     },
   },
 
