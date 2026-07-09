@@ -146,7 +146,7 @@ export default function Navbar({
                         height="90vh"
                         lang="auto"
                         timeout={3000}
-                        className="align-middle"
+                        className="cb-link-btn cb-link-btn--nav align-middle"
                         onLoaded={onCloudbedsLoaded}
                         isGloballyReady={isCloudbedsReady}
                       />
@@ -238,7 +238,7 @@ export default function Navbar({
                       height="90vh"
                       lang="auto"
                       timeout={4000}
-                      className="align-middle"
+                      className="cb-link-btn cb-link-btn--nav align-middle"
                       onLoaded={onCloudbedsLoaded}
                       isGloballyReady={isCloudbedsReady}
                     />
