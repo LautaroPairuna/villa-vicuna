@@ -16,9 +16,16 @@ async function requireAdmin() {
 function refresh() {
   // El sitio público es ISR: regeneramos las páginas por idioma al guardar,
   // así el cambio se ve al instante sin tener que renderizar en cada visita.
+  //
+  // OJO: todas las páginas públicas se renderizan bajo /[locale] (es|en|fr).
+  // La home del locale por defecto (es) se sirve en "/" mediante un rewrite
+  // interno a "/es" (ver proxy.ts), así que su caché queda guardado bajo
+  // "/es", NO bajo "/". Por eso hay que revalidar SIEMPRE la ruta interna
+  // "/es"; además revalidamos "/" por la URL pública / caché del cliente.
   for (const locale of ["es", "en", "fr"] as const) {
-    revalidatePath(locale === "es" ? "/" : `/${locale}`);
+    revalidatePath(`/${locale}`);
   }
+  revalidatePath("/");
   revalidatePath("/admin");
 }
 
@@ -53,8 +60,13 @@ function slugify(value: string) {
 
 function refreshEditorial(kind: "promociones" | "salta", slug?: string) {
   const basePath = kind === "promociones" ? "/promociones" : "/salta";
+  // Contenido es-only servido en URLs limpias (/promociones, /salta), que el
+  // proxy reescribe internamente a /es/promociones, /es/salta. El caché queda
+  // bajo la ruta con /es, así que revalidamos esa además de la URL pública.
+  revalidatePath(`/es${basePath}`);
   revalidatePath(basePath);
   if (slug) {
+    revalidatePath(`/es${basePath}/${slug}`);
     revalidatePath(`${basePath}/${slug}`);
   }
   revalidatePath(`/admin/${kind}`);
