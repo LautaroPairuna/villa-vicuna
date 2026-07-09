@@ -26,6 +26,13 @@ const nextConfig = {
     serverActions: {
       bodySizeLimit: "50mb",
     },
+    // Sin esto, el navegador puede seguir mostrando una copia cacheada de
+    // las páginas públicas por hasta 180s tras navegar, aunque el panel ya
+    // haya revalidado el ISR del lado del servidor con revalidatePath.
+    staleTimes: {
+      dynamic: 0,
+      static: 0,
+    },
   },
 
   // Cache-Control largo para assets que no cambian (los uploads usan nombre
