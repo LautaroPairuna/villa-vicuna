@@ -13,6 +13,7 @@ import {
 } from "@/components/editorialUi";
 import { getSectionImages } from "@/lib/content";
 import { getPublishedPromotions } from "@/lib/editorial";
+import { getEffectiveValues } from "@/lib/translations";
 
 export const revalidate = 3600;
 
@@ -44,6 +45,11 @@ export default async function PromotionsPage({
 
   const promotions = await getPublishedPromotions();
   const sectionImages = await getSectionImages();
+  const intro = await getEffectiveValues(locale, [
+    "promociones.eyebrow",
+    "promociones.titulo",
+    "promociones.descripcion",
+  ]);
 
   return (
     <PublicEditorialLayout
@@ -53,10 +59,7 @@ export default async function PromotionsPage({
       hideIntro
       topHero={
         <EditorialVideoHero
-          eyebrow="Promociones"
-          title="Promociones pensadas para vivir Salta Capital con el ritmo de Villa Vicuña"
-          description="Un recorrido visual primero, y después propuestas concretas para reservar mejor tu estadía. La idea es que esta página respire como el sitio antes de entrar al detalle comercial."
-          videoUrl={sectionImages.hero_video}
+          videoUrl={sectionImages.promociones_hero_video}
           posterUrl={sectionImages.hero_poster}
         />
       }
@@ -66,14 +69,11 @@ export default async function PromotionsPage({
           <Image src="/images/fondo-carta-2.svg" alt="" fill className="object-contain" />
         </div>
         <div className="relative z-10 mx-auto max-w-4xl text-center">
-          <p className={editorialEyebrow}>Promociones</p>
+          <p className={editorialEyebrow}>{intro["promociones.eyebrow"]}</p>
           <h2 className="mt-5 text-3xl uppercase tracking-[0.2em] text-black md:text-5xl md:leading-[1.2]">
-            Propuestas concretas para reservar con contexto, no solo con precio
+            {intro["promociones.titulo"]}
           </h2>
-          <p className={`mt-6 ${editorialBody}`}>
-            Acá mostramos promociones activas con una explicación clara de beneficios, vigencia y
-            forma de reserva. Primero la atmósfera del hotel y después el contenido comercial.
-          </p>
+          <p className={`mt-6 ${editorialBody}`}>{intro["promociones.descripcion"]}</p>
         </div>
       </section>
 

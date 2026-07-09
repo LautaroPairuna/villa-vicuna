@@ -1,7 +1,12 @@
 import Link from "next/link";
 import { FiArrowRight, FiPlus } from "react-icons/fi";
+import { saveTranslationsAction, setSectionVideoAction } from "@/app/admin/actions";
+import UploadField from "@/components/admin/UploadField";
+import TextEditor from "@/components/admin/TextEditor";
 import { PageHeader, Card } from "@/components/admin/ui";
+import { getSectionImages } from "@/lib/content";
 import { getAllPromotionsAdmin } from "@/lib/editorial";
+import { getSectionTexts } from "@/lib/translations";
 
 function formatDate(date: Date | null) {
   if (!date) return null;
@@ -13,6 +18,8 @@ function formatDate(date: Date | null) {
 }
 
 export default async function PromotionsAdminPage() {
+  const sections = await getSectionImages();
+  const texts = await getSectionTexts("promociones");
   const promotions = await getAllPromotionsAdmin();
 
   return (
@@ -30,6 +37,40 @@ export default async function PromotionsAdminPage() {
           Nueva promoción
         </Link>
       </div>
+
+      {texts && (
+        <TextEditor section={texts.section} values={texts.values} action={saveTranslationsAction} />
+      )}
+
+      <Card>
+        <div className="space-y-5">
+          <div className="overflow-hidden rounded-[22px] border border-[#e3d6b5] bg-[#f8f4ea]">
+            <video
+              key={sections.promociones_hero_video}
+              src={sections.promociones_hero_video}
+              controls
+              preload="metadata"
+              className="aspect-video w-full bg-[#17273f]"
+            />
+          </div>
+          <div className="min-w-0 space-y-3">
+            <p className="text-[10px] uppercase tracking-[0.2em] text-[#17273f]/50">
+              Video del hero de promociones
+            </p>
+            <p className="truncate text-sm text-[#17273f]/60">{sections.promociones_hero_video}</p>
+            <div className="max-w-md">
+              <UploadField
+                action={setSectionVideoAction}
+                hidden={{ slug: "promociones_hero_video" }}
+                label="Reemplazar video"
+                accept="video/mp4,video/webm,video/quicktime"
+                emptyLabel="Arrastrá un video o hacé clic"
+                successLabel="Video actualizado"
+              />
+            </div>
+          </div>
+        </div>
+      </Card>
 
       {promotions.length === 0 ? (
         <Card>

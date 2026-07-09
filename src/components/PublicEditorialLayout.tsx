@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "./Navbar";
-import WhatsappLink from "./WhatsappLink";
+import FloatingEditorialActions from "./FloatingEditorialActions";
 import {
   editorialBody,
   editorialEyebrow,
@@ -92,7 +92,7 @@ export default function PublicEditorialLayout({
           </section>
         </div>
       </main>
-      <WhatsappLink />
+      <FloatingEditorialActions />
     </>
   );
 }

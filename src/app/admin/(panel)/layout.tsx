@@ -12,10 +12,10 @@ export default async function PanelLayout({
   const session = await auth();
 
   return (
-    <div className="min-h-screen bg-[linear-gradient(180deg,#fcfaf5_0%,#f6f0e4_48%,#f3ecde_100%)] text-[#17273f] md:flex">
-      <Sidebar email={session?.user?.email} />
-      <main className="flex-1 min-w-0 px-4 py-5 md:px-8 md:py-8">
-        <div className="mx-auto max-w-7xl">{children}</div>
+    <div className="min-h-screen bg-white text-[#17273f] md:flex">
+      <Sidebar email={session?.user?.email} name={session?.user?.name} />
+      <main className="min-w-0 flex-1 px-4 py-5 md:px-8 md:py-8">
+        <div className="mx-auto max-w-6xl">{children}</div>
       </main>
       <AdminToaster />
     </div>

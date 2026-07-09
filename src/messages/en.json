@@ -131,6 +131,16 @@
       "email": "salta@villavicuna.com.ar",
       "direccion": "CASEROS 266 - SALTA CAPITAL \nPROV. DE .SALTA - C.P 4400 \nARGENTINA",
       "boton": "Book Now"
+    },
+    "promociones": {
+      "eyebrow": "Promotions",
+      "titulo": "Concrete offers to book with context, not only by price",
+      "descripcion": "Here we show active promotions with a clear explanation of benefits, validity, and booking method. First the hotel atmosphere, then the commercial content."
+    },
+    "salta": {
+      "eyebrow": "Salta Capital",
+      "titulo": "What to do in Salta Capital during your stay",
+      "descripcion": "This guide brings together places, walks, and experiences inside Salta Capital. The focus is on real options, close to the center and useful for guests staying at Villa Vicuña."
     }
   }
   

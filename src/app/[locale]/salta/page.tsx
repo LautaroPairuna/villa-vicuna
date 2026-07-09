@@ -10,6 +10,7 @@ import {
   editorialSecondaryButton,
 } from "@/components/editorialUi";
 import { getPublishedSaltaPlaces } from "@/lib/editorial";
+import { getEffectiveValues } from "@/lib/translations";
 
 export const revalidate = 3600;
 
@@ -31,12 +32,17 @@ export default async function SaltaPage({
   }
 
   const places = await getPublishedSaltaPlaces();
+  const intro = await getEffectiveValues(locale, [
+    "salta.eyebrow",
+    "salta.titulo",
+    "salta.descripcion",
+  ]);
 
   return (
     <PublicEditorialLayout
-      eyebrow="Salta Capital"
-      title="Qué hacer en Salta Capital durante tu estadía"
-      description="Esta guía reúne lugares, paseos y experiencias dentro de Salta Capital. El foco está puesto en propuestas reales, cercanas al centro y útiles para quienes se hospedan en Villa Vicuña."
+      eyebrow={intro["salta.eyebrow"]}
+      title={intro["salta.titulo"]}
+      description={intro["salta.descripcion"]}
     >
       {places.length === 0 ? (
         <section className="relative overflow-hidden bg-white px-6 py-10">

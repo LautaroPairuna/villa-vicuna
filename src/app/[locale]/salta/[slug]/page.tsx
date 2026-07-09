@@ -61,12 +61,14 @@ export default async function SaltaPlacePage({
           </div>
         )}
 
-        <div className={`${place.coverUrl ? "lg:col-span-6" : "lg:col-span-12"} relative px-2 py-4 lg:px-8`}>
+        <div
+          className={`${place.coverUrl ? "lg:col-span-6" : "lg:col-span-12"} relative px-2 py-4 lg:px-8`}
+        >
           <div className="pointer-events-none absolute -left-10 top-1/3 hidden h-[280px] w-[280px] opacity-55 lg:block">
             <Image src="/images/fondo-carta-3.svg" alt="" fill className="object-contain" />
           </div>
           <div className="relative z-10">
-            <div className={`flex flex-wrap gap-3 ${editorialEyebrow}`}>
+            <div className={`flex flex-wrap gap-x-4 gap-y-2 ${editorialEyebrow}`}>
               <span>{place.category}</span>
               {place.distanceFromHotel && <span>{place.distanceFromHotel}</span>}
               {place.recommendedDuration && <span>{place.recommendedDuration}</span>}
@@ -79,27 +81,34 @@ export default async function SaltaPlacePage({
             </div>
 
             {(place.address || place.mapsUrl) && (
-              <div className="relative mt-10 overflow-hidden bg-white px-6 py-8">
+              <div className="relative mt-10 border-t border-[#e7ddc4] pt-8">
                 <div className="pointer-events-none absolute right-0 top-1/2 h-[220px] w-[220px] -translate-y-1/2 opacity-55 md:h-[320px] md:w-[320px]">
                   <Image src="/images/fondo-carta-6.svg" alt="" fill className="object-contain" />
                 </div>
                 <div className="relative z-10">
                   <p className={editorialEyebrow}>Información útil</p>
-                  {place.address && (
-                    <p className={`mt-4 max-w-2xl ${editorialBody}`}>
-                      <strong className="text-black">Dirección:</strong> {place.address}
-                    </p>
-                  )}
-                  {place.mapsUrl && (
-                    <a
-                      href={place.mapsUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`mt-6 ${editorialSecondaryButton}`}
-                    >
-                      Abrir en Google Maps
-                    </a>
-                  )}
+                  <div className="mt-5 grid gap-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
+                    <div>
+                      {place.address && (
+                        <div>
+                          <p className="text-[10px] uppercase tracking-[0.28em] text-[#17273f]/45">
+                            Dirección
+                          </p>
+                          <p className={`mt-2 max-w-2xl ${editorialBody}`}>{place.address}</p>
+                        </div>
+                      )}
+                    </div>
+                    {place.mapsUrl && (
+                      <a
+                        href={place.mapsUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={editorialSecondaryButton}
+                      >
+                        Abrir en Google Maps
+                      </a>
+                    )}
+                  </div>
                 </div>
               </div>
             )}

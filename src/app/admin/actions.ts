@@ -192,8 +192,19 @@ export async function saveTranslationsAction(formData: FormData) {
   const section = getSection(sectionId);
   if (!["es", "en", "fr"].includes(locale) || !section) return;
 
+  const submittedFieldKeys = new Set(
+    formData
+      .getAll("fieldKey")
+      .map((value) => String(value))
+      .filter(Boolean),
+  );
+  const fields =
+    submittedFieldKeys.size > 0
+      ? section.fields.filter((field) => submittedFieldKeys.has(field.key))
+      : section.fields;
+
   const operations = [];
-  for (const field of section.fields) {
+  for (const field of fields) {
     let value: string;
     if (field.type === "splitTitle" && field.wrap) {
       const a = String(formData.get(`${field.key}__a`) ?? "");

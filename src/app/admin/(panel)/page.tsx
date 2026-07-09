@@ -3,7 +3,7 @@ import { FiFilm, FiInfo, FiStar, FiBookOpen, FiPhone, FiArrowRight, FiTag, FiMap
 import { TbBed } from "react-icons/tb";
 import type { IconType } from "react-icons";
 import { prisma } from "@/lib/prisma";
-import { PageHeader, DbErrorNotice } from "@/components/admin/ui";
+import { DbErrorNotice } from "@/components/admin/ui";
 
 export const dynamic = "force-dynamic";
 
@@ -37,8 +37,15 @@ export default async function AdminOverview() {
   ];
 
   return (
-    <div className="max-w-5xl">
-      <PageHeader title="Inicio" subtitle="Elegí la sección que querés administrar." />
+    <div>
+      <div className="mb-6 flex items-end justify-between gap-4">
+        <div>
+          <p className="text-[10px] uppercase tracking-[0.35em] text-[#17273f]/45">Panel admin</p>
+          <h1 className="mt-3 text-3xl uppercase tracking-[0.18em] text-[#17273f] md:text-4xl">
+            Inicio
+          </h1>
+        </div>
+      </div>
 
       {dbError && (
         <div className="mb-6">
@@ -46,33 +53,22 @@ export default async function AdminOverview() {
         </div>
       )}
 
-      <div className="mb-6 grid gap-4 lg:grid-cols-[1.25fr_0.75fr]">
-        <div className="rounded-[28px] border border-[#e3d6b5] bg-[linear-gradient(135deg,#17273f_0%,#24395c_100%)] px-6 py-6 text-white shadow-[0_24px_50px_rgba(23,39,63,0.18)] md:px-8">
-          <p className="mb-3 text-[10px] uppercase tracking-[0.35em] text-white/55">
-            Dashboard
-          </p>
-          <h2 className="text-2xl uppercase tracking-[0.2em]">Administración centralizada</h2>
-          <p className="mt-4 max-w-2xl text-sm leading-6 text-white/75">
-            Gestioná imágenes, textos y contenido clave del sitio desde un solo lugar, con la misma estética sobria de la marca.
-          </p>
+      <div className="mb-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="rounded-[24px] border border-[#e3d6b5] bg-white/80 px-5 py-5 shadow-[0_18px_40px_rgba(23,39,63,0.08)]">
+          <p className="text-[10px] uppercase tracking-[0.3em] text-[#17273f]/45">Habitaciones</p>
+          <p className="mt-3 text-4xl text-[#17273f]">{roomsCount}</p>
         </div>
-        <div className="grid grid-cols-2 gap-4">
-          <div className="rounded-[28px] border border-[#e3d6b5] bg-white/80 px-5 py-5 shadow-[0_18px_40px_rgba(23,39,63,0.08)]">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#17273f]/45">Habitaciones</p>
-            <p className="mt-3 text-4xl text-[#17273f]">{roomsCount}</p>
-          </div>
-          <div className="rounded-[28px] border border-[#e3d6b5] bg-white/80 px-5 py-5 shadow-[0_18px_40px_rgba(23,39,63,0.08)]">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#17273f]/45">Reseñas</p>
-            <p className="mt-3 text-4xl text-[#17273f]">{reviewsCount}</p>
-          </div>
-          <div className="rounded-[28px] border border-[#e3d6b5] bg-white/80 px-5 py-5 shadow-[0_18px_40px_rgba(23,39,63,0.08)]">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#17273f]/45">Promociones</p>
-            <p className="mt-3 text-4xl text-[#17273f]">{promotionsCount}</p>
-          </div>
-          <div className="rounded-[28px] border border-[#e3d6b5] bg-white/80 px-5 py-5 shadow-[0_18px_40px_rgba(23,39,63,0.08)]">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#17273f]/45">Salta</p>
-            <p className="mt-3 text-4xl text-[#17273f]">{saltaCount}</p>
-          </div>
+        <div className="rounded-[24px] border border-[#e3d6b5] bg-white/80 px-5 py-5 shadow-[0_18px_40px_rgba(23,39,63,0.08)]">
+          <p className="text-[10px] uppercase tracking-[0.3em] text-[#17273f]/45">Reseñas</p>
+          <p className="mt-3 text-4xl text-[#17273f]">{reviewsCount}</p>
+        </div>
+        <div className="rounded-[24px] border border-[#e3d6b5] bg-white/80 px-5 py-5 shadow-[0_18px_40px_rgba(23,39,63,0.08)]">
+          <p className="text-[10px] uppercase tracking-[0.3em] text-[#17273f]/45">Promociones</p>
+          <p className="mt-3 text-4xl text-[#17273f]">{promotionsCount}</p>
+        </div>
+        <div className="rounded-[24px] border border-[#e3d6b5] bg-white/80 px-5 py-5 shadow-[0_18px_40px_rgba(23,39,63,0.08)]">
+          <p className="text-[10px] uppercase tracking-[0.3em] text-[#17273f]/45">Salta</p>
+          <p className="mt-3 text-4xl text-[#17273f]">{saltaCount}</p>
         </div>
       </div>
 

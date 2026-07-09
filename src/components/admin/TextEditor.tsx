@@ -79,6 +79,9 @@ export default function TextEditor({
         >
           <input type="hidden" name="locale" value={l.id} />
           <input type="hidden" name="section" value={section.id} />
+          {section.fields.map((f) => (
+            <input key={`${l.id}-${f.key}`} type="hidden" name="fieldKey" value={f.key} />
+          ))}
 
           <div className="space-y-5">
             {section.fields.map((f) => {

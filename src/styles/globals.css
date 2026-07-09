@@ -395,15 +395,21 @@ section {
 
 /* Variante para navegación */
 .cb-link-btn.cb-link-btn--nav {
-  margin: 0 0.125rem !important;
+  margin: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  vertical-align: middle !important;
+  padding: 0 !important;
+  min-height: auto !important;
+  font-size: 0.875rem !important;
+  line-height: inherit !important;
+  font-weight: inherit !important;
 }
 
-/* Notebooks 1280-1535px: el menú horizontal se compacta (ver Navbar).
-   El botón Cloudbeds fuerza font-size 1rem, así que lo igualamos por CSS
-   para que "Reservar" acompañe el text-sm del resto de los enlaces. */
-@media (min-width: 1280px) and (max-width: 1535px) {
+@media (min-width: 1536px) {
   .cb-link-btn.cb-link-btn--nav {
-    font-size: 0.8rem !important;
+    font-size: 1rem !important;
   }
 }
 
@@ -501,10 +507,10 @@ footer {
   /* Estilos específicos para botones Cloudbeds en móvil - igualar a los enlaces */
   .cb-link-btn.cb-link-btn--nav {
     font-size: 1.25rem !important;        /* text-xl igual que los enlaces */
-    font-weight: 600 !important;          /* font-semibold igual que los enlaces */
     margin: 0 !important;
     padding: 0 !important;                /* Sin padding extra para igualar */
-    line-height: 1.5 !important;         /* line-height consistente */
+    line-height: inherit !important;
+    font-weight: inherit !important;
   }
 }
 
@@ -543,9 +549,9 @@ footer {
   /* Estilos específicos para botones Cloudbeds en móvil - igualar a los enlaces */
   .cb-link-btn.cb-link-btn--nav {
     font-size: 1.25rem !important;        /* text-xl igual que los enlaces */
-    font-weight: 600 !important;          /* font-semibold igual que los enlaces */
     margin: 0 !important;
     padding: 0 !important;                /* Sin padding extra para igualar */
-    line-height: 1.5 !important;         /* line-height consistente */
+    line-height: inherit !important;
+    font-weight: inherit !important;
   }
 }

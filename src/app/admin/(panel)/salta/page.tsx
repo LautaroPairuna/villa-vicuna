@@ -1,9 +1,13 @@
 import Link from "next/link";
 import { FiArrowRight, FiPlus } from "react-icons/fi";
+import { saveTranslationsAction } from "@/app/admin/actions";
+import TextEditor from "@/components/admin/TextEditor";
 import { PageHeader, Card } from "@/components/admin/ui";
 import { getAllSaltaPlacesAdmin } from "@/lib/editorial";
+import { getSectionTexts } from "@/lib/translations";
 
 export default async function SaltaAdminPage() {
+  const texts = await getSectionTexts("salta");
   const places = await getAllSaltaPlacesAdmin();
 
   return (
@@ -21,6 +25,10 @@ export default async function SaltaAdminPage() {
           Nuevo lugar
         </Link>
       </div>
+
+      {texts && (
+        <TextEditor section={texts.section} values={texts.values} action={saveTranslationsAction} />
+      )}
 
       {places.length === 0 ? (
         <Card>
