@@ -15,6 +15,7 @@ const Hero = memo(({
   posterUrl = "/images/hero-poster.webp",
   videoUrl = "/videos/video-home.mp4",
 }: HeroProps) => {
+  const webmUrl = videoUrl.endsWith(".mp4") ? videoUrl.replace(/\.mp4$/, ".webm") : null;
   const videoReadyRef = useRef(false);
   const logoReadyRef = useRef(false);
   const notifiedRef = useRef(false);
@@ -59,7 +60,8 @@ const Hero = memo(({
           onLoadedData={handleVideoEvent}
           onCanPlayThrough={handleVideoEvent}
         >
-          <source src={videoUrl} />
+          {webmUrl && <source src={webmUrl} type="video/webm" />}
+          <source src={videoUrl} type="video/mp4" />
           Tu navegador no soporta videos en HTML5.
         </video>
         <div className="absolute inset-0 bg-black/10" />
