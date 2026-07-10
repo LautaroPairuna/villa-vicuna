@@ -1,4 +1,5 @@
 import "server-only";
+import { unstable_cache } from "next/cache";
 import { prisma } from "./prisma";
 import { getSection } from "./editableContent";
 import es from "../messages/es.json";
@@ -7,6 +8,26 @@ import fr from "../messages/fr.json";
 
 // JSON base por idioma (valores por defecto).
 const BASE: Record<string, unknown> = { es, en, fr };
+
+// Tag de caché de los overrides de textos. Se invalida al guardar en el panel
+// (updateTag) para que el cambio se vea al instante; hasta entonces el
+// resultado queda cacheado y NO se consulta la DB en cada render.
+export const TRANSLATIONS_TAG = "translations";
+
+// Lectura cacheada de los overrides de un idioma. Mientras no se edite ningún
+// texto (o entre ediciones), la respuesta se sirve desde caché: los textos son
+// "estáticos" hasta que un guardado invalida el tag y pasan a ser "dinámicos".
+// Solo se cachean lecturas exitosas: si Prisma falla, la promesa se rechaza y
+// unstable_cache no guarda nada, así el fallback al JSON base no queda pegado.
+const fetchOverrideRows = unstable_cache(
+  (locale: string): Promise<{ key: string; value: string }[]> =>
+    prisma.translation.findMany({
+      where: { locale },
+      select: { key: true, value: true },
+    }),
+  ["translation-overrides"],
+  { tags: [TRANSLATIONS_TAG] },
+);
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 function getByPath(obj: any, path: string): unknown {
@@ -31,7 +52,7 @@ export async function applyTranslationOverrides(
   messages: Record<string, unknown>,
 ): Promise<Record<string, unknown>> {
   try {
-    const rows = await prisma.translation.findMany({ where: { locale } });
+    const rows = await fetchOverrideRows(locale);
     if (!rows.length) return messages;
     const merged = structuredClone(messages);
     for (const r of rows) setByPath(merged, r.key, r.value);
@@ -56,10 +77,9 @@ export async function getEffectiveValues(
   const out: Record<string, string> = {};
   for (const k of keys) out[k] = baseValue(locale, k);
   try {
-    const rows = await prisma.translation.findMany({
-      where: { locale, key: { in: keys } },
-    });
-    for (const r of rows) out[r.key] = r.value;
+    const wanted = new Set(keys);
+    const rows = await fetchOverrideRows(locale);
+    for (const r of rows) if (wanted.has(r.key)) out[r.key] = r.value;
   } catch {
     // se mantienen los valores base
   }
