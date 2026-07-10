@@ -94,6 +94,7 @@ export default function Contacto({
                   src={imageUrl}
                   alt="Hotel Interior"
                   fill
+                  sizes="100vw"
                   className="w-full object-cover"
                 />
               </div>
@@ -214,6 +215,7 @@ export default function Contacto({
               src={imageUrl}
               alt="Hotel Interior"
               fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
               className="w-full object-cover"
             />
           </div>

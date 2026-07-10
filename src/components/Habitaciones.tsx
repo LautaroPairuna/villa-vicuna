@@ -190,6 +190,7 @@ function HabitacionModal({ habitacion, onClose, t }: HabitacionModalProps) {
                     src={habitacion.images[currentImage]}
                     alt={`Imagen ${currentImage + 1}`}
                     fill
+                    sizes="(max-width: 1024px) 100vw, 45vw"
                     className="object-cover"
                   />
                 </motion.div>
@@ -294,6 +295,7 @@ export default function HabitacionesComponent({ rooms }: { rooms?: RoomContent[]
                     src={hab.coverUrl}
                     alt={t(`${hab.key}.nombre`)}
                     fill
+                    sizes="300px"
                     className="object-cover transition-opacity duration-300 group-hover:opacity-80"
                   />
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/35 flex items-center justify-center text-white">

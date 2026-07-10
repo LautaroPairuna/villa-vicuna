@@ -11,7 +11,10 @@ const nextConfig = {
   poweredByHeader: false,
 
   images: {
-    formats: ["image/avif", "image/webp"],
+    // Solo WebP: en este VPS (poca CPU/RAM) codificar AVIF en la primera
+    // request de cada variante tarda segundos y consume mucha memoria. WebP
+    // codifica mucho más rápido, pesa apenas más y tiene soporte universal.
+    formats: ["image/webp"],
     // Acotamos las variantes que genera next/image: menos CPU y menos disco.
     deviceSizes: [360, 640, 828, 1200, 1920],
     imageSizes: [96, 200, 300],

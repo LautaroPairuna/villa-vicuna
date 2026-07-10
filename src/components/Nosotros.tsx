@@ -106,6 +106,7 @@ export default function Nosotros({ imageUrl = "/images/nosotros.jpg" }: { imageU
             src={imageUrl}
             alt={t("imagenAlt")}
             fill
+            sizes="(max-width: 1024px) 100vw, 50vw"
             className="object-cover shadow-lg"
           />
         </div>

@@ -323,6 +323,7 @@ function ReseñasModal({ selectedReseña, onClose }: ReseñasModalProps) {
                       src={selectedReseña.images[currentImage]}
                       alt={`Imagen ${currentImage + 1}`}
                       fill
+                      sizes="(max-width: 1024px) 100vw, 45vw"
                       className="object-cover"
                     />
                   </motion.div>
@@ -394,6 +395,7 @@ function ReseñaCard({ reseña, onClick }: ReseñaCardProps) {
         alt={cardTitle}
         width={500}
         height={500}
+        sizes="(max-width: 768px) 100vw, 33vw"
         className="w-full h-full object-cover"
       />
       <div className="absolute bottom-4 left-0 right-0 text-white text-center">
