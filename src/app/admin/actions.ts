@@ -1,12 +1,12 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { auth, signOut } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { saveUpload } from "@/lib/media";
 import { getSection, composeSplit } from "@/lib/editableContent";
-import { baseValue } from "@/lib/translations";
+import { baseValue, TRANSLATIONS_TAG } from "@/lib/translations";
 
 async function requireAdmin() {
   const session = await auth();
@@ -240,6 +240,11 @@ export async function saveTranslationsAction(formData: FormData) {
   }
 
   await prisma.$transaction(operations);
+  // Invalida la caché de overrides: los textos dejan de servirse desde el
+  // snapshot cacheado y se vuelven a leer de la DB (pasan a "dinámicos").
+  // updateTag es la API para Server Actions (read-your-own-writes): el panel
+  // ve el valor nuevo de inmediato al recargar.
+  updateTag(TRANSLATIONS_TAG);
   refresh();
 }
 
