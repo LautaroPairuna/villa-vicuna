@@ -20,8 +20,6 @@ import {
 import UploadField from "@/components/admin/UploadField";
 import TextEditor from "@/components/admin/TextEditor";
 
-export const dynamic = "force-dynamic";
-
 const GLOBAL_ROOM_TEXT_KEYS = new Set([
   "rooms.titulo",
   "rooms.ver_mas",

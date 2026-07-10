@@ -7,6 +7,7 @@ import { prisma } from "@/lib/prisma";
 import { saveUpload } from "@/lib/media";
 import { getSection, composeSplit } from "@/lib/editableContent";
 import { baseValue, TRANSLATIONS_TAG } from "@/lib/translations";
+import { SECTIONS_TAG } from "@/lib/content";
 
 async function requireAdmin() {
   const session = await auth();
@@ -85,6 +86,7 @@ export async function setSectionImageAction(formData: FormData) {
     update: { mediaId: media.id },
     create: { slug, mediaId: media.id },
   });
+  updateTag(SECTIONS_TAG);
   refresh();
 }
 
@@ -103,6 +105,7 @@ export async function setSectionVideoAction(formData: FormData) {
     update: { mediaId: media.id },
     create: { slug, mediaId: media.id },
   });
+  updateTag(SECTIONS_TAG);
   refresh();
 }
 

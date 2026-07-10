@@ -3,8 +3,6 @@ import { setSectionImageAction, setSectionVideoAction } from "@/app/admin/action
 import UploadField from "@/components/admin/UploadField";
 import { Card, ImageField, PageHeader } from "@/components/admin/ui";
 
-export const dynamic = "force-dynamic";
-
 export default async function HeroPage() {
   const sections = await getSectionImages();
   return (

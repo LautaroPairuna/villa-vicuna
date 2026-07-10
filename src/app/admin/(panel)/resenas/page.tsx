@@ -20,8 +20,6 @@ import {
 import UploadField from "@/components/admin/UploadField";
 import TextEditor from "@/components/admin/TextEditor";
 
-export const dynamic = "force-dynamic";
-
 const GLOBAL_REVIEW_TEXT_KEYS = new Set([
   "reseñas.titulo",
   "reseñas.descripcion",

@@ -4,8 +4,6 @@ import { setSectionImageAction, saveTranslationsAction } from "@/app/admin/actio
 import { PageHeader, Card, ImageField } from "@/components/admin/ui";
 import TextEditor from "@/components/admin/TextEditor";
 
-export const dynamic = "force-dynamic";
-
 export default async function ContactoPage() {
   const [sections, texts] = await Promise.all([
     getSectionImages(),

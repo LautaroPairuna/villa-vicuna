@@ -1,4 +1,5 @@
 import "server-only";
+import { unstable_cache } from "next/cache";
 import { prisma } from "./prisma";
 import { staticRoomsContent, staticReviewsContent } from "./staticContent";
 import {
@@ -7,6 +8,25 @@ import {
   type ReviewContent,
   type SectionImages,
 } from "./contentTypes";
+
+// Tag de caché de las imágenes/videos de sección (tabla sectionImage). Se
+// invalida al subir una imagen o video desde el panel (updateTag), así el
+// resultado queda cacheado (estático) y NO se consulta la DB en cada render
+// hasta que realmente cambia algo. Mismo patrón que TRANSLATIONS_TAG.
+export const SECTIONS_TAG = "sections";
+
+// Lectura cacheada de las imágenes de sección. Selecciona solo lo que se usa
+// (slug + path) para que el valor cacheado sea serializable y liviano. Solo
+// se cachean lecturas exitosas: si Prisma falla, la promesa se rechaza y
+// unstable_cache no guarda nada, cayendo al fallback estático en el caller.
+const fetchSectionImageRows = unstable_cache(
+  (): Promise<{ slug: string; media: { path: string } | null }[]> =>
+    prisma.sectionImage.findMany({
+      select: { slug: true, media: { select: { path: true } } },
+    }),
+  ["section-images"],
+  { tags: [SECTIONS_TAG] },
+);
 
 // Cada getter lee de la DB y, ante DB vacía o error, cae al contenido
 // estático. Esto mantiene el sitio funcionando aun antes del seed/migrate
@@ -79,7 +99,7 @@ export async function getReviewsContent(): Promise<ReviewContent[]> {
 export async function getSectionImages(): Promise<SectionImages> {
   const out: SectionImages = { ...STATIC_SECTION_IMAGES };
   try {
-    const rows = await prisma.sectionImage.findMany({ include: { media: true } });
+    const rows = await fetchSectionImageRows();
     for (const r of rows) {
       if (r.media?.path) out[r.slug] = r.media.path;
     }
