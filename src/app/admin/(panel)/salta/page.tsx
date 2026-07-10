@@ -7,8 +7,10 @@ import { getAllSaltaPlacesAdmin } from "@/lib/editorial";
 import { getSectionTexts } from "@/lib/translations";
 
 export default async function SaltaAdminPage() {
-  const texts = await getSectionTexts("salta");
-  const places = await getAllSaltaPlacesAdmin();
+  const [texts, places] = await Promise.all([
+    getSectionTexts("salta"),
+    getAllSaltaPlacesAdmin(),
+  ]);
 
   return (
     <div className="max-w-6xl space-y-6">

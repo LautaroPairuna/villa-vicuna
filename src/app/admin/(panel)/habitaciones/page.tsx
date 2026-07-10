@@ -43,13 +43,16 @@ export default async function HabitacionesPage() {
   let dbError = false;
   let rooms: Awaited<ReturnType<typeof loadRooms>> = [];
 
+  // Arrancamos la carga de textos en paralelo con la de habitaciones
+  // (getSectionTexts ya maneja sus propios errores, no hace falta try/catch).
+  const textsPromise = getSectionTexts("habitaciones");
   try {
     rooms = await loadRooms();
   } catch {
     dbError = true;
   }
 
-  const texts = await getSectionTexts("habitaciones");
+  const texts = await textsPromise;
   const globalTexts = texts
     ? {
         ...texts.section,

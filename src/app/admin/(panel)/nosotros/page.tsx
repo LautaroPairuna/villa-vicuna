@@ -7,8 +7,10 @@ import TextEditor from "@/components/admin/TextEditor";
 export const dynamic = "force-dynamic";
 
 export default async function NosotrosPage() {
-  const sections = await getSectionImages();
-  const texts = await getSectionTexts("nosotros");
+  const [sections, texts] = await Promise.all([
+    getSectionImages(),
+    getSectionTexts("nosotros"),
+  ]);
 
   return (
     <div className="max-w-4xl space-y-6">

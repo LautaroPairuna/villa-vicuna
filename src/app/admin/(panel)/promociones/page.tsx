@@ -18,9 +18,11 @@ function formatDate(date: Date | null) {
 }
 
 export default async function PromotionsAdminPage() {
-  const sections = await getSectionImages();
-  const texts = await getSectionTexts("promociones");
-  const promotions = await getAllPromotionsAdmin();
+  const [sections, texts, promotions] = await Promise.all([
+    getSectionImages(),
+    getSectionTexts("promociones"),
+    getAllPromotionsAdmin(),
+  ]);
 
   return (
     <div className="max-w-6xl space-y-6">

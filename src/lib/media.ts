@@ -6,7 +6,14 @@ import { prisma } from "./prisma";
 
 // Carpeta del sistema donde se escriben los uploads (volumen persistente en
 // prod montado en /app/public/uploads). Las imágenes se sirven en /uploads.
-const UPLOADS_FS_DIR = path.resolve(process.env.UPLOADS_DIR ?? "public/uploads");
+//
+// Se resuelve de forma perezosa (no a nivel de módulo): un path.resolve con
+// process.env en el scope del módulo hace que el file-tracing de Turbopack
+// trace todo el proyecto ("Encountered unexpected file in NFT list"). Dentro
+// de la función se evalúa recién en runtime y desaparece el warning.
+function uploadsFsDir(): string {
+  return path.resolve(process.env.UPLOADS_DIR ?? "public/uploads");
+}
 
 const MAX_DIMENSION = 2000;
 type SharpFn = typeof import("sharp");
@@ -52,7 +59,7 @@ export async function saveUpload(file: File, subdir: string, alt = "") {
   }
 
   const buf = Buffer.from(await file.arrayBuffer());
-  const dir = path.join(UPLOADS_FS_DIR, subdir);
+  const dir = path.join(uploadsFsDir(), subdir);
   await fs.mkdir(dir, { recursive: true });
 
   const ext = extFromFile(file);
