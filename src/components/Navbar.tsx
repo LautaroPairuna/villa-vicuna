@@ -90,6 +90,7 @@ export default function Navbar({
       { type: "link", href: `${homeHref}#about-us`, label: t("aboutNavbar") },
       { type: "link", href: pageHref("promociones"), label: t("promotionsNavbar") },
       { type: "link", href: pageHref("salta"), label: t("saltaNavbar") },
+      { type: "link", href: pageHref("experiencias"), label: t("experiencesNavbar") },
       { type: "link", href: `${homeHref}#reviews`, label: t("reviewsNavbar") },
       { type: "link", href: `${homeHref}#menu`, label: t("menuNavbar") },
       { type: "link", href: `${homeHref}#rooms`, label: t("roomsNavbar") },

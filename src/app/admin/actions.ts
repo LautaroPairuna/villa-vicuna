@@ -249,6 +249,17 @@ export async function saveTranslationsAction(formData: FormData) {
   // ve el valor nuevo de inmediato al recargar.
   updateTag(TRANSLATIONS_TAG);
   refresh();
+
+  // La página /experiencias es una ruta propia (no la home), así que su caché
+  // ISR no la cubre refresh(). La revalidamos en sus 3 idiomas al guardar. El
+  // locale default (es) se sirve en /experiencias reescrito internamente a
+  // /es/experiencias, por eso revalidamos ambas.
+  if (sectionId === "experiencias") {
+    revalidatePath("/es/experiencias");
+    revalidatePath("/experiencias");
+    revalidatePath("/en/experiencias");
+    revalidatePath("/fr/experiencias");
+  }
 }
 
 export async function createPromotionAction(formData: FormData) {

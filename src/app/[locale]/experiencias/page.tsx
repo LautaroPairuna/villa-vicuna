@@ -1,0 +1,241 @@
+import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { setRequestLocale, getTranslations } from "next-intl/server";
+import Navbar from "@/components/Navbar";
+import FloatingEditorialActions from "@/components/FloatingEditorialActions";
+import {
+  editorialBody,
+  editorialEyebrow,
+  editorialPrimaryButton,
+  editorialSecondaryButton,
+} from "@/components/editorialUi";
+
+// ISR: la página se sirve estática y se regenera cuando el panel guarda textos
+// (saveTranslationsAction revalida estas rutas) o cada `revalidate` como red de
+// seguridad. Los textos salen del sistema de traducciones (JSON + overrides DB),
+// así que se editan desde /admin/experiencias en los 3 idiomas.
+export const revalidate = 86400;
+
+const LOCALES = ["es", "en", "fr"] as const;
+const DEFAULT_LOCALE = "es";
+const RESERVATION_URL = "https://hotels.cloudbeds.com/reservation/pwSXnD";
+const FORMATOS = ["intima", "terroir", "atardecer"] as const;
+
+function localePath(locale: string) {
+  return locale === DEFAULT_LOCALE ? "/experiencias" : `/${locale}/experiencias`;
+}
+
+export function generateStaticParams() {
+  // Igual que la home: no prehorneamos en el build (sin DB). Se generan on-demand
+  // y quedan cacheadas por ISR. dynamicParams (true) permite es | en | fr.
+  return [];
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "experiences" });
+  return {
+    title: t("metaTitle"),
+    description: t("metaDescription"),
+    alternates: {
+      canonical: localePath(locale),
+      languages: Object.fromEntries(LOCALES.map((l) => [l, localePath(l)])),
+    },
+    openGraph: {
+      type: "website",
+      title: t("metaTitle"),
+      description: t("metaDescription"),
+      url: localePath(locale),
+      locale,
+      images: ["/opengraph.jpg"],
+    },
+  };
+}
+
+export default async function ExperiencesPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  if (!LOCALES.includes(locale as (typeof LOCALES)[number])) notFound();
+  setRequestLocale(locale);
+
+  const t = await getTranslations({ locale, namespace: "experiences" });
+  const tapeo = t.raw("tapeo") as string[];
+
+  return (
+    <>
+      <Navbar />
+      <main className="min-h-screen bg-white pb-16 pt-20 text-black">
+        {/* Intro */}
+        <section className="relative overflow-hidden bg-white px-4 py-14 md:px-12 md:py-18">
+          <div className="pointer-events-none absolute left-1/2 top-10 h-[320px] w-[320px] -translate-x-1/2 opacity-55 sm:h-[420px] sm:w-[420px] lg:top-0 lg:h-[620px] lg:w-[780px]">
+            <Image src="/images/fondo-carta-2.svg" alt="" fill className="object-contain" />
+          </div>
+          <div className="relative mx-auto max-w-[1200px]">
+            <p className={`text-center ${editorialEyebrow}`}>{t("eyebrow")}</p>
+            <h1 className="mx-auto mt-6 max-w-5xl text-center text-4xl uppercase tracking-[0.2em] text-black sm:text-5xl lg:text-[4.3rem] lg:leading-[1.15]">
+              {t("titulo")}
+            </h1>
+            <p className={`mx-auto mt-8 max-w-3xl text-center ${editorialBody}`}>
+              {t("descripcion")}
+            </p>
+          </div>
+        </section>
+
+        <div className="mx-auto max-w-[1200px] px-4 md:px-12">
+          {/* Cita de la enóloga */}
+          <section className="relative mx-auto mt-6 max-w-4xl border-l-2 border-[#e3d6b5] px-6 py-2 md:px-10">
+            <p className="text-2xl italic leading-relaxed tracking-[0.06em] text-black/85 md:text-3xl">
+              “{t("quote")}”
+            </p>
+            <p className="mt-6 text-sm uppercase tracking-[0.22em] text-black">
+              {t("quoteAuthor")}
+            </p>
+            <p className={`mt-1 ${editorialEyebrow}`}>{t("quoteRole")}</p>
+          </section>
+
+          {/* Formatos */}
+          <section className="mt-20">
+            <div className="mx-auto max-w-3xl text-center">
+              <p className={editorialEyebrow}>{t("formatosEyebrow")}</p>
+              <h2 className="mt-5 text-3xl uppercase tracking-[0.2em] text-black md:text-4xl md:leading-[1.2]">
+                {t("formatosTitulo")}
+              </h2>
+              <p className={`mx-auto mt-6 max-w-2xl ${editorialBody} text-lg leading-7`}>
+                {t("formatosDescripcion")}
+              </p>
+            </div>
+
+            <div className="mt-12 grid gap-8 lg:grid-cols-3">
+              {FORMATOS.map((key) => {
+                const incluye = t.raw(`formatos.${key}.incluye`) as string[];
+                return (
+                  <article
+                    key={key}
+                    className="flex flex-col border border-[#e3d6b5] bg-[#f8f4ea] p-8 shadow-sm"
+                  >
+                    <p className={editorialEyebrow}>{t(`formatos.${key}.capacidad`)}</p>
+                    <h3 className="mt-4 text-2xl uppercase tracking-[0.14em] text-black">
+                      {t(`formatos.${key}.nombre`)}
+                    </h3>
+                    <p className="mt-5 flex-grow text-base leading-7 tracking-[0.04em] text-black/75">
+                      {t(`formatos.${key}.resumen`)}
+                    </p>
+
+                    <p className="mt-6 mb-3 text-xs uppercase tracking-[0.28em] text-black/45">
+                      {t("incluyeLabel")}
+                    </p>
+                    <ul className="space-y-2">
+                      {incluye.map((item, i) => (
+                        <li
+                          key={i}
+                          className="flex items-start gap-2 text-sm leading-6 tracking-[0.03em] text-black/80"
+                        >
+                          <span aria-hidden className="mt-2 h-1 w-1 shrink-0 rounded-full bg-[#17273f]" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+
+                    <div className="mt-8 flex items-baseline gap-2 border-t border-black/10 pt-6">
+                      <span className="text-3xl tracking-[0.08em] text-[#17273f]">
+                        {t(`formatos.${key}.precio`)}
+                      </span>
+                      <span className={editorialEyebrow}>{t(`formatos.${key}.precioNota`)}</span>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </section>
+
+          {/* Tapeo */}
+          <section className="relative mt-20 overflow-hidden bg-white">
+            <div className="mx-auto max-w-3xl text-center">
+              <p className={editorialEyebrow}>{t("tapeoEyebrow")}</p>
+              <h2 className="mt-5 text-3xl uppercase tracking-[0.2em] text-black md:text-4xl md:leading-[1.2]">
+                {t("tapeoTitulo")}
+              </h2>
+              <p className={`mx-auto mt-6 max-w-2xl ${editorialBody} text-lg leading-7`}>
+                {t("tapeoDescripcion")}
+              </p>
+            </div>
+            <div className="mx-auto mt-10 grid max-w-4xl gap-4 sm:grid-cols-2">
+              {tapeo.map((item, i) => (
+                <div
+                  key={i}
+                  className="border border-[#e3d6b5] bg-[#f8f4ea] px-6 py-5 text-center text-base tracking-[0.05em] text-black/80"
+                >
+                  {item}
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Info práctica */}
+          <section className="mt-20">
+            <div className="mx-auto max-w-3xl text-center">
+              <p className={editorialEyebrow}>{t("infoEyebrow")}</p>
+              <h2 className="mt-5 text-3xl uppercase tracking-[0.2em] text-black md:text-4xl md:leading-[1.2]">
+                {t("infoTitulo")}
+              </h2>
+            </div>
+            <div className="mx-auto mt-10 grid max-w-4xl gap-8 md:grid-cols-3">
+              {[
+                { titulo: t("reservaTitulo"), texto: t("reservaTexto") },
+                { titulo: t("idiomaTitulo"), texto: t("idiomaTexto") },
+                { titulo: t("botellaTitulo"), texto: t("botellaTexto") },
+              ].map((info, i) => (
+                <div key={i} className="text-center md:text-left">
+                  <h3 className="text-lg uppercase tracking-[0.16em] text-black">{info.titulo}</h3>
+                  <p className="mt-3 text-base leading-7 tracking-[0.04em] text-black/70">
+                    {info.texto}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* CTA de cierre */}
+          <section className="relative mt-20 overflow-hidden bg-white px-6 py-10 md:px-10 md:py-14">
+            <div className="pointer-events-none absolute bottom-[-8%] right-[-6%] h-[220px] w-[220px] opacity-60 sm:h-[320px] sm:w-[320px] lg:h-[420px] lg:w-[560px]">
+              <Image src="/images/fondo-carta-6.svg" alt="" fill className="object-contain" />
+            </div>
+            <div className="relative max-w-4xl">
+              <p className={editorialEyebrow}>{t("ctaEyebrow")}</p>
+              <h2 className="mt-5 text-3xl uppercase tracking-[0.2em] text-black md:text-5xl md:leading-[1.2]">
+                {t("ctaTitulo")}
+              </h2>
+              <p className={`mt-5 max-w-3xl ${editorialBody}`}>{t("ctaTexto")}</p>
+              <div className="mt-8 flex flex-wrap gap-4">
+                <a
+                  href={RESERVATION_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={editorialPrimaryButton}
+                >
+                  {t("ctaBotonPrimario")}
+                </a>
+                <Link
+                  href={locale === DEFAULT_LOCALE ? "/" : `/${locale}`}
+                  className={editorialSecondaryButton}
+                >
+                  {t("ctaBotonSecundario")}
+                </Link>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+      <FloatingEditorialActions />
+    </>
+  );
+}

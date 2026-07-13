@@ -20,6 +20,7 @@
     "aboutNavbar": "Nosotros",
     "promotionsNavbar": "Promociones",
     "saltaNavbar": "Salta",
+    "experiencesNavbar": "Experiencias",
     "bookNavbar": "Reservar"
   },
   "about_us": {
@@ -143,5 +144,83 @@
     "eyebrow": "Salta Capital",
     "titulo": "Qué hacer en Salta Capital durante tu estadía",
     "descripcion": "Esta guía reúne lugares, paseos y experiencias dentro de Salta Capital. El foco está puesto en propuestas reales, cercanas al centro y útiles para quienes se hospedan en Villa Vicuña."
+  },
+  "experiences": {
+    "eyebrow": "Barolo · vinos por descubrir",
+    "titulo": "Vinos de altura, contados desde adentro",
+    "descripcion": "Una degustación curada y conducida personalmente por Luci Chávez Díaz, enóloga de Barolo, en las instalaciones de Villa Vicuña. Una experiencia exclusiva para nuestros huéspedes.",
+    "quote": "No quiero que prueben un vino. Quiero que entiendan por qué ese vino solo pudo nacer acá, en este viñedo, a esta altura.",
+    "quoteAuthor": "Luci Chávez Díaz",
+    "quoteRole": "Enóloga y curadora de Barolo",
+    "formatosEyebrow": "Las experiencias",
+    "formatosTitulo": "Tres formas de vivir la altura",
+    "formatosDescripcion": "Cada formato mantiene la misma atención personalizada; cambia la escala del encuentro y la cantidad de etiquetas que se recorren.",
+    "capacidadLabel": "Personas",
+    "incluyeLabel": "Incluye",
+    "formatos": {
+      "intima": {
+        "nombre": "Degustación Íntima",
+        "capacidad": "Hasta 4 personas",
+        "precio": "USD 80",
+        "precioNota": "por persona",
+        "resumen": "Una etiqueta, un territorio, una historia que se cuenta despacio. El vino como protagonista absoluto: una etiqueta icónica de Salta, su historia y su lugar de origen.",
+        "incluye": [
+          "Una etiqueta icónica de Salta",
+          "Tapeo de autor pensado para realzar el vino",
+          "Tarjeta personalizada con la historia del vino",
+          "Conducción en español o inglés"
+        ]
+      },
+      "terroir": {
+        "nombre": "Recorrido por el Terroir",
+        "capacidad": "5 personas o más",
+        "precio": "USD 80",
+        "precioNota": "por persona",
+        "resumen": "Tres etiquetas, tres versiones de lo que significa altura. Un recorrido por distintos terruños de Salta que muestra la diversidad detrás de la idea de altura.",
+        "incluye": [
+          "Tres etiquetas de distintos terruños",
+          "Tapeo de autor en mayor cantidad",
+          "Tres tarjetas personalizadas",
+          "Conducción en español o inglés"
+        ]
+      },
+      "atardecer": {
+        "nombre": "Atardecer Íntimo",
+        "capacidad": "Solo para dos",
+        "precio": "USD 120",
+        "precioNota": "por persona · máximo 2 personas",
+        "resumen": "En lo más reservado del hotel, coordinado para coincidir con el atardecer salteño. Vinos de alta gama y una propuesta gastronómica curada a medida de cada encuentro.",
+        "incluye": [
+          "Selección de vinos de alta gama",
+          "Propuesta gastronómica curada a medida",
+          "Un rincón del hotel reservado solo para ustedes",
+          "Conducción en español o inglés"
+        ]
+      }
+    },
+    "tapeoEyebrow": "El tapeo",
+    "tapeoTitulo": "Pequeños bocados de autor",
+    "tapeoDescripcion": "Elaborados para dialogar con el vino servido, nunca para opacarlo.",
+    "tapeo": [
+      "Profiteroles de queso azul",
+      "Tarteletas de cerdo laqueado",
+      "Trufas de queso rebozadas en almendras",
+      "Dátiles rellenos envueltos en jamón crudo"
+    ],
+    "infoEyebrow": "Antes de reservar",
+    "infoTitulo": "Lo que conviene saber",
+    "reservaTitulo": "Reserva",
+    "reservaTexto": "Con un mínimo de 24 horas de antelación, sujeto a disponibilidad.",
+    "idiomaTitulo": "Idioma",
+    "idiomaTexto": "Conducida en español o inglés, según prefieras.",
+    "botellaTitulo": "¿Te enamoró?",
+    "botellaTexto": "La etiqueta degustada puede adquirirse para llevarla con vos.",
+    "ctaEyebrow": "Villa Vicuña",
+    "ctaTitulo": "Reservá tu degustación Barolo",
+    "ctaTexto": "Una experiencia exclusiva para huéspedes de Villa Vicuña. Consultá disponibilidad en recepción o al reservar tu estadía.",
+    "ctaBotonPrimario": "Reservar estadía",
+    "ctaBotonSecundario": "Conocer el hotel",
+    "metaTitle": "Experiencias Barolo · Degustación de vinos de altura | Villa Vicuña",
+    "metaDescription": "Degustaciones de vinos de altura de Salta, curadas y conducidas por la enóloga Luci Chávez Díaz. Experiencia exclusiva para huéspedes de Villa Vicuña."
   }
 }
