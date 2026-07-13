@@ -102,7 +102,7 @@ export default function Navbar({
 
   return (
     <nav
-      className="fixed top-0 left-0 w-full bg-[#f8f4ea] text-black py-2 pe-4 ps-4 md:ps-8 2xl:ps-16 z-40 shadow-md"
+      className="fixed top-0 left-0 w-full bg-[#f8f4ea] text-black py-2 pe-4 ps-4 md:ps-8 2xl:ps-12 z-40 shadow-md"
       role="navigation"
       aria-label="Main Navigation"
     >
@@ -115,7 +115,7 @@ export default function Navbar({
               alt="Villa Vicuña"
               width={120}
               height={120}
-              className="w-24 2xl:w-32 cursor-pointer transition-transform duration-300 hover:scale-105"
+              className="w-20 2xl:w-28 cursor-pointer transition-transform duration-300 hover:scale-105"
             />
           </Link>
         </div>
@@ -154,8 +154,8 @@ export default function Navbar({
                     )}
                   </li>
                   {index < menuItems.length - 1 && (
-                    <li className="flex items-center mx-4 2xl:mx-5">
-                      <span className="text-lg">•</span>
+                    <li className="flex items-center mx-2 2xl:mx-4">
+                      <span className="text-base 2xl:text-lg text-black/40">•</span>
                     </li>
                   )}
                 </React.Fragment>
@@ -165,9 +165,9 @@ export default function Navbar({
         )}
 
         {/* Idiomas / toggle móvil */}
-        <div className="flex items-center gap-x-6">
+        <div className="flex items-center gap-x-3 2xl:gap-x-6">
           {isDesktop ? (
-            <div className="flex items-center gap-x-2">
+            <div className="flex items-center gap-x-1.5 2xl:gap-x-2">
               {languages.map(({ lang, flag, alt }) => (
                 <Link
                   key={lang}
