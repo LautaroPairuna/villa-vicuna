@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import Navbar from "@/components/Navbar";
 import FloatingEditorialActions from "@/components/FloatingEditorialActions";
+import ExperiencesTapeo from "@/components/ExperiencesTapeo";
 import {
   editorialBody,
   editorialEyebrow,
@@ -69,6 +70,19 @@ export default async function ExperiencesPage({
 
   const t = await getTranslations({ locale, namespace: "experiences" });
   const tapeo = t.raw("tapeo") as string[];
+
+  // Cada bocado con su foto (archivos en public/images/experiencias). El orden
+  // coincide con el array `experiences.tapeo` de los mensajes.
+  const TAPEO_IMAGES = [
+    "/images/experiencias/profitelores-queso.jpg",
+    "/images/experiencias/tartaletas-cerdo.jpg",
+    "/images/experiencias/trufas-queso-almendras.jpg",
+    "/images/experiencias/datiles-jamon-crudo.jpg",
+  ];
+  const tapeoItems = tapeo.map((name, i) => ({
+    name,
+    src: TAPEO_IMAGES[i] ?? "/images/placeholder.jpg",
+  }));
 
   return (
     <>
@@ -168,16 +182,7 @@ export default async function ExperiencesPage({
                 {t("tapeoDescripcion")}
               </p>
             </div>
-            <div className="mx-auto mt-10 grid max-w-4xl gap-4 sm:grid-cols-2">
-              {tapeo.map((item, i) => (
-                <div
-                  key={i}
-                  className="border border-[#e3d6b5] bg-[#f8f4ea] px-6 py-5 text-center text-base tracking-[0.05em] text-black/80"
-                >
-                  {item}
-                </div>
-              ))}
-            </div>
+            <ExperiencesTapeo items={tapeoItems} />
           </section>
 
           {/* Info práctica */}
