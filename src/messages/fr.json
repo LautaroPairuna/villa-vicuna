@@ -154,6 +154,7 @@
       "formatosDescripcion": "Chaque format conserve la même attention personnalisée ; ce qui change, c'est l'échelle de la rencontre et le nombre d'étiquettes parcourues.",
       "capacidadLabel": "Personnes",
       "incluyeLabel": "Comprend",
+      "verMas": "Voir plus",
       "formatos": {
         "intima": {
           "nombre": "Dégustation Intime",

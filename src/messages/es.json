@@ -157,6 +157,7 @@
     "formatosDescripcion": "Cada formato mantiene la misma atención personalizada; cambia la escala del encuentro y la cantidad de etiquetas que se recorren.",
     "capacidadLabel": "Personas",
     "incluyeLabel": "Incluye",
+    "verMas": "Ver más",
     "formatos": {
       "intima": {
         "nombre": "Degustación Íntima",

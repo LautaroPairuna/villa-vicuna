@@ -6,6 +6,7 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import Navbar from "@/components/Navbar";
 import FloatingEditorialActions from "@/components/FloatingEditorialActions";
 import ExperiencesTapeo from "@/components/ExperiencesTapeo";
+import ExperiencesFormatos from "@/components/ExperiencesFormatos";
 import {
   editorialBody,
   editorialEyebrow,
@@ -84,6 +85,32 @@ export default async function ExperiencesPage({
     src: TAPEO_IMAGES[i] ?? "/images/placeholder.jpg",
   }));
 
+  // Fotos por experiencia (archivos en public/images/experiencias). Se puede
+  // listar más de una por formato para el carrusel del modal; la primera es la
+  // portada de la tarjeta. Si un archivo falta, ImageWithFallback muestra el
+  // placeholder, así el layout no se rompe hasta subir las fotos definitivas.
+  const EXPERIENCE_IMAGES: Record<string, string[]> = {
+    intima: ["/images/experiencias/degustacion-intima.webp"],
+    terroir: ["/images/experiencias/recorrido-terroir.webp"],
+    atardecer: ["/images/experiencias/atardecer-intimo.jpg"],
+  };
+  const formatosData = FORMATOS.map((key) => ({
+    key,
+    nombre: t(`formatos.${key}.nombre`),
+    capacidad: t(`formatos.${key}.capacidad`),
+    precio: t(`formatos.${key}.precio`),
+    precioNota: t(`formatos.${key}.precioNota`),
+    resumen: t(`formatos.${key}.resumen`),
+    incluye: t.raw(`formatos.${key}.incluye`) as string[],
+    images: EXPERIENCE_IMAGES[key] ?? ["/images/placeholder.jpg"],
+  }));
+  const formatosLabels = {
+    incluyeLabel: t("incluyeLabel"),
+    verMasLabel: t("verMas"),
+    reservarLabel: t("ctaBotonPrimario"),
+    reservationUrl: RESERVATION_URL,
+  };
+
   return (
     <>
       <Navbar />
@@ -128,47 +155,7 @@ export default async function ExperiencesPage({
               </p>
             </div>
 
-            <div className="mt-12 grid gap-8 lg:grid-cols-3">
-              {FORMATOS.map((key) => {
-                const incluye = t.raw(`formatos.${key}.incluye`) as string[];
-                return (
-                  <article
-                    key={key}
-                    className="flex flex-col border border-[#e3d6b5] bg-[#f8f4ea] p-8 shadow-sm"
-                  >
-                    <p className={editorialEyebrow}>{t(`formatos.${key}.capacidad`)}</p>
-                    <h3 className="mt-4 text-2xl uppercase tracking-[0.14em] text-black">
-                      {t(`formatos.${key}.nombre`)}
-                    </h3>
-                    <p className="mt-5 flex-grow text-base leading-7 tracking-[0.04em] text-black/75">
-                      {t(`formatos.${key}.resumen`)}
-                    </p>
-
-                    <p className="mt-6 mb-3 text-xs uppercase tracking-[0.28em] text-black/45">
-                      {t("incluyeLabel")}
-                    </p>
-                    <ul className="space-y-2">
-                      {incluye.map((item, i) => (
-                        <li
-                          key={i}
-                          className="flex items-start gap-2 text-sm leading-6 tracking-[0.03em] text-black/80"
-                        >
-                          <span aria-hidden className="mt-2 h-1 w-1 shrink-0 rounded-full bg-[#17273f]" />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-
-                    <div className="mt-8 flex items-baseline gap-2 border-t border-black/10 pt-6">
-                      <span className="text-3xl tracking-[0.08em] text-[#17273f]">
-                        {t(`formatos.${key}.precio`)}
-                      </span>
-                      <span className={editorialEyebrow}>{t(`formatos.${key}.precioNota`)}</span>
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
+            <ExperiencesFormatos formatos={formatosData} labels={formatosLabels} />
           </section>
 
           {/* Tapeo */}

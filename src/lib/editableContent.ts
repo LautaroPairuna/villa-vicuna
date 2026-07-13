@@ -162,6 +162,7 @@ export const EDITABLE_SECTIONS: EditableSection[] = [
       { key: "experiences.formatosTitulo", label: "Formatos · título", type: "text" },
       { key: "experiences.formatosDescripcion", label: "Formatos · descripción", type: "textarea" },
       { key: "experiences.incluyeLabel", label: "Formatos · etiqueta «Incluye»", type: "text" },
+      { key: "experiences.verMas", label: "Formatos · botón «Ver más»", type: "text" },
       ...EXPERIENCE_FORMATS.flatMap((f) => [
         { key: `experiences.formatos.${f.key}.nombre`, label: `${f.label} · nombre`, type: "text" as const },
         { key: `experiences.formatos.${f.key}.capacidad`, label: `${f.label} · capacidad`, type: "text" as const },
