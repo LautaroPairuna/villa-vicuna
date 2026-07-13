@@ -154,7 +154,7 @@ export default function Navbar({
                     )}
                   </li>
                   {index < menuItems.length - 1 && (
-                    <li className="flex items-center mx-2 2xl:mx-4">
+                    <li className="flex items-center mx-3 2xl:mx-4">
                       <span className="text-base 2xl:text-lg text-black/40">•</span>
                     </li>
                   )}
