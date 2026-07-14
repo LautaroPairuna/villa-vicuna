@@ -153,6 +153,7 @@ export const EDITABLE_SECTIONS: EditableSection[] = [
       { key: "experiences.eyebrow", label: "Etiqueta superior", type: "text" },
       { key: "experiences.titulo", label: "Título principal", type: "textarea" },
       { key: "experiences.descripcion", label: "Descripción principal", type: "textarea" },
+      { key: "experiences.descripcion2", label: "Descripción · segundo párrafo (relato)", type: "textarea" },
       // Cita
       { key: "experiences.quote", label: "Cita · texto", type: "textarea" },
       { key: "experiences.quoteAuthor", label: "Cita · autora", type: "text" },

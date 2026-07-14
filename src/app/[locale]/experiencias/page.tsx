@@ -128,6 +128,9 @@ export default async function ExperiencesPage({
             <p className={`mx-auto mt-8 max-w-3xl text-center ${editorialBody}`}>
               {t("descripcion")}
             </p>
+            <p className="mx-auto mt-6 max-w-3xl text-center text-lg leading-8 tracking-[0.08em] text-black/70">
+              {t("descripcion2")}
+            </p>
           </div>
         </section>
 
