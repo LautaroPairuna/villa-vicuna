@@ -183,14 +183,54 @@ export default async function ExperiencesPage({
                 {t("infoTitulo")}
               </h2>
             </div>
-            <div className="mx-auto mt-10 grid max-w-4xl gap-8 md:grid-cols-3">
+            <div className="mx-auto mt-12 grid max-w-4xl grid-cols-1 divide-y divide-[#e3d6b5] md:grid-cols-3 md:divide-x md:divide-y-0">
               {[
-                { titulo: t("reservaTitulo"), texto: t("reservaTexto") },
-                { titulo: t("idiomaTitulo"), texto: t("idiomaTexto") },
-                { titulo: t("botellaTitulo"), texto: t("botellaTexto") },
+                {
+                  titulo: t("reservaTitulo"),
+                  texto: t("reservaTexto"),
+                  icon: (
+                    <>
+                      <circle cx="12" cy="12" r="10" />
+                      <polyline points="12 6 12 12 16 14" />
+                    </>
+                  ),
+                },
+                {
+                  titulo: t("idiomaTitulo"),
+                  texto: t("idiomaTexto"),
+                  icon: (
+                    <>
+                      <circle cx="12" cy="12" r="10" />
+                      <line x1="2" y1="12" x2="22" y2="12" />
+                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                    </>
+                  ),
+                },
+                {
+                  titulo: t("botellaTitulo"),
+                  texto: t("botellaTexto"),
+                  icon: (
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z" />
+                  ),
+                },
               ].map((info, i) => (
-                <div key={i} className="text-center md:text-left">
-                  <h3 className="text-lg uppercase tracking-[0.16em] text-black">{info.titulo}</h3>
+                <div
+                  key={i}
+                  className="flex flex-col items-center px-6 py-8 text-center md:px-8 md:py-4"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={1.4}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="h-9 w-9 text-[#17273f]"
+                    aria-hidden
+                  >
+                    {info.icon}
+                  </svg>
+                  <h3 className="mt-4 text-lg uppercase tracking-[0.16em] text-black">{info.titulo}</h3>
                   <p className="mt-3 text-base leading-7 tracking-[0.04em] text-black/70">
                     {info.texto}
                   </p>
