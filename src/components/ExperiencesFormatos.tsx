@@ -66,7 +66,7 @@ function FormatoModal({
       onClick={onClose}
     >
       <motion.div
-        className="relative my-8 w-full max-w-md bg-white px-4 pb-6 pt-4 sm:px-8 md:px-10 md:pb-8 md:pt-10 lg:max-w-5xl"
+        className="relative mt-8 max-h-[90vh] w-full max-w-md overflow-y-auto bg-white px-4 pb-6 pt-4 sm:px-8 md:mt-0 md:px-10 md:pb-8 md:pt-10 lg:max-w-5xl"
         initial={{ scale: 0.92, y: 40, opacity: 0 }}
         animate={{ scale: 1, y: 0, opacity: 1 }}
         exit={{ scale: 0.92, y: 40, opacity: 0 }}
@@ -84,8 +84,9 @@ function FormatoModal({
         </button>
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-8">
-          {/* Texto */}
-          <div className="order-2 lg:order-1 lg:col-span-7 lg:pt-4">
+          {/* Texto (primero, como en Habitaciones/Reseñas; en desktop queda a la
+              izquierda). El pt/pl deja libre el botón de cerrar. */}
+          <div className="pt-12 lg:col-span-7 lg:pl-12 lg:pt-2">
             <p className={editorialEyebrow}>{formato.capacidad}</p>
             <h3 className="mt-3 text-3xl uppercase tracking-[0.14em] text-black md:text-4xl">
               {formato.nombre}
@@ -117,8 +118,8 @@ function FormatoModal({
             </div>
           </div>
 
-          {/* Carrusel de imágenes */}
-          <div className="relative order-1 flex aspect-[4/3] w-full items-center justify-center lg:order-2 lg:col-span-5 lg:aspect-[6/8]">
+          {/* Carrusel de imágenes (debajo en mobile, a la derecha en desktop) */}
+          <div className="relative flex aspect-[4/3] w-full items-center justify-center lg:col-span-5 lg:aspect-[6/8]">
             <div className="relative h-full w-full overflow-hidden">
               <AnimatePresence custom={direction}>
                 <motion.div
