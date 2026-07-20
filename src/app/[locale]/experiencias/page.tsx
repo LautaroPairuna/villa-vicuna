@@ -118,8 +118,15 @@ export default async function ExperiencesPage({
         {/* Intro */}
         <section className="relative bg-white px-4 py-14 md:px-12 md:py-18">
           <div className="relative mx-auto max-w-[1200px]">
-            <p className={`text-center ${editorialEyebrow}`}>{t("eyebrow")}</p>
-            <h1 className="mx-auto mt-6 max-w-5xl text-center text-4xl uppercase tracking-[0.2em] text-black sm:text-5xl lg:text-[4.3rem] lg:leading-[1.15]">
+            <Image
+              src="/images/logo-barolo.svg"
+              alt="Barolo · Vinos por descubrir"
+              width={210}
+              height={72}
+              priority
+              className="mx-auto h-auto w-[150px] sm:w-[180px] md:w-[210px]"
+            />
+            <h1 className="mx-auto mt-8 max-w-5xl text-center text-4xl uppercase tracking-[0.2em] text-black sm:text-5xl lg:text-[4.3rem] lg:leading-[1.15]">
               {t("titulo")}
             </h1>
             <p className={`mx-auto mt-8 max-w-3xl text-center ${editorialBody}`}>
