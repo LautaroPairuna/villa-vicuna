@@ -15,7 +15,7 @@ import {
   FiMapPin,
   FiTag,
 } from "react-icons/fi";
-import { TbBed } from "react-icons/tb";
+import { TbBed, TbGlassFull } from "react-icons/tb";
 import type { IconType } from "react-icons";
 import { logoutAction } from "@/app/admin/actions";
 
@@ -43,6 +43,7 @@ const NAV_GROUPS: {
     items: [
       { href: "/admin/promociones", label: "Promociones", icon: FiTag },
       { href: "/admin/salta", label: "Salta", icon: FiMapPin },
+      { href: "/admin/experiencias", label: "Experiencias", icon: TbGlassFull },
     ],
   },
 ];
