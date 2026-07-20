@@ -116,10 +116,7 @@ export default async function ExperiencesPage({
       <Navbar />
       <main className="min-h-screen bg-white pb-16 pt-20 text-black">
         {/* Intro */}
-        <section className="relative overflow-hidden bg-white px-4 py-14 md:px-12 md:py-18">
-          <div className="pointer-events-none absolute left-1/2 top-10 h-[320px] w-[320px] -translate-x-1/2 opacity-55 sm:h-[420px] sm:w-[420px] lg:top-0 lg:h-[620px] lg:w-[780px]">
-            <Image src="/images/fondo-carta-2.svg" alt="" fill className="object-contain" />
-          </div>
+        <section className="relative bg-white px-4 py-14 md:px-12 md:py-18">
           <div className="relative mx-auto max-w-[1200px]">
             <p className={`text-center ${editorialEyebrow}`}>{t("eyebrow")}</p>
             <h1 className="mx-auto mt-6 max-w-5xl text-center text-4xl uppercase tracking-[0.2em] text-black sm:text-5xl lg:text-[4.3rem] lg:leading-[1.15]">
@@ -168,9 +165,6 @@ export default async function ExperiencesPage({
               <h2 className="mt-5 text-3xl uppercase tracking-[0.2em] text-black md:text-4xl md:leading-[1.2]">
                 {t("tapeoTitulo")}
               </h2>
-              <p className={`mx-auto mt-6 max-w-2xl ${editorialBody} text-lg leading-7`}>
-                {t("tapeoDescripcion")}
-              </p>
             </div>
             <ExperiencesTapeo items={tapeoItems} />
           </section>

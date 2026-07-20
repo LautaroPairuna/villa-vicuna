@@ -152,21 +152,20 @@
       "quoteRole": "Œnologue et curatrice de Barolo",
       "formatosEyebrow": "Les expériences",
       "formatosTitulo": "Trois façons de vivre l'altitude",
-      "formatosDescripcion": "Chaque format conserve la même attention personnalisée ; ce qui change, c'est l'échelle de la rencontre et le nombre d'étiquettes parcourues.",
+      "formatosDescripcion": "Chaque histoire partage la même chaleur et la même intimité. Ce qui les distingue, c'est le parcours que propose chaque sélection.",
       "capacidadLabel": "Personnes",
       "incluyeLabel": "Comprend",
       "verMas": "Voir plus",
       "formatos": {
         "intima": {
-          "nombre": "Dégustation Intime",
+          "nombre": "Caractère du Nord",
           "capacidad": "Jusqu'à 4 personnes",
           "precio": "USD 80",
           "precioNota": "par personne",
           "resumen": "Une étiquette, un territoire, une histoire racontée sans hâte. Le vin comme protagoniste absolu : une étiquette emblématique de Salta, son histoire et son lieu d'origine.",
           "incluye": [
             "Une étiquette emblématique de Salta",
-            "Tapas d'auteur pensées pour sublimer le vin",
-            "Une carte personnalisée avec l'histoire du vin",
+            "Tapas d'auteur",
             "Animée en espagnol ou en anglais"
           ]
         },
@@ -178,8 +177,7 @@
           "resumen": "Trois étiquettes, trois versions de ce que signifie l'altitude. Un parcours à travers différents terroirs de Salta qui révèle la diversité derrière l'idée d'altitude.",
           "incluye": [
             "Trois étiquettes de terroirs différents",
-            "Tapas d'auteur en plus grande quantité",
-            "Trois cartes personnalisées",
+            "Tapas d'auteur",
             "Animée en espagnol ou en anglais"
           ]
         },

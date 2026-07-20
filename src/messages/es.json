@@ -155,21 +155,20 @@
     "quoteRole": "Enóloga y curadora de Barolo",
     "formatosEyebrow": "Las experiencias",
     "formatosTitulo": "Tres formas de vivir la altura",
-    "formatosDescripcion": "Cada formato mantiene la misma atención personalizada; cambia la escala del encuentro y la cantidad de etiquetas que se recorren.",
+    "formatosDescripcion": "Toda historia comparte la misma calidez e intimidad. Lo que las distingue es el recorrido que propone cada selección.",
     "capacidadLabel": "Personas",
     "incluyeLabel": "Incluye",
     "verMas": "Ver más",
     "formatos": {
       "intima": {
-        "nombre": "Degustación Íntima",
+        "nombre": "Carácter del Norte",
         "capacidad": "Hasta 4 personas",
         "precio": "USD 80",
         "precioNota": "por persona",
         "resumen": "Una etiqueta, un territorio, una historia que se cuenta despacio. El vino como protagonista absoluto: una etiqueta icónica de Salta, su historia y su lugar de origen.",
         "incluye": [
           "Una etiqueta icónica de Salta",
-          "Tapeo de autor pensado para realzar el vino",
-          "Tarjeta personalizada con la historia del vino",
+          "Tapeo de autor",
           "Conducción en español o inglés"
         ]
       },
@@ -181,8 +180,7 @@
         "resumen": "Tres etiquetas, tres versiones de lo que significa altura. Un recorrido por distintos terruños de Salta que muestra la diversidad detrás de la idea de altura.",
         "incluye": [
           "Tres etiquetas de distintos terruños",
-          "Tapeo de autor en mayor cantidad",
-          "Tres tarjetas personalizadas",
+          "Tapeo de autor",
           "Conducción en español o inglés"
         ]
       },

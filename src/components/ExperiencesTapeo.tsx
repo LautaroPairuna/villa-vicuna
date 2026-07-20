@@ -63,11 +63,6 @@ export default function ExperiencesTapeo({ items }: { items: TapeoItem[] }) {
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
               className="object-cover transition-transform duration-500 group-hover:scale-105"
             />
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent px-3 pb-4 pt-12">
-              <p className="text-center text-base font-medium leading-snug tracking-[0.06em] text-white">
-                {item.name}
-              </p>
-            </div>
           </button>
         ))}
       </div>

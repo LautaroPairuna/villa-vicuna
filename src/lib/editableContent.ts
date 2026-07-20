@@ -47,7 +47,7 @@ const REVIEW_BLOCKS = [
 ] as const;
 
 const EXPERIENCE_FORMATS = [
-  { key: "intima", label: "Degustación Íntima" },
+  { key: "intima", label: "Carácter del Norte" },
   { key: "terroir", label: "Recorrido por el Terroir" },
   { key: "atardecer", label: "Atardecer Íntimo" },
 ] as const;
