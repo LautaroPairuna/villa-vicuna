@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import Navbar from "@/components/Navbar";
 import FloatingEditorialActions from "@/components/FloatingEditorialActions";
+import EditorialVideoHero from "@/components/EditorialVideoHero";
 import ExperiencesTapeo from "@/components/ExperiencesTapeo";
 import ExperiencesFormatos from "@/components/ExperiencesFormatos";
 import {
@@ -114,7 +115,10 @@ export default async function ExperiencesPage({
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-white pb-16 pt-20 text-black">
+      <main className="min-h-screen bg-white pb-16 text-black">
+        {/* Hero de video de fondo */}
+        <EditorialVideoHero videoUrl="/video-fondo-experiencias.mp4" />
+
         {/* Intro */}
         <section className="relative bg-white px-4 py-14 md:px-12 md:py-18">
           <div className="relative mx-auto max-w-[1200px]">
