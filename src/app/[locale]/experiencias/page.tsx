@@ -5,7 +5,6 @@ import { notFound } from "next/navigation";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import Navbar from "@/components/Navbar";
 import FloatingEditorialActions from "@/components/FloatingEditorialActions";
-import EditorialVideoHero from "@/components/EditorialVideoHero";
 import ExperiencesTapeo from "@/components/ExperiencesTapeo";
 import ExperiencesFormatos from "@/components/ExperiencesFormatos";
 import {
@@ -115,10 +114,7 @@ export default async function ExperiencesPage({
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-white pb-16 text-black">
-        {/* Hero de video de fondo */}
-        <EditorialVideoHero videoUrl="/video-fondo-experiencias.mp4" />
-
+      <main className="min-h-screen bg-white pb-16 pt-20 text-black">
         {/* Intro */}
         <section className="relative bg-white px-4 py-14 md:px-12 md:py-18">
           <div className="relative mx-auto max-w-[1200px]">
@@ -142,18 +138,34 @@ export default async function ExperiencesPage({
           </div>
         </section>
 
-        <div className="mx-auto max-w-[1200px] px-4 md:px-12">
-          {/* Cita de la enóloga */}
-          <section className="relative mx-auto mt-6 max-w-4xl border-l-2 border-[#e3d6b5] px-6 py-2 md:px-10">
-            <p className="text-2xl italic leading-relaxed tracking-[0.06em] text-black/85 md:text-3xl">
+        {/* Cita de la enóloga — video vertical de fondo (se muestra su franja media) */}
+        <section className="relative mt-4 overflow-hidden bg-black py-24 md:py-32">
+          <video
+            className="absolute inset-0 h-full w-full object-cover object-center"
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            poster="/images/hero-poster.webp"
+          >
+            <source src="/video-fondo-experiencias.mp4" />
+          </video>
+          <div className="absolute inset-0 bg-black/55" />
+          <div className="relative mx-auto max-w-3xl px-6 text-center md:px-10">
+            <p className="text-2xl italic leading-relaxed tracking-[0.06em] text-white md:text-3xl">
               “{t("quote")}”
             </p>
-            <p className="mt-6 text-sm uppercase tracking-[0.22em] text-black">
+            <p className="mt-8 text-sm uppercase tracking-[0.22em] text-white">
               {t("quoteAuthor")}
             </p>
-            <p className={`mt-1 ${editorialEyebrow}`}>{t("quoteRole")}</p>
-          </section>
+            <p className="mt-1 text-xs uppercase tracking-[0.35em] text-white/70">
+              {t("quoteRole")}
+            </p>
+          </div>
+        </section>
 
+        <div className="mx-auto max-w-[1200px] px-4 md:px-12">
           {/* Formatos */}
           <section className="mt-20">
             <div className="mx-auto max-w-3xl text-center">
