@@ -21,12 +21,6 @@ function buildAdapter() {
     database: u.pathname.replace(/^\//, ""),
     // Pool chico: con ISR la DB casi no se consulta, no necesitamos muchas.
     connectionLimit: Number(process.env.DB_CONNECTION_LIMIT ?? 3),
-    // Fallar rápido si la DB no está disponible (build sin DB o caída en
-    // runtime): sin esto, un host inalcanzable cuelga hasta el timeout de la
-    // plataforma (~60s en el build). Con estos límites, los getters con
-    // try/catch caen al contenido estático en pocos segundos.
-    connectTimeout: Number(process.env.DB_CONNECT_TIMEOUT ?? 5000),
-    acquireTimeout: Number(process.env.DB_ACQUIRE_TIMEOUT ?? 8000),
   });
 }
 

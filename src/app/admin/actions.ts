@@ -1,13 +1,12 @@
 "use server";
 
-import { revalidatePath, updateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { auth, signOut } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { saveUpload } from "@/lib/media";
 import { getSection, composeSplit } from "@/lib/editableContent";
-import { baseValue, TRANSLATIONS_TAG } from "@/lib/translations";
-import { SECTIONS_TAG } from "@/lib/content";
+import { baseValue } from "@/lib/translations";
 
 async function requireAdmin() {
   const session = await auth();
@@ -17,16 +16,9 @@ async function requireAdmin() {
 function refresh() {
   // El sitio público es ISR: regeneramos las páginas por idioma al guardar,
   // así el cambio se ve al instante sin tener que renderizar en cada visita.
-  //
-  // OJO: todas las páginas públicas se renderizan bajo /[locale] (es|en|fr).
-  // La home del locale por defecto (es) se sirve en "/" mediante un rewrite
-  // interno a "/es" (ver proxy.ts), así que su caché queda guardado bajo
-  // "/es", NO bajo "/". Por eso hay que revalidar SIEMPRE la ruta interna
-  // "/es"; además revalidamos "/" por la URL pública / caché del cliente.
   for (const locale of ["es", "en", "fr"] as const) {
-    revalidatePath(`/${locale}`);
+    revalidatePath(locale === "es" ? "/" : `/${locale}`);
   }
-  revalidatePath("/");
   revalidatePath("/admin");
 }
 
@@ -61,13 +53,8 @@ function slugify(value: string) {
 
 function refreshEditorial(kind: "promociones" | "salta", slug?: string) {
   const basePath = kind === "promociones" ? "/promociones" : "/salta";
-  // Contenido es-only servido en URLs limpias (/promociones, /salta), que el
-  // proxy reescribe internamente a /es/promociones, /es/salta. El caché queda
-  // bajo la ruta con /es, así que revalidamos esa además de la URL pública.
-  revalidatePath(`/es${basePath}`);
   revalidatePath(basePath);
   if (slug) {
-    revalidatePath(`/es${basePath}/${slug}`);
     revalidatePath(`${basePath}/${slug}`);
   }
   revalidatePath(`/admin/${kind}`);
@@ -86,7 +73,6 @@ export async function setSectionImageAction(formData: FormData) {
     update: { mediaId: media.id },
     create: { slug, mediaId: media.id },
   });
-  updateTag(SECTIONS_TAG);
   refresh();
 }
 
@@ -105,7 +91,6 @@ export async function setSectionVideoAction(formData: FormData) {
     update: { mediaId: media.id },
     create: { slug, mediaId: media.id },
   });
-  updateTag(SECTIONS_TAG);
   refresh();
 }
 
@@ -243,23 +228,7 @@ export async function saveTranslationsAction(formData: FormData) {
   }
 
   await prisma.$transaction(operations);
-  // Invalida la caché de overrides: los textos dejan de servirse desde el
-  // snapshot cacheado y se vuelven a leer de la DB (pasan a "dinámicos").
-  // updateTag es la API para Server Actions (read-your-own-writes): el panel
-  // ve el valor nuevo de inmediato al recargar.
-  updateTag(TRANSLATIONS_TAG);
   refresh();
-
-  // La página /experiencias es una ruta propia (no la home), así que su caché
-  // ISR no la cubre refresh(). La revalidamos en sus 3 idiomas al guardar. El
-  // locale default (es) se sirve en /experiencias reescrito internamente a
-  // /es/experiencias, por eso revalidamos ambas.
-  if (sectionId === "experiencias") {
-    revalidatePath("/es/experiencias");
-    revalidatePath("/experiencias");
-    revalidatePath("/en/experiencias");
-    revalidatePath("/fr/experiencias");
-  }
 }
 
 export async function createPromotionAction(formData: FormData) {

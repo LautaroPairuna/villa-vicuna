@@ -11,10 +11,7 @@ const nextConfig = {
   poweredByHeader: false,
 
   images: {
-    // Solo WebP: en este VPS (poca CPU/RAM) codificar AVIF en la primera
-    // request de cada variante tarda segundos y consume mucha memoria. WebP
-    // codifica mucho más rápido, pesa apenas más y tiene soporte universal.
-    formats: ["image/webp"],
+    formats: ["image/avif", "image/webp"],
     // Acotamos las variantes que genera next/image: menos CPU y menos disco.
     deviceSizes: [360, 640, 828, 1200, 1920],
     imageSizes: [96, 200, 300],
@@ -28,14 +25,6 @@ const nextConfig = {
   experimental: {
     serverActions: {
       bodySizeLimit: "50mb",
-    },
-    // Sin esto, el navegador puede seguir mostrando una copia cacheada de
-    // las páginas públicas por hasta 180s tras navegar, aunque el panel ya
-    // haya revalidado el ISR del lado del servidor con revalidatePath.
-    // "static" no acepta 0: Next.js exige un mínimo de 30s.
-    staleTimes: {
-      dynamic: 0,
-      static: 30,
     },
   },
 

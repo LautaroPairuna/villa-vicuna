@@ -20,6 +20,8 @@ import {
 import UploadField from "@/components/admin/UploadField";
 import TextEditor from "@/components/admin/TextEditor";
 
+export const dynamic = "force-dynamic";
+
 const GLOBAL_ROOM_TEXT_KEYS = new Set([
   "rooms.titulo",
   "rooms.ver_mas",
@@ -41,16 +43,13 @@ export default async function HabitacionesPage() {
   let dbError = false;
   let rooms: Awaited<ReturnType<typeof loadRooms>> = [];
 
-  // Arrancamos la carga de textos en paralelo con la de habitaciones
-  // (getSectionTexts ya maneja sus propios errores, no hace falta try/catch).
-  const textsPromise = getSectionTexts("habitaciones");
   try {
     rooms = await loadRooms();
   } catch {
     dbError = true;
   }
 
-  const texts = await textsPromise;
+  const texts = await getSectionTexts("habitaciones");
   const globalTexts = texts
     ? {
         ...texts.section,

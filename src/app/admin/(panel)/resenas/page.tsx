@@ -20,6 +20,8 @@ import {
 import UploadField from "@/components/admin/UploadField";
 import TextEditor from "@/components/admin/TextEditor";
 
+export const dynamic = "force-dynamic";
+
 const GLOBAL_REVIEW_TEXT_KEYS = new Set([
   "reseñas.titulo",
   "reseñas.descripcion",
@@ -40,16 +42,13 @@ export default async function ResenasPage() {
   let dbError = false;
   let reviews: Awaited<ReturnType<typeof loadReviews>> = [];
 
-  // Arrancamos la carga de textos en paralelo con la de reseñas
-  // (getSectionTexts ya maneja sus propios errores, no hace falta try/catch).
-  const textsPromise = getSectionTexts("resenas");
   try {
     reviews = await loadReviews();
   } catch {
     dbError = true;
   }
 
-  const texts = await textsPromise;
+  const texts = await getSectionTexts("resenas");
   const globalTexts = texts
     ? {
         ...texts.section,

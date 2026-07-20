@@ -5,6 +5,8 @@ import type { IconType } from "react-icons";
 import { prisma } from "@/lib/prisma";
 import { DbErrorNotice } from "@/components/admin/ui";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminOverview() {
   let dbError = false;
   let roomsCount = 0;

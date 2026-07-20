@@ -2,13 +2,6 @@ import { auth } from "@/auth";
 import AdminToaster from "@/components/admin/AdminToaster";
 import Sidebar from "@/components/admin/Sidebar";
 
-// Todo el panel es privado y trabaja siempre contra datos vivos de la DB:
-// nunca debe pre-renderizarse. Declararlo en el layout cubre todas las
-// páginas del panel (presentes y futuras) y evita que el build intente
-// generarlas estáticamente —lo que hacía que las páginas editoriales
-// colgaran ~60s pegándole a la DB inexistente durante el build—.
-export const dynamic = "force-dynamic";
-
 // Layout del panel autenticado: sidebar + contenido. El login queda fuera
 // de este grupo, así que no muestra el sidebar.
 export default async function PanelLayout({
