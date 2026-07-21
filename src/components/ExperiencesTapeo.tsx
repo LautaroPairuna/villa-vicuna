@@ -47,7 +47,7 @@ export default function ExperiencesTapeo({ items }: { items: TapeoItem[] }) {
 
   return (
     <>
-      <div className="mx-auto mt-10 grid max-w-5xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
         {items.map((item) => (
           <button
             key={item.src}
