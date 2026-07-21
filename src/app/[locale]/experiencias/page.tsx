@@ -118,15 +118,7 @@ export default async function ExperiencesPage({
         {/* Intro */}
         <section className="relative bg-white px-4 py-14 md:px-12 md:py-18">
           <div className="relative mx-auto max-w-[1200px]">
-            <Image
-              src="/images/logo-barolo.svg"
-              alt="Barolo · Vinos por descubrir"
-              width={210}
-              height={72}
-              priority
-              className="mx-auto h-auto w-[150px] sm:w-[180px] md:w-[210px]"
-            />
-            <h1 className="mx-auto mt-8 max-w-5xl text-center text-4xl uppercase tracking-[0.2em] text-black sm:text-5xl lg:text-[4.3rem] lg:leading-[1.15]">
+            <h1 className="mx-auto max-w-5xl text-center text-4xl uppercase tracking-[0.2em] text-black sm:text-5xl lg:text-[4.3rem] lg:leading-[1.15]">
               {t("titulo")}
             </h1>
             <p className={`mx-auto mt-8 max-w-3xl text-center ${editorialBody}`}>
@@ -162,6 +154,13 @@ export default async function ExperiencesPage({
             <p className="mt-1 text-xs uppercase tracking-[0.35em] text-white/70">
               {t("quoteRole")}
             </p>
+            <Image
+              src="/images/logo-barolo.svg"
+              alt="Barolo · Vinos por descubrir"
+              width={210}
+              height={72}
+              className="mx-auto mt-10 h-auto w-[130px] brightness-0 invert sm:w-[150px] md:w-[170px]"
+            />
           </div>
         </section>
 
@@ -200,7 +199,7 @@ export default async function ExperiencesPage({
                 {t("infoTitulo")}
               </h2>
             </div>
-            <div className="mx-auto mt-12 grid max-w-4xl grid-cols-1 divide-y divide-[#e3d6b5] md:grid-cols-3 md:divide-x md:divide-y-0">
+            <div className="mt-12 grid grid-cols-1 divide-y divide-[#e3d6b5] md:grid-cols-3 md:divide-x md:divide-y-0">
               {[
                 {
                   titulo: t("reservaTitulo"),
