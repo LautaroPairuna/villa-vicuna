@@ -296,6 +296,7 @@ export default function HabitacionesComponent({ rooms }: { rooms?: RoomContent[]
                     alt={t(`${hab.key}.nombre`)}
                     fill
                     sizes="300px"
+                    unoptimized={hab.coverUrl?.startsWith("/uploads/")}
                     className="object-cover transition-opacity duration-300 group-hover:opacity-80"
                   />
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/35 flex items-center justify-center text-white">

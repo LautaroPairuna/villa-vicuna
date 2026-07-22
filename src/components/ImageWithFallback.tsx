@@ -22,6 +22,10 @@ export function ImageWithFallback({
   return (
     <Image
       {...rest}
+      // Las imágenes subidas (/uploads) ya vienen optimizadas (WebP ≤2000px) y
+      // se sirven por su propia ruta; se saltean el optimizador de next/image
+      // para no depender de él en producción.
+      unoptimized={imgSrc.startsWith("/uploads/")}
       src={imgSrc}
       alt={alt}
       onError={() => {
