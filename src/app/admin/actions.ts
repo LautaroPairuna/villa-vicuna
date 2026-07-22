@@ -88,7 +88,7 @@ export async function setSectionImageAction(formData: FormData): Promise<UploadR
   if (!slug || !file || file.size === 0) return { ok: false, error: "No se recibió ningún archivo." };
 
   try {
-    const media = await saveUpload(file, "sections", slug);
+    const media = await saveUpload(file, "sections", { alt: slug, baseName: slug });
     await prisma.sectionImage.upsert({
       where: { slug },
       update: { mediaId: media.id },
@@ -111,7 +111,7 @@ export async function setSectionVideoAction(formData: FormData): Promise<UploadR
   }
 
   try {
-    const media = await saveUpload(file, "sections", slug);
+    const media = await saveUpload(file, "sections", { alt: slug, baseName: slug });
     await prisma.sectionImage.upsert({
       where: { slug },
       update: { mediaId: media.id },
@@ -132,7 +132,9 @@ export async function setRoomCoverAction(formData: FormData): Promise<UploadResu
   if (!roomId || !file || file.size === 0) return { ok: false, error: "No se recibió ningún archivo." };
 
   try {
-    const media = await saveUpload(file, "rooms", roomId);
+    const room = await prisma.room.findUnique({ where: { id: roomId }, select: { key: true } });
+    const base = room?.key ?? roomId;
+    const media = await saveUpload(file, "rooms", { alt: base, baseName: base });
     await prisma.room.update({ where: { id: roomId }, data: { coverId: media.id } });
     refresh();
     return { ok: true };
@@ -148,7 +150,9 @@ export async function addRoomImageAction(formData: FormData): Promise<UploadResu
   if (!roomId || !file || file.size === 0) return { ok: false, error: "No se recibió ningún archivo." };
 
   try {
-    const media = await saveUpload(file, "rooms", roomId);
+    const room = await prisma.room.findUnique({ where: { id: roomId }, select: { key: true } });
+    const base = room?.key ?? roomId;
+    const media = await saveUpload(file, "rooms", { alt: base, baseName: base });
     const last = await prisma.roomImage.findFirst({
       where: { roomId },
       orderBy: { order: "desc" },
@@ -187,7 +191,9 @@ export async function setReviewCoverAction(formData: FormData): Promise<UploadRe
   if (!reviewId || !file || file.size === 0) return { ok: false, error: "No se recibió ningún archivo." };
 
   try {
-    const media = await saveUpload(file, "reviews", reviewId);
+    const review = await prisma.review.findUnique({ where: { id: reviewId }, select: { key: true } });
+    const base = review?.key ?? reviewId;
+    const media = await saveUpload(file, "reviews", { alt: base, baseName: base });
     await prisma.review.update({ where: { id: reviewId }, data: { coverId: media.id } });
     refresh();
     return { ok: true };
@@ -203,7 +209,9 @@ export async function addReviewImageAction(formData: FormData): Promise<UploadRe
   if (!reviewId || !file || file.size === 0) return { ok: false, error: "No se recibió ningún archivo." };
 
   try {
-    const media = await saveUpload(file, "reviews", reviewId);
+    const review = await prisma.review.findUnique({ where: { id: reviewId }, select: { key: true } });
+    const base = review?.key ?? reviewId;
+    const media = await saveUpload(file, "reviews", { alt: base, baseName: base });
     const last = await prisma.reviewImage.findFirst({
       where: { reviewId },
       orderBy: { order: "desc" },
@@ -368,7 +376,9 @@ export async function setPromotionCoverAction(formData: FormData): Promise<Uploa
   if (!id || !file || file.size === 0) return { ok: false, error: "No se recibió ningún archivo." };
 
   try {
-    const media = await saveUpload(file, "promotions", id);
+    const current = await prisma.promotion.findUnique({ where: { id }, select: { slug: true } });
+    const base = current?.slug ?? id;
+    const media = await saveUpload(file, "promotions", { alt: base, baseName: base });
     const promotion = await prisma.promotion.update({
       where: { id },
       data: { coverId: media.id },
@@ -473,7 +483,9 @@ export async function setSaltaPlaceCoverAction(formData: FormData): Promise<Uplo
   if (!id || !file || file.size === 0) return { ok: false, error: "No se recibió ningún archivo." };
 
   try {
-    const media = await saveUpload(file, "salta", id);
+    const current = await prisma.saltaPlace.findUnique({ where: { id }, select: { slug: true } });
+    const base = current?.slug ?? id;
+    const media = await saveUpload(file, "salta", { alt: base, baseName: base });
     const place = await prisma.saltaPlace.update({
       where: { id },
       data: { coverId: media.id },

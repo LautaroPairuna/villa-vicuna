@@ -57,7 +57,7 @@ export default async function SaltaPlacePage({
       <article className="grid gap-10 bg-white lg:grid-cols-12 lg:items-start">
         {place.coverUrl && (
           <div className="relative aspect-[5/6] overflow-hidden lg:col-span-6">
-            <Image src={place.coverUrl} alt={place.title} fill sizes="50vw" className="object-cover" />
+            <Image src={place.coverUrl} alt={place.title} fill sizes="50vw" unoptimized className="object-cover" />
           </div>
         )}
 

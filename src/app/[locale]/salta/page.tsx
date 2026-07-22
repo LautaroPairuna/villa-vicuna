@@ -75,6 +75,7 @@ export default async function SaltaPage({
                     alt={place.title}
                     fill
                     sizes="(max-width: 1024px) 100vw, 45vw"
+                    unoptimized
                     className="object-cover"
                   />
                 ) : (

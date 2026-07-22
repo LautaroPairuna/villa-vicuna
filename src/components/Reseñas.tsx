@@ -394,6 +394,7 @@ function ReseñaCard({ reseña, onClick }: ReseñaCardProps) {
         alt={cardTitle}
         width={500}
         height={500}
+        unoptimized={reseña.coverUrl?.startsWith("/uploads/")}
         className="w-full h-full object-cover"
       />
       <div className="absolute bottom-4 left-0 right-0 text-white text-center">

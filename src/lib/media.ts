@@ -75,6 +75,26 @@ function looksLikeSvg(buf: Buffer): boolean {
   return head.startsWith("<?xml") || head.startsWith("<svg") || head.includes("<svg");
 }
 
+// Convierte un texto (slug/título) en un nombre de archivo legible: minúsculas,
+// sin acentos, con guiones. Ej.: "Tren a las Nubes" -> "tren-a-las-nubes".
+function slugifyName(input: string): string {
+  return input
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/gu, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 60);
+}
+
+// Nombre final: "<base>-<sufijo>" para que sea legible pero único (el sufijo
+// evita pisar la portada anterior y problemas de caché al reemplazar). Si no
+// hay base legible, cae a un UUID.
+function buildStem(baseName?: string): string {
+  const slug = baseName ? slugifyName(baseName) : "";
+  return slug ? `${slug}-${randomUUID().slice(0, 8)}` : randomUUID();
+}
+
 const EXT_BY_MIME: Record<string, string> = {
   "image/jpeg": ".jpg",
   "image/png": ".png",
@@ -116,7 +136,12 @@ async function writeFileAtomic(dest: string, data: Buffer) {
  *   su contenido real, no según el nombre subido.
  * - SVG: se guarda tal cual.
  */
-export async function saveUpload(file: File, subdir: string, alt = "") {
+export async function saveUpload(
+  file: File,
+  subdir: string,
+  opts: { alt?: string; baseName?: string } = {},
+) {
+  const { alt = "", baseName } = opts;
   if (!file || file.size === 0) {
     throw new Error("El archivo subido está vacío.");
   }
@@ -144,6 +169,8 @@ export async function saveUpload(file: File, subdir: string, alt = "") {
   const dir = path.join(UPLOADS_FS_DIR, subdir);
   await fs.mkdir(dir, { recursive: true });
 
+  // Nombre legible (p.ej. "tren-a-las-nubes-a1b2c3d4") en vez de un UUID pelado.
+  const stem = buildStem(baseName);
   const sharp = rasterMime && !isSvg ? await tryLoadSharp() : null;
 
   let outName: string;
@@ -168,28 +195,28 @@ export async function saveUpload(file: File, subdir: string, alt = "") {
       outBuf = result.data;
       width = result.info.width;
       height = result.info.height;
-      outName = `${randomUUID()}.webp`;
+      outName = `${stem}.webp`;
       mime = "image/webp";
     } catch (err) {
       console.warn("Falló la optimización con sharp; se guarda el original.", err);
       outBuf = buf;
-      outName = `${randomUUID()}${EXT_BY_MIME[rasterMime!] ?? ".bin"}`;
+      outName = `${stem}${EXT_BY_MIME[rasterMime!] ?? ".bin"}`;
       mime = rasterMime!;
     }
   } else if (isVideo) {
     outBuf = buf;
-    outName = `${randomUUID()}${extForVideo(file)}`;
+    outName = `${stem}${extForVideo(file)}`;
     mime = file.type || "application/octet-stream";
   } else if (isSvg) {
     outBuf = buf;
-    outName = `${randomUUID()}.svg`;
+    outName = `${stem}.svg`;
     mime = "image/svg+xml";
   } else {
     // Imagen raster válida pero sin sharp: guardamos el original, nombrando el
     // archivo por su contenido real (no por el nombre subido) para no crear un
     // `.webp` que en realidad sea otro formato.
     outBuf = buf;
-    outName = `${randomUUID()}${EXT_BY_MIME[rasterMime!] ?? ".bin"}`;
+    outName = `${stem}${EXT_BY_MIME[rasterMime!] ?? ".bin"}`;
     mime = rasterMime!;
   }
 
