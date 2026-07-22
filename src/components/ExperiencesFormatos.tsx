@@ -14,13 +14,13 @@ export type ExperienceFormat = {
   resumen: string;
   incluye: string[];
   images: string[];
+  whatsappUrl: string;
 };
 
 type Labels = {
   incluyeLabel: string;
   verMasLabel: string;
   reservarLabel: string;
-  reservationUrl: string;
 };
 
 function FormatoModal({
@@ -112,7 +112,7 @@ function FormatoModal({
                 <span className="text-3xl tracking-[0.08em] text-[#17273f]">{formato.precio}</span>
                 <span className={editorialEyebrow}>{formato.precioNota}</span>
               </div>
-              <a href={labels.reservationUrl} target="_blank" rel="noopener noreferrer" className={editorialPrimaryButton}>
+              <a href={formato.whatsappUrl} target="_blank" rel="noopener noreferrer" className={editorialPrimaryButton}>
                 {labels.reservarLabel}
               </a>
             </div>

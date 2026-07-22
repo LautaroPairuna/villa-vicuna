@@ -159,6 +159,8 @@
     "capacidadLabel": "Personas",
     "incluyeLabel": "Incluye",
     "verMas": "Ver más",
+    "consultarLabel": "Consultar por WhatsApp",
+    "whatsappMensaje": "¡Hola! Me interesa la experiencia «{experiencia}» de Barolo en Villa Vicuña. ¿Podrían darme más información?",
     "formatos": {
       "intima": {
         "nombre": "Carácter del Norte",
