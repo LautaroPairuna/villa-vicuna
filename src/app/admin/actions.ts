@@ -52,10 +52,17 @@ function slugify(value: string) {
 }
 
 function refreshEditorial(kind: "promociones" | "salta", slug?: string) {
-  const basePath = kind === "promociones" ? "/promociones" : "/salta";
-  revalidatePath(basePath);
-  if (slug) {
-    revalidatePath(`${basePath}/${slug}`);
+  // Igual que refresh(): el público es ISR y se sirve por idioma (es sin
+  // prefijo, en/fr con prefijo). Antes solo se revalidaba "/promociones" |
+  // "/salta", así que las variantes /en y /fr quedaban con la caché vieja y la
+  // portada/textos nuevos no aparecían hasta expirar el ISR. Revalidamos las
+  // tres para que el cambio se vea al instante en todos los idiomas.
+  for (const locale of ["es", "en", "fr"] as const) {
+    const prefix = locale === "es" ? "" : `/${locale}`;
+    revalidatePath(`${prefix}/${kind}`);
+    if (slug) {
+      revalidatePath(`${prefix}/${kind}/${slug}`);
+    }
   }
   revalidatePath(`/admin/${kind}`);
 }
