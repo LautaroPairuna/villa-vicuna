@@ -22,7 +22,7 @@ interface EditorialFormProps {
     coverUrl?: string | null;
   };
   coverLabel: string;
-  coverAction: (formData: FormData) => void;
+  coverAction: (formData: FormData) => Promise<{ ok: true } | { ok: false; error: string } | void>;
   coverHidden?: Record<string, string>;
   extraFields?: React.ReactNode;
   deleteAction?: (formData: FormData) => void;

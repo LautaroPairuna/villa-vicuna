@@ -1,45 +1,16 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { useFormStatus } from "react-dom";
+import { useRef, useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { FiUploadCloud } from "react-icons/fi";
 import { toast } from "sonner";
 
-function SubmitButton({
-  label,
-  fileName,
-  onDone,
-  successLabel,
-}: {
-  label: string;
-  fileName: string;
-  onDone: () => void;
-  successLabel: string;
-}) {
-  const { pending } = useFormStatus();
-  const wasPending = useRef(false);
-
-  useEffect(() => {
-    if (wasPending.current && !pending) {
-      toast.success(fileName ? `${successLabel}: ${fileName}` : successLabel);
-      onDone();
-    }
-    wasPending.current = pending;
-  }, [pending, onDone, fileName, successLabel]);
-
-  return (
-    <button
-      type="submit"
-      disabled={pending}
-      className="shrink-0 rounded-2xl bg-[#17273f] px-4 py-3 text-xs uppercase tracking-[0.2em] text-white shadow-[0_14px_32px_rgba(23,39,63,0.18)] transition-all hover:bg-[#24395c] hover:shadow-[0_18px_36px_rgba(23,39,63,0.22)] disabled:cursor-not-allowed disabled:opacity-50"
-    >
-      {pending ? "Subiendo…" : label}
-    </button>
-  );
-}
+type UploadResult = { ok: true } | { ok: false; error: string };
 
 interface UploadFieldProps {
-  action: (formData: FormData) => void;
+  // La acción DEVUELVE un resultado (ok/error). Admitimos void por si alguna
+  // acción legacy no devuelve nada: en ese caso se trata como éxito.
+  action: (formData: FormData) => Promise<UploadResult | void>;
   hidden: Record<string, string>;
   label?: string;
   accept?: string;
@@ -59,6 +30,8 @@ export default function UploadField({
   const [fileName, setFileName] = useState("");
   const [preview, setPreview] = useState<string | null>(null);
   const [dragOver, setDragOver] = useState(false);
+  const [pending, startTransition] = useTransition();
+  const router = useRouter();
 
   function applyFile(f: File | null) {
     setPreview((prev) => {
@@ -85,8 +58,33 @@ export default function UploadField({
     }
   }
 
+  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const name = fileName;
+
+    startTransition(async () => {
+      try {
+        const res = await action(formData);
+        if (res && res.ok === false) {
+          // Error real devuelto por la acción (no se guardó nada).
+          toast.error(res.error);
+          return;
+        }
+        toast.success(name ? `${successLabel}: ${name}` : successLabel);
+        reset();
+        // Re-renderiza los server components (preview de portada, etc.) con el
+        // dato nuevo, ya que la subida no navega.
+        router.refresh();
+      } catch {
+        toast.error("No se pudo subir el archivo. Intentá de nuevo.");
+      }
+    });
+  }
+
   return (
-    <form action={action} className="flex flex-col gap-3 sm:flex-row sm:items-center">
+    <form onSubmit={onSubmit} className="flex flex-col gap-3 sm:flex-row sm:items-center">
       {Object.entries(hidden).map(([k, v]) => (
         <input key={k} type="hidden" name={k} value={v} />
       ))}
@@ -126,12 +124,13 @@ export default function UploadField({
         </span>
       </label>
 
-      <SubmitButton
-        label={label}
-        fileName={fileName}
-        onDone={reset}
-        successLabel={successLabel}
-      />
+      <button
+        type="submit"
+        disabled={pending}
+        className="shrink-0 rounded-2xl bg-[#17273f] px-4 py-3 text-xs uppercase tracking-[0.2em] text-white shadow-[0_14px_32px_rgba(23,39,63,0.18)] transition-all hover:bg-[#24395c] hover:shadow-[0_18px_36px_rgba(23,39,63,0.22)] disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        {pending ? "Subiendo…" : label}
+      </button>
     </form>
   );
 }
