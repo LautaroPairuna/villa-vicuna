@@ -24,41 +24,127 @@ async function tryLoadSharp(): Promise<SharpFn | null> {
   }
 }
 
-function extFromFile(file: File): string {
+// Detecta el tipo de imagen raster por magic bytes. Espeja lo que hace el
+// optimizador de next/image (`detectContentType`): si esto devuelve null, la
+// imagen tampoco podrá servirse por /_next/image y da el error
+// "The requested resource isn't a valid image ... received null". Por eso
+// validamos ACÁ, antes de crear el registro Media, y así no persistimos
+// archivos rotos que después fallan al mostrarse.
+function sniffRasterMime(buf: Buffer): string | null {
+  if (buf.length < 12) return null;
+  // JPEG: FF D8 FF
+  if (buf[0] === 0xff && buf[1] === 0xd8 && buf[2] === 0xff) return "image/jpeg";
+  // PNG: 89 50 4E 47 0D 0A 1A 0A
+  if (
+    buf
+      .subarray(0, 8)
+      .equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))
+  ) {
+    return "image/png";
+  }
+  // GIF: "GIF87a" / "GIF89a"
+  if (buf.subarray(0, 3).toString("latin1") === "GIF") return "image/gif";
+  // WebP: "RIFF"????"WEBP"
+  if (
+    buf.subarray(0, 4).toString("latin1") === "RIFF" &&
+    buf.subarray(8, 12).toString("latin1") === "WEBP"
+  ) {
+    return "image/webp";
+  }
+  // AVIF: caja ISOBMFF "ftyp" con marca avif/avis
+  if (buf.subarray(4, 8).toString("latin1") === "ftyp") {
+    const brand = buf.subarray(8, 12).toString("latin1");
+    if (brand.startsWith("avif") || brand.startsWith("avis")) return "image/avif";
+    // HEIC/HEIF (iPhone): es una imagen real pero next/image NO la sabe servir
+    // y sharp casi nunca la decodifica sin libheif. La marcamos aparte para
+    // rechazarla con un mensaje claro en vez de guardar algo irreproducible.
+    if (
+      brand.startsWith("heic") ||
+      brand.startsWith("heif") ||
+      brand.startsWith("mif1") ||
+      brand.startsWith("msf1")
+    ) {
+      return "image/heic";
+    }
+  }
+  return null;
+}
+
+function looksLikeSvg(buf: Buffer): boolean {
+  const head = buf.subarray(0, 512).toString("utf8").trimStart().toLowerCase();
+  return head.startsWith("<?xml") || head.startsWith("<svg") || head.includes("<svg");
+}
+
+const EXT_BY_MIME: Record<string, string> = {
+  "image/jpeg": ".jpg",
+  "image/png": ".png",
+  "image/webp": ".webp",
+  "image/avif": ".avif",
+  "image/gif": ".gif",
+  "image/svg+xml": ".svg",
+  "video/mp4": ".mp4",
+  "video/webm": ".webm",
+  "video/quicktime": ".mov",
+};
+
+function extForVideo(file: File): string {
   const fromName = path.extname(file.name).toLowerCase();
   if (/^\.[a-z0-9]+$/.test(fromName)) return fromName;
-  const byMime: Record<string, string> = {
-    "image/jpeg": ".jpg",
-    "image/png": ".png",
-    "image/webp": ".webp",
-    "image/avif": ".avif",
-    "image/gif": ".gif",
-    "image/svg+xml": ".svg",
-    "video/mp4": ".mp4",
-    "video/webm": ".webm",
-    "video/quicktime": ".mov",
-  };
-  return byMime[file.type] ?? ".bin";
+  return EXT_BY_MIME[file.type] ?? ".bin";
+}
+
+// Escritura atómica: escribe a un archivo temporal y luego renombra. Evita que
+// una escritura interrumpida (p.ej. disco lleno) deje un archivo .webp truncado
+// o de 0 bytes servido públicamente pero irreproducible.
+async function writeFileAtomic(dest: string, data: Buffer) {
+  const tmp = `${dest}.${randomUUID()}.tmp`;
+  try {
+    await fs.writeFile(tmp, data);
+    await fs.rename(tmp, dest);
+  } catch (err) {
+    await fs.rm(tmp, { force: true }).catch(() => {});
+    throw err;
+  }
 }
 
 /**
  * Guarda un archivo subido y crea su registro Media.
- * - SVG o sharp no disponible: se guarda tal cual.
- * - Resto: se reorienta, redimensiona y convierte a WebP.
+ * - Valida que el contenido sea realmente una imagen/video servible ANTES de
+ *   persistir; si no, lanza un error claro (y no crea un Media roto).
+ * - Imágenes raster: se reorientan, redimensionan y convierten a WebP (o se
+ *   guardan tal cual si sharp no está disponible), nombrando el archivo según
+ *   su contenido real, no según el nombre subido.
+ * - SVG: se guarda tal cual.
  */
 export async function saveUpload(file: File, subdir: string, alt = "") {
   if (!file || file.size === 0) {
-    throw new Error("Archivo vacío");
+    throw new Error("El archivo subido está vacío.");
   }
 
   const buf = Buffer.from(await file.arrayBuffer());
+  if (buf.length === 0) {
+    throw new Error("El archivo subido está vacío.");
+  }
+
+  const rasterMime = sniffRasterMime(buf);
+  const isSvg = file.type === "image/svg+xml" || looksLikeSvg(buf);
+  const isVideo = file.type.startsWith("video/");
+
+  if (rasterMime === "image/heic") {
+    throw new Error(
+      "El formato HEIC/HEIF (fotos de iPhone) no es compatible. Convertí la imagen a JPG, PNG o WebP y volvé a subirla.",
+    );
+  }
+  if (!rasterMime && !isSvg && !isVideo) {
+    throw new Error(
+      "El archivo no es una imagen válida. Subí un JPG, PNG, WebP, AVIF, GIF o SVG.",
+    );
+  }
+
   const dir = path.join(UPLOADS_FS_DIR, subdir);
   await fs.mkdir(dir, { recursive: true });
 
-  const ext = extFromFile(file);
-  const isImage = file.type.startsWith("image/");
-  const isSvg = file.type === "image/svg+xml" || ext === ".svg";
-  const sharp = isImage && !isSvg ? await tryLoadSharp() : null;
+  const sharp = rasterMime && !isSvg ? await tryLoadSharp() : null;
 
   let outName: string;
   let outBuf: Buffer;
@@ -87,17 +173,32 @@ export async function saveUpload(file: File, subdir: string, alt = "") {
     } catch (err) {
       console.warn("Falló la optimización con sharp; se guarda el original.", err);
       outBuf = buf;
-      outName = `${randomUUID()}${ext}`;
-      mime = file.type || "application/octet-stream";
+      outName = `${randomUUID()}${EXT_BY_MIME[rasterMime!] ?? ".bin"}`;
+      mime = rasterMime!;
     }
-  } else {
-    // SVG o sin sharp: guardamos el archivo original.
+  } else if (isVideo) {
     outBuf = buf;
-    outName = `${randomUUID()}${ext}`;
+    outName = `${randomUUID()}${extForVideo(file)}`;
     mime = file.type || "application/octet-stream";
+  } else if (isSvg) {
+    outBuf = buf;
+    outName = `${randomUUID()}.svg`;
+    mime = "image/svg+xml";
+  } else {
+    // Imagen raster válida pero sin sharp: guardamos el original, nombrando el
+    // archivo por su contenido real (no por el nombre subido) para no crear un
+    // `.webp` que en realidad sea otro formato.
+    outBuf = buf;
+    outName = `${randomUUID()}${EXT_BY_MIME[rasterMime!] ?? ".bin"}`;
+    mime = rasterMime!;
   }
 
-  await fs.writeFile(path.join(dir, outName), outBuf);
+  // Guarda final: nunca persistimos un buffer vacío.
+  if (!outBuf || outBuf.length === 0) {
+    throw new Error("No se pudo procesar la imagen (resultado vacío).");
+  }
+
+  await writeFileAtomic(path.join(dir, outName), outBuf);
   const publicPath = path.posix.join("/uploads", subdir, outName);
 
   return prisma.media.create({
