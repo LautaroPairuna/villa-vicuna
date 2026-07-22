@@ -23,6 +23,7 @@ export const revalidate = 86400;
 const LOCALES = ["es", "en", "fr"] as const;
 const DEFAULT_LOCALE = "es";
 const RESERVATION_URL = "https://hotels.cloudbeds.com/reservation/pwSXnD";
+const WHATSAPP_PHONE = "5493874649748";
 const FORMATOS = ["intima", "terroir", "atardecer"] as const;
 
 function localePath(locale: string) {
@@ -94,21 +95,29 @@ export default async function ExperiencesPage({
     terroir: ["/images/experiencias/recorrido-terroir.webp"],
     atardecer: ["/images/experiencias/atardecer-intimo.jpg"],
   };
-  const formatosData = FORMATOS.map((key) => ({
-    key,
-    nombre: t(`formatos.${key}.nombre`),
-    capacidad: t(`formatos.${key}.capacidad`),
-    precio: t(`formatos.${key}.precio`),
-    precioNota: t(`formatos.${key}.precioNota`),
-    resumen: t(`formatos.${key}.resumen`),
-    incluye: t.raw(`formatos.${key}.incluye`) as string[],
-    images: EXPERIENCE_IMAGES[key] ?? ["/images/placeholder.jpg"],
-  }));
+  // El botón del modal abre WhatsApp con una consulta prellenada sobre la
+  // experiencia concreta (no el motor de reservas), así el huésped pregunta
+  // directamente por ese formato. El mensaje sale de las traducciones y usa
+  // el placeholder ICU {experiencia} interpolado por next-intl.
+  const formatosData = FORMATOS.map((key) => {
+    const nombre = t(`formatos.${key}.nombre`);
+    const mensaje = t("whatsappMensaje", { experiencia: nombre });
+    return {
+      key,
+      nombre,
+      capacidad: t(`formatos.${key}.capacidad`),
+      precio: t(`formatos.${key}.precio`),
+      precioNota: t(`formatos.${key}.precioNota`),
+      resumen: t(`formatos.${key}.resumen`),
+      incluye: t.raw(`formatos.${key}.incluye`) as string[],
+      images: EXPERIENCE_IMAGES[key] ?? ["/images/placeholder.jpg"],
+      whatsappUrl: `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(mensaje)}`,
+    };
+  });
   const formatosLabels = {
     incluyeLabel: t("incluyeLabel"),
     verMasLabel: t("verMas"),
-    reservarLabel: t("ctaBotonPrimario"),
-    reservationUrl: RESERVATION_URL,
+    reservarLabel: t("consultarLabel"),
   };
 
   return (

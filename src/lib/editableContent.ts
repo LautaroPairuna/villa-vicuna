@@ -164,6 +164,12 @@ export const EDITABLE_SECTIONS: EditableSection[] = [
       { key: "experiences.formatosDescripcion", label: "Formatos · descripción", type: "textarea" },
       { key: "experiences.incluyeLabel", label: "Formatos · etiqueta «Incluye»", type: "text" },
       { key: "experiences.verMas", label: "Formatos · botón «Ver más»", type: "text" },
+      { key: "experiences.consultarLabel", label: "Formatos · botón «Consultar por WhatsApp»", type: "text" },
+      {
+        key: "experiences.whatsappMensaje",
+        label: "Formatos · mensaje de WhatsApp (usá {experiencia} para el nombre)",
+        type: "textarea",
+      },
       ...EXPERIENCE_FORMATS.flatMap((f) => [
         { key: `experiences.formatos.${f.key}.nombre`, label: `${f.label} · nombre`, type: "text" as const },
         { key: `experiences.formatos.${f.key}.capacidad`, label: `${f.label} · capacidad`, type: "text" as const },

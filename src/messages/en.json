@@ -157,6 +157,8 @@
       "capacidadLabel": "Guests",
       "incluyeLabel": "Includes",
       "verMas": "See more",
+      "consultarLabel": "Ask on WhatsApp",
+      "whatsappMensaje": "Hello! I’m interested in the «{experiencia}» Barolo experience at Villa Vicuña. Could you send me more information?",
       "formatos": {
         "intima": {
           "nombre": "Character of the North",
