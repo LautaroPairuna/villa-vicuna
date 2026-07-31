@@ -22,6 +22,24 @@ module.exports = {
         changefreq: 'daily',
         priority: 1.0,
       },
+      {
+        loc: '/experiencias',
+        lastmod,
+        changefreq: 'weekly',
+        priority: 0.9,
+      },
+      {
+        loc: '/en/experiencias',
+        lastmod,
+        changefreq: 'weekly',
+        priority: 0.7,
+      },
+      {
+        loc: '/fr/experiencias',
+        lastmod,
+        changefreq: 'weekly',
+        priority: 0.7,
+      },
       ...LOCALES.map((l) => ({
         loc: `/${l}`,         // /es  /en  /fr
         lastmod,

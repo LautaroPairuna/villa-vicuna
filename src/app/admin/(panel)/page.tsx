@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { FiFilm, FiInfo, FiStar, FiBookOpen, FiPhone, FiArrowRight } from "react-icons/fi";
-import { TbBed } from "react-icons/tb";
+import { TbBed, TbGlassFull } from "react-icons/tb";
 import type { IconType } from "react-icons";
 import { prisma } from "@/lib/prisma";
 import { PageHeader, DbErrorNotice } from "@/components/admin/ui";
@@ -28,6 +28,7 @@ export default async function AdminOverview() {
     { href: "/admin/resenas", label: "Reseñas", hint: "Textos e imágenes por reseña", icon: FiStar, badge: String(reviewsCount) },
     { href: "/admin/menu", label: "Menú", hint: "Imágenes de la carta y textos", icon: FiBookOpen },
     { href: "/admin/contacto", label: "Contacto", hint: "Imagen y datos de contacto", icon: FiPhone },
+    { href: "/admin/experiencias", label: "Experiencias", hint: "Textos de la degustación Barolo", icon: TbGlassFull },
   ];
 
   return (

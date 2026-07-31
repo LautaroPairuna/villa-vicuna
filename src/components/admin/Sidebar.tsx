@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { FiHome, FiStar, FiLogOut, FiFilm, FiInfo, FiBookOpen, FiPhone, FiExternalLink } from "react-icons/fi";
-import { TbBed } from "react-icons/tb";
+import { TbBed, TbGlassFull } from "react-icons/tb";
 import type { IconType } from "react-icons";
 import { logoutAction } from "@/app/admin/actions";
 
@@ -16,6 +16,7 @@ const NAV: { href: string; label: string; icon: IconType }[] = [
   { href: "/admin/resenas", label: "Reseñas", icon: FiStar },
   { href: "/admin/menu", label: "Menú", icon: FiBookOpen },
   { href: "/admin/contacto", label: "Contacto", icon: FiPhone },
+  { href: "/admin/experiencias", label: "Experiencias", icon: TbGlassFull },
 ];
 
 export default function Sidebar({ email }: { email?: string | null }) {
