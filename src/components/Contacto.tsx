@@ -30,12 +30,11 @@ export default function Contacto({
   const tituloParte2 = match ? match[2] : "";
   const tituloCompleto = `${tituloParte1}${tituloParte2}`;
 
-  const [screenWidth, setScreenWidth] = useState(
-    typeof window !== "undefined" ? window.innerWidth : 0
-  );
+  const [screenWidth, setScreenWidth] = useState(0);
 
   useEffect(() => {
     const onResize = () => setScreenWidth(window.innerWidth);
+    onResize();
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
