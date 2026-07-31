@@ -12,6 +12,19 @@ async function requireAdmin() {
   if (!session?.user) throw new Error("No autorizado");
 }
 
+// Resultado de las subidas de archivos. Se DEVUELVE (no se lanza) para que el
+// mensaje llegue al cliente sin que Next lo censure en producción, y el panel
+// pueda mostrar el motivo real del fallo en vez de un falso "éxito".
+export type UploadResult = { ok: true } | { ok: false; error: string };
+
+function uploadError(err: unknown): UploadResult {
+  const msg =
+    err instanceof Error && err.message
+      ? err.message
+      : "No se pudo guardar el archivo. Intentá de nuevo.";
+  return { ok: false, error: msg };
+}
+
 function refresh() {
   // El sitio público es ISR: regeneramos las páginas por idioma al guardar,
   // así el cambio se ve al instante sin tener que renderizar en cada visita.
@@ -23,66 +36,86 @@ function refresh() {
 }
 
 // ── Secciones (hero, nosotros, contacto, menú) ──────────────────────
-export async function setSectionImageAction(formData: FormData) {
+export async function setSectionImageAction(formData: FormData): Promise<UploadResult> {
   await requireAdmin();
   const slug = String(formData.get("slug") ?? "");
   const file = formData.get("file") as File | null;
-  if (!slug || !file || file.size === 0) return;
+  if (!slug || !file || file.size === 0) return { ok: false, error: "No se recibió ningún archivo." };
 
-  const media = await saveUpload(file, "sections", slug);
-  await prisma.sectionImage.upsert({
-    where: { slug },
-    update: { mediaId: media.id },
-    create: { slug, mediaId: media.id },
-  });
-  refresh();
+  try {
+    const media = await saveUpload(file, "sections", slug);
+    await prisma.sectionImage.upsert({
+      where: { slug },
+      update: { mediaId: media.id },
+      create: { slug, mediaId: media.id },
+    });
+    refresh();
+    return { ok: true };
+  } catch (err) {
+    return uploadError(err);
+  }
 }
 
-export async function setSectionVideoAction(formData: FormData) {
+export async function setSectionVideoAction(formData: FormData): Promise<UploadResult> {
   await requireAdmin();
   const slug = String(formData.get("slug") ?? "");
   const file = formData.get("file") as File | null;
-  if (!slug || !file || file.size === 0) return;
+  if (!slug || !file || file.size === 0) return { ok: false, error: "No se recibió ningún archivo." };
   if (!file.type.startsWith("video/")) {
-    throw new Error("El archivo debe ser un video.");
+    return { ok: false, error: "El archivo debe ser un video." };
   }
 
-  const media = await saveUpload(file, "sections", slug);
-  await prisma.sectionImage.upsert({
-    where: { slug },
-    update: { mediaId: media.id },
-    create: { slug, mediaId: media.id },
-  });
-  refresh();
+  try {
+    const media = await saveUpload(file, "sections", slug);
+    await prisma.sectionImage.upsert({
+      where: { slug },
+      update: { mediaId: media.id },
+      create: { slug, mediaId: media.id },
+    });
+    refresh();
+    return { ok: true };
+  } catch (err) {
+    return uploadError(err);
+  }
 }
 
 // ── Habitaciones ────────────────────────────────────────────────────
-export async function setRoomCoverAction(formData: FormData) {
+export async function setRoomCoverAction(formData: FormData): Promise<UploadResult> {
   await requireAdmin();
   const roomId = String(formData.get("roomId") ?? "");
   const file = formData.get("file") as File | null;
-  if (!roomId || !file || file.size === 0) return;
+  if (!roomId || !file || file.size === 0) return { ok: false, error: "No se recibió ningún archivo." };
 
-  const media = await saveUpload(file, "rooms", roomId);
-  await prisma.room.update({ where: { id: roomId }, data: { coverId: media.id } });
-  refresh();
+  try {
+    const media = await saveUpload(file, "rooms", roomId);
+    await prisma.room.update({ where: { id: roomId }, data: { coverId: media.id } });
+    refresh();
+    return { ok: true };
+  } catch (err) {
+    return uploadError(err);
+  }
 }
 
-export async function addRoomImageAction(formData: FormData) {
+export async function addRoomImageAction(formData: FormData): Promise<UploadResult> {
   await requireAdmin();
   const roomId = String(formData.get("roomId") ?? "");
   const file = formData.get("file") as File | null;
-  if (!roomId || !file || file.size === 0) return;
+  if (!roomId || !file || file.size === 0) return { ok: false, error: "No se recibió ningún archivo." };
 
-  const media = await saveUpload(file, "rooms", roomId);
-  const last = await prisma.roomImage.findFirst({
-    where: { roomId },
-    orderBy: { order: "desc" },
-  });
-  await prisma.roomImage.create({
-    data: { roomId, mediaId: media.id, order: (last?.order ?? -1) + 1 },
-  });
-  refresh();
+  try {
+    const media = await saveUpload(file, "rooms", roomId);
+    const last = await prisma.roomImage.findFirst({
+      where: { roomId },
+      orderBy: { order: "desc" },
+    });
+    await prisma.roomImage.create({
+      data: { roomId, mediaId: media.id, order: (last?.order ?? -1) + 1 },
+    });
+    refresh();
+    return { ok: true };
+  } catch (err) {
+    return uploadError(err);
+  }
 }
 
 export async function deleteRoomImageAction(formData: FormData) {
@@ -102,32 +135,42 @@ export async function moveRoomImageAction(formData: FormData) {
 }
 
 // ── Reseñas ─────────────────────────────────────────────────────────
-export async function setReviewCoverAction(formData: FormData) {
+export async function setReviewCoverAction(formData: FormData): Promise<UploadResult> {
   await requireAdmin();
   const reviewId = String(formData.get("reviewId") ?? "");
   const file = formData.get("file") as File | null;
-  if (!reviewId || !file || file.size === 0) return;
+  if (!reviewId || !file || file.size === 0) return { ok: false, error: "No se recibió ningún archivo." };
 
-  const media = await saveUpload(file, "reviews", reviewId);
-  await prisma.review.update({ where: { id: reviewId }, data: { coverId: media.id } });
-  refresh();
+  try {
+    const media = await saveUpload(file, "reviews", reviewId);
+    await prisma.review.update({ where: { id: reviewId }, data: { coverId: media.id } });
+    refresh();
+    return { ok: true };
+  } catch (err) {
+    return uploadError(err);
+  }
 }
 
-export async function addReviewImageAction(formData: FormData) {
+export async function addReviewImageAction(formData: FormData): Promise<UploadResult> {
   await requireAdmin();
   const reviewId = String(formData.get("reviewId") ?? "");
   const file = formData.get("file") as File | null;
-  if (!reviewId || !file || file.size === 0) return;
+  if (!reviewId || !file || file.size === 0) return { ok: false, error: "No se recibió ningún archivo." };
 
-  const media = await saveUpload(file, "reviews", reviewId);
-  const last = await prisma.reviewImage.findFirst({
-    where: { reviewId },
-    orderBy: { order: "desc" },
-  });
-  await prisma.reviewImage.create({
-    data: { reviewId, mediaId: media.id, order: (last?.order ?? -1) + 1 },
-  });
-  refresh();
+  try {
+    const media = await saveUpload(file, "reviews", reviewId);
+    const last = await prisma.reviewImage.findFirst({
+      where: { reviewId },
+      orderBy: { order: "desc" },
+    });
+    await prisma.reviewImage.create({
+      data: { reviewId, mediaId: media.id, order: (last?.order ?? -1) + 1 },
+    });
+    refresh();
+    return { ok: true };
+  } catch (err) {
+    return uploadError(err);
+  }
 }
 
 export async function deleteReviewImageAction(formData: FormData) {
