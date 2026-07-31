@@ -31,6 +31,12 @@ const TITLE: SplitWrap = { before: "", mid: "<span>", after: "</span>", labelA: 
 const H2_TITLE: SplitWrap = { before: "<h2>", mid: "<span>", after: "</span></h2>", labelA: "Parte 1", labelB: "Parte 2 (resaltada)" };
 const H3_TITLE: SplitWrap = { before: "<h3>", mid: "<span>", after: "</span></h3>", labelA: "Parte 1", labelB: "Parte 2 (resaltada)" };
 
+const EXPERIENCE_FORMATS = [
+  { key: "intima", label: "Carácter del Norte" },
+  { key: "terroir", label: "Recorrido por el Terroir" },
+  { key: "atardecer", label: "Atardecer Íntimo" },
+] as const;
+
 export const EDITABLE_SECTIONS: EditableSection[] = [
   {
     id: "nosotros",
@@ -82,6 +88,70 @@ export const EDITABLE_SECTIONS: EditableSection[] = [
       { key: "reseñas.titulo", label: "Título de la sección", type: "text" },
       { key: "reseñas.descripcion", label: "Descripción", type: "textarea" },
       { key: "reseñas.gracias", label: "Texto de agradecimiento", type: "textarea" },
+    ],
+  },
+  {
+    id: "experiencias",
+    label: "Experiencias Barolo",
+    fields: [
+      // Intro
+      { key: "experiences.eyebrow", label: "Etiqueta superior", type: "text" },
+      { key: "experiences.titulo", label: "Título principal", type: "textarea" },
+      { key: "experiences.descripcion", label: "Descripción principal", type: "textarea" },
+      { key: "experiences.descripcion2", label: "Descripción · segundo párrafo (relato)", type: "textarea" },
+      // Cita
+      { key: "experiences.quote", label: "Cita · texto", type: "textarea" },
+      { key: "experiences.quoteAuthor", label: "Cita · autora", type: "text" },
+      { key: "experiences.quoteRole", label: "Cita · rol", type: "text" },
+      // Encabezado de formatos
+      { key: "experiences.formatosEyebrow", label: "Formatos · etiqueta", type: "text" },
+      { key: "experiences.formatosTitulo", label: "Formatos · título", type: "text" },
+      { key: "experiences.formatosDescripcion", label: "Formatos · descripción", type: "textarea" },
+      { key: "experiences.incluyeLabel", label: "Formatos · etiqueta «Incluye»", type: "text" },
+      { key: "experiences.verMas", label: "Formatos · botón «Ver más»", type: "text" },
+      { key: "experiences.consultarLabel", label: "Formatos · botón «Consultar por WhatsApp»", type: "text" },
+      {
+        key: "experiences.whatsappMensaje",
+        label: "Formatos · mensaje de WhatsApp (usá {experiencia} para el nombre)",
+        type: "textarea",
+      },
+      ...EXPERIENCE_FORMATS.flatMap((f) => [
+        { key: `experiences.formatos.${f.key}.nombre`, label: `${f.label} · nombre`, type: "text" as const },
+        { key: `experiences.formatos.${f.key}.capacidad`, label: `${f.label} · capacidad`, type: "text" as const },
+        { key: `experiences.formatos.${f.key}.precio`, label: `${f.label} · precio`, type: "text" as const },
+        { key: `experiences.formatos.${f.key}.precioNota`, label: `${f.label} · nota de precio`, type: "text" as const },
+        { key: `experiences.formatos.${f.key}.resumen`, label: `${f.label} · resumen`, type: "textarea" as const },
+        { key: `experiences.formatos.${f.key}.incluye.0`, label: `${f.label} · incluye 1`, type: "text" as const },
+        { key: `experiences.formatos.${f.key}.incluye.1`, label: `${f.label} · incluye 2`, type: "text" as const },
+        { key: `experiences.formatos.${f.key}.incluye.2`, label: `${f.label} · incluye 3`, type: "text" as const },
+        { key: `experiences.formatos.${f.key}.incluye.3`, label: `${f.label} · incluye 4`, type: "text" as const },
+      ]),
+      // Tapeo
+      { key: "experiences.tapeoEyebrow", label: "Tapeo · etiqueta", type: "text" },
+      { key: "experiences.tapeoTitulo", label: "Tapeo · título", type: "text" },
+      { key: "experiences.tapeoDescripcion", label: "Tapeo · descripción", type: "textarea" },
+      { key: "experiences.tapeo.0", label: "Tapeo · bocado 1", type: "text" },
+      { key: "experiences.tapeo.1", label: "Tapeo · bocado 2", type: "text" },
+      { key: "experiences.tapeo.2", label: "Tapeo · bocado 3", type: "text" },
+      { key: "experiences.tapeo.3", label: "Tapeo · bocado 4", type: "text" },
+      // Info práctica
+      { key: "experiences.infoEyebrow", label: "Info · etiqueta", type: "text" },
+      { key: "experiences.infoTitulo", label: "Info · título", type: "text" },
+      { key: "experiences.reservaTitulo", label: "Reserva · título", type: "text" },
+      { key: "experiences.reservaTexto", label: "Reserva · texto", type: "textarea" },
+      { key: "experiences.idiomaTitulo", label: "Idioma · título", type: "text" },
+      { key: "experiences.idiomaTexto", label: "Idioma · texto", type: "textarea" },
+      { key: "experiences.botellaTitulo", label: "Botella · título", type: "text" },
+      { key: "experiences.botellaTexto", label: "Botella · texto", type: "textarea" },
+      // CTA de cierre
+      { key: "experiences.ctaEyebrow", label: "CTA · etiqueta", type: "text" },
+      { key: "experiences.ctaTitulo", label: "CTA · título", type: "textarea" },
+      { key: "experiences.ctaTexto", label: "CTA · texto", type: "textarea" },
+      { key: "experiences.ctaBotonPrimario", label: "CTA · botón primario", type: "text" },
+      { key: "experiences.ctaBotonSecundario", label: "CTA · botón secundario", type: "text" },
+      // SEO
+      { key: "experiences.metaTitle", label: "SEO · título", type: "text" },
+      { key: "experiences.metaDescription", label: "SEO · descripción", type: "textarea" },
     ],
   },
 ];

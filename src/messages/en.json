@@ -18,6 +18,7 @@
       "aboutNavbar": "About Us",
       "contactNavbar": "Contact us",
       "menuNavbar": "Menu",
+      "experiencesNavbar": "Experiences",
       "bookNavbar": "Book"
     },
     "about_us": {
@@ -129,6 +130,85 @@
       "email": "salta@villavicuna.com.ar",
       "direccion": "CASEROS 266 - SALTA CAPITAL \nPROV. DE .SALTA - C.P 4400 \nARGENTINA",
       "boton": "Book Now"
+    },
+    "experiences": {
+      "eyebrow": "Barolo · wines to discover",
+      "titulo": "High-altitude wines, told from the inside",
+      "descripcion": "Together with Barolo, a high-altitude wine tasting hosted by its winemaker, Luci Chávez Díaz, on site at the hotel. Intimate and exclusive to our guests.",
+      "descripcion2": "Each session invites you to understand, through wine, the land that shapes it: Salta's altitude, soils and climate.",
+      "quote": "I don't want you to taste a wine. I want you to understand why that wine could only be born here, in this vineyard, at this altitude.",
+      "quoteAuthor": "Luci Chávez Díaz",
+      "quoteRole": "Winemaker and curator at Barolo",
+      "formatosEyebrow": "The experiences",
+      "formatosTitulo": "Three ways to taste altitude",
+      "formatosDescripcion": "Every story shares the same warmth and intimacy. What sets them apart is the journey each selection proposes.",
+      "capacidadLabel": "Guests",
+      "incluyeLabel": "Includes",
+      "verMas": "See more",
+      "consultarLabel": "Ask on WhatsApp",
+      "whatsappMensaje": "Hello! I’m interested in the «{experiencia}» Barolo experience at Villa Vicuña. Could you send me more information?",
+      "formatos": {
+        "intima": {
+          "nombre": "Character of the North",
+          "capacidad": "Up to 4 people",
+          "precio": "USD 80",
+          "precioNota": "per person",
+          "resumen": "One label, one territory, one story told slowly. The wine as the absolute protagonist: an iconic Salta label, its history and its place of origin.",
+          "incluye": [
+            "One iconic Salta label",
+            "Signature tapas",
+            "Hosted in Spanish or English"
+          ]
+        },
+        "terroir": {
+          "nombre": "Terroir Journey",
+          "capacidad": "5 people or more",
+          "precio": "USD 80",
+          "precioNota": "per person",
+          "resumen": "Three labels, three versions of what altitude means. A journey through different Salta terroirs that reveals the diversity behind the idea of altitude.",
+          "incluye": [
+            "Three labels from different terroirs",
+            "Signature tapas",
+            "Hosted in Spanish or English"
+          ]
+        },
+        "atardecer": {
+          "nombre": "Intimate Sunset",
+          "capacidad": "For two only",
+          "precio": "USD 120",
+          "precioNota": "per person",
+          "resumen": "In the most private corner of the hotel, timed to meet the Salta sunset. High-end wines and a food pairing curated to measure for each encounter.",
+          "incluye": [
+            "A selection of high-end wines",
+            "A bespoke curated food pairing",
+            "A corner of the hotel reserved just for you",
+            "Hosted in Spanish or English"
+          ]
+        }
+      },
+      "tapeoEyebrow": "The tapas",
+      "tapeoTitulo": "Small signature bites",
+      "tapeoDescripcion": "Crafted to converse with the wine served, never to overshadow it.",
+      "tapeo": [
+        "Blue cheese profiteroles",
+        "Lacquered pork tartlets",
+        "Almond-crusted cheese truffles",
+        "Stuffed dates wrapped in cured ham"
+      ],
+      "infoEyebrow": "Before you book",
+      "infoTitulo": "Good to know",
+      "reservaTitulo": "Booking",
+      "reservaTexto": "At least 24 hours in advance at the front desk, subject to availability.",
+      "idiomaTitulo": "Language",
+      "idiomaTexto": "Hosted in Spanish or English, as you prefer.",
+      "botellaTitulo": "Fell in love?",
+      "botellaTexto": "The label you tasted can be purchased to take with you.",
+      "ctaEyebrow": "Villa Vicuña",
+      "ctaTitulo": "Book your Barolo tasting",
+      "ctaTexto": "Ask at the front desk for full details on the Barolo experience, available formats, and how it can be tailored to your stay. An experience exclusive to Villa Vicuña guests.",
+      "ctaBotonPrimario": "Book a stay",
+      "ctaBotonSecundario": "Discover the hotel",
+      "metaTitle": "Barolo Experiences · High-altitude wine tasting | Villa Vicuña",
+      "metaDescription": "High-altitude Salta wine tastings, curated and hosted by winemaker Luci Chávez Díaz. An exclusive experience for Villa Vicuña guests."
     }
   }
-  

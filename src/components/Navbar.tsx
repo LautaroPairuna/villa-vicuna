@@ -53,7 +53,28 @@ export default function Navbar({
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  const getPathWithoutLocale = (p: string) => p.replace(/^\/(es|en|fr)/, "");
+  const currentLocale = useMemo(() => {
+    if (pathname.startsWith("/en")) return "en";
+    if (pathname.startsWith("/fr")) return "fr";
+    return "es";
+  }, [pathname]);
+
+  const getPathWithoutLocale = (p: string) => {
+    const nextPath = p.replace(/^\/(es|en|fr)(?=\/|$)/, "");
+    return nextPath || "/";
+  };
+
+  const getLocaleHref = (lang: string) => {
+    const pathWithoutLocale = getPathWithoutLocale(pathname);
+    if (lang === "es") {
+      return pathWithoutLocale;
+    }
+    return pathWithoutLocale === "/" ? `/${lang}` : `/${lang}${pathWithoutLocale}`;
+  };
+
+  const homeHref = currentLocale === "es" ? "/" : `/${currentLocale}`;
+  const pageHref = (segment: string) =>
+    currentLocale === "es" ? `/${segment}` : `/${currentLocale}/${segment}`;
 
   const languages = useMemo(
     () => [
@@ -66,17 +87,16 @@ export default function Navbar({
 
   const menuItems: MenuItem[] = useMemo(
     () => [
-      { type: "link", href: "#about-us", label: t("aboutNavbar") },
-      { type: "link", href: "#reviews", label: t("reviewsNavbar") },
-      { type: "link", href: "#menu", label: t("menuNavbar") },
-      { type: "link", href: "#rooms", label: t("roomsNavbar") },
-      { type: "link", href: "#contact", label: t("contactNavbar") },
+      { type: "link", href: `${homeHref}#about-us`, label: t("aboutNavbar") },
+      { type: "link", href: pageHref("experiencias"), label: t("experiencesNavbar") },
+      { type: "link", href: `${homeHref}#reviews`, label: t("reviewsNavbar") },
+      { type: "link", href: `${homeHref}#menu`, label: t("menuNavbar") },
+      { type: "link", href: `${homeHref}#rooms`, label: t("roomsNavbar") },
+      { type: "link", href: `${homeHref}#contact`, label: t("contactNavbar") },
       { type: "cloudbeds", label: t("bookNavbar") },
     ],
-    [t]
+    [homeHref, t, currentLocale]
   );
-
-  const isExternal = (href: string) => href.startsWith("http");
 
   return (
     <nav
@@ -87,7 +107,7 @@ export default function Navbar({
       <div className="container mx-auto flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center">
-          <Link href="/">
+          <Link href={homeHref}>
             <Image
               src="/images/logo-villa-vicuna.svg"
               alt="Villa Vicuña"
@@ -108,19 +128,13 @@ export default function Navbar({
                 >
                   <li className="whitespace-nowrap">
                     {item.type === "link" ? (
-                      <a
+                      <Link
                         href={item.href}
-                        target={isExternal(item.href) ? "_blank" : undefined}
-                        rel={
-                          isExternal(item.href)
-                            ? "noopener noreferrer"
-                            : undefined
-                        }
                         className="relative group py-1 font-medium text-base transition-colors duration-300 hover:text-gray-800 uppercase text-black"
                       >
                         {item.label}
                         <span className="absolute left-1/2 bottom-0 h-[2px] w-0 bg-black transition-all duration-300 group-hover:w-full group-hover:left-0" />
-                      </a>
+                      </Link>
                     ) : (
                       <CloudbedsBookNow
                         propertyCode={CLOUDBEDS_PROPERTY_CODE}
@@ -153,10 +167,7 @@ export default function Navbar({
           {isDesktop ? (
             <div className="flex items-center gap-x-2">
               {languages.map(({ lang, flag, alt }) => (
-                <Link
-                  key={lang}
-                  href={`/${lang}${getPathWithoutLocale(pathname)}`}
-                >
+                <Link key={lang} href={getLocaleHref(lang)}>
                   <Image
                     src={`/images/icons/${flag}`}
                     alt={alt}
@@ -205,14 +216,14 @@ export default function Navbar({
                   }
                 >
                   {item.type === "link" ? (
-                    <a
+                    <Link
                       href={item.href}
                       className="relative group font-semibold transition-colors duration-300 hover:text-gray-800 uppercase text-black"
                       onClick={() => setMenuOpen(false)}
                     >
                       {item.label}
                       <span className="absolute left-1/2 bottom-0 h-[2px] w-0 bg-black transition-all duration-300 group-hover:w-full group-hover:left-0" />
-                    </a>
+                    </Link>
                   ) : (
                     <CloudbedsBookNow
                       propertyCode={CLOUDBEDS_PROPERTY_CODE}
@@ -234,10 +245,7 @@ export default function Navbar({
 
             <div className="mt-8 flex space-x-4">
               {languages.map(({ lang, flag, alt }) => (
-                <Link
-                  key={lang}
-                  href={`/${lang}${getPathWithoutLocale(pathname)}`}
-                >
+                <Link key={lang} href={getLocaleHref(lang)}>
                   <Image
                     src={`/images/icons/${flag}`}
                     alt={alt}
