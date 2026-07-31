@@ -199,7 +199,29 @@ export default async function ExperiencesPage({
             </div>
             <ExperiencesTapeo items={tapeoItems} />
           </section>
+        </div>
 
+        {/* Testimonio de la enóloga — video de fondo */}
+        <section className="relative mt-20 overflow-hidden bg-black py-24 md:py-32">
+          <video
+            className="absolute inset-0 h-full w-full object-cover object-center"
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+          >
+            <source src="/images/experiencias/video-nueva-seccion-experiencias.mp4" />
+          </video>
+          <div className="absolute inset-0 bg-black/55" />
+          <div className="relative mx-auto max-w-3xl px-6 text-center md:px-10">
+            <p className="text-xl italic leading-relaxed tracking-[0.05em] text-white md:text-2xl">
+              “{t("testimonioTexto")}”
+            </p>
+          </div>
+        </section>
+
+        <div className="mx-auto max-w-[1200px] px-4 md:px-12">
           {/* Info práctica */}
           <section className="mt-20">
             <div className="mx-auto max-w-3xl text-center">

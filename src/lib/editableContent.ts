@@ -134,6 +134,8 @@ export const EDITABLE_SECTIONS: EditableSection[] = [
       { key: "experiences.tapeo.1", label: "Tapeo · bocado 2", type: "text" },
       { key: "experiences.tapeo.2", label: "Tapeo · bocado 3", type: "text" },
       { key: "experiences.tapeo.3", label: "Tapeo · bocado 4", type: "text" },
+      // Testimonio de la enóloga (video de fondo)
+      { key: "experiences.testimonioTexto", label: "Testimonio · texto", type: "textarea" },
       // Info práctica
       { key: "experiences.infoEyebrow", label: "Info · etiqueta", type: "text" },
       { key: "experiences.infoTitulo", label: "Info · título", type: "text" },
