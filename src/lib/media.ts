@@ -6,10 +6,7 @@ import { pipeline } from "node:stream/promises";
 import type { ReadableStream as NodeWebReadableStream } from "node:stream/web";
 import { randomUUID } from "node:crypto";
 import { prisma } from "./prisma";
-
-// Carpeta del sistema donde se escriben los uploads (volumen persistente en
-// prod montado en /app/public/uploads). Las imágenes se sirven en /uploads.
-const UPLOADS_FS_DIR = path.resolve(process.env.UPLOADS_DIR ?? "public/uploads");
+import { UPLOADS_FS_DIR, UPLOADS_URL_PREFIX } from "./uploads";
 
 const MAX_DIMENSION = 2000;
 type SharpFn = typeof import("sharp");
@@ -176,7 +173,7 @@ export async function saveUpload(file: File, subdir: string, alt = "") {
     size = file.size;
   }
 
-  const publicPath = path.posix.join("/uploads", subdir, outName);
+  const publicPath = path.posix.join(UPLOADS_URL_PREFIX, subdir, outName);
 
   return prisma.media.create({
     data: { path: publicPath, alt, width, height, mime, size },
