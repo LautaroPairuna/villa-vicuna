@@ -10,7 +10,7 @@ export function PageHeader({
   subtitle?: string;
 }) {
   return (
-    <div className="mb-8 rounded-[28px] border border-[#e3d6b5] bg-[linear-gradient(135deg,rgba(255,255,255,0.78)_0%,rgba(248,244,234,0.98)_100%)] px-6 py-6 shadow-[0_16px_40px_rgba(23,39,63,0.06)] md:px-8">
+    <div className="mb-8 rounded-[28px] border border-[#e3d6b5] bg-[linear-gradient(180deg,#fcfaf5_0%,#f7f1e6_100%)] px-6 py-6 shadow-[0_16px_40px_rgba(23,39,63,0.06)] md:px-8">
       <p className="mb-3 text-[10px] uppercase tracking-[0.35em] text-[#17273f]/45">
         Villa Vicuna
       </p>
@@ -24,7 +24,7 @@ export function PageHeader({
 // ── Tarjeta blanca ──────────────────────────────────────────────────
 export function Card({ children }: { children: React.ReactNode }) {
   return (
-    <div className="rounded-[28px] border border-[#e7ddc4] bg-[linear-gradient(180deg,rgba(255,255,255,0.96)_0%,rgba(248,244,234,0.92)_100%)] p-5 shadow-[0_20px_45px_rgba(23,39,63,0.07)] md:p-6">
+    <div className="rounded-[28px] border border-[#e7ddc4] bg-[linear-gradient(180deg,#fcfaf5_0%,#f7f1e6_100%)] p-5 shadow-[0_20px_45px_rgba(23,39,63,0.07)] md:p-6">
       {children}
     </div>
   );
@@ -145,7 +145,7 @@ export function ImageField({
   uploadLabel?: string;
 }) {
   return (
-    <div className="flex flex-col gap-5 rounded-[24px] border border-[#efe7d2] bg-white/55 p-4 sm:flex-row">
+    <div className="flex flex-col gap-5 rounded-[24px] border border-[#efe7d2] bg-[#fcfaf5] p-4 sm:flex-row">
       <CoverPreview src={src} alt={label} />
       <div className="flex-1 min-w-0 flex flex-col">
         <FieldLabel>{label}</FieldLabel>
