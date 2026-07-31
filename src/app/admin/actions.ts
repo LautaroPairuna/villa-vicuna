@@ -17,6 +17,7 @@ function refresh() {
   // así el cambio se ve al instante sin tener que renderizar en cada visita.
   for (const locale of ["es", "en", "fr"] as const) {
     revalidatePath(locale === "es" ? "/" : `/${locale}`);
+    revalidatePath(locale === "es" ? "/experiencias" : `/${locale}/experiencias`);
   }
   revalidatePath("/admin");
 }
