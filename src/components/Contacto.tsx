@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import dynamic from "next/dynamic";
+import Reveal from "./Reveal";
 
 const CLOUDBEDS_PROPERTY_CODE = "pwSXnD";
 
@@ -69,11 +70,13 @@ export default function Contacto({
     <section className="relative bg-white text-black px-4 sm:px-12 lg:px-16 py-12 lg:py-20">
       <div className="max-w-[1200px] mx-auto relative">
         {/* Título móvil */}
-        <h2 className="block lg:hidden text-4xl text-center uppercase mb-6">
+        <Reveal as="h2" className="block lg:hidden text-4xl text-center uppercase mb-6">
           {tituloCompleto}
-        </h2>
+        </Reveal>
 
-        {/* Título desktop */}
+        {/* Título desktop. El h2 se posiciona con -translate-x-1/2, así que el
+            reveal va en un contenedor para no pisarle el transform. */}
+        <Reveal variant="fade" duration={900}>
         <h2
           className={`hidden lg:block absolute top-[10%] left-1/2 -translate-x-1/2 text-[2.25em] lg:text-[3.8em] xl:text-[4.8em] uppercase text-center z-10 w-full ${calculateTracking(
             tituloCompleto
@@ -82,6 +85,7 @@ export default function Contacto({
           <span className="text-black">{tituloParte1}</span>
           <span className="text-white">{tituloParte2}</span>
         </h2>
+        </Reveal>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
           {/* Bloque izquierdo: Botón móvil e información de contacto */}
@@ -128,7 +132,8 @@ export default function Contacto({
             </div>
 
             {/* Información de contacto */}
-            <div
+            <Reveal
+              variant="left"
               className="lg:px-4 lg:pb-16 lg:pt-72 p-2 flex flex-col justify-end md:mt-0 mt-4"
               id="contact"
             >
@@ -204,18 +209,22 @@ export default function Contacto({
                   </a>
                 </div>
               </div>
-            </div>
+            </Reveal>
           </div>
 
           {/* Bloque derecho: Imagen */}
-          <div className="relative w-full aspect-[6/7] justify-center items-center lg:flex hidden xl:ms-6 2xl:ms-10">
+          <Reveal
+            variant="right"
+            duration={900}
+            className="relative w-full aspect-[6/7] justify-center items-center lg:flex hidden xl:ms-6 2xl:ms-10"
+          >
             <Image
               src={imageUrl}
               alt="Hotel Interior"
               fill
               className="w-full object-cover"
             />
-          </div>
+          </Reveal>
         </div>
 
         {/* Fondo carta (desktop) */}

@@ -255,10 +255,59 @@ section {
   animation: fadeIn 0.3s ease-out forwards;
 }
 
+/* ========================================
+   REVEAL AL HACER SCROLL
+   El estado inicial lo pone el CSS y la clase .is-visible la agrega
+   <Reveal> (IntersectionObserver). Solo se animan opacity y transform,
+   que van por compositor y no disparan layout.
+   ======================================== */
+.reveal {
+  opacity: 0;
+  transition-property: opacity, transform;
+  transition-duration: var(--reveal-duration, 700ms);
+  transition-delay: var(--reveal-delay, 0ms);
+  /* Curva tipo "ease out expo": arranca rápido y frena suave, que es lo que
+     da la sensación de framer-motion. */
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-up {
+  transform: translate3d(0, 28px, 0);
+}
+.reveal-down {
+  transform: translate3d(0, -28px, 0);
+}
+.reveal-left {
+  transform: translate3d(-32px, 0, 0);
+}
+.reveal-right {
+  transform: translate3d(32px, 0, 0);
+}
+.reveal-zoom {
+  transform: scale(0.94);
+}
+.reveal-fade {
+  transform: none;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+  /* Ya animó: liberamos la capa de compositor. */
+  will-change: auto;
+}
+
 /* Respeto por preferencias de movimiento reducido */
 @media (prefers-reduced-motion: reduce) {
   .cb-link-btn,
   .cb-link-btn::after {
+    transition: none !important;
+  }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
     transition: none !important;
   }
 }

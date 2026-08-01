@@ -11,6 +11,7 @@ import { reseñasDetalles } from "../lib/reseñas";
 import { staticReviewsContent } from "@/lib/staticContent";
 import type { ReviewContent } from "@/lib/contentTypes";
 import { motion, AnimatePresence } from "framer-motion";
+import Reveal from "./Reveal";
 
 // -----------------------------------------------------------------------------
 // Tipos e Interfaces
@@ -446,14 +447,24 @@ export default function ReseñasSection({ reviews }: { reviews?: ReviewContent[]
             className="object-contain"
           />
         </div>
-        <h2 className="xl:text-9xl lg:text-8xl md:text-6xl text-4xl mb-8 md:tracking-[.60em] tracking-[0.1em] text-center ms-5">
+        <Reveal
+          as="h2"
+          duration={900}
+          className="xl:text-9xl lg:text-8xl md:text-6xl text-4xl mb-8 md:tracking-[.60em] tracking-[0.1em] text-center ms-5"
+        >
           {tReseñas("titulo")}
-        </h2>
-        <p className="text-xl leading-7 tracking-[0.03em]">{tReseñas("descripcion")}</p>
-        <p className="text-xl leading-7 tracking-[0.03em]">{tReseñas("gracias")}</p>
+        </Reveal>
+        <Reveal as="p" delay={100} className="text-xl leading-7 tracking-[0.03em]">
+          {tReseñas("descripcion")}
+        </Reveal>
+        <Reveal as="p" delay={180} className="text-xl leading-7 tracking-[0.03em]">
+          {tReseñas("gracias")}
+        </Reveal>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mt-5">
-          {reseñas.map((reseña: ReseñaItem) => (
-            <ReseñaCard key={reseña.id} reseña={reseña} onClick={handleCardClick} />
+          {reseñas.map((reseña: ReseñaItem, i: number) => (
+            <Reveal key={reseña.id} delay={i * 120}>
+              <ReseñaCard reseña={reseña} onClick={handleCardClick} />
+            </Reveal>
           ))}
         </div>
       </div>

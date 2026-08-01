@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Reveal from "./Reveal";
 
 type ModalImage = { src: string; alt: string };
 
@@ -61,7 +62,7 @@ export default function Menu({
     <section id="menu" className="relative bg-white text-black py-32 md:py-8 md:px-12 xl:py-16 xl:px-16">
       <div className="max-w-[1200px] mx-auto flex flex-col lg:flex-row items-center justify-center">
         {/* Título vertical en Desktop */}
-        <div className="hidden lg:flex w-1/6 items-center justify-center relative">
+        <Reveal variant="left" duration={900} className="hidden lg:flex w-1/6 items-center justify-center relative">
           <div className="absolute 2xl:left-[30%] xl:left-[40%] -top-[10%] -translate-x-1/2 -translate-y-1/2 w-[200px] h-[300px] lg:w-[600px] lg:h-[300px] pointer-events-none z-0">
             <Image
               src="/images/fondo-carta-1.svg"
@@ -73,12 +74,15 @@ export default function Menu({
           <h2 className="text-4xl transform -rotate-90 whitespace-nowrap tracking-[0.68em] relative z-10 titulo-menu">
             {t("titulo")}
           </h2>
-        </div>
+        </Reveal>
 
         {/* Imágenes en Desktop */}
         <div className="md:w-5/6 w-full flex justify-center items-center">
           <div className="hidden lg:flex justify-between space-x-6">
-            <div className="cursor-pointer" onClick={() => openModal(foodsUrl, t("menu_image_left"))}>
+            <Reveal
+              className="cursor-pointer"
+              onClick={() => openModal(foodsUrl, t("menu_image_left"))}
+            >
               <Image
                 src={foodsUrl}
                 alt={t("menu_image_left")}
@@ -86,8 +90,12 @@ export default function Menu({
                 height={700}
                 className="shadow-lg max-w-full h-auto border-2 border-black"
               />
-            </div>
-            <div className="cursor-pointer" onClick={() => openModal(drinksUrl, t("menu_image_right"))}>
+            </Reveal>
+            <Reveal
+              delay={140}
+              className="cursor-pointer"
+              onClick={() => openModal(drinksUrl, t("menu_image_right"))}
+            >
               <Image
                 src={drinksUrl}
                 alt={t("menu_image_right")}
@@ -95,7 +103,7 @@ export default function Menu({
                 height={700}
                 className="shadow-lg max-w-full h-auto border-2 border-black"
               />
-            </div>
+            </Reveal>
           </div>
         </div>
 
@@ -109,14 +117,18 @@ export default function Menu({
               className="object-contain"
             />
           </div>
-          <h2 className="text-4xl whitespace-nowrap relative z-10">{t("titulo")}</h2>
-          <a
+          <Reveal as="h2" className="text-4xl whitespace-nowrap relative z-10">
+            {t("titulo")}
+          </Reveal>
+          <Reveal
+            as="a"
+            delay={120}
             href="/menu.pdf"
             download="menu-villa-vicuna.pdf"
             className="bg-[#e3d6b5] text-black px-6 py-3 rounded-md shadow-md text-lg relative z-10"
           >
             {t("boton")}
-          </a>
+          </Reveal>
         </div>
       </div>
 
