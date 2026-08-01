@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import FloatingEditorialActions from "@/components/FloatingEditorialActions";
 import ExperiencesTapeo from "@/components/ExperiencesTapeo";
 import ExperiencesFormatos from "@/components/ExperiencesFormatos";
+import Reveal from "@/components/Reveal";
 import { getSectionImages } from "@/lib/content";
 import {
   editorialBody,
@@ -131,15 +132,23 @@ export default async function ExperiencesPage({
         {/* Intro */}
         <section className="relative bg-white px-4 py-14 md:px-12 md:py-18">
           <div className="relative mx-auto max-w-[1200px]">
-            <h1 className="mx-auto max-w-5xl text-center text-4xl uppercase tracking-[0.2em] text-black sm:text-5xl lg:text-[4.3rem] lg:leading-[1.15]">
+            <Reveal
+              as="h1"
+              duration={900}
+              className="mx-auto max-w-5xl text-center text-4xl uppercase tracking-[0.2em] text-black sm:text-5xl lg:text-[4.3rem] lg:leading-[1.15]"
+            >
               {t("titulo")}
-            </h1>
-            <p className={`mx-auto mt-8 max-w-3xl text-center ${editorialBody}`}>
+            </Reveal>
+            <Reveal as="p" delay={120} className={`mx-auto mt-8 max-w-3xl text-center ${editorialBody}`}>
               {t("descripcion")}
-            </p>
-            <p className="mx-auto mt-6 max-w-3xl text-center text-lg leading-8 tracking-[0.08em] text-black/70">
+            </Reveal>
+            <Reveal
+              as="p"
+              delay={220}
+              className="mx-auto mt-6 max-w-3xl text-center text-lg leading-8 tracking-[0.08em] text-black/70"
+            >
               {t("descripcion2")}
-            </p>
+            </Reveal>
           </div>
         </section>
 
@@ -158,22 +167,28 @@ export default async function ExperiencesPage({
           </video>
           <div className="absolute inset-0 bg-black/55" />
           <div className="relative mx-auto max-w-3xl px-6 text-center md:px-10">
-            <p className="text-2xl italic leading-relaxed tracking-[0.06em] text-white md:text-3xl">
+            <Reveal
+              as="p"
+              duration={1000}
+              className="text-2xl italic leading-relaxed tracking-[0.06em] text-white md:text-3xl"
+            >
               “{t("quote")}”
-            </p>
-            <p className="mt-8 text-sm uppercase tracking-[0.22em] text-white">
+            </Reveal>
+            <Reveal as="p" delay={200} className="mt-8 text-sm uppercase tracking-[0.22em] text-white">
               {t("quoteAuthor")}
-            </p>
-            <p className="mt-1 text-xs uppercase tracking-[0.35em] text-white/70">
+            </Reveal>
+            <Reveal as="p" delay={280} className="mt-1 text-xs uppercase tracking-[0.35em] text-white/70">
               {t("quoteRole")}
-            </p>
-            <Image
-              src="/images/logo-barolo.svg"
-              alt="Barolo · Vinos por descubrir"
-              width={210}
-              height={72}
-              className="mx-auto mt-10 h-auto w-[130px] brightness-0 invert sm:w-[150px] md:w-[170px]"
-            />
+            </Reveal>
+            <Reveal variant="zoom" delay={380}>
+              <Image
+                src="/images/logo-barolo.svg"
+                alt="Barolo · Vinos por descubrir"
+                width={210}
+                height={72}
+                className="mx-auto mt-10 h-auto w-[130px] brightness-0 invert sm:w-[150px] md:w-[170px]"
+              />
+            </Reveal>
           </div>
         </section>
 
@@ -181,13 +196,21 @@ export default async function ExperiencesPage({
           {/* Formatos */}
           <section className="mt-20">
             <div className="mx-auto max-w-3xl text-center">
-              <p className={editorialEyebrow}>{t("formatosEyebrow")}</p>
-              <h2 className="mt-5 text-3xl uppercase tracking-[0.2em] text-black md:text-4xl md:leading-[1.2]">
+              <Reveal as="p" className={editorialEyebrow}>{t("formatosEyebrow")}</Reveal>
+              <Reveal
+                as="h2"
+                delay={100}
+                className="mt-5 text-3xl uppercase tracking-[0.2em] text-black md:text-4xl md:leading-[1.2]"
+              >
                 {t("formatosTitulo")}
-              </h2>
-              <p className={`mx-auto mt-6 max-w-2xl ${editorialBody} text-lg leading-7`}>
+              </Reveal>
+              <Reveal
+                as="p"
+                delay={200}
+                className={`mx-auto mt-6 max-w-2xl ${editorialBody} text-lg leading-7`}
+              >
                 {t("formatosDescripcion")}
-              </p>
+              </Reveal>
             </div>
 
             <ExperiencesFormatos formatos={formatosData} labels={formatosLabels} />
@@ -196,10 +219,14 @@ export default async function ExperiencesPage({
           {/* Tapeo */}
           <section className="relative mt-20 overflow-hidden bg-white">
             <div className="mx-auto max-w-3xl text-center">
-              <p className={editorialEyebrow}>{t("tapeoEyebrow")}</p>
-              <h2 className="mt-5 text-3xl uppercase tracking-[0.2em] text-black md:text-4xl md:leading-[1.2]">
+              <Reveal as="p" className={editorialEyebrow}>{t("tapeoEyebrow")}</Reveal>
+              <Reveal
+                as="h2"
+                delay={100}
+                className="mt-5 text-3xl uppercase tracking-[0.2em] text-black md:text-4xl md:leading-[1.2]"
+              >
                 {t("tapeoTitulo")}
-              </h2>
+              </Reveal>
             </div>
             <ExperiencesTapeo items={tapeoItems} />
           </section>
@@ -219,9 +246,13 @@ export default async function ExperiencesPage({
           </video>
           <div className="absolute inset-0 bg-black/55" />
           <div className="relative mx-auto max-w-3xl px-6 text-center md:px-10">
-            <p className="text-xl italic leading-relaxed tracking-[0.05em] text-white md:text-2xl">
+            <Reveal
+              as="p"
+              duration={1000}
+              className="text-xl italic leading-relaxed tracking-[0.05em] text-white md:text-2xl"
+            >
               “{t("testimonioTexto")}”
-            </p>
+            </Reveal>
           </div>
         </section>
 
@@ -229,10 +260,14 @@ export default async function ExperiencesPage({
           {/* Info práctica */}
           <section className="mt-20">
             <div className="mx-auto max-w-3xl text-center">
-              <p className={editorialEyebrow}>{t("infoEyebrow")}</p>
-              <h2 className="mt-5 text-3xl uppercase tracking-[0.2em] text-black md:text-4xl md:leading-[1.2]">
+              <Reveal as="p" className={editorialEyebrow}>{t("infoEyebrow")}</Reveal>
+              <Reveal
+                as="h2"
+                delay={100}
+                className="mt-5 text-3xl uppercase tracking-[0.2em] text-black md:text-4xl md:leading-[1.2]"
+              >
                 {t("infoTitulo")}
-              </h2>
+              </Reveal>
             </div>
             <div className="mt-12 grid grid-cols-1 divide-y divide-[#e3d6b5] md:grid-cols-3 md:divide-x md:divide-y-0">
               {[
@@ -265,8 +300,9 @@ export default async function ExperiencesPage({
                   ),
                 },
               ].map((info, i) => (
-                <div
+                <Reveal
                   key={i}
+                  delay={i * 120}
                   className="flex flex-col items-center px-6 py-8 text-center md:px-8 md:py-4"
                 >
                   <svg
@@ -285,7 +321,7 @@ export default async function ExperiencesPage({
                   <p className="mt-3 text-base leading-7 tracking-[0.04em] text-black/70">
                     {info.texto}
                   </p>
-                </div>
+                </Reveal>
               ))}
             </div>
           </section>
@@ -296,12 +332,18 @@ export default async function ExperiencesPage({
               <Image src="/images/fondo-carta-6.svg" alt="" fill className="object-contain" />
             </div>
             <div className="relative max-w-4xl">
-              <p className={editorialEyebrow}>{t("ctaEyebrow")}</p>
-              <h2 className="mt-5 text-3xl uppercase tracking-[0.2em] text-black md:text-5xl md:leading-[1.2]">
+              <Reveal as="p" className={editorialEyebrow}>{t("ctaEyebrow")}</Reveal>
+              <Reveal
+                as="h2"
+                delay={100}
+                className="mt-5 text-3xl uppercase tracking-[0.2em] text-black md:text-5xl md:leading-[1.2]"
+              >
                 {t("ctaTitulo")}
-              </h2>
-              <p className={`mt-5 max-w-3xl ${editorialBody}`}>{t("ctaTexto")}</p>
-              <div className="mt-8 flex flex-wrap gap-4">
+              </Reveal>
+              <Reveal as="p" delay={200} className={`mt-5 max-w-3xl ${editorialBody}`}>
+                {t("ctaTexto")}
+              </Reveal>
+              <Reveal delay={300} className="mt-8 flex flex-wrap gap-4">
                 <a
                   href={RESERVATION_URL}
                   target="_blank"
@@ -316,7 +358,7 @@ export default async function ExperiencesPage({
                 >
                   {t("ctaBotonSecundario")}
                 </Link>
-              </div>
+              </Reveal>
             </div>
           </section>
         </div>
