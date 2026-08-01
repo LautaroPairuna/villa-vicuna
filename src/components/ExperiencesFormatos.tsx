@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Reveal from "./Reveal";
 import { ImageWithFallback } from "./ImageWithFallback";
 import { editorialEyebrow, editorialPrimaryButton } from "./editorialUi";
 
@@ -176,8 +177,8 @@ export default function ExperiencesFormatos({
   return (
     <>
       <div className="mt-12 grid gap-8 lg:grid-cols-3">
-        {formatos.map((f) => (
-          <article key={f.key} className="flex flex-col">
+        {formatos.map((f, i) => (
+          <Reveal as="article" key={f.key} delay={i * 120} className="flex flex-col">
             <button
               type="button"
               onClick={() => setSelected(f)}
@@ -209,7 +210,7 @@ export default function ExperiencesFormatos({
                 </span>
               </div>
             </button>
-          </article>
+          </Reveal>
         ))}
       </div>
 

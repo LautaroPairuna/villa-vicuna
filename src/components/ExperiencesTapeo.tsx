@@ -3,6 +3,7 @@
 import { useCallback, useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import Reveal from "./Reveal";
 
 export type TapeoItem = { name: string; src: string };
 
@@ -48,9 +49,11 @@ export default function ExperiencesTapeo({ items }: { items: TapeoItem[] }) {
   return (
     <>
       <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-        {items.map((item) => (
-          <button
+        {items.map((item, i) => (
+          <Reveal
+            as="button"
             key={item.src}
+            delay={i * 110}
             type="button"
             onClick={() => setSelected(item)}
             aria-label={item.name}
@@ -63,7 +66,7 @@ export default function ExperiencesTapeo({ items }: { items: TapeoItem[] }) {
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
               className="object-cover transition-transform duration-500 group-hover:scale-105"
             />
-          </button>
+          </Reveal>
         ))}
       </div>
 
