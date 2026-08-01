@@ -26,12 +26,17 @@ function uploadError(err: unknown): UploadResult {
 }
 
 function refresh() {
-  // El sitio público es ISR: regeneramos las páginas por idioma al guardar,
-  // así el cambio se ve al instante sin tener que renderizar en cada visita.
-  for (const locale of ["es", "en", "fr"] as const) {
-    revalidatePath(locale === "es" ? "/" : `/${locale}`);
-    revalidatePath(locale === "es" ? "/experiencias" : `/${locale}/experiencias`);
-  }
+  // El sitio público es ISR: regeneramos las páginas al guardar, así el cambio
+  // se ve al instante sin tener que renderizar en cada visita.
+  //
+  // Se revalida por PATRÓN de ruta (`/[locale]`) y no por URL: las páginas se
+  // cachean bajo la ruta ya resuelta por el proxy de next-intl (`/es`, `/en`,
+  // `/fr`), incluso las que se piden sin prefijo. Revalidar la URL "/" no
+  // tocaba la entrada "/es", así que el español —el idioma por defecto, el que
+  // ve la mayoría— se quedaba con la versión vieja hasta que vencía el
+  // `revalidate` de 24 h. Con el patrón se cubren todos los locales de una.
+  revalidatePath("/[locale]", "page");
+  revalidatePath("/[locale]/experiencias", "page");
   revalidatePath("/admin");
 }
 

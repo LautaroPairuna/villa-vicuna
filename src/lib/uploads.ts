@@ -3,7 +3,11 @@ import path from "node:path";
 
 // Carpeta del sistema donde se escriben los uploads (volumen persistente en
 // prod montado en /app/public/uploads). Las imágenes se sirven en /uploads.
-export const UPLOADS_FS_DIR = path.resolve(process.env.UPLOADS_DIR ?? "public/uploads");
+// El `turbopackIgnore` evita que el tracer del build interprete este resolve
+// como una lectura dinámica del proyecto y termine trazándolo entero.
+export const UPLOADS_FS_DIR = path.resolve(
+  /* turbopackIgnore: true */ process.env.UPLOADS_DIR ?? "public/uploads",
+);
 
 // Prefijo público bajo el que se sirven (ver src/app/uploads/[...path]/route.ts).
 export const UPLOADS_URL_PREFIX = "/uploads";
