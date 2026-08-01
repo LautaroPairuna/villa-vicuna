@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useWindowSize } from "@/utils/utilsTitle"; // Usamos el hook aquí
+import Reveal from "./Reveal";
 
 export default function Nosotros({ imageUrl = "/images/nosotros.jpg" }: { imageUrl?: string }) {
   const t = useTranslations("about_us");
@@ -59,7 +60,10 @@ export default function Nosotros({ imageUrl = "/images/nosotros.jpg" }: { imageU
       id="about-us"
       className="relative md:py-16 py-8 px-4 md:px-12 bg-white flex flex-col lg:flex-row items-center text-black mx-auto overflow-hidden"
     >
-      <h2
+      <Reveal
+        as="h2"
+        variant="fade"
+        duration={900}
         className="
           lg:absolute relative lg:top-[130px] -top-[10px] w-full text-center
           text-4xl lg:text-5xl z-20 uppercase lg:me-20
@@ -68,7 +72,7 @@ export default function Nosotros({ imageUrl = "/images/nosotros.jpg" }: { imageU
       >
         <span className="block lg:inline text-black me-auto lg:me-8">{tituloParte1}</span> 
         <span className="block lg:inline text-black font-normal lg:me-8">{tituloParte2}</span>
-      </h2>
+      </Reveal>
       <div className="grid grid-cols-12 lg:max-w-[1200px] max-w-full mx-auto text-lg relative w-full min-w-0 lg:gap-0 gap-5">
         {/* Título central */}
 
@@ -94,14 +98,24 @@ export default function Nosotros({ imageUrl = "/images/nosotros.jpg" }: { imageU
           </div>
 
           <div className="text-left">
-            <p className="text-xl leading-7 tracking-[0.12em] relative z-10 break-words">{t("parrafo1")}</p>
-            <p className="text-xl leading-7 tracking-[0.12em] mt-8 relative z-10 break-words">{t("parrafo2")}</p>
-            <p className="text-xl leading-7 tracking-[0.12em] mt-8 relative z-10 break-words">{t("parrafo3")}</p>
+            <Reveal as="p" delay={80} className="text-xl leading-7 tracking-[0.12em] relative z-10 break-words">
+              {t("parrafo1")}
+            </Reveal>
+            <Reveal as="p" delay={180} className="text-xl leading-7 tracking-[0.12em] mt-8 relative z-10 break-words">
+              {t("parrafo2")}
+            </Reveal>
+            <Reveal as="p" delay={280} className="text-xl leading-7 tracking-[0.12em] mt-8 relative z-10 break-words">
+              {t("parrafo3")}
+            </Reveal>
           </div>
         </div>
 
         {/* Imagen */}
-        <div className="relative lg:col-span-6 col-span-12 h-[650px] sm:h-[600px] md:h-[725px] w-full lg:ms-12">
+        <Reveal
+          variant="right"
+          duration={900}
+          className="relative lg:col-span-6 col-span-12 h-[650px] sm:h-[600px] md:h-[725px] w-full lg:ms-12"
+        >
           <Image
             src={imageUrl}
             alt={t("imagenAlt")}
@@ -109,7 +123,7 @@ export default function Nosotros({ imageUrl = "/images/nosotros.jpg" }: { imageU
             sizes="(max-width: 1024px) 100vw, 50vw"
             className="object-cover shadow-lg"
           />
-        </div>
+        </Reveal>
       </div>
     </section>
   );

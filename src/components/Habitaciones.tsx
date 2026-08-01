@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
+import Reveal from "./Reveal";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import type { RoomContent } from "@/lib/contentTypes";
@@ -268,7 +269,7 @@ export default function HabitacionesComponent({ rooms }: { rooms?: RoomContent[]
       </div>
 
       <div className="max-w-[1200px] w-full mx-auto flex flex-col lg:flex-row items-center">
-        <div className="relative lg:hidden mb-6">
+        <Reveal variant="fade" className="relative lg:hidden mb-6">
           <Image
             src="/images/fondo-carta-3-seccion.svg"
             alt="Fondo Carta"
@@ -277,19 +278,23 @@ export default function HabitacionesComponent({ rooms }: { rooms?: RoomContent[]
             className="absolute top-[-15%] left-[60%] transform -translate-x-1/2 -translate-y-1/2 object-contain lg:hidden"
           />
           <h2 className="relative text-4xl text-center mt-16">{t("titulo")}</h2>
-        </div>
-        <div className="hidden lg:flex w-1/12 items-center justify-center mx-20">
+        </Reveal>
+        <Reveal variant="left" duration={900} className="hidden lg:flex w-1/12 items-center justify-center mx-20">
           <h2 className="text-3xl xl:text-4xl 2xl:text-5xl transform -rotate-90 whitespace-nowrap 2xl:tracking-[1em] tracking-[1.2em] text-center mb-10 titulo-menu">
             {t("titulo")}
           </h2>
-        </div>
+        </Reveal>
 
-        
+
         {/* Se envuelve el grid en un contenedor que aplica el scale sin afectar las tarjetas */}
         <div className="">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-20 gap-y-1">
-            {habitaciones.map((hab) => (
-              <div key={hab.id} className="relative mx-auto 2xl:max-w-[300px] xl:max-w-[225px] lg:max-w-[350px]">
+            {habitaciones.map((hab, i) => (
+              <Reveal
+                key={hab.id}
+                delay={i * 110}
+                className="relative mx-auto 2xl:max-w-[300px] xl:max-w-[225px] lg:max-w-[350px]"
+              >
                 <div className="relative 2xl:w-[300px] 2xl:h-[300px] sm:w-[250px] sm:h-[250px] w-[300px] h-[300px] overflow-hidden mx-auto group cursor-pointer" onClick={() => handleSelect(hab.id)}>
                   <Image
                     src={hab.coverUrl}
@@ -325,7 +330,7 @@ export default function HabitacionesComponent({ rooms }: { rooms?: RoomContent[]
                     timeout={4000}
                   />
                 </div>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
