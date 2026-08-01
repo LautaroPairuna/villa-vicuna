@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "./Navbar";
+import Reveal from "./Reveal";
 import FloatingEditorialActions from "./FloatingEditorialActions";
 import {
   editorialBody,
@@ -43,13 +44,18 @@ export default function PublicEditorialLayout({
               />
             </div>
             <div className="relative mx-auto max-w-[1200px]">
-              <p className={`text-center ${editorialEyebrow}`}>{eyebrow}</p>
-              <h1 className="mx-auto mt-6 max-w-5xl text-center text-4xl uppercase tracking-[0.2em] text-black sm:text-5xl lg:text-[4.3rem] lg:leading-[1.15]">
+              <Reveal as="p" className={`text-center ${editorialEyebrow}`}>{eyebrow}</Reveal>
+              <Reveal
+                as="h1"
+                delay={100}
+                duration={900}
+                className="mx-auto mt-6 max-w-5xl text-center text-4xl uppercase tracking-[0.2em] text-black sm:text-5xl lg:text-[4.3rem] lg:leading-[1.15]"
+              >
                 {title}
-              </h1>
-              <p className={`mx-auto mt-8 max-w-3xl text-center ${editorialBody}`}>
+              </Reveal>
+              <Reveal as="p" delay={220} className={`mx-auto mt-8 max-w-3xl text-center ${editorialBody}`}>
                 {description}
-              </p>
+              </Reveal>
             </div>
           </section>
         )}
@@ -67,15 +73,19 @@ export default function PublicEditorialLayout({
               />
             </div>
             <div className="relative max-w-4xl">
-              <p className={editorialEyebrow}>Villa Vicuña</p>
-              <h2 className="mt-5 text-3xl uppercase tracking-[0.2em] text-black md:text-5xl md:leading-[1.2]">
+              <Reveal as="p" className={editorialEyebrow}>Villa Vicuña</Reveal>
+              <Reveal
+                as="h2"
+                delay={100}
+                className="mt-5 text-3xl uppercase tracking-[0.2em] text-black md:text-5xl md:leading-[1.2]"
+              >
                 Hospedate en el corazón de Salta Capital
-              </h2>
-              <p className={`mt-5 max-w-3xl ${editorialBody}`}>
+              </Reveal>
+              <Reveal as="p" delay={200} className={`mt-5 max-w-3xl ${editorialBody}`}>
                 Combiná estas experiencias con una estadía en Villa Vicuña, a pasos del centro histórico
                 y con acceso rápido a los principales paseos de la ciudad.
-              </p>
-              <div className="mt-8 flex flex-wrap gap-4">
+              </Reveal>
+              <Reveal delay={300} className="mt-8 flex flex-wrap gap-4">
                 <Link href="/" className={editorialSecondaryButton}>
                   Conocer el hotel
                 </Link>
@@ -87,7 +97,7 @@ export default function PublicEditorialLayout({
                 >
                   Reservar
                 </a>
-              </div>
+              </Reveal>
             </div>
           </section>
         </div>

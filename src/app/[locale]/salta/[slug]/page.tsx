@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import PublicEditorialLayout from "@/components/PublicEditorialLayout";
+import Reveal from "@/components/Reveal";
 import {
   editorialBody,
   editorialEyebrow,
@@ -56,12 +57,15 @@ export default async function SaltaPlacePage({
     <PublicEditorialLayout eyebrow="Salta Capital" title={place.title} description={place.summary}>
       <article className="grid gap-10 bg-white lg:grid-cols-12 lg:items-start">
         {place.coverUrl && (
-          <div className="relative aspect-[5/6] overflow-hidden lg:col-span-6">
+          <Reveal variant="left" duration={900} className="relative aspect-[5/6] overflow-hidden lg:col-span-6">
             <Image src={place.coverUrl} alt={place.title} fill sizes="50vw" unoptimized className="object-cover" />
-          </div>
+          </Reveal>
         )}
 
-        <div
+        <Reveal
+          variant="right"
+          delay={140}
+          duration={900}
           className={`${place.coverUrl ? "lg:col-span-6" : "lg:col-span-12"} relative px-2 py-4 lg:px-8`}
         >
           <div className="pointer-events-none absolute -left-10 top-1/3 hidden h-[280px] w-[280px] opacity-55 lg:block">
@@ -122,7 +126,7 @@ export default async function SaltaPlacePage({
               </Link>
             </div>
           </div>
-        </div>
+        </Reveal>
       </article>
     </PublicEditorialLayout>
   );

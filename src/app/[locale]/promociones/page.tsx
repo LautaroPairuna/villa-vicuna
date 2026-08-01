@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import EditorialBookButton from "@/components/EditorialBookButton";
 import EditorialVideoHero from "@/components/EditorialVideoHero";
 import PublicEditorialLayout from "@/components/PublicEditorialLayout";
+import Reveal from "@/components/Reveal";
 import {
   editorialBody,
   editorialEyebrow,
@@ -69,11 +70,18 @@ export default async function PromotionsPage({
           <Image src="/images/fondo-carta-2.svg" alt="" fill className="object-contain" />
         </div>
         <div className="relative z-10 mx-auto max-w-4xl text-center">
-          <p className={editorialEyebrow}>{intro["promociones.eyebrow"]}</p>
-          <h2 className="mt-5 text-3xl uppercase tracking-[0.2em] text-black md:text-5xl md:leading-[1.2]">
+          <Reveal as="p" className={editorialEyebrow}>{intro["promociones.eyebrow"]}</Reveal>
+          <Reveal
+            as="h2"
+            delay={100}
+            duration={900}
+            className="mt-5 text-3xl uppercase tracking-[0.2em] text-black md:text-5xl md:leading-[1.2]"
+          >
             {intro["promociones.titulo"]}
-          </h2>
-          <p className={`mt-6 ${editorialBody}`}>{intro["promociones.descripcion"]}</p>
+          </Reveal>
+          <Reveal as="p" delay={220} className={`mt-6 ${editorialBody}`}>
+            {intro["promociones.descripcion"]}
+          </Reveal>
         </div>
       </section>
 
@@ -97,7 +105,9 @@ export default async function PromotionsPage({
               key={promotion.id}
               className="grid items-center gap-8 bg-white py-4 lg:grid-cols-12"
             >
-              <div
+              <Reveal
+                variant={index % 2 === 0 ? "right" : "left"}
+                duration={900}
                 className={`relative aspect-[5/6] overflow-hidden lg:col-span-6 ${
                   index % 2 === 0 ? "lg:order-2" : ""
                 }`}
@@ -116,8 +126,13 @@ export default async function PromotionsPage({
                     <p className="text-lg uppercase tracking-[0.18em]">{promotion.title}</p>
                   </div>
                 )}
-              </div>
-              <div className={`relative lg:col-span-6 ${index % 2 === 0 ? "lg:order-1" : ""}`}>
+              </Reveal>
+              <Reveal
+                variant={index % 2 === 0 ? "left" : "right"}
+                delay={140}
+                duration={900}
+                className={`relative lg:col-span-6 ${index % 2 === 0 ? "lg:order-1" : ""}`}
+              >
                 <div className="pointer-events-none absolute -left-10 top-1/2 hidden h-[280px] w-[280px] -translate-y-1/2 opacity-55 lg:block">
                   <Image src="/images/fondo-carta-2.svg" alt="" fill className="object-contain" />
                 </div>
@@ -143,7 +158,7 @@ export default async function PromotionsPage({
                     />
                   </div>
                 </div>
-              </div>
+              </Reveal>
             </article>
           ))}
         </div>

@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import PublicEditorialLayout from "@/components/PublicEditorialLayout";
+import Reveal from "@/components/Reveal";
 import {
   editorialBody,
   editorialEyebrow,
@@ -64,7 +65,9 @@ export default async function SaltaPage({
               key={place.id}
               className="grid items-center gap-8 bg-white py-4 lg:grid-cols-12"
             >
-              <div
+              <Reveal
+                variant={index % 2 === 0 ? "right" : "left"}
+                duration={900}
                 className={`relative aspect-[5/6] overflow-hidden lg:col-span-6 ${
                   index % 2 === 0 ? "lg:order-2" : ""
                 }`}
@@ -83,8 +86,13 @@ export default async function SaltaPage({
                     <p className="text-lg uppercase tracking-[0.18em]">{place.title}</p>
                   </div>
                 )}
-              </div>
-              <div className={`relative lg:col-span-6 ${index % 2 === 0 ? "lg:order-1" : ""}`}>
+              </Reveal>
+              <Reveal
+                variant={index % 2 === 0 ? "left" : "right"}
+                delay={140}
+                duration={900}
+                className={`relative lg:col-span-6 ${index % 2 === 0 ? "lg:order-1" : ""}`}
+              >
                 <div className="pointer-events-none absolute -left-10 top-1/2 hidden h-[280px] w-[280px] -translate-y-1/2 opacity-55 lg:block">
                   <Image src="/images/fondo-carta-2.svg" alt="" fill className="object-contain" />
                 </div>
@@ -113,7 +121,7 @@ export default async function SaltaPage({
                     )}
                   </div>
                 </div>
-              </div>
+              </Reveal>
             </article>
           ))}
         </div>
