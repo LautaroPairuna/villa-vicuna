@@ -3,40 +3,13 @@
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useState, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import dynamic from "next/dynamic";
 import Reveal from "./Reveal";
+import type { ModalImage } from "./MenuImageModal";
 
-type ModalImage = { src: string; alt: string };
-
-function ImageModal({ image, onClose }: { image: ModalImage; onClose: () => void }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
-      className="fixed inset-0 bg-black/75 flex items-center justify-center z-50"
-      onClick={onClose}
-    >
-      <motion.div
-        initial={{ scale: 0.8 }}
-        animate={{ scale: 1 }}
-        exit={{ scale: 0.8 }}
-        transition={{ duration: 0.3 }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <Image
-          src={image.src}
-          alt={image.alt}
-          width={800}
-          height={1120}
-          quality={100}
-          className="max-w-[95vw] max-h-[95vh] object-contain"
-        />
-      </motion.div>
-    </motion.div>
-  );
-}
+// Se descarga recién cuando el visitante abre una imagen, así la librería de
+// animación (~41 kB gz) no viaja en la carga inicial de la home.
+const MenuImageModal = dynamic(() => import("./MenuImageModal"), { ssr: false });
 
 interface MenuProps {
   foodsUrl?: string;
@@ -49,8 +22,12 @@ export default function Menu({
 }: MenuProps) {
   const t = useTranslations("menu");
   const [selectedImage, setSelectedImage] = useState<ModalImage | null>(null);
+  // Una vez abierto, el modal queda montado para que pueda ejecutarse la
+  // animación de salida (y para no volver a descargar el chunk).
+  const [modalCargado, setModalCargado] = useState(false);
 
   const openModal = useCallback((src: string, alt: string) => {
+    setModalCargado(true);
     setSelectedImage({ src, alt });
   }, []);
 
@@ -133,9 +110,7 @@ export default function Menu({
       </div>
 
       {/* Modal de imagen ampliada */}
-      <AnimatePresence>
-        {selectedImage && <ImageModal image={selectedImage} onClose={closeModal} />}
-      </AnimatePresence>
+      {modalCargado && <MenuImageModal image={selectedImage} onClose={closeModal} />}
     </section>
   );
 }

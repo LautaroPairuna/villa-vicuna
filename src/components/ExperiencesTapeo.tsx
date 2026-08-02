@@ -1,49 +1,19 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import dynamic from "next/dynamic";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
 import Reveal from "./Reveal";
 
-export type TapeoItem = { name: string; src: string };
+export type { TapeoItem } from "./TapeoModal";
+import type { TapeoItem } from "./TapeoModal";
 
-function TapeoModal({ item, onClose }: { item: TapeoItem; onClose: () => void }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 px-4"
-      onClick={onClose}
-    >
-      <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.9, opacity: 0 }}
-        transition={{ duration: 0.3 }}
-        className="relative w-full max-w-3xl"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="relative aspect-[16/9] w-full overflow-hidden bg-black">
-          <Image
-            src={item.src}
-            alt={item.name}
-            fill
-            sizes="(max-width: 768px) 100vw, 768px"
-            className="object-contain"
-          />
-        </div>
-        <p className="mt-4 text-center text-lg uppercase tracking-[0.14em] text-white">
-          {item.name}
-        </p>
-      </motion.div>
-    </motion.div>
-  );
-}
+const TapeoModal = dynamic(() => import("./TapeoModal"), { ssr: false });
+
 
 export default function ExperiencesTapeo({ items }: { items: TapeoItem[] }) {
   const [selected, setSelected] = useState<TapeoItem | null>(null);
+  const [modalCargado, setModalCargado] = useState(false);
   const close = useCallback(() => setSelected(null), []);
 
   return (
@@ -55,7 +25,10 @@ export default function ExperiencesTapeo({ items }: { items: TapeoItem[] }) {
             key={item.src}
             delay={i * 110}
             type="button"
-            onClick={() => setSelected(item)}
+            onClick={() => {
+              setModalCargado(true);
+              setSelected(item);
+            }}
             aria-label={item.name}
             className="group relative aspect-square overflow-hidden bg-white shadow-lg"
           >
@@ -70,9 +43,7 @@ export default function ExperiencesTapeo({ items }: { items: TapeoItem[] }) {
         ))}
       </div>
 
-      <AnimatePresence>
-        {selected && <TapeoModal item={selected} onClose={close} />}
-      </AnimatePresence>
+      {modalCargado && <TapeoModal item={selected} onClose={close} />}
     </>
   );
 }

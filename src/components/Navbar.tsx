@@ -6,8 +6,8 @@ import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
 import dynamic from "next/dynamic";
+import { useMountTransition } from "./useMountTransition";
 
 type LinkItem = { type: "link"; href: string; label: string };
 type CloudbedsItem = { type: "cloudbeds"; label: string };
@@ -45,6 +45,10 @@ export default function Navbar({
   const pathname = usePathname() || "/";
   const [menuOpen, setMenuOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
+  // El drawer se anima con CSS. Era lo único del navbar que usaba
+  // framer-motion, y el navbar está en todas las páginas: la librería entraba
+  // en la carga inicial solo por esto.
+  const drawer = useMountTransition(menuOpen && !isDesktop, 400);
 
   useEffect(() => {
     const onResize = () => setIsDesktop(window.innerWidth >= 1280);
@@ -196,15 +200,13 @@ export default function Navbar({
       </div>
 
       {/* Menú móvil */}
-      <AnimatePresence>
-        {menuOpen && !isDesktop && (
-          <motion.div
-            initial={{ y: "-100%", opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: "-100%", opacity: 0 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="fixed inset-0 bg-[#F8F4EA] flex flex-col items-center justify-center z-50"
-          >
+      {drawer.montado && (
+        <div
+          className={`fixed inset-0 bg-[#F8F4EA] flex flex-col items-center justify-center z-50
+            transition-[translate,opacity] duration-[400ms] ease-in-out ${
+              drawer.visible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
+            }`}
+        >
             <button
               className="absolute top-6 right-6 text-3xl focus:outline-none"
               onClick={() => setMenuOpen(false)}
@@ -264,9 +266,8 @@ export default function Navbar({
                 </Link>
               ))}
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+        </div>
+      )}
     </nav>
   );
 }
