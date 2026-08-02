@@ -8,6 +8,7 @@ import FloatingEditorialActions from "@/components/FloatingEditorialActions";
 import ExperiencesTapeo from "@/components/ExperiencesTapeo";
 import ExperiencesFormatos from "@/components/ExperiencesFormatos";
 import Reveal from "@/components/Reveal";
+import { getSectionImages } from "@/lib/content";
 import {
   editorialBody,
   editorialEyebrow,
@@ -74,27 +75,30 @@ export default async function ExperiencesPage({
   const t = await getTranslations({ locale, namespace: "experiences" });
   const tapeo = t.raw("tapeo") as string[];
 
-  // Cada bocado con su foto (archivos en public/images/experiencias). El orden
-  // coincide con el array `experiences.tapeo` de los mensajes.
+  // Imágenes y videos editables desde /admin/experiencias (tabla SectionImage,
+  // clave por slug). Ante DB vacía o error, getSectionImages() ya cae a las
+  // rutas estáticas de STATIC_SECTION_IMAGES.
+  const sections = await getSectionImages();
+
+  // Cada bocado con su foto. El orden coincide con el array
+  // `experiences.tapeo` de los mensajes.
   const TAPEO_IMAGES = [
-    "/images/experiencias/profitelores-queso.jpg",
-    "/images/experiencias/tartaletas-cerdo.jpg",
-    "/images/experiencias/trufas-queso-almendras.jpg",
-    "/images/experiencias/datiles-jamon-crudo.jpg",
+    sections.experiencias_tapeo_0,
+    sections.experiencias_tapeo_1,
+    sections.experiencias_tapeo_2,
+    sections.experiencias_tapeo_3,
   ];
   const tapeoItems = tapeo.map((name, i) => ({
     name,
     src: TAPEO_IMAGES[i] ?? "/images/placeholder.jpg",
   }));
 
-  // Fotos por experiencia (archivos en public/images/experiencias). Se puede
-  // listar más de una por formato para el carrusel del modal; la primera es la
-  // portada de la tarjeta. Si un archivo falta, ImageWithFallback muestra el
+  // Fotos por experiencia. Si un archivo falta, ImageWithFallback muestra el
   // placeholder, así el layout no se rompe hasta subir las fotos definitivas.
   const EXPERIENCE_IMAGES: Record<string, string[]> = {
-    intima: ["/images/experiencias/degustacion-intima.webp"],
-    terroir: ["/images/experiencias/recorrido-terroir.webp"],
-    atardecer: ["/images/experiencias/atardecer-intimo.jpg"],
+    intima: [sections.experiencias_formato_intima],
+    terroir: [sections.experiencias_formato_terroir],
+    atardecer: [sections.experiencias_formato_atardecer],
   };
   // El botón del modal abre WhatsApp con una consulta prellenada sobre la
   // experiencia concreta (no el motor de reservas), así el huésped pregunta
@@ -159,7 +163,7 @@ export default async function ExperiencesPage({
             preload="metadata"
             poster="/images/hero-poster.webp"
           >
-            <source src="/video-fondo-experiencias.mp4" />
+            <source src={sections.experiencias_cita_video} />
           </video>
           <div className="absolute inset-0 bg-black/55" />
           <div className="relative mx-auto max-w-3xl px-6 text-center md:px-10">
@@ -226,7 +230,33 @@ export default async function ExperiencesPage({
             </div>
             <ExperiencesTapeo items={tapeoItems} />
           </section>
+        </div>
 
+        {/* Testimonio de la enóloga — video de fondo */}
+        <section className="relative mt-20 overflow-hidden bg-black py-24 md:py-32">
+          <video
+            className="absolute inset-0 h-full w-full object-cover object-center"
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+          >
+            <source src={sections.experiencias_testimonio_video} />
+          </video>
+          <div className="absolute inset-0 bg-black/55" />
+          <div className="relative mx-auto max-w-3xl px-6 text-center md:px-10">
+            <Reveal
+              as="p"
+              duration={1000}
+              className="text-xl italic leading-relaxed tracking-[0.05em] text-white md:text-2xl"
+            >
+              “{t("testimonioTexto")}”
+            </Reveal>
+          </div>
+        </section>
+
+        <div className="mx-auto max-w-[1200px] px-4 md:px-12">
           {/* Info práctica */}
           <section className="mt-20">
             <div className="mx-auto max-w-3xl text-center">

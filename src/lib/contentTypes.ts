@@ -38,4 +38,13 @@ export const STATIC_SECTION_IMAGES: SectionImages = {
   contactenos: "/images/contactenos.jpg",
   menu_foods: "/images/menu-foods.svg",
   menu_drinks: "/images/menu-drinks.svg",
+  experiencias_cita_video: "/video-fondo-experiencias.mp4",
+  experiencias_testimonio_video: "/images/experiencias/video-nueva-seccion-experiencias.mp4",
+  experiencias_formato_intima: "/images/experiencias/degustacion-intima.webp",
+  experiencias_formato_terroir: "/images/experiencias/recorrido-terroir.webp",
+  experiencias_formato_atardecer: "/images/experiencias/atardecer-intimo.jpg",
+  experiencias_tapeo_0: "/images/experiencias/profitelores-queso.jpg",
+  experiencias_tapeo_1: "/images/experiencias/tartaletas-cerdo.jpg",
+  experiencias_tapeo_2: "/images/experiencias/trufas-queso-almendras.jpg",
+  experiencias_tapeo_3: "/images/experiencias/datiles-jamon-crudo.jpg",
 };
