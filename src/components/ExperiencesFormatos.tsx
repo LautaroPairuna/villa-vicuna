@@ -119,9 +119,12 @@ function FormatoModal({
             </div>
           </div>
 
-          {/* Carrusel de imágenes (debajo en mobile, a la derecha en desktop) */}
-          <div className="relative flex aspect-[4/3] w-full items-center justify-center lg:col-span-5 lg:aspect-[6/8]">
-            <div className="relative h-full w-full overflow-hidden">
+          {/* Carrusel de imágenes (debajo en mobile, a la derecha en desktop).
+              En mobile manda el aspect ratio; en desktop la columna se estira
+              con el grid para terminar justo donde termina el botón de la
+              columna de texto. */}
+          <div className="relative aspect-[4/3] w-full lg:col-span-5 lg:aspect-auto">
+            <div className="absolute inset-0 overflow-hidden">
               <AnimatePresence custom={direction}>
                 <motion.div
                   key={current}
