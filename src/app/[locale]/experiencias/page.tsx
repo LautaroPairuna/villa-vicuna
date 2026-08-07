@@ -6,13 +6,13 @@ import Navbar from "@/components/Navbar";
 import FloatingEditorialActions from "@/components/FloatingEditorialActions";
 import ExperiencesTapeo from "@/components/ExperiencesTapeo";
 import ExperiencesFormatos from "@/components/ExperiencesFormatos";
+import ExperiencesReservaButton from "@/components/ExperiencesReservaButton";
 import Reveal from "@/components/Reveal";
 import { getSectionImages } from "@/lib/content";
 import {
   editorialBody,
   editorialEyebrow,
   editorialPrimaryButton,
-  editorialSecondaryButton,
 } from "@/components/editorialUi";
 
 // ISR: la página se sirve estática y se regenera cuando el panel guarda textos
@@ -23,7 +23,6 @@ export const revalidate = 86400;
 
 const LOCALES = ["es", "en", "fr"] as const;
 const DEFAULT_LOCALE = "es";
-const RESERVATION_URL = "https://hotels.cloudbeds.com/reservation/pwSXnD";
 const WHATSAPP_PHONE = "5493874649748";
 const FORMATOS = ["intima", "terroir", "atardecer"] as const;
 
@@ -359,14 +358,7 @@ export default async function ExperiencesPage({
                 >
                   {t("ctaBotonPrimario")}
                 </a>
-                <a
-                  href={RESERVATION_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={editorialSecondaryButton}
-                >
-                  {t("ctaBotonSecundario")}
-                </a>
+                <ExperiencesReservaButton />
               </Reveal>
             </div>
           </section>

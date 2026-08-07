@@ -403,6 +403,7 @@ export default function CloudbedsBookNow({
   }
 
   if (variant === "rooms") {
+    const roomsFallbackUrl = directUrlFallback || `https://hotels.cloudbeds.com/${propertyCode}`;
     const ready = () => {
       try {
         const scriptLoaded = typeof document !== "undefined" && document.querySelector('script[src*="cloudbeds"]') !== null;
@@ -427,7 +428,7 @@ export default function CloudbedsBookNow({
               if (!ok) {
                 e.preventDefault();
                 e.stopPropagation();
-                window.open(fallbackUrl2, "_blank", "noopener,noreferrer");
+                window.open(roomsFallbackUrl, "_blank", "noopener,noreferrer");
               }
             });
           }
