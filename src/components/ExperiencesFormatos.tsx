@@ -67,7 +67,7 @@ function FormatoModal({
       onClick={onClose}
     >
       <motion.div
-        className="relative mt-8 max-h-[90vh] w-full max-w-md overflow-y-auto bg-white px-4 pb-6 pt-4 sm:px-8 md:mt-0 md:px-10 md:pb-8 md:pt-10 lg:max-w-5xl"
+        className="relative mt-8 max-h-[90vh] w-full max-w-md overflow-y-auto bg-white px-4 pb-6 pt-4 sm:px-8 md:mt-0 md:px-10 md:pb-8 md:pt-10 lg:max-w-6xl"
         initial={{ scale: 0.92, y: 40, opacity: 0 }}
         animate={{ scale: 1, y: 0, opacity: 1 }}
         exit={{ scale: 0.92, y: 40, opacity: 0 }}
@@ -108,8 +108,11 @@ function FormatoModal({
               ))}
             </ul>
 
-            <div className="mt-7 flex flex-wrap items-center justify-between gap-4 border-t border-black/10 pt-6">
-              <div className="flex items-baseline gap-2">
+            {/* Precio y CTA en la misma línea. En desktop la nota del precio
+                pasa debajo del importe para que el botón entre al lado; el
+                flex-wrap queda de red por si una etiqueta traducida crece. */}
+            <div className="mt-7 flex flex-wrap items-end justify-between gap-4 border-t border-black/10 pt-6">
+              <div className="flex flex-wrap items-baseline gap-x-2 lg:flex-col lg:items-start lg:gap-y-1">
                 <span className="text-3xl tracking-[0.08em] text-[#17273f]">{formato.precio}</span>
                 <span className={editorialEyebrow}>{formato.precioNota}</span>
               </div>
