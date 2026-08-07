@@ -149,8 +149,13 @@ export const EDITABLE_SECTIONS: EditableSection[] = [
       { key: "experiences.ctaEyebrow", label: "CTA · etiqueta", type: "text" },
       { key: "experiences.ctaTitulo", label: "CTA · título", type: "textarea" },
       { key: "experiences.ctaTexto", label: "CTA · texto", type: "textarea" },
-      { key: "experiences.ctaBotonPrimario", label: "CTA · botón primario", type: "text" },
-      { key: "experiences.ctaBotonSecundario", label: "CTA · botón secundario", type: "text" },
+      { key: "experiences.ctaBotonPrimario", label: "CTA · botón primario (consulta por WhatsApp)", type: "text" },
+      { key: "experiences.ctaBotonSecundario", label: "CTA · botón secundario (reserva del hotel)", type: "text" },
+      {
+        key: "experiences.ctaWhatsappMensaje",
+        label: "CTA · mensaje de WhatsApp del botón primario",
+        type: "textarea",
+      },
       // SEO
       { key: "experiences.metaTitle", label: "SEO · título", type: "text" },
       { key: "experiences.metaDescription", label: "SEO · descripción", type: "textarea" },

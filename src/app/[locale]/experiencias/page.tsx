@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import Navbar from "@/components/Navbar";
@@ -119,6 +118,12 @@ export default async function ExperiencesPage({
       whatsappUrl: `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(mensaje)}`,
     };
   });
+  // El CTA de cierre repite el mismo criterio: el botón primario consulta por
+  // la experiencia Barolo en general por WhatsApp y el secundario lleva al
+  // motor de reservas del hotel.
+  const ctaWhatsappUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
+    t("ctaWhatsappMensaje"),
+  )}`;
   const formatosLabels = {
     incluyeLabel: t("incluyeLabel"),
     verMasLabel: t("verMas"),
@@ -344,20 +349,24 @@ export default async function ExperiencesPage({
                 {t("ctaTexto")}
               </Reveal>
               <Reveal delay={300} className="mt-8 flex flex-wrap gap-4">
+                {/* Consulta general por Barolo (WhatsApp) y reserva de estadía
+                    en el motor de reservas. */}
                 <a
-                  href={RESERVATION_URL}
+                  href={ctaWhatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={editorialPrimaryButton}
                 >
                   {t("ctaBotonPrimario")}
                 </a>
-                <Link
-                  href={locale === DEFAULT_LOCALE ? "/" : `/${locale}`}
+                <a
+                  href={RESERVATION_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className={editorialSecondaryButton}
                 >
                   {t("ctaBotonSecundario")}
-                </Link>
+                </a>
               </Reveal>
             </div>
           </section>
