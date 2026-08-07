@@ -46,3 +46,7 @@ next-env.d.ts
 
 # uploads servidos desde el volumen persistente (no se versionan)
 /public/uploads
+
+# reglas para agentes que genera `next dev` en cada corrida
+/AGENTS.md
+/CLAUDE.md
