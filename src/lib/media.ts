@@ -9,6 +9,27 @@ import { prisma } from "./prisma";
 import { UPLOADS_FS_DIR, UPLOADS_URL_PREFIX } from "./uploads";
 
 const MAX_DIMENSION = 2000;
+
+// Ajustes de compresión. Como `images.unoptimized` está activo (ver
+// next.config.js), next/image NO reprocesa nada en runtime: el archivo que
+// queda acá es exactamente el que descarga el visitante, así que el encoder
+// se paga una vez al subir y se cobra en cada visita.
+//
+// Medido sobre las fotos de celular del tapeo (3120x4160, ~1.4 MB):
+//   webp q80 (lo anterior)          427 KB   0.8 s
+//   webp q75 + effort 6 + smart     336 KB   2.2 s  ← elegido
+//   avif q55 effort 4               285 KB  16.2 s  (descartado: subir una
+//                                                    foto tardaría 16 s)
+const WEBP_OPTIONS = {
+  quality: 75,
+  // effort 6 (de 0 a 6) exprime el encoder: más CPU al subir, menos bytes
+  // en cada descarga.
+  effort: 6,
+  // Submuestreo de croma adaptativo: evita el corrimiento de color en bordes
+  // saturados, que es donde más se nota bajar la calidad.
+  smartSubsample: true,
+} as const;
+
 type SharpFn = typeof import("sharp");
 
 // Carga sharp de forma perezosa y tolerante: si el binario nativo no carga
@@ -143,7 +164,7 @@ export async function saveUpload(file: File, subdir: string, alt = "") {
             fit: "inside",
             withoutEnlargement: true,
           })
-          .webp({ quality: 80 })
+          .webp(WEBP_OPTIONS)
           .toBuffer({ resolveWithObject: true });
 
         outName = `${randomUUID()}.webp`;
