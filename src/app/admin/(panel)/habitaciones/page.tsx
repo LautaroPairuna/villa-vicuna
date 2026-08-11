@@ -22,6 +22,13 @@ import TextEditor from "@/components/admin/TextEditor";
 
 export const dynamic = "force-dynamic";
 
+const GLOBAL_ROOM_TEXT_KEYS = new Set([
+  "rooms.titulo",
+  "rooms.ver_mas",
+  "rooms.standard",
+  "rooms.superior",
+]);
+
 function loadRooms() {
   return prisma.room.findMany({
     orderBy: { order: "asc" },
@@ -43,14 +50,20 @@ export default async function HabitacionesPage() {
   }
 
   const texts = await getSectionTexts("habitaciones");
+  const globalTexts = texts
+    ? {
+        ...texts.section,
+        fields: texts.section.fields.filter((field) => GLOBAL_ROOM_TEXT_KEYS.has(field.key)),
+      }
+    : null;
 
   return (
     <div className="max-w-5xl">
       <PageHeader title="Habitaciones" subtitle="Textos de la sección, portada y carrusel de cada habitación." />
 
-      {texts && (
+      {texts && globalTexts && (
         <div className="mb-8">
-          <TextEditor section={texts.section} values={texts.values} action={saveTranslationsAction} />
+          <TextEditor section={globalTexts} values={texts.values} action={saveTranslationsAction} />
         </div>
       )}
 
@@ -106,6 +119,24 @@ export default async function HabitacionesPage() {
                 </div>
               </div>
             </div>
+
+            {texts && (
+              <div className="mt-8 border-t border-[#e7ddc4] pt-6">
+                <FieldLabel>Textos de esta habitación</FieldLabel>
+                <div className="mt-3">
+                  <TextEditor
+                    section={{
+                      ...texts.section,
+                      fields: texts.section.fields.filter((field) =>
+                        field.key.startsWith(`rooms.${room.key}.`),
+                      ),
+                    }}
+                    values={texts.values}
+                    action={saveTranslationsAction}
+                  />
+                </div>
+              </div>
+            )}
           </Card>
         ))}
       </div>

@@ -35,6 +35,8 @@ model Media {
 
   roomCovers    Room[]         @relation("RoomCover")
   reviewCovers  Review[]       @relation("ReviewCover")
+  promotionCovers Promotion[]
+  saltaPlaceCovers SaltaPlace[]
   roomImages    RoomImage[]
   reviewImages  ReviewImage[]
   sectionImages SectionImage[]
@@ -111,4 +113,51 @@ model Translation {
 
   @@unique([locale, key])
   @@index([locale])
+}
+
+model Promotion {
+  id             String   @id @default(cuid())
+  slug           String   @unique
+  title          String
+  summary        String   @db.Text
+  content        String   @db.Text
+  coverId        String?
+  cover          Media?   @relation(fields: [coverId], references: [id])
+  ctaLabel       String?
+  ctaHref        String?
+  validFrom      DateTime?
+  validTo        DateTime?
+  seoTitle       String?
+  seoDescription String?  @db.Text
+  published      Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([published])
+  @@index([validFrom])
+}
+
+model SaltaPlace {
+  id                  String   @id @default(cuid())
+  slug                String   @unique
+  title               String
+  category            String
+  summary             String   @db.Text
+  content             String   @db.Text
+  coverId             String?
+  cover               Media?   @relation(fields: [coverId], references: [id])
+  address             String?  @db.Text
+  mapsUrl             String?
+  distanceFromHotel   String?
+  recommendedDuration String?
+  seoTitle            String?
+  seoDescription      String?  @db.Text
+  featured            Boolean  @default(false)
+  published           Boolean  @default(false)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@index([published])
+  @@index([featured])
+  @@index([category])
 }

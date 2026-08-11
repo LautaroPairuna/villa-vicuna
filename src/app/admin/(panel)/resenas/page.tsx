@@ -22,6 +22,12 @@ import TextEditor from "@/components/admin/TextEditor";
 
 export const dynamic = "force-dynamic";
 
+const GLOBAL_REVIEW_TEXT_KEYS = new Set([
+  "reseñas.titulo",
+  "reseñas.descripcion",
+  "reseñas.gracias",
+]);
+
 function loadReviews() {
   return prisma.review.findMany({
     orderBy: { order: "asc" },
@@ -43,14 +49,20 @@ export default async function ResenasPage() {
   }
 
   const texts = await getSectionTexts("resenas");
+  const globalTexts = texts
+    ? {
+        ...texts.section,
+        fields: texts.section.fields.filter((field) => GLOBAL_REVIEW_TEXT_KEYS.has(field.key)),
+      }
+    : null;
 
   return (
     <div className="max-w-5xl">
       <PageHeader title="Reseñas" subtitle="Textos de la sección, portada y carrusel de cada reseña." />
 
-      {texts && (
+      {texts && globalTexts && (
         <div className="mb-8">
-          <TextEditor section={texts.section} values={texts.values} action={saveTranslationsAction} />
+          <TextEditor section={globalTexts} values={texts.values} action={saveTranslationsAction} />
         </div>
       )}
 
@@ -104,6 +116,24 @@ export default async function ResenasPage() {
                 </div>
               </div>
             </div>
+
+            {texts && (
+              <div className="mt-8 border-t border-[#e7ddc4] pt-6">
+                <FieldLabel>Textos de este bloque</FieldLabel>
+                <div className="mt-3">
+                  <TextEditor
+                    section={{
+                      ...texts.section,
+                      fields: texts.section.fields.filter((field) =>
+                        field.key.startsWith(`${review.key}.`),
+                      ),
+                    }}
+                    values={texts.values}
+                    action={saveTranslationsAction}
+                  />
+                </div>
+              </div>
+            )}
           </Card>
         ))}
       </div>

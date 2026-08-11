@@ -395,7 +395,22 @@ section {
 
 /* Variante para navegación */
 .cb-link-btn.cb-link-btn--nav {
-  margin: 0 0.125rem !important;
+  margin: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  vertical-align: middle !important;
+  padding: 0 !important;
+  min-height: auto !important;
+  font-size: 0.875rem !important;
+  line-height: inherit !important;
+  font-weight: inherit !important;
+}
+
+@media (min-width: 1536px) {
+  .cb-link-btn.cb-link-btn--nav {
+    font-size: 1rem !important;
+  }
 }
 
 /* ========================================
@@ -492,10 +507,10 @@ footer {
   /* Estilos específicos para botones Cloudbeds en móvil - igualar a los enlaces */
   .cb-link-btn.cb-link-btn--nav {
     font-size: 1.25rem !important;        /* text-xl igual que los enlaces */
-    font-weight: 600 !important;          /* font-semibold igual que los enlaces */
     margin: 0 !important;
     padding: 0 !important;                /* Sin padding extra para igualar */
-    line-height: 1.5 !important;         /* line-height consistente */
+    line-height: inherit !important;
+    font-weight: inherit !important;
   }
 }
 
@@ -534,9 +549,9 @@ footer {
   /* Estilos específicos para botones Cloudbeds en móvil - igualar a los enlaces */
   .cb-link-btn.cb-link-btn--nav {
     font-size: 1.25rem !important;        /* text-xl igual que los enlaces */
-    font-weight: 600 !important;          /* font-semibold igual que los enlaces */
     margin: 0 !important;
     padding: 0 !important;                /* Sin padding extra para igualar */
-    line-height: 1.5 !important;         /* line-height consistente */
+    line-height: inherit !important;
+    font-weight: inherit !important;
   }
 }

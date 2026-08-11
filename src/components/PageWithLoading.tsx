@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import Navbar from "./Navbar";
 import Hero from "./Hero";
-import WhatsappLink from "./WhatsappLink";
+import FloatingEditorialActions from "./FloatingEditorialActions";
 import Contacto from "./Contacto";
 import type {
   RoomContent,
@@ -54,7 +54,7 @@ export default function PageWithLoading({
         <Habitaciones rooms={rooms} />
       </main>
 
-      <WhatsappLink />
+      <FloatingEditorialActions />
 
       <footer>
         <Contacto isCloudbedsReady={isCloudbedsReady} imageUrl={sections.contactenos} />
