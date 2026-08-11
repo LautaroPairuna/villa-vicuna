@@ -32,7 +32,9 @@ export default async function LocalePage({ params }: LocalePageProps) {
   return <PageWithLoading rooms={rooms} reviews={reviews} sections={sections} />;
 }
 
-/* Rutas estáticas para SSG de los locales */
 export function generateStaticParams() {
-  return [{ locale: "es" }, { locale: "en" }, { locale: "fr" }];
+  // No prehorneamos en el build: ahí no hay DB y la home quedaría cacheada con
+  // el contenido base. Se generan on-demand (con la base ya disponible) y
+  // quedan cacheadas por ISR. dynamicParams (true) permite es | en | fr.
+  return [];
 }

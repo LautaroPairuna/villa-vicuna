@@ -140,7 +140,7 @@ export function ImageField({
 }: {
   label: string;
   src?: string | null;
-  action: (formData: FormData) => void;
+  action: (formData: FormData) => Promise<{ ok: true } | { ok: false; error: string } | void>;
   hidden: Record<string, string>;
   uploadLabel?: string;
 }) {

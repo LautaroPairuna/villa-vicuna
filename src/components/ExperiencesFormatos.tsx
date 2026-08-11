@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Reveal from "./Reveal";
 import { ImageWithFallback } from "./ImageWithFallback";
 import { editorialEyebrow, editorialPrimaryButton } from "./editorialUi";
 
@@ -66,7 +67,7 @@ function FormatoModal({
       onClick={onClose}
     >
       <motion.div
-        className="relative mt-8 max-h-[90vh] w-full max-w-md overflow-y-auto bg-white px-4 pb-6 pt-4 sm:px-8 md:mt-0 md:px-10 md:pb-8 md:pt-10 lg:max-w-5xl"
+        className="relative mt-8 max-h-[90vh] w-full max-w-md overflow-y-auto bg-white px-4 pb-6 pt-4 sm:px-8 md:mt-0 md:px-10 md:pb-8 md:pt-10 lg:max-w-6xl"
         initial={{ scale: 0.92, y: 40, opacity: 0 }}
         animate={{ scale: 1, y: 0, opacity: 1 }}
         exit={{ scale: 0.92, y: 40, opacity: 0 }}
@@ -107,8 +108,11 @@ function FormatoModal({
               ))}
             </ul>
 
-            <div className="mt-7 flex flex-wrap items-center justify-between gap-4 border-t border-black/10 pt-6">
-              <div className="flex items-baseline gap-2">
+            {/* Precio y CTA en la misma línea. En desktop la nota del precio
+                pasa debajo del importe para que el botón entre al lado; el
+                flex-wrap queda de red por si una etiqueta traducida crece. */}
+            <div className="mt-7 flex flex-wrap items-end justify-between gap-4 border-t border-black/10 pt-6">
+              <div className="flex flex-wrap items-baseline gap-x-2 lg:flex-col lg:items-start lg:gap-y-1">
                 <span className="text-3xl tracking-[0.08em] text-[#17273f]">{formato.precio}</span>
                 <span className={editorialEyebrow}>{formato.precioNota}</span>
               </div>
@@ -118,9 +122,12 @@ function FormatoModal({
             </div>
           </div>
 
-          {/* Carrusel de imágenes (debajo en mobile, a la derecha en desktop) */}
-          <div className="relative flex aspect-[4/3] w-full items-center justify-center lg:col-span-5 lg:aspect-[6/8]">
-            <div className="relative h-full w-full overflow-hidden">
+          {/* Carrusel de imágenes (debajo en mobile, a la derecha en desktop).
+              En mobile manda el aspect ratio; en desktop la columna se estira
+              con el grid para terminar justo donde termina el botón de la
+              columna de texto. */}
+          <div className="relative aspect-[4/3] w-full lg:col-span-5 lg:aspect-auto">
+            <div className="absolute inset-0 overflow-hidden">
               <AnimatePresence custom={direction}>
                 <motion.div
                   key={current}
@@ -176,8 +183,8 @@ export default function ExperiencesFormatos({
   return (
     <>
       <div className="mt-12 grid gap-8 lg:grid-cols-3">
-        {formatos.map((f) => (
-          <article key={f.key} className="flex flex-col">
+        {formatos.map((f, i) => (
+          <Reveal as="article" key={f.key} delay={i * 120} className="flex flex-col">
             <button
               type="button"
               onClick={() => setSelected(f)}
@@ -209,7 +216,7 @@ export default function ExperiencesFormatos({
                 </span>
               </div>
             </button>
-          </article>
+          </Reveal>
         ))}
       </div>
 

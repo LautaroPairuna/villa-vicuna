@@ -208,6 +208,11 @@ export default async function LocaleLayout({
             fbq('track', 'PageView');
           `}
         </Script>
+        {/* Sin JS no corre el IntersectionObserver que revela las secciones:
+            las mostramos de una en vez de dejarlas invisibles. */}
+        <noscript>
+          <style>{`.reveal{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
       </head>
 
       <body>

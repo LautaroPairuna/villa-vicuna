@@ -41,6 +41,14 @@ En el servicio de la app, montá un volumen en:
 Ahí se guardan las imágenes que se suban desde el panel. Se sirven públicamente bajo
 `/uploads/...`. **Sin este volumen, las imágenes se pierden en cada redeploy.**
 
+> **Cómo se sirven:** Next indexa `public/` una sola vez, al arrancar el server, así que
+> los archivos que el panel escribe después de ese momento no los encuentra (404 hasta el
+> siguiente redeploy, aunque el archivo esté en el volumen). Por eso `/uploads/...` lo
+> atiende el route handler `src/app/uploads/[...path]/route.ts`, que lee del disco en cada
+> request: la imagen recién subida se ve al instante. La carpeta la define `UPLOADS_DIR`
+> (default `public/uploads`), y el handler lee de ahí, así que si algún día se mueve el
+> volumen fuera de `public/` sigue funcionando con solo cambiar esa variable.
+
 ## 4. Dominio y TLS
 
 Asigná el dominio (`villavicuna.com.ar`) en Dokploy; el proxy (Traefik) gestiona el

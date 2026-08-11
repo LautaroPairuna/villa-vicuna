@@ -1,5 +1,6 @@
 import "server-only";
 import { prisma } from "./prisma";
+import { dbRead } from "./dbRead";
 import { getSection } from "./editableContent";
 import es from "../messages/es.json";
 import en from "../messages/en.json";
@@ -30,15 +31,17 @@ export async function applyTranslationOverrides(
   locale: string,
   messages: Record<string, unknown>,
 ): Promise<Record<string, unknown>> {
-  try {
-    const rows = await prisma.translation.findMany({ where: { locale } });
-    if (!rows.length) return messages;
-    const merged = structuredClone(messages);
-    for (const r of rows) setByPath(merged, r.key, r.value);
-    return merged;
-  } catch {
-    return messages;
-  }
+  return dbRead(
+    `traducciones (${locale})`,
+    async () => {
+      const rows = await prisma.translation.findMany({ where: { locale } });
+      if (!rows.length) return messages;
+      const merged = structuredClone(messages);
+      for (const r of rows) setByPath(merged, r.key, r.value);
+      return merged;
+    },
+    messages,
+  );
 }
 
 // Valor por defecto (del JSON) para una clave.
@@ -55,14 +58,12 @@ export async function getEffectiveValues(
 ): Promise<Record<string, string>> {
   const out: Record<string, string> = {};
   for (const k of keys) out[k] = baseValue(locale, k);
-  try {
-    const rows = await prisma.translation.findMany({
-      where: { locale, key: { in: keys } },
-    });
-    for (const r of rows) out[r.key] = r.value;
-  } catch {
-    // se mantienen los valores base
-  }
+  const rows = await dbRead(
+    `textos efectivos (${locale})`,
+    () => prisma.translation.findMany({ where: { locale, key: { in: keys } } }),
+    [],
+  );
+  for (const r of rows) out[r.key] = r.value;
   return out;
 }
 
