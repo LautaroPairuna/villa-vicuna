@@ -258,15 +258,17 @@ export default async function ExperiencesPage({
               “{t("testimonioTexto")}”
             </Reveal>
             {/* Logo de la bodega que fundó, cerrando su relato en primera
-                persona (el de Barolo cierra la sección de la cita). El SVG es
-                casi negro, así que se invierte para leerse sobre el video. */}
+                persona (el de Barolo cierra la sección de la cita). Usa la
+                variante -blanco, con los fills ya resueltos para fondo oscuro:
+                un filtro CSS pintaría también el cactus y lo dejaría como una
+                mancha sin el detalle que le da forma. */}
             <Reveal variant="zoom" delay={280}>
               <Image
-                src="/images/logo-bodega-yacochuya.svg"
+                src="/images/logo-bodega-yacochuya-blanco.svg"
                 alt="Bodega Yacochuya"
                 width={220}
                 height={333}
-                className="mx-auto mt-10 h-auto w-[86px] brightness-0 invert sm:w-[96px] md:w-[108px]"
+                className="mx-auto mt-10 h-auto w-[86px] sm:w-[96px] md:w-[108px]"
               />
             </Reveal>
           </div>
