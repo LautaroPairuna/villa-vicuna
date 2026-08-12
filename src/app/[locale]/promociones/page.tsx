@@ -4,12 +4,12 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 import EditorialBookButton from "@/components/EditorialBookButton";
 import EditorialVideoHero from "@/components/EditorialVideoHero";
+import PromocionDetalle from "@/components/PromocionDetalle";
 import PublicEditorialLayout from "@/components/PublicEditorialLayout";
 import Reveal from "@/components/Reveal";
 import {
   editorialBody,
   editorialEyebrow,
-  editorialPrimaryButton,
   editorialSecondaryButton,
 } from "@/components/editorialUi";
 import { getSectionImages } from "@/lib/content";
@@ -32,6 +32,17 @@ function formatDate(date: Date | null) {
     month: "long",
     year: "numeric",
   }).format(date);
+}
+
+// Vigencia ya formateada: la usa la tarjeta y viaja igual al modal, para que el
+// detalle no vuelva a formatear fechas con la zona horaria del visitante.
+function vigencia(promotion: { validFrom: Date | null; validTo: Date | null }) {
+  const desde = formatDate(promotion.validFrom);
+  const hasta = formatDate(promotion.validTo);
+  const textos: string[] = [];
+  if (desde) textos.push(`Desde ${desde}`);
+  if (hasta) textos.push(`Hasta ${hasta}`);
+  return textos;
 }
 
 export default async function PromotionsPage({
@@ -103,6 +114,7 @@ export default async function PromotionsPage({
           {promotions.map((promotion, index) => (
             <article
               key={promotion.id}
+              id={promotion.slug}
               className="grid items-center gap-8 bg-white py-4 lg:grid-cols-12"
             >
               <Reveal
@@ -138,19 +150,26 @@ export default async function PromotionsPage({
                 </div>
                 <div className="relative z-10 px-2 py-6 lg:px-8">
                   <div className={`flex flex-wrap gap-3 ${editorialEyebrow}`}>
-                  {formatDate(promotion.validFrom) && (
-                    <span>Desde {formatDate(promotion.validFrom)}</span>
-                  )}
-                  {formatDate(promotion.validTo) && <span>Hasta {formatDate(promotion.validTo)}</span>}
+                    {vigencia(promotion).map((texto) => (
+                      <span key={texto}>{texto}</span>
+                    ))}
                   </div>
                   <h2 className="mt-5 text-3xl uppercase tracking-[0.18em] text-black lg:text-[2.35rem] lg:leading-[1.35]">
                     {promotion.title}
                   </h2>
                   <p className={`mt-6 ${editorialBody}`}>{promotion.summary}</p>
                   <div className="mt-8 flex flex-wrap gap-4">
-                    <Link href={`/promociones/${promotion.slug}`} className={editorialPrimaryButton}>
-                      Ver detalle
-                    </Link>
+                    <PromocionDetalle
+                      label="Ver detalle"
+                      promocion={{
+                        slug: promotion.slug,
+                        titulo: promotion.title,
+                        contenido: promotion.content,
+                        vigencia: vigencia(promotion),
+                        ctaLabel: promotion.ctaLabel || "Reservar",
+                        ctaHref: promotion.ctaHref,
+                      }}
+                    />
                     <EditorialBookButton
                       label={promotion.ctaLabel || "Reservar"}
                       fallbackUrl={promotion.ctaHref}

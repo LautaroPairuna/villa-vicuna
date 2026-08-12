@@ -89,7 +89,7 @@ export default async function PromotionsAdminPage() {
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <p className="text-[10px] uppercase tracking-[0.3em] text-[#17273f]/45">
-                    /promociones/{promotion.slug}
+                    /promociones#{promotion.slug}
                   </p>
                   <h2 className="mt-3 text-lg uppercase tracking-[0.16em] text-[#17273f]">
                     {promotion.title}

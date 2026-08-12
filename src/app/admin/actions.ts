@@ -312,13 +312,11 @@ export async function createPromotionAction(formData: FormData) {
       ctaHref: optionalText(formData, "ctaHref"),
       validFrom: parseDate(optionalText(formData, "validFrom")),
       validTo: parseDate(optionalText(formData, "validTo")),
-      seoTitle: optionalText(formData, "seoTitle"),
-      seoDescription: optionalText(formData, "seoDescription"),
       published: parseCheckbox(formData, "published"),
     },
   });
 
-  refreshEditorial("promociones", promotion.slug);
+  refreshEditorial("promociones");
   redirect(`/admin/promociones/${promotion.id}`);
 }
 
@@ -347,13 +345,11 @@ export async function updatePromotionAction(formData: FormData) {
       ctaHref: optionalText(formData, "ctaHref"),
       validFrom: parseDate(optionalText(formData, "validFrom")),
       validTo: parseDate(optionalText(formData, "validTo")),
-      seoTitle: optionalText(formData, "seoTitle"),
-      seoDescription: optionalText(formData, "seoDescription"),
       published: parseCheckbox(formData, "published"),
     },
   });
 
-  refreshEditorial("promociones", slug);
+  refreshEditorial("promociones");
 }
 
 export async function deletePromotionAction(formData: FormData) {
@@ -364,7 +360,7 @@ export async function deletePromotionAction(formData: FormData) {
 
   const current = await prisma.promotion.findUnique({ where: { id } });
   await prisma.promotion.delete({ where: { id } });
-  refreshEditorial("promociones", current?.slug);
+  refreshEditorial("promociones");
   redirect("/admin/promociones");
 }
 
@@ -383,7 +379,7 @@ export async function setPromotionCoverAction(formData: FormData): Promise<Uploa
       where: { id },
       data: { coverId: media.id },
     });
-    refreshEditorial("promociones", promotion.slug);
+    refreshEditorial("promociones");
     return { ok: true };
   } catch (err) {
     return uploadError(err);

@@ -98,10 +98,11 @@ export default async function PromotionDetailPage({
         backHref="/admin/promociones"
         action={updatePromotionAction}
         title="Detalle de la promoción"
-        subtitle="Mantené esta URL enfocada en una única oferta, con CTA claro y contenido suficiente para posicionar."
+        subtitle="El contenido se muestra en el modal de /promociones. Mantenelo enfocado en una única oferta, con vigencia y CTA claros."
         item={promotion}
         coverLabel="Portada"
         coverAction={setPromotionCoverAction}
+        mostrarSeo={false}
         extraFields={
           <PromotionExtraFields
             ctaLabel={promotion.ctaLabel}

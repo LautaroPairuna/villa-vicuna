@@ -88,19 +88,6 @@ export async function getPublishedPromotions(): Promise<PromotionContent[]> {
   }
 }
 
-export async function getPromotionBySlug(slug: string): Promise<PromotionContent | null> {
-  try {
-    const row = await prisma.promotion.findFirst({
-      where: { slug, published: true },
-      include: { cover: true },
-    });
-
-    return row ? toPromotion(row) : null;
-  } catch {
-    return null;
-  }
-}
-
 export async function getAllPromotionsAdmin(): Promise<PromotionContent[]> {
   try {
     const rows = await prisma.promotion.findMany({

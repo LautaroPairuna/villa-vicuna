@@ -66,6 +66,7 @@ export default function NewPromotionPage() {
         subtitle="Usá contenido concreto y estable. Si la promoción va a durar pocos días, mantené el texto corto y la vigencia clara."
         coverLabel="Portada"
         coverAction={setPromotionCoverAction}
+        mostrarSeo={false}
         extraFields={<PromotionExtraFields />}
       />
     </div>

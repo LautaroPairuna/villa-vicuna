@@ -26,6 +26,10 @@ interface EditorialFormProps {
   coverHidden?: Record<string, string>;
   extraFields?: React.ReactNode;
   deleteAction?: (formData: FormData) => void;
+  // Los campos de SEO solo tienen sentido donde hay una página propia que
+  // indexar. Promociones se muestra en un modal dentro de /promociones, así que
+  // los oculta para no pedir datos que no se usan en ningún lado.
+  mostrarSeo?: boolean;
 }
 
 export default function EditorialForm({
@@ -39,6 +43,7 @@ export default function EditorialForm({
   coverHidden,
   extraFields,
   deleteAction,
+  mostrarSeo = true,
 }: EditorialFormProps) {
   const coverFields = item?.id ? { id: item.id, ...(coverHidden ?? {}) } : undefined;
 
@@ -122,11 +127,13 @@ export default function EditorialForm({
             />
           </div>
 
-          <div className="grid gap-5 md:grid-cols-2">
-            <div>
-              <FieldLabel>SEO Title</FieldLabel>
-              <input name="seoTitle" defaultValue={item?.seoTitle ?? ""} className={inputCls} />
-            </div>
+          <div className={`grid gap-5 ${mostrarSeo ? "md:grid-cols-2" : ""}`}>
+            {mostrarSeo && (
+              <div>
+                <FieldLabel>SEO Title</FieldLabel>
+                <input name="seoTitle" defaultValue={item?.seoTitle ?? ""} className={inputCls} />
+              </div>
+            )}
             <div className="flex items-end">
               <label className="inline-flex items-center gap-3 rounded-2xl border border-[#e3d6b5] bg-white/70 px-4 py-3 text-sm text-[#17273f]">
                 <input
@@ -140,15 +147,17 @@ export default function EditorialForm({
             </div>
           </div>
 
-          <div>
-            <FieldLabel>SEO Description</FieldLabel>
-            <textarea
-              name="seoDescription"
-              rows={3}
-              defaultValue={item?.seoDescription ?? ""}
-              className={`${inputCls} resize-y`}
-            />
-          </div>
+          {mostrarSeo && (
+            <div>
+              <FieldLabel>SEO Description</FieldLabel>
+              <textarea
+                name="seoDescription"
+                rows={3}
+                defaultValue={item?.seoDescription ?? ""}
+                className={`${inputCls} resize-y`}
+              />
+            </div>
+          )}
 
           <div className="flex justify-end border-t border-[#efe7d2] pt-5">
             <button className="rounded-2xl bg-[#17273f] px-5 py-3 text-xs uppercase tracking-[0.22em] text-white shadow-[0_14px_32px_rgba(23,39,63,0.18)] transition-all hover:bg-[#24395c] hover:shadow-[0_18px_36px_rgba(23,39,63,0.22)]">
