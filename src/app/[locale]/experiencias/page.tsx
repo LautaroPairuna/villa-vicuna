@@ -232,7 +232,7 @@ export default async function ExperiencesPage({
           </section>
         </div>
 
-        {/* Testimonio de la enóloga — video de fondo */}
+        {/* Testimonio de la fundadora — video de fondo */}
         <section className="relative mt-20 overflow-hidden bg-black py-24 md:py-32">
           <video
             className="absolute inset-0 h-full w-full object-cover object-center"
@@ -252,6 +252,20 @@ export default async function ExperiencesPage({
               className="text-xl italic leading-relaxed tracking-[0.05em] text-white md:text-2xl"
             >
               “{t("testimonioTexto")}”
+            </Reveal>
+            {/* Logo de la bodega que fundó, cerrando su relato en primera
+                persona (el de Barolo cierra la sección de la cita). Usa la
+                variante -blanco, con los fills ya resueltos para fondo oscuro:
+                un filtro CSS pintaría también el cactus y lo dejaría como una
+                mancha sin el detalle que le da forma. */}
+            <Reveal variant="zoom" delay={280}>
+              <Image
+                src="/images/logo-bodega-yacochuya-blanco.svg"
+                alt="Bodega Yacochuya"
+                width={220}
+                height={333}
+                className="mx-auto mt-10 h-auto w-[86px] sm:w-[96px] md:w-[108px]"
+              />
             </Reveal>
           </div>
         </section>
