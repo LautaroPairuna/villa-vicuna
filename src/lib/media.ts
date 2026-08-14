@@ -30,7 +30,12 @@ const WEBP_OPTIONS = {
   smartSubsample: true,
 } as const;
 
-type SharpFn = typeof import("sharp");
+// La firma callable de sharp (el módulo es `export =` una función, así que
+// `typeof import("sharp")` resuelve al namespace y no es invocable).
+type SharpFn = (
+  input: Buffer | string,
+  options?: import("sharp").SharpOptions,
+) => import("sharp").Sharp;
 
 // Carga sharp de forma perezosa y tolerante: si el binario nativo no carga
 // (p.ej. problemas de sharp en Windows), devolvemos null y guardamos el
