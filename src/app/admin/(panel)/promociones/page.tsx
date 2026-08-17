@@ -5,6 +5,7 @@ import UploadField from "@/components/admin/UploadField";
 import TextEditor from "@/components/admin/TextEditor";
 import { PageHeader, Card } from "@/components/admin/ui";
 import { getSectionImages } from "@/lib/content";
+import { videoSources } from "@/lib/videoSources";
 import { getAllPromotionsAdmin } from "@/lib/editorial";
 import { getSectionTexts } from "@/lib/translations";
 
@@ -45,13 +46,18 @@ export default async function PromotionsAdminPage() {
       <Card>
         <div className="space-y-5">
           <div className="overflow-hidden rounded-lg border border-admin-line bg-admin-canvas">
+            {/* `key` fuerza el remonte al cambiar de video: con <source> hijos
+                el navegador no recarga solo cuando cambia la fuente. */}
             <video
               key={sections.promociones_hero_video}
-              src={sections.promociones_hero_video}
               controls
               preload="metadata"
               className="aspect-video w-full bg-admin-nav"
-            />
+            >
+              {videoSources(sections.promociones_hero_video).map((s) => (
+                <source key={s.src} src={s.src} type={s.type} />
+              ))}
+            </video>
           </div>
           <div className="min-w-0 space-y-3">
             <p className="text-[10px] uppercase tracking-[0.2em] text-admin-ink-soft">

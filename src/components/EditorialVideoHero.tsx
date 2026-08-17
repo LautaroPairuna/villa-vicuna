@@ -1,3 +1,5 @@
+import { videoSources } from "@/lib/videoSources";
+
 interface EditorialVideoHeroProps {
   videoUrl?: string;
   posterUrl?: string;
@@ -19,7 +21,9 @@ export default function EditorialVideoHero({
           preload="metadata"
           poster={posterUrl}
         >
-          <source src={videoUrl} />
+          {videoSources(videoUrl).map((s) => (
+            <source key={s.src} src={s.src} type={s.type} />
+          ))}
         </video>
       </div>
     </section>

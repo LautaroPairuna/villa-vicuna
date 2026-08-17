@@ -1,5 +1,6 @@
 import { getSectionTexts } from "@/lib/translations";
 import { getSectionImages } from "@/lib/content";
+import { videoSources } from "@/lib/videoSources";
 import { saveTranslationsAction, setSectionImageAction, setSectionVideoAction } from "@/app/admin/actions";
 import { Card, CardTitle, ImageField, PageHeader } from "@/components/admin/ui";
 import UploadField from "@/components/admin/UploadField";
@@ -17,13 +18,18 @@ function VideoField({
   return (
     <div className="flex flex-col gap-5 rounded-xl border border-admin-line bg-admin-canvas p-4">
       <div className="overflow-hidden rounded-lg border border-admin-line bg-admin-canvas">
+        {/* `key` fuerza el remonte al cambiar de video: con <source> hijos el
+            navegador no recarga solo cuando cambia la fuente. */}
         <video
           key={src}
-          src={src}
           controls
           preload="metadata"
           className="aspect-video w-full bg-admin-nav"
-        />
+        >
+          {videoSources(src).map((s) => (
+            <source key={s.src} src={s.src} type={s.type} />
+          ))}
+        </video>
       </div>
       <div className="flex-1 min-w-0 flex flex-col gap-3">
         <p className="text-[10px] uppercase tracking-[0.2em] text-admin-ink-soft">{label}</p>

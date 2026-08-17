@@ -3,6 +3,7 @@
 
 import Image from "next/image";
 import React, { memo, useRef } from "react";
+import { videoSources } from "@/lib/videoSources";
 
 interface HeroProps {
   onLoaded?: () => void;
@@ -59,7 +60,9 @@ const Hero = memo(({
           onLoadedData={handleVideoEvent}
           onCanPlayThrough={handleVideoEvent}
         >
-          <source src={videoUrl} />
+          {videoSources(videoUrl).map((s) => (
+            <source key={s.src} src={s.src} type={s.type} />
+          ))}
           Tu navegador no soporta videos en HTML5.
         </video>
         <div className="absolute inset-0 bg-black/10" />
