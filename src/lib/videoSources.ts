@@ -15,12 +15,9 @@ const MIME_BY_EXT: Record<string, string> = {
  * .webm por convención agregaría un <source> inexistente y un 404 en cada
  * carga. Al listarlos, solo se ofrece el webm donde realmente está.
  *
- * Vacía en esta rama: acá `/videos/video-home.mp4` es el original sin comprimir
- * y no tiene equivalente en webm. El par comprimido (32 MB mp4 + 23 MB webm)
- * está en dev; cuando esa rama se integre, se agrega "/videos/video-home.mp4"
- * y el hero pasa a servirse en webm sin tocar nada más.
+ * Si mañana se agrega otro par mp4 + webm a /public, va acá.
  */
-const HAS_WEBM_TWIN = new Set<string>([]);
+const HAS_WEBM_TWIN = new Set(["/videos/video-home.mp4"]);
 
 function mimeFor(url: string): string {
   const clean = url.split(/[?#]/)[0] ?? url;
