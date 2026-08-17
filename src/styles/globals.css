@@ -4,6 +4,37 @@
 @import "tailwindcss";
 
 /* ========================================
+   PALETA DEL PANEL DE ADMINISTRACIÓN
+   ========================================
+   Reglas de distribución (para no volver a mezclar todo):
+
+   1. NAVY = navegación y acciones primarias. Ocupa el sidebar entero, de arriba
+      a abajo, y rellena los botones de guardar/subir. No se usa como fondo de
+      bloques decorativos dentro del contenido.
+   2. CANVAS/SURFACE = contenido. Fondo apenas cálido y tarjetas blancas planas,
+      separadas por borde fino en vez de sombras y gradientes.
+   3. DORADO = estado: qué está activo o seleccionado (item del sidebar, pestaña
+      de idioma) y filetes que abren sección. Si además se usa de decoración
+      suelta, deja de leerse como estado.
+   4. ROJO = solo destructivo (cerrar sesión, eliminar). Ámbar = advertencia.
+      Ninguno decorativo.
+
+   Se declaran en @theme para que Tailwind genere las utilities (bg-admin-nav,
+   text-admin-ink, border-admin-line…) y acepte modificadores de opacidad.
+   ======================================== */
+@theme {
+  --color-admin-nav: #16273f;
+  --color-admin-nav-soft: #223650;
+  --color-admin-gold: #cbb789;
+  --color-admin-canvas: #f6f4ef;
+  --color-admin-surface: #ffffff;
+  --color-admin-line: #e5e0d6;
+  --color-admin-ink: #17273f;
+  --color-admin-ink-soft: #5c6b80;
+  --color-admin-danger: #b05252;
+}
+
+/* ========================================
    VARIABLES CSS Y CONFIGURACIÓN GLOBAL
    ======================================== */
 :root {
@@ -87,6 +118,17 @@ section {
     font-weight: 100;
     font-size: 1.25rem;
     font-optical-sizing: none;
+  }
+
+  /* El sitio público fuerza p/a/li a 1.25rem con weight 100. Es correcto para
+     las secciones editoriales, pero en el panel aplasta la jerarquía: los
+     textos de ayuda salían casi del tamaño de los títulos. Acá volvemos a una
+     base de interfaz. Va en @layer base a propósito, así cualquier utility de
+     Tailwind (text-sm, font-medium…) sigue ganando sobre esta regla. */
+  .admin-scope :is(p, a, li) {
+    font-size: 0.9375rem;
+    font-weight: 400;
+    line-height: 1.6;
   }
 }
 

@@ -30,7 +30,7 @@ function SaveButton({
     <button
       type="submit"
       disabled={pending}
-      className="rounded-2xl bg-[#17273f] px-5 py-3 text-xs uppercase tracking-[0.22em] text-white shadow-[0_14px_32px_rgba(23,39,63,0.18)] transition-all hover:bg-[#24395c] hover:shadow-[0_18px_36px_rgba(23,39,63,0.22)] disabled:opacity-50"
+      className="rounded-xl bg-admin-nav px-5 py-3 text-xs uppercase tracking-[0.22em] text-white transition-colors hover:bg-admin-nav-soft disabled:opacity-50"
     >
       {pending ? "Guardando…" : "Guardar"}
     </button>
@@ -38,7 +38,7 @@ function SaveButton({
 }
 
 const inputCls =
-  "w-full rounded-2xl border border-[#d8cdb0] bg-[#f8f4ea] px-4 py-3 text-sm text-[#17273f] outline-none transition-all focus:border-[#17273f] focus:bg-white focus:shadow-[0_0_0_4px_rgba(227,214,181,0.28)]";
+  "w-full rounded-xl border border-admin-line bg-admin-canvas px-4 py-3 text-sm text-admin-ink outline-none transition-colors focus:border-admin-gold focus:bg-admin-surface";
 
 export default function TextEditor({
   section,
@@ -52,18 +52,20 @@ export default function TextEditor({
   const [active, setActive] = useState("es");
 
   return (
-    <div className="overflow-hidden rounded-[28px] border border-[#e7ddc4] bg-[linear-gradient(180deg,rgba(255,255,255,0.96)_0%,rgba(248,244,234,0.92)_100%)] shadow-[0_20px_45px_rgba(23,39,63,0.07)]">
-      {/* Pestañas de idioma */}
-      <div className="flex border-b border-[#efe7d2] bg-white/70 p-2">
+    <div className="overflow-hidden rounded-2xl border border-admin-line bg-admin-surface">
+      {/* Pestañas de idioma. El idioma activo se marca con el filete dorado,
+          igual que el item activo del sidebar: mismo color, mismo significado. */}
+      <div className="flex gap-1 border-b border-admin-line px-2">
         {LOCALES.map((l) => (
           <button
             key={l.id}
             type="button"
             onClick={() => setActive(l.id)}
-            className={`rounded-2xl px-5 py-3 text-xs uppercase tracking-[0.2em] transition-all ${
+            aria-pressed={active === l.id}
+            className={`border-b-2 px-4 py-3.5 text-xs uppercase tracking-[0.2em] transition-colors ${
               active === l.id
-                ? "bg-[#17273f] text-white shadow-[0_12px_28px_rgba(23,39,63,0.18)]"
-                : "text-[#17273f]/70 hover:bg-[#f8f4ea]"
+                ? "border-admin-gold text-admin-ink"
+                : "border-transparent text-admin-ink-soft hover:text-admin-ink"
             }`}
           >
             {l.label}
@@ -90,8 +92,8 @@ export default function TextEditor({
               if (f.type === "splitTitle" && f.wrap) {
                 const { a, b } = decomposeSplit(f.wrap, raw);
                 return (
-                  <div key={f.key} className="rounded-[24px] border border-[#efe7d2] bg-white/60 p-4">
-                    <label className="mb-2 block text-xs uppercase tracking-widest text-[#17273f]/60">
+                  <div key={f.key} className="space-y-2">
+                    <label className="block text-[10px] uppercase tracking-[0.2em] text-admin-ink-soft">
                       {f.label}
                     </label>
                     <div className="grid grid-cols-2 gap-2">
@@ -114,8 +116,8 @@ export default function TextEditor({
 
               if (f.type === "textarea") {
                 return (
-                  <div key={f.key} className="rounded-[24px] border border-[#efe7d2] bg-white/60 p-4">
-                    <label className="mb-2 block text-xs uppercase tracking-widest text-[#17273f]/60">
+                  <div key={f.key} className="space-y-2">
+                    <label className="block text-[10px] uppercase tracking-[0.2em] text-admin-ink-soft">
                       {f.label}
                     </label>
                     <textarea name={f.key} defaultValue={raw} rows={4} className={`${inputCls} resize-y`} />
@@ -124,8 +126,8 @@ export default function TextEditor({
               }
 
               return (
-                <div key={f.key} className="rounded-[24px] border border-[#efe7d2] bg-white/60 p-4">
-                  <label className="mb-2 block text-xs uppercase tracking-widest text-[#17273f]/60">
+                <div key={f.key} className="space-y-2">
+                  <label className="block text-[10px] uppercase tracking-[0.2em] text-admin-ink-soft">
                     {f.label}
                   </label>
                   <input name={f.key} defaultValue={raw} className={inputCls} />
@@ -134,7 +136,7 @@ export default function TextEditor({
             })}
           </div>
 
-          <div className="mt-6 flex items-center justify-end border-t border-[#efe7d2] pt-5">
+          <div className="mt-6 flex items-center justify-end border-t border-admin-line pt-5">
             <SaveButton localeLabel={l.label} />
           </div>
         </form>

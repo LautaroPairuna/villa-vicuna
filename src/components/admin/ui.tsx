@@ -2,6 +2,9 @@ import { FiChevronLeft, FiChevronRight, FiTrash2, FiImage } from "react-icons/fi
 import UploadField from "./UploadField";
 
 // ── Encabezado de página ────────────────────────────────────────────
+// El título ya no va dentro de una caja: la caja competía con las tarjetas de
+// abajo y todo el contenido parecía del mismo nivel. Ahora es texto sobre el
+// canvas, con un filete dorado como única marca.
 export function PageHeader({
   title,
   subtitle,
@@ -10,34 +13,39 @@ export function PageHeader({
   subtitle?: string;
 }) {
   return (
-    <div className="mb-8 rounded-[28px] border border-[#e3d6b5] bg-[linear-gradient(180deg,#fcfaf5_0%,#f7f1e6_100%)] px-6 py-6 shadow-[0_16px_40px_rgba(23,39,63,0.06)] md:px-8">
-      <p className="mb-3 text-[10px] uppercase tracking-[0.35em] text-[#17273f]/45">
-        Villa Vicuna
+    <div className="mb-8">
+      <p className="text-[10px] uppercase tracking-[0.35em] text-admin-ink-soft">
+        Villa Vicuña
       </p>
-      <h1 className="text-3xl md:text-4xl uppercase tracking-[0.2em] text-[#17273f]">{title}</h1>
-      <div className="mt-4 h-[2px] w-20 bg-[linear-gradient(90deg,#e3d6b5,#cbb789)]" />
-      {subtitle && <p className="mt-4 max-w-3xl text-sm leading-6 text-[#17273f]/65">{subtitle}</p>}
+      <h1 className="mt-3 text-3xl uppercase tracking-[0.2em] text-admin-ink md:text-4xl">
+        {title}
+      </h1>
+      <div className="mt-4 h-px w-16 bg-admin-gold" />
+      {subtitle && (
+        <p className="mt-4 max-w-3xl text-sm text-admin-ink-soft">{subtitle}</p>
+      )}
     </div>
   );
 }
 
-// ── Tarjeta blanca ──────────────────────────────────────────────────
+// ── Tarjeta ─────────────────────────────────────────────────────────
+// Blanca y plana: el gradiente crema + sombra fuerte hacía que cada bloque
+// pidiera atención por igual. Con borde fino la jerarquía la marca el
+// contenido, no el relieve.
 export function Card({ children }: { children: React.ReactNode }) {
   return (
-    <div className="rounded-[28px] border border-[#e7ddc4] bg-[linear-gradient(180deg,#fcfaf5_0%,#f7f1e6_100%)] p-5 shadow-[0_20px_45px_rgba(23,39,63,0.07)] md:p-6">
+    <div className="rounded-2xl border border-admin-line bg-admin-surface p-5 md:p-6">
       {children}
     </div>
   );
 }
 
-// Título dentro de una tarjeta (con bullet dorado).
+// Título dentro de una tarjeta (con filete dorado a la izquierda).
 export function CardTitle({ children }: { children: React.ReactNode }) {
   return (
-    <div className="mb-5 flex items-center gap-3 border-b border-[#efe7d2] pb-4">
-      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#e3d6b5] bg-[#f8f4ea]">
-        <span className="h-2 w-2 rounded-full bg-[#cbb789]" />
-      </span>
-      <h3 className="text-base md:text-lg uppercase tracking-[0.2em] text-[#17273f] capitalize">
+    <div className="mb-5 flex items-center gap-3 border-b border-admin-line pb-4">
+      <span className="h-4 w-px shrink-0 bg-admin-gold" />
+      <h3 className="text-sm uppercase tracking-[0.2em] text-admin-ink capitalize md:text-base">
         {children}
       </h3>
     </div>
@@ -46,7 +54,7 @@ export function CardTitle({ children }: { children: React.ReactNode }) {
 
 export function FieldLabel({ children }: { children: React.ReactNode }) {
   return (
-    <p className="text-[10px] uppercase tracking-[0.2em] text-[#17273f]/50 mb-2">{children}</p>
+    <p className="mb-2 text-[10px] uppercase tracking-[0.2em] text-admin-ink-soft">{children}</p>
   );
 }
 
@@ -54,15 +62,15 @@ export function FieldLabel({ children }: { children: React.ReactNode }) {
 export function CoverPreview({ src, alt }: { src?: string | null; alt: string }) {
   if (!src) {
     return (
-      <div className="flex h-32 w-44 flex-col items-center justify-center gap-1 rounded-2xl border border-dashed border-[#d8cdb0] bg-[#f8f4ea] text-[#17273f]/40">
-        <FiImage className="w-5 h-5" />
+      <div className="flex h-32 w-44 flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-admin-line bg-admin-canvas text-admin-ink-soft">
+        <FiImage className="h-5 w-5" />
         <span className="text-[10px] uppercase tracking-widest">Sin portada</span>
       </div>
     );
   }
   return (
     // eslint-disable-next-line @next/next/no-img-element
-    <img src={src} alt={alt} className="h-32 w-44 rounded-2xl border border-[#e3d6b5] bg-white object-cover shadow-[0_12px_26px_rgba(23,39,63,0.08)]" />
+    <img src={src} alt={alt} className="h-32 w-44 rounded-xl border border-admin-line bg-admin-canvas object-cover" />
   );
 }
 
@@ -88,7 +96,7 @@ function IconForm({
       <button
         title={title}
         className={`flex h-8 w-8 items-center justify-center rounded-full text-white/80 transition-colors ${
-          danger ? "hover:bg-red-500/20 hover:text-red-200" : "hover:bg-white/10 hover:text-[#e3d6b5]"
+          danger ? "hover:bg-admin-danger/30 hover:text-white" : "hover:bg-white/10 hover:text-admin-gold"
         }`}
       >
         {children}
@@ -112,10 +120,10 @@ export function MediaTile({
   deleteAction: (formData: FormData) => void;
 }) {
   return (
-    <div className="group relative h-32 w-32 overflow-hidden rounded-2xl border border-[#e3d6b5] bg-white shadow-[0_12px_26px_rgba(23,39,63,0.08)]">
+    <div className="group relative h-32 w-32 overflow-hidden rounded-xl border border-admin-line bg-admin-canvas">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={src} alt={alt} className="w-full h-full object-cover" />
-      <div className="absolute inset-x-0 bottom-0 flex items-center justify-between px-1 bg-[#17273f]/85 backdrop-blur-[1px]">
+      <img src={src} alt={alt} className="h-full w-full object-cover" />
+      <div className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-admin-nav/85 px-1 backdrop-blur-[1px]">
         <IconForm action={moveAction} fields={{ id, dir: "up" }} title="Mover antes">
           <FiChevronLeft className="w-4 h-4" />
         </IconForm>
@@ -145,7 +153,7 @@ export function ImageField({
   uploadLabel?: string;
 }) {
   return (
-    <div className="flex flex-col gap-5 rounded-[24px] border border-[#efe7d2] bg-[#fcfaf5] p-4 sm:flex-row">
+    <div className="flex flex-col gap-5 rounded-xl border border-admin-line bg-admin-canvas p-4 sm:flex-row">
       <CoverPreview src={src} alt={label} />
       <div className="flex-1 min-w-0 flex flex-col">
         <FieldLabel>{label}</FieldLabel>
@@ -159,7 +167,7 @@ export function ImageField({
 
 export function DbErrorNotice() {
   return (
-    <div className="rounded-2xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900 shadow-[0_12px_26px_rgba(180,83,9,0.08)]">
+    <div className="rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900">
       No se pudo leer la base de datos. Verificá <code>DATABASE_URL</code> y que las
       migraciones y el seed (<code>npm run prisma:seed</code>) se hayan corrido.
     </div>
@@ -167,5 +175,5 @@ export function DbErrorNotice() {
 }
 
 export function EmptyHint({ children }: { children: React.ReactNode }) {
-  return <p className="text-sm text-[#17273f]/60">{children}</p>;
+  return <p className="text-sm text-admin-ink-soft">{children}</p>;
 }

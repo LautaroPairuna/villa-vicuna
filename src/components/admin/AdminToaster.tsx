@@ -14,13 +14,14 @@ export default function AdminToaster() {
       toastOptions={{
         classNames: {
           toast:
-            "!rounded-[22px] !border !border-[#e3d6b5] !bg-[#fcfaf5] !px-4 !py-3 !text-[#17273f] !shadow-[0_18px_40px_rgba(23,39,63,0.12)]",
-          title: "!text-sm !font-medium !tracking-[0.01em] !text-[#17273f]",
-          description: "!text-sm !text-[#17273f]/70",
-          success: "!border-[#d8cdb0] !bg-[#f8f4ea] !text-[#17273f]",
-          error: "!border-[#e8c7c3] !bg-[#fff7f6] !text-[#7a2e2a]",
+            "!rounded-xl !border !border-admin-line !bg-admin-surface !px-4 !py-3 !text-admin-ink !shadow-[0_12px_28px_rgba(23,39,63,0.10)]",
+          title: "!text-sm !font-medium !tracking-[0.01em] !text-admin-ink",
+          description: "!text-sm !text-admin-ink-soft",
+          // El éxito se marca con el filete dorado, no cambiando el fondo.
+          success: "!border-l-2 !border-l-admin-gold !text-admin-ink",
+          error: "!border-l-2 !border-l-admin-danger !text-admin-ink",
           closeButton:
-            "!border-[#e3d6b5] !bg-[#fcfaf5] !text-[#17273f] hover:!bg-[#f3ecde]",
+            "!border-admin-line !bg-admin-surface !text-admin-ink hover:!bg-admin-canvas",
         },
       }}
     />

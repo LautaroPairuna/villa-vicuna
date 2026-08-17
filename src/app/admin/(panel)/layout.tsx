@@ -4,6 +4,9 @@ import Sidebar from "@/components/admin/Sidebar";
 
 // Layout del panel autenticado: sidebar + contenido. El login queda fuera
 // de este grupo, así que no muestra el sidebar.
+//
+// `admin-scope` reencuadra la tipografía del sitio público (ver globals.css):
+// sin esa clase, los párrafos del panel heredan 1.25rem con weight 100.
 export default async function PanelLayout({
   children,
 }: {
@@ -12,9 +15,9 @@ export default async function PanelLayout({
   const session = await auth();
 
   return (
-    <div className="min-h-screen bg-white text-[#17273f] md:flex">
+    <div className="admin-scope min-h-screen bg-admin-canvas text-admin-ink md:flex">
       <Sidebar email={session?.user?.email} name={session?.user?.name} />
-      <main className="min-w-0 flex-1 px-4 py-5 md:px-8 md:py-8">
+      <main className="min-w-0 flex-1 px-4 py-6 md:px-10 md:py-10">
         <div className="mx-auto max-w-6xl">{children}</div>
       </main>
       <AdminToaster />

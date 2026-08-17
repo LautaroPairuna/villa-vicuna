@@ -96,10 +96,10 @@ export default function UploadField({
         }}
         onDragLeave={() => setDragOver(false)}
         onDrop={onDrop}
-        className={`flex min-w-0 flex-1 cursor-pointer items-center gap-3 rounded-[24px] border border-dashed px-4 py-3 transition-all ${
+        className={`flex min-w-0 flex-1 cursor-pointer items-center gap-3 rounded-xl border border-dashed px-4 py-3 transition-colors ${
           dragOver
-            ? "border-[#17273f] bg-[#f8f4ea] shadow-[0_0_0_4px_rgba(227,214,181,0.28)]"
-            : "border-[#d8cdb0] bg-white/80 hover:border-[#b9a877] hover:bg-[#f8f4ea]/70"
+            ? "border-admin-gold bg-admin-gold/10"
+            : "border-admin-line bg-admin-surface hover:border-admin-gold/60"
         }`}
       >
         <input
@@ -113,13 +113,13 @@ export default function UploadField({
         />
         {preview ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={preview} alt="" className="h-10 w-10 shrink-0 rounded-xl border border-[#e3d6b5] object-cover" />
+          <img src={preview} alt="" className="h-10 w-10 shrink-0 rounded-lg border border-admin-line object-cover" />
         ) : (
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#e3d6b5] bg-[#f8f4ea]">
-            <FiUploadCloud className="h-5 w-5 text-[#17273f]/50" />
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-admin-canvas">
+            <FiUploadCloud className="h-5 w-5 text-admin-ink-soft" />
           </span>
         )}
-        <span className="text-sm text-[#17273f]/70 truncate">
+        <span className="truncate text-sm text-admin-ink-soft">
           {fileName || emptyLabel}
         </span>
       </label>
@@ -127,7 +127,7 @@ export default function UploadField({
       <button
         type="submit"
         disabled={pending}
-        className="shrink-0 rounded-2xl bg-[#17273f] px-4 py-3 text-xs uppercase tracking-[0.2em] text-white shadow-[0_14px_32px_rgba(23,39,63,0.18)] transition-all hover:bg-[#24395c] hover:shadow-[0_18px_36px_rgba(23,39,63,0.22)] disabled:cursor-not-allowed disabled:opacity-50"
+        className="shrink-0 rounded-xl bg-admin-nav px-5 py-3 text-xs uppercase tracking-[0.2em] text-white transition-colors hover:bg-admin-nav-soft disabled:cursor-not-allowed disabled:opacity-50"
       >
         {pending ? "Subiendo…" : label}
       </button>

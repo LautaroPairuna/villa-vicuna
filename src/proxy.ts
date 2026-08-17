@@ -2,7 +2,7 @@ import createIntlMiddleware from "next-intl/middleware";
 import type { NextFetchEvent, NextRequest } from "next/server";
 import NextAuth from "next-auth";
 import type { Session } from "next-auth";
-import { authConfig } from "./auth.config";
+import { ADMIN_ROLE, authConfig } from "./auth.config";
 import { routing } from "./i18n/routing";
 
 // Instancia edge-safe solo para leer la sesión (JWT) en el proxy.
@@ -11,7 +11,11 @@ const intlMiddleware = createIntlMiddleware(routing);
 const adminAuthMiddleware = auth((req: NextRequest & { auth: Session | null }, _event: NextFetchEvent) => {
   const authReq = req as NextRequest & { auth: Session | null };
   const { nextUrl } = authReq;
-  const isLoggedIn = !!authReq.auth;
+  // No alcanza con tener sesión: el rol tiene que ser el de admin. Hoy todos
+  // los usuarios lo son, pero si mañana se agrega otro rol este chequeo ya
+  // está puesto y no depende de acordarse.
+  const role = (authReq.auth?.user as { role?: string } | undefined)?.role;
+  const isLoggedIn = !!authReq.auth && role === ADMIN_ROLE;
   const isLogin = nextUrl.pathname === "/admin/login";
 
   if (!isLoggedIn && !isLogin) {
