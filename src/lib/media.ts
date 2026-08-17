@@ -9,10 +9,12 @@ import { prisma } from "./prisma";
 const UPLOADS_FS_DIR = path.resolve(process.env.UPLOADS_DIR ?? "public/uploads");
 
 const MAX_DIMENSION = 2000;
-// El tipo tiene que ser el export default (la función invocable), no el
-// namespace del módulo: `typeof import("sharp")` describe el módulo entero, que
-// no es llamable, y hacía fallar el typecheck en `sharp(buf)`.
-type SharpFn = (typeof import("sharp"))["default"];
+// La firma callable de sharp (el módulo es `export =` una función, así que
+// `typeof import("sharp")` resuelve al namespace y no es invocable).
+type SharpFn = (
+  input: Buffer | string,
+  options?: import("sharp").SharpOptions,
+) => import("sharp").Sharp;
 
 // Carga sharp de forma perezosa y tolerante: si el binario nativo no carga
 // (p.ej. problemas de sharp en Windows), devolvemos null y guardamos el
