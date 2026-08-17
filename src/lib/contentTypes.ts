@@ -34,6 +34,7 @@ export const STATIC_SECTION_IMAGES: SectionImages = {
   hero_poster: "/images/hero-poster.webp",
   hero_video: "/videos/video-home.mp4",
   promociones_hero_video: "/videos/video-home.mp4",
+  salta_video: "/videos/video-fondo-salta.mp4",
   nosotros: "/images/nosotros.jpg",
   contactenos: "/images/contactenos.jpg",
   menu_foods: "/images/menu-foods.svg",

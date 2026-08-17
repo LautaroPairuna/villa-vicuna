@@ -1,14 +1,18 @@
 import Link from "next/link";
 import { FiArrowRight, FiPlus } from "react-icons/fi";
-import { saveTranslationsAction } from "@/app/admin/actions";
+import { saveTranslationsAction, setSectionVideoAction } from "@/app/admin/actions";
 import TextEditor from "@/components/admin/TextEditor";
+import UploadField from "@/components/admin/UploadField";
 import { PageHeader, Card } from "@/components/admin/ui";
 import { getAllSaltaPlacesAdmin } from "@/lib/editorial";
+import { getSectionImages } from "@/lib/content";
 import { getSectionTexts } from "@/lib/translations";
+import { videoSources } from "@/lib/videoSources";
 
 export default async function SaltaAdminPage() {
   const texts = await getSectionTexts("salta");
   const places = await getAllSaltaPlacesAdmin();
+  const sections = await getSectionImages();
 
   return (
     <div className="max-w-6xl space-y-6">
@@ -29,6 +33,41 @@ export default async function SaltaAdminPage() {
       {texts && (
         <TextEditor section={texts.section} values={texts.values} action={saveTranslationsAction} />
       )}
+
+      <Card>
+        <div className="space-y-5">
+          <div className="overflow-hidden rounded-lg border border-admin-line bg-admin-canvas">
+            {/* `key` fuerza el remonte al cambiar de video: con <source> hijos
+                el navegador no recarga solo cuando cambia la fuente. */}
+            <video
+              key={sections.salta_video}
+              controls
+              preload="metadata"
+              className="aspect-video w-full bg-admin-nav"
+            >
+              {videoSources(sections.salta_video).map((s) => (
+                <source key={s.src} src={s.src} type={s.type} />
+              ))}
+            </video>
+          </div>
+          <div className="min-w-0 space-y-3">
+            <p className="text-[10px] uppercase tracking-[0.2em] text-admin-ink-soft">
+              Video de fondo de la banda
+            </p>
+            <p className="truncate text-sm text-admin-ink-soft">{sections.salta_video}</p>
+            <div className="max-w-md">
+              <UploadField
+                action={setSectionVideoAction}
+                hidden={{ slug: "salta_video" }}
+                label="Reemplazar video"
+                accept="video/mp4,video/webm,video/quicktime"
+                emptyLabel="Arrastrá un video o hacé clic"
+                successLabel="Video actualizado"
+              />
+            </div>
+          </div>
+        </div>
+      </Card>
 
       {places.length === 0 ? (
         <Card>

@@ -143,6 +143,9 @@ export const EDITABLE_SECTIONS: EditableSection[] = [
       { key: "salta.eyebrow", label: "Etiqueta superior", type: "text" },
       { key: "salta.titulo", label: "Título principal", type: "textarea" },
       { key: "salta.descripcion", label: "Descripción principal", type: "textarea" },
+      // Banda de video que va entre el intro y la lista de lugares.
+      { key: "salta.videoTexto", label: "Banda de video · frase", type: "textarea" },
+      { key: "salta.videoEpigrafe", label: "Banda de video · epígrafe", type: "text" },
     ],
   },
   {

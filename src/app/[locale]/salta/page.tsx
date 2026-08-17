@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import PublicEditorialLayout from "@/components/PublicEditorialLayout";
+import EditorialVideoBand from "@/components/EditorialVideoBand";
 import Reveal from "@/components/Reveal";
 import {
   editorialBody,
@@ -11,6 +12,7 @@ import {
   editorialSecondaryButton,
 } from "@/components/editorialUi";
 import { getPublishedSaltaPlaces } from "@/lib/editorial";
+import { getSectionImages } from "@/lib/content";
 import { getEffectiveValues } from "@/lib/translations";
 
 export const revalidate = 3600;
@@ -33,10 +35,15 @@ export default async function SaltaPage({
   }
 
   const places = await getPublishedSaltaPlaces();
-  const intro = await getEffectiveValues(locale, [
-    "salta.eyebrow",
-    "salta.titulo",
-    "salta.descripcion",
+  const [intro, sections] = await Promise.all([
+    getEffectiveValues(locale, [
+      "salta.eyebrow",
+      "salta.titulo",
+      "salta.descripcion",
+      "salta.videoTexto",
+      "salta.videoEpigrafe",
+    ]),
+    getSectionImages(),
   ]);
 
   return (
@@ -44,6 +51,14 @@ export default async function SaltaPage({
       eyebrow={intro["salta.eyebrow"]}
       title={intro["salta.titulo"]}
       description={intro["salta.descripcion"]}
+      afterIntro={
+        <EditorialVideoBand
+          videoUrl={sections.salta_video}
+          posterUrl={sections.hero_poster}
+          text={intro["salta.videoTexto"]}
+          caption={intro["salta.videoEpigrafe"]}
+        />
+      }
     >
       {places.length === 0 ? (
         <section className="relative overflow-hidden bg-white px-6 py-10">

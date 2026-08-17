@@ -82,7 +82,30 @@ function slugify(value: string) {
     .slice(0, 80);
 }
 
-function refreshEditorial(kind: "promociones" | "salta", slug?: string) {
+type EditorialKind = "promociones" | "salta" | "experiencias";
+
+/**
+ * Secciones que se publican en una página propia y no en la home.
+ *
+ * `refresh()` solo regenera la home, así que sin este mapeo un cambio en los
+ * textos o el video de /salta, /promociones o /experiencias no se ve hasta que
+ * vence el ISR de esas páginas (una hora). Se mapea tanto por id de sección
+ * (lo que manda el editor de textos) como por prefijo de slug de imagen/video.
+ */
+const EDITORIAL_KINDS: EditorialKind[] = ["promociones", "salta", "experiencias"];
+
+function editorialKindFor(idOrSlug: string): EditorialKind | null {
+  return EDITORIAL_KINDS.find((k) => idOrSlug === k || idOrSlug.startsWith(`${k}_`)) ?? null;
+}
+
+/** refresh() + la página editorial que corresponda, si el slug es de una. */
+function refreshFor(idOrSlug: string) {
+  refresh();
+  const kind = editorialKindFor(idOrSlug);
+  if (kind) refreshEditorial(kind);
+}
+
+function refreshEditorial(kind: EditorialKind, slug?: string) {
   // Igual que refresh(): el público es ISR y se sirve por idioma (es sin
   // prefijo, en/fr con prefijo). Antes solo se revalidaba "/promociones" |
   // "/salta", así que las variantes /en y /fr quedaban con la caché vieja y la
@@ -112,7 +135,7 @@ export async function setSectionImageAction(formData: FormData): Promise<UploadR
       update: { mediaId: media.id },
       create: { slug, mediaId: media.id },
     });
-    refresh();
+    refreshFor(slug);
     return { ok: true };
   } catch (err) {
     return uploadError(err);
@@ -135,7 +158,7 @@ export async function setSectionVideoAction(formData: FormData): Promise<UploadR
       update: { mediaId: media.id },
       create: { slug, mediaId: media.id },
     });
-    refresh();
+    refreshFor(slug);
     return { ok: true };
   } catch (err) {
     return uploadError(err);
@@ -304,7 +327,7 @@ export async function saveTranslationsAction(formData: FormData) {
   }
 
   await prisma.$transaction(operations);
-  refresh();
+  refreshFor(sectionId);
 }
 
 export async function createPromotionAction(formData: FormData) {

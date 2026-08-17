@@ -9,6 +9,7 @@ import ExperiencesTapeo from "@/components/ExperiencesTapeo";
 import ExperiencesFormatos from "@/components/ExperiencesFormatos";
 import Reveal from "@/components/Reveal";
 import { getSectionImages } from "@/lib/content";
+import { videoSources } from "@/lib/videoSources";
 import {
   editorialBody,
   editorialEyebrow,
@@ -163,7 +164,9 @@ export default async function ExperiencesPage({
             preload="metadata"
             poster="/images/hero-poster.webp"
           >
-            <source src={sections.experiencias_cita_video} />
+            {videoSources(sections.experiencias_cita_video).map((s) => (
+              <source key={s.src} src={s.src} type={s.type} />
+            ))}
           </video>
           <div className="absolute inset-0 bg-black/55" />
           <div className="relative mx-auto max-w-3xl px-6 text-center md:px-10">
@@ -242,7 +245,9 @@ export default async function ExperiencesPage({
             playsInline
             preload="metadata"
           >
-            <source src={sections.experiencias_testimonio_video} />
+            {videoSources(sections.experiencias_testimonio_video).map((s) => (
+              <source key={s.src} src={s.src} type={s.type} />
+            ))}
           </video>
           <div className="absolute inset-0 bg-black/55" />
           <div className="relative mx-auto max-w-3xl px-6 text-center md:px-10">

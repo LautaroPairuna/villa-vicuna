@@ -18,6 +18,7 @@ export default function PublicEditorialLayout({
   description,
   children,
   topHero,
+  afterIntro,
   hideIntro = false,
 }: {
   eyebrow: string;
@@ -25,6 +26,12 @@ export default function PublicEditorialLayout({
   description: string;
   children: React.ReactNode;
   topHero?: React.ReactNode;
+  /**
+   * Bloque que va entre el intro y el contenido, FUERA del contenedor de
+   * 1200 px. Es para piezas a sangre completa (una banda de video, por
+   * ejemplo): metidas en `children` quedarían recortadas al ancho de columna.
+   */
+  afterIntro?: React.ReactNode;
   hideIntro?: boolean;
 }) {
   return (
@@ -59,6 +66,8 @@ export default function PublicEditorialLayout({
             </div>
           </section>
         )}
+
+        {afterIntro}
 
         <div className="mx-auto max-w-[1200px] px-4 md:px-12">
           <div className={`${hideIntro ? "mt-14" : "mt-8"}`}>{children}</div>
