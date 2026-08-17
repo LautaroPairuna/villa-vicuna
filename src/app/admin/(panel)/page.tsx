@@ -38,13 +38,12 @@ export default async function AdminOverview() {
 
   return (
     <div>
-      <div className="mb-6 flex items-end justify-between gap-4">
-        <div>
-          <p className="text-[10px] uppercase tracking-[0.35em] text-[#17273f]/45">Panel admin</p>
-          <h1 className="mt-3 text-3xl uppercase tracking-[0.18em] text-[#17273f] md:text-4xl">
-            Inicio
-          </h1>
-        </div>
+      <div className="mb-8">
+        <p className="text-[10px] uppercase tracking-[0.35em] text-admin-ink-soft">Panel admin</p>
+        <h1 className="mt-3 text-3xl uppercase tracking-[0.18em] text-admin-ink md:text-4xl">
+          Inicio
+        </h1>
+        <div className="mt-4 h-px w-16 bg-admin-gold" />
       </div>
 
       {dbError && (
@@ -53,23 +52,25 @@ export default async function AdminOverview() {
         </div>
       )}
 
+      {/* Métricas: el dorado marca el dato, que es lo único que se mira acá. */}
       <div className="mb-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <div className="rounded-[24px] border border-[#e3d6b5] bg-white/80 px-5 py-5 shadow-[0_18px_40px_rgba(23,39,63,0.08)]">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-[#17273f]/45">Habitaciones</p>
-          <p className="mt-3 text-4xl text-[#17273f]">{roomsCount}</p>
-        </div>
-        <div className="rounded-[24px] border border-[#e3d6b5] bg-white/80 px-5 py-5 shadow-[0_18px_40px_rgba(23,39,63,0.08)]">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-[#17273f]/45">Reseñas</p>
-          <p className="mt-3 text-4xl text-[#17273f]">{reviewsCount}</p>
-        </div>
-        <div className="rounded-[24px] border border-[#e3d6b5] bg-white/80 px-5 py-5 shadow-[0_18px_40px_rgba(23,39,63,0.08)]">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-[#17273f]/45">Promociones</p>
-          <p className="mt-3 text-4xl text-[#17273f]">{promotionsCount}</p>
-        </div>
-        <div className="rounded-[24px] border border-[#e3d6b5] bg-white/80 px-5 py-5 shadow-[0_18px_40px_rgba(23,39,63,0.08)]">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-[#17273f]/45">Salta</p>
-          <p className="mt-3 text-4xl text-[#17273f]">{saltaCount}</p>
-        </div>
+        {[
+          { label: "Habitaciones", value: roomsCount },
+          { label: "Reseñas", value: reviewsCount },
+          { label: "Promociones", value: promotionsCount },
+          { label: "Salta", value: saltaCount },
+        ].map(({ label, value }) => (
+          <div
+            key={label}
+            className="flex items-center gap-5 rounded-2xl border border-admin-line bg-admin-surface px-6 py-5"
+          >
+            <span className="h-10 w-px bg-admin-gold" />
+            <div>
+              <p className="text-[10px] uppercase tracking-[0.3em] text-admin-ink-soft">{label}</p>
+              <p className="mt-1 text-4xl text-admin-ink">{value}</p>
+            </div>
+          </div>
+        ))}
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -77,23 +78,23 @@ export default async function AdminOverview() {
           <Link
             key={href}
             href={href}
-            className="group flex flex-col rounded-[28px] border border-[#e7ddc4] bg-[linear-gradient(180deg,rgba(255,255,255,0.95)_0%,rgba(248,244,234,0.92)_100%)] p-6 shadow-[0_20px_45px_rgba(23,39,63,0.07)] transition-all hover:-translate-y-1 hover:border-[#17273f]/40 hover:shadow-[0_28px_54px_rgba(23,39,63,0.12)]"
+            className="group flex flex-col rounded-2xl border border-admin-line bg-admin-surface p-6 transition-colors hover:border-admin-gold"
           >
             <div className="flex items-start justify-between">
-              <span className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[#e3d6b5] bg-[#f8f4ea] text-[#17273f]">
-                <Icon className="w-5 h-5" />
+              {/* En hover el icono va a navy, no a dorado: el dorado marca lo
+                  que está activo y un hover no lo está. */}
+              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-admin-canvas text-admin-ink transition-colors group-hover:bg-admin-nav group-hover:text-white">
+                <Icon className="h-5 w-5" />
               </span>
               {badge !== undefined && (
-                <span className="rounded-full border border-[#e3d6b5] bg-white/80 px-3 py-1 text-2xl text-[#17273f]/55 transition-colors group-hover:text-[#17273f]">
-                  {badge}
-                </span>
+                <span className="text-2xl text-admin-ink-soft">{badge}</span>
               )}
             </div>
-            <h2 className="text-lg uppercase tracking-[0.2em] text-[#17273f] mt-5">{label}</h2>
-            <p className="mt-2 text-sm leading-6 text-[#17273f]/60">{hint}</p>
-            <span className="mt-6 inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.2em] text-[#17273f]">
+            <h2 className="mt-5 text-base uppercase tracking-[0.2em] text-admin-ink">{label}</h2>
+            <p className="mt-2 text-sm text-admin-ink-soft">{hint}</p>
+            <span className="mt-auto inline-flex items-center gap-1.5 pt-6 text-[11px] uppercase tracking-[0.2em] text-admin-ink">
               Administrar
-              <FiArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+              <FiArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
             </span>
           </Link>
         ))}

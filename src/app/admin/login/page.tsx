@@ -22,7 +22,14 @@ export default function LoginPage() {
     });
     setLoading(false);
     if (res?.error) {
-      setError("Email o contraseña incorrectos.");
+      // El servidor bloquea por intentos fallidos y lo avisa con un código
+      // propio. Si la versión de next-auth no lo propaga, cae en el mensaje
+      // genérico, que sigue siendo correcto.
+      setError(
+        (res as { code?: string }).code === "rate_limit"
+          ? "Demasiados intentos fallidos. Esperá unos minutos antes de volver a probar."
+          : "Email o contraseña incorrectos.",
+      );
     } else {
       router.push("/admin");
       router.refresh();
@@ -30,37 +37,35 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
-      {/* Decoración de fondo sutil (mismo motivo que el sitio) */}
-      <div className="pointer-events-none absolute -top-24 -right-24 w-[420px] h-[420px] opacity-40">
-        <Image src="/images/fondo-carta-1.svg" alt="" fill className="object-contain" />
-      </div>
-      <div className="pointer-events-none absolute -bottom-28 -left-24 w-[420px] h-[420px] opacity-30">
-        <Image src="/images/fondo-carta-2.svg" alt="" fill className="object-contain" />
-      </div>
-
+    // Fondo navy: el login es "chrome", igual que el sidebar del panel. La
+    // tarjeta clara adelanta cómo se va a ver el contenido una vez adentro.
+    <div className="admin-scope flex min-h-screen items-center justify-center bg-admin-nav px-4">
       <form
         onSubmit={onSubmit}
-        className="relative w-full max-w-sm bg-white shadow-xl border border-black/5 px-8 py-10"
+        className="w-full max-w-sm rounded-2xl bg-admin-surface px-8 py-10"
       >
-        <div className="flex justify-center mb-6">
+        <div className="mb-8 flex justify-center">
           <Image
             src="/images/logo-villa-vicuna-2.svg"
             alt="Villa Vicuña"
             width={150}
             height={150}
-            className="w-36 h-auto"
+            className="h-auto w-36"
             priority
           />
         </div>
 
-        <h1 className="text-center text-xl uppercase tracking-[0.35em] mb-8 text-[#17273f]">
-          Administración
-        </h1>
+        <div className="mb-8 text-center">
+          <h1 className="text-lg uppercase tracking-[0.35em] text-admin-ink">Administración</h1>
+          <div className="mx-auto mt-4 h-px w-12 bg-admin-gold" />
+        </div>
 
         <div className="space-y-5">
-          <div className="space-y-1.5">
-            <label className="text-xs uppercase tracking-widest text-[#17273f]/70" htmlFor="email">
+          <div className="space-y-2">
+            <label
+              className="block text-[10px] uppercase tracking-[0.2em] text-admin-ink-soft"
+              htmlFor="email"
+            >
               Email
             </label>
             <input
@@ -69,12 +74,15 @@ export default function LoginPage() {
               type="email"
               required
               autoComplete="username"
-              className="w-full border border-[#d8cdb0] bg-[#f8f4ea] px-3 py-2.5 outline-none focus:border-[#17273f] transition-colors"
+              className="w-full rounded-xl border border-admin-line bg-admin-canvas px-4 py-3 text-sm text-admin-ink outline-none transition-colors focus:border-admin-gold focus:bg-admin-surface"
             />
           </div>
 
-          <div className="space-y-1.5">
-            <label className="text-xs uppercase tracking-widest text-[#17273f]/70" htmlFor="password">
+          <div className="space-y-2">
+            <label
+              className="block text-[10px] uppercase tracking-[0.2em] text-admin-ink-soft"
+              htmlFor="password"
+            >
               Contraseña
             </label>
             <input
@@ -83,16 +91,20 @@ export default function LoginPage() {
               type="password"
               required
               autoComplete="current-password"
-              className="w-full border border-[#d8cdb0] bg-[#f8f4ea] px-3 py-2.5 outline-none focus:border-[#17273f] transition-colors"
+              className="w-full rounded-xl border border-admin-line bg-admin-canvas px-4 py-3 text-sm text-admin-ink outline-none transition-colors focus:border-admin-gold focus:bg-admin-surface"
             />
           </div>
 
-          {error && <p className="text-sm text-red-700">{error}</p>}
+          {error && (
+            <p role="alert" className="text-sm text-admin-danger">
+              {error}
+            </p>
+          )}
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#17273f] text-white uppercase tracking-[0.25em] text-sm py-3 hover:bg-[#24395c] transition-colors disabled:opacity-60"
+            className="w-full rounded-xl bg-admin-nav px-4 py-3.5 text-xs uppercase tracking-[0.25em] text-white transition-colors hover:bg-admin-nav-soft disabled:opacity-60"
           >
             {loading ? "Ingresando…" : "Ingresar"}
           </button>

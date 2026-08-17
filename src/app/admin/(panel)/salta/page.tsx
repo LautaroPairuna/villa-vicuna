@@ -19,7 +19,7 @@ export default async function SaltaAdminPage() {
         />
         <Link
           href="/admin/salta/nuevo"
-          className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[#17273f] px-5 py-3 text-xs uppercase tracking-[0.22em] text-white shadow-[0_14px_32px_rgba(23,39,63,0.18)] transition-all hover:bg-[#24395c]"
+          className="inline-flex items-center justify-center gap-2 rounded-xl bg-admin-nav px-5 py-3 text-xs uppercase tracking-[0.22em] text-white transition-colors hover:bg-admin-nav-soft"
         >
           <FiPlus className="h-4 w-4" />
           Nuevo lugar
@@ -32,7 +32,7 @@ export default async function SaltaAdminPage() {
 
       {places.length === 0 ? (
         <Card>
-          <p className="text-sm leading-6 text-[#17273f]/65">
+          <p className="text-sm leading-6 text-admin-ink-soft">
             Todavía no hay lugares cargados. Empezá por los puntos fuertes de Salta Capital cerca del hotel.
           </p>
         </Card>
@@ -42,20 +42,20 @@ export default async function SaltaAdminPage() {
             <Link
               key={place.id}
               href={`/admin/salta/${place.id}`}
-              className="group rounded-[28px] border border-[#e7ddc4] bg-[linear-gradient(180deg,rgba(255,255,255,0.95)_0%,rgba(248,244,234,0.92)_100%)] p-6 shadow-[0_20px_45px_rgba(23,39,63,0.07)] transition-all hover:-translate-y-1 hover:border-[#17273f]/40 hover:shadow-[0_28px_54px_rgba(23,39,63,0.12)]"
+              className="group rounded-2xl border border-admin-line bg-admin-surface p-6 transition-colors hover:border-admin-gold"
             >
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.3em] text-[#17273f]/45">
+                  <p className="text-[10px] uppercase tracking-[0.3em] text-admin-ink-soft">
                     /salta/{place.slug}
                   </p>
-                  <h2 className="mt-3 text-lg uppercase tracking-[0.16em] text-[#17273f]">
+                  <h2 className="mt-3 text-lg uppercase tracking-[0.16em] text-admin-ink">
                     {place.title}
                   </h2>
                 </div>
                 <div className="flex flex-col items-end gap-2">
                   {place.featured && (
-                    <span className="rounded-full bg-[#17273f] px-3 py-1 text-[10px] uppercase tracking-[0.22em] text-white">
+                    <span className="rounded-full bg-admin-nav px-3 py-1 text-[10px] uppercase tracking-[0.22em] text-white">
                       Destacado
                     </span>
                   )}
@@ -70,11 +70,11 @@ export default async function SaltaAdminPage() {
                   </span>
                 </div>
               </div>
-              <p className="mt-4 text-sm uppercase tracking-[0.18em] text-[#17273f]/45">
+              <p className="mt-4 text-sm uppercase tracking-[0.18em] text-admin-ink-soft">
                 {place.category}
               </p>
-              <p className="mt-3 text-sm leading-6 text-[#17273f]/65">{place.summary}</p>
-              <span className="mt-6 inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.2em] text-[#17273f]">
+              <p className="mt-3 text-sm leading-6 text-admin-ink-soft">{place.summary}</p>
+              <span className="mt-6 inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.2em] text-admin-ink">
                 Editar
                 <FiArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
               </span>

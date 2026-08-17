@@ -27,68 +27,68 @@ function SaltaExtraFields({
     <>
       <div className="grid gap-5 md:grid-cols-2">
         <div>
-          <label className="mb-2 block text-xs uppercase tracking-[0.22em] text-[#17273f]/55">
+          <label className="mb-2 block text-xs uppercase tracking-[0.22em] text-admin-ink-soft">
             Categoría
           </label>
           <input
             name="category"
             defaultValue={category}
-            className="w-full rounded-2xl border border-[#d8cdb0] bg-[#f8f4ea] px-4 py-3 text-sm text-[#17273f] outline-none transition-all focus:border-[#17273f] focus:bg-white focus:shadow-[0_0_0_4px_rgba(227,214,181,0.28)]"
+            className="w-full rounded-xl border border-admin-line bg-admin-canvas px-4 py-3 text-sm text-admin-ink outline-none transition-colors focus:border-admin-gold focus:bg-admin-surface"
           />
         </div>
         <div>
-          <label className="mb-2 block text-xs uppercase tracking-[0.22em] text-[#17273f]/55">
+          <label className="mb-2 block text-xs uppercase tracking-[0.22em] text-admin-ink-soft">
             Distancia desde el hotel
           </label>
           <input
             name="distanceFromHotel"
             defaultValue={distanceFromHotel ?? ""}
-            className="w-full rounded-2xl border border-[#d8cdb0] bg-[#f8f4ea] px-4 py-3 text-sm text-[#17273f] outline-none transition-all focus:border-[#17273f] focus:bg-white focus:shadow-[0_0_0_4px_rgba(227,214,181,0.28)]"
+            className="w-full rounded-xl border border-admin-line bg-admin-canvas px-4 py-3 text-sm text-admin-ink outline-none transition-colors focus:border-admin-gold focus:bg-admin-surface"
           />
         </div>
       </div>
 
       <div className="grid gap-5 md:grid-cols-2">
         <div>
-          <label className="mb-2 block text-xs uppercase tracking-[0.22em] text-[#17273f]/55">
+          <label className="mb-2 block text-xs uppercase tracking-[0.22em] text-admin-ink-soft">
             Dirección
           </label>
           <input
             name="address"
             defaultValue={address ?? ""}
-            className="w-full rounded-2xl border border-[#d8cdb0] bg-[#f8f4ea] px-4 py-3 text-sm text-[#17273f] outline-none transition-all focus:border-[#17273f] focus:bg-white focus:shadow-[0_0_0_4px_rgba(227,214,181,0.28)]"
+            className="w-full rounded-xl border border-admin-line bg-admin-canvas px-4 py-3 text-sm text-admin-ink outline-none transition-colors focus:border-admin-gold focus:bg-admin-surface"
           />
         </div>
         <div>
-          <label className="mb-2 block text-xs uppercase tracking-[0.22em] text-[#17273f]/55">
+          <label className="mb-2 block text-xs uppercase tracking-[0.22em] text-admin-ink-soft">
             Duración sugerida
           </label>
           <input
             name="recommendedDuration"
             defaultValue={recommendedDuration ?? ""}
-            className="w-full rounded-2xl border border-[#d8cdb0] bg-[#f8f4ea] px-4 py-3 text-sm text-[#17273f] outline-none transition-all focus:border-[#17273f] focus:bg-white focus:shadow-[0_0_0_4px_rgba(227,214,181,0.28)]"
+            className="w-full rounded-xl border border-admin-line bg-admin-canvas px-4 py-3 text-sm text-admin-ink outline-none transition-colors focus:border-admin-gold focus:bg-admin-surface"
           />
         </div>
       </div>
 
       <div className="grid gap-5 md:grid-cols-[1fr_auto]">
         <div>
-          <label className="mb-2 block text-xs uppercase tracking-[0.22em] text-[#17273f]/55">
+          <label className="mb-2 block text-xs uppercase tracking-[0.22em] text-admin-ink-soft">
             Google Maps URL
           </label>
           <input
             name="mapsUrl"
             defaultValue={mapsUrl ?? ""}
-            className="w-full rounded-2xl border border-[#d8cdb0] bg-[#f8f4ea] px-4 py-3 text-sm text-[#17273f] outline-none transition-all focus:border-[#17273f] focus:bg-white focus:shadow-[0_0_0_4px_rgba(227,214,181,0.28)]"
+            className="w-full rounded-xl border border-admin-line bg-admin-canvas px-4 py-3 text-sm text-admin-ink outline-none transition-colors focus:border-admin-gold focus:bg-admin-surface"
           />
         </div>
         <div className="flex items-end">
-          <label className="inline-flex items-center gap-3 rounded-2xl border border-[#e3d6b5] bg-white/70 px-4 py-3 text-sm text-[#17273f]">
+          <label className="inline-flex items-center gap-3 rounded-2xl border border-admin-line bg-white/70 px-4 py-3 text-sm text-admin-ink">
             <input
               type="checkbox"
               name="featured"
               defaultChecked={featured}
-              className="h-4 w-4 accent-[#17273f]"
+              className="h-4 w-4 accent-admin-nav"
             />
             Destacado
           </label>

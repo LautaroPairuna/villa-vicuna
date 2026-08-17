@@ -3,7 +3,7 @@ import UploadField from "./UploadField";
 import { Card, CoverPreview, FieldLabel } from "./ui";
 
 const inputCls =
-  "w-full rounded-2xl border border-[#d8cdb0] bg-[#f8f4ea] px-4 py-3 text-sm text-[#17273f] outline-none transition-all focus:border-[#17273f] focus:bg-white focus:shadow-[0_0_0_4px_rgba(227,214,181,0.28)]";
+  "w-full rounded-xl border border-admin-line bg-admin-canvas px-4 py-3 text-sm text-admin-ink outline-none transition-colors focus:border-admin-gold focus:bg-admin-surface";
 
 interface EditorialFormProps {
   backHref: string;
@@ -47,7 +47,7 @@ export default function EditorialForm({
       <div className="flex items-center justify-between">
         <Link
           href={backHref}
-          className="inline-flex items-center gap-2 rounded-full border border-[#e3d6b5] bg-white/70 px-4 py-2 text-xs uppercase tracking-[0.2em] text-[#17273f] transition-all hover:border-[#17273f] hover:bg-white"
+          className="inline-flex items-center gap-2 rounded-full border border-admin-line bg-white/70 px-4 py-2 text-xs uppercase tracking-[0.2em] text-admin-ink transition-all hover:border-admin-gold hover:bg-white"
         >
           Volver
         </Link>
@@ -62,13 +62,13 @@ export default function EditorialForm({
       </div>
 
       <Card>
-        <div className="mb-6 border-b border-[#efe7d2] pb-5">
-          <h2 className="text-xl uppercase tracking-[0.2em] text-[#17273f]">{title}</h2>
-          <p className="mt-3 max-w-3xl text-sm leading-6 text-[#17273f]/65">{subtitle}</p>
+        <div className="mb-6 border-b border-admin-line pb-5">
+          <h2 className="text-xl uppercase tracking-[0.2em] text-admin-ink">{title}</h2>
+          <p className="mt-3 max-w-3xl text-sm leading-6 text-admin-ink-soft">{subtitle}</p>
         </div>
 
         {coverFields && (
-          <div className="mb-6 flex flex-col gap-5 rounded-[24px] border border-[#efe7d2] bg-white/55 p-4 sm:flex-row">
+          <div className="mb-6 flex flex-col gap-5 rounded-xl border border-admin-line bg-admin-canvas p-4 sm:flex-row">
             <CoverPreview src={item?.coverUrl} alt={coverLabel} />
             <div className="flex-1 min-w-0 flex flex-col">
               <FieldLabel>{coverLabel}</FieldLabel>
@@ -128,12 +128,12 @@ export default function EditorialForm({
               <input name="seoTitle" defaultValue={item?.seoTitle ?? ""} className={inputCls} />
             </div>
             <div className="flex items-end">
-              <label className="inline-flex items-center gap-3 rounded-2xl border border-[#e3d6b5] bg-white/70 px-4 py-3 text-sm text-[#17273f]">
+              <label className="inline-flex items-center gap-3 rounded-2xl border border-admin-line bg-white/70 px-4 py-3 text-sm text-admin-ink">
                 <input
                   type="checkbox"
                   name="published"
                   defaultChecked={item?.published ?? false}
-                  className="h-4 w-4 accent-[#17273f]"
+                  className="h-4 w-4 accent-admin-nav"
                 />
                 Publicado
               </label>
@@ -150,8 +150,8 @@ export default function EditorialForm({
             />
           </div>
 
-          <div className="flex justify-end border-t border-[#efe7d2] pt-5">
-            <button className="rounded-2xl bg-[#17273f] px-5 py-3 text-xs uppercase tracking-[0.22em] text-white shadow-[0_14px_32px_rgba(23,39,63,0.18)] transition-all hover:bg-[#24395c] hover:shadow-[0_18px_36px_rgba(23,39,63,0.22)]">
+          <div className="flex justify-end border-t border-admin-line pt-5">
+            <button className="rounded-xl bg-admin-nav px-5 py-3 text-xs uppercase tracking-[0.22em] text-white transition-colors hover:bg-admin-nav-soft">
               Guardar
             </button>
           </div>

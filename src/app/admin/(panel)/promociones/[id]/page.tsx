@@ -27,48 +27,48 @@ function PromotionExtraFields({
     <>
       <div className="grid gap-5 md:grid-cols-2">
         <div>
-          <label className="mb-2 block text-xs uppercase tracking-[0.22em] text-[#17273f]/55">
+          <label className="mb-2 block text-xs uppercase tracking-[0.22em] text-admin-ink-soft">
             CTA Label
           </label>
           <input
             name="ctaLabel"
             defaultValue={ctaLabel ?? ""}
-            className="w-full rounded-2xl border border-[#d8cdb0] bg-[#f8f4ea] px-4 py-3 text-sm text-[#17273f] outline-none transition-all focus:border-[#17273f] focus:bg-white focus:shadow-[0_0_0_4px_rgba(227,214,181,0.28)]"
+            className="w-full rounded-xl border border-admin-line bg-admin-canvas px-4 py-3 text-sm text-admin-ink outline-none transition-colors focus:border-admin-gold focus:bg-admin-surface"
           />
         </div>
         <div>
-          <label className="mb-2 block text-xs uppercase tracking-[0.22em] text-[#17273f]/55">
+          <label className="mb-2 block text-xs uppercase tracking-[0.22em] text-admin-ink-soft">
             CTA Href
           </label>
           <input
             name="ctaHref"
             defaultValue={ctaHref ?? ""}
-            className="w-full rounded-2xl border border-[#d8cdb0] bg-[#f8f4ea] px-4 py-3 text-sm text-[#17273f] outline-none transition-all focus:border-[#17273f] focus:bg-white focus:shadow-[0_0_0_4px_rgba(227,214,181,0.28)]"
+            className="w-full rounded-xl border border-admin-line bg-admin-canvas px-4 py-3 text-sm text-admin-ink outline-none transition-colors focus:border-admin-gold focus:bg-admin-surface"
           />
         </div>
       </div>
 
       <div className="grid gap-5 md:grid-cols-2">
         <div>
-          <label className="mb-2 block text-xs uppercase tracking-[0.22em] text-[#17273f]/55">
+          <label className="mb-2 block text-xs uppercase tracking-[0.22em] text-admin-ink-soft">
             Vigencia desde
           </label>
           <input
             type="date"
             name="validFrom"
             defaultValue={toDateInput(validFrom)}
-            className="w-full rounded-2xl border border-[#d8cdb0] bg-[#f8f4ea] px-4 py-3 text-sm text-[#17273f] outline-none transition-all focus:border-[#17273f] focus:bg-white focus:shadow-[0_0_0_4px_rgba(227,214,181,0.28)]"
+            className="w-full rounded-xl border border-admin-line bg-admin-canvas px-4 py-3 text-sm text-admin-ink outline-none transition-colors focus:border-admin-gold focus:bg-admin-surface"
           />
         </div>
         <div>
-          <label className="mb-2 block text-xs uppercase tracking-[0.22em] text-[#17273f]/55">
+          <label className="mb-2 block text-xs uppercase tracking-[0.22em] text-admin-ink-soft">
             Vigencia hasta
           </label>
           <input
             type="date"
             name="validTo"
             defaultValue={toDateInput(validTo)}
-            className="w-full rounded-2xl border border-[#d8cdb0] bg-[#f8f4ea] px-4 py-3 text-sm text-[#17273f] outline-none transition-all focus:border-[#17273f] focus:bg-white focus:shadow-[0_0_0_4px_rgba(227,214,181,0.28)]"
+            className="w-full rounded-xl border border-admin-line bg-admin-canvas px-4 py-3 text-sm text-admin-ink outline-none transition-colors focus:border-admin-gold focus:bg-admin-surface"
           />
         </div>
       </div>

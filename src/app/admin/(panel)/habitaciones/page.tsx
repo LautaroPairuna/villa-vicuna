@@ -121,7 +121,7 @@ export default async function HabitacionesPage() {
             </div>
 
             {texts && (
-              <div className="mt-8 border-t border-[#e7ddc4] pt-6">
+              <div className="mt-8 border-t border-admin-line pt-6">
                 <FieldLabel>Textos de esta habitación</FieldLabel>
                 <div className="mt-3">
                   <TextEditor

@@ -3,14 +3,32 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { auth, signOut } from "@/auth";
+import { ADMIN_ROLE } from "@/auth.config";
 import { prisma } from "@/lib/prisma";
 import { saveUpload } from "@/lib/media";
 import { getSection, composeSplit } from "@/lib/editableContent";
 import { baseValue } from "@/lib/translations";
 
+/**
+ * Portero de todas las acciones que escriben. Las server actions son endpoints
+ * POST reales: se pueden invocar sin pasar por la UI, así que el chequeo del
+ * proxy no alcanza y este tiene que estar sí o sí.
+ *
+ * Además de validar el JWT, se releen rol y existencia contra la DB. El token
+ * está firmado y es válido hasta 7 días: sin esta consulta, un usuario borrado
+ * o al que se le bajó el rol seguiría escribiendo hasta que venza la cookie.
+ * Es una query indexada por email y solo corre en acciones de escritura.
+ */
 async function requireAdmin() {
   const session = await auth();
-  if (!session?.user) throw new Error("No autorizado");
+  const email = session?.user?.email;
+  if (!email) throw new Error("No autorizado");
+
+  const user = await prisma.user.findUnique({
+    where: { email },
+    select: { role: true },
+  });
+  if (user?.role !== ADMIN_ROLE) throw new Error("No autorizado");
 }
 
 // Resultado de las subidas de archivos. Se DEVUELVE (no se lanza) para que el

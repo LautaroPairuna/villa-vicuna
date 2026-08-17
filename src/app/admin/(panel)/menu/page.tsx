@@ -21,7 +21,7 @@ export default async function MenuPage() {
             action={setSectionImageAction}
             hidden={{ slug: "menu_foods" }}
           />
-          <div className="border-t border-[#efe7d2]" />
+          <div className="border-t border-admin-line" />
           <ImageField
             label="Bebidas"
             src={sections.menu_drinks}
