@@ -72,7 +72,14 @@ export default async function PromotionDetailPage({
       <article className="grid gap-10 bg-white lg:grid-cols-12 lg:items-start">
         {promotion.coverUrl && (
           <Reveal variant="left" duration={900} className="relative aspect-[5/6] overflow-hidden lg:col-span-6">
-            <Image src={promotion.coverUrl} alt={promotion.title} fill sizes="50vw" unoptimized className="object-cover" />
+            <Image
+              src={promotion.coverUrl}
+              alt={promotion.title}
+              fill
+              sizes="50vw"
+              unoptimized={promotion.coverUrl.startsWith("/uploads/")}
+              className="object-cover"
+            />
           </Reveal>
         )}
 

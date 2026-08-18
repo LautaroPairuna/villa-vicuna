@@ -118,7 +118,7 @@ export default async function PromotionsPage({
                     alt={promotion.title}
                     fill
                     sizes="(max-width: 1024px) 100vw, 45vw"
-                    unoptimized
+                    unoptimized={promotion.coverUrl?.startsWith("/uploads/")}
                     className="object-cover"
                   />
                 ) : (

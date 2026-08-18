@@ -93,7 +93,11 @@ export default async function SaltaPage({
                     alt={place.title}
                     fill
                     sizes="(max-width: 1024px) 100vw, 45vw"
-                    unoptimized
+                    // Solo las portadas subidas desde el panel saltean el
+                    // optimizador: media.ts ya las dejó en WebP redimensionado.
+                    // Las estáticas de /images sí tienen que pasar por él, o se
+                    // sirve el JPG original entero (1,2 MB en vez de 23 KB).
+                    unoptimized={place.coverUrl?.startsWith("/uploads/")}
                     className="object-cover"
                   />
                 ) : (

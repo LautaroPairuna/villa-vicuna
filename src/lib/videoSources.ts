@@ -17,7 +17,10 @@ const MIME_BY_EXT: Record<string, string> = {
  *
  * Si mañana se agrega otro par mp4 + webm a /public, va acá.
  */
-const HAS_WEBM_TWIN = new Set(["/videos/video-home.mp4"]);
+const HAS_WEBM_TWIN = new Set([
+  "/videos/video-home.mp4",
+  "/video-fondo-experiencias.mp4",
+]);
 
 function mimeFor(url: string): string {
   const clean = url.split(/[?#]/)[0] ?? url;
