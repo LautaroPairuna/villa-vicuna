@@ -234,6 +234,16 @@ export async function saveUpload(
   const publicPath = path.posix.join("/uploads", subdir, outName);
 
   return prisma.media.create({
-    data: { path: publicPath, alt, width, height, mime, size: outBuf.length },
+    data: {
+      path: publicPath,
+      // El archivo en disco pasa a llamarse `stem`, único e ilegible. Guardamos
+      // el nombre con el que llegó para que el panel pueda identificar la foto.
+      originalName: file.name,
+      alt,
+      width,
+      height,
+      mime,
+      size: outBuf.length,
+    },
   });
 }

@@ -538,12 +538,92 @@ export async function setSaltaPlaceCoverAction(formData: FormData): Promise<Uplo
   }
 }
 
+// ── Carrusel de un lugar de Salta ───────────────────────────────────
+export async function addSaltaPlaceImageAction(formData: FormData): Promise<UploadResult> {
+  await requireAdmin();
+
+  const placeId = requiredText(formData, "placeId");
+  const file = formData.get("file") as File | null;
+  if (!placeId || !file || file.size === 0) return { ok: false, error: "No se recibió ningún archivo." };
+
+  try {
+    const place = await prisma.saltaPlace.findUnique({
+      where: { id: placeId },
+      select: { slug: true },
+    });
+    if (!place) return { ok: false, error: "El lugar ya no existe." };
+
+    const media = await saveUpload(file, "salta", { alt: place.slug, baseName: place.slug });
+    // La nueva foto va al final: se ordena después desde el panel.
+    const last = await prisma.saltaPlaceImage.findFirst({
+      where: { placeId },
+      orderBy: { order: "desc" },
+    });
+    await prisma.saltaPlaceImage.create({
+      data: { placeId, mediaId: media.id, order: (last?.order ?? -1) + 1 },
+    });
+    refreshEditorial("salta", place.slug);
+    return { ok: true };
+  } catch (err) {
+    return uploadError(err);
+  }
+}
+
+export async function deleteSaltaPlaceImageAction(formData: FormData) {
+  await requireAdmin();
+  const id = requiredText(formData, "id");
+  if (!id) return;
+
+  const image = await prisma.saltaPlaceImage.findUnique({
+    where: { id },
+    select: { place: { select: { slug: true } } },
+  });
+  await prisma.saltaPlaceImage.delete({ where: { id } });
+  refreshEditorial("salta", image?.place.slug);
+}
+
+export async function moveSaltaPlaceImageAction(formData: FormData) {
+  await requireAdmin();
+  const id = requiredText(formData, "id");
+  const dir = String(formData.get("dir") ?? "");
+  if (!id) return;
+
+  const image = await prisma.saltaPlaceImage.findUnique({
+    where: { id },
+    select: { place: { select: { slug: true } } },
+  });
+  await swapOrder("saltaPlaceImage", id, dir === "up" ? -1 : 1);
+  refreshEditorial("salta", image?.place.slug);
+}
+
 export async function logoutAction() {
   await signOut({ redirectTo: "/admin/login" });
 }
 
 // ── Helper de reordenamiento (intercambia con el vecino) ────────────
-async function swapOrder(model: "roomImage" | "reviewImage", id: string, delta: number) {
+async function swapOrder(
+  model: "roomImage" | "reviewImage" | "saltaPlaceImage",
+  id: string,
+  delta: number,
+) {
+  if (model === "saltaPlaceImage") {
+    const current = await prisma.saltaPlaceImage.findUnique({ where: { id } });
+    if (!current) return;
+    const neighbor = await prisma.saltaPlaceImage.findFirst({
+      where: {
+        placeId: current.placeId,
+        order: delta < 0 ? { lt: current.order } : { gt: current.order },
+      },
+      orderBy: { order: delta < 0 ? "desc" : "asc" },
+    });
+    if (!neighbor) return;
+    await prisma.$transaction([
+      prisma.saltaPlaceImage.update({ where: { id: current.id }, data: { order: neighbor.order } }),
+      prisma.saltaPlaceImage.update({ where: { id: neighbor.id }, data: { order: current.order } }),
+    ]);
+    return;
+  }
+
   if (model === "roomImage") {
     const current = await prisma.roomImage.findUnique({ where: { id } });
     if (!current) return;

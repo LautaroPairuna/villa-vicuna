@@ -101,7 +101,9 @@ export default async function ResenasPage() {
                       key={img.id}
                       id={img.id}
                       src={img.media.path}
-                      alt={img.id}
+                      alt={img.media.originalName || img.id}
+                      name={img.media.originalName}
+                      updatedAt={img.media.updatedAt}
                       moveAction={moveReviewImageAction}
                       deleteAction={deleteReviewImageAction}
                     />

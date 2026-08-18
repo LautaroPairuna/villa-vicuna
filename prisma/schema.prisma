@@ -23,30 +23,35 @@ model User {
 
 // ── Biblioteca de medios ────────────────────────────────────────────
 model Media {
-  id        String   @id @default(cuid())
-  path      String   // ruta pública servida desde el volumen, p.ej. /uploads/rooms/twin-1.webp
-  alt       String   @default("")
-  width     Int?
-  height    Int?
-  mime      String?
-  size      Int?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String   @id @default(cuid())
+  path         String // ruta pública servida desde el volumen, p.ej. /uploads/rooms/twin-1.webp
+  // Nombre con el que llegó el archivo ("catedral-salta.jpg"). El archivo en
+  // disco se renombra a un stem único, así que sin esto el panel muestra
+  // miniaturas indistinguibles. Vacío en los medios anteriores a este campo.
+  originalName String   @default("")
+  alt          String   @default("")
+  width        Int?
+  height       Int?
+  mime         String?
+  size         Int?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
-  roomCovers    Room[]         @relation("RoomCover")
-  reviewCovers  Review[]       @relation("ReviewCover")
-  promotionCovers Promotion[]
+  roomCovers       Room[]            @relation("RoomCover")
+  reviewCovers     Review[]          @relation("ReviewCover")
+  promotionCovers  Promotion[]
   saltaPlaceCovers SaltaPlace[]
-  roomImages    RoomImage[]
-  reviewImages  ReviewImage[]
-  sectionImages SectionImage[]
+  roomImages       RoomImage[]
+  reviewImages     ReviewImage[]
+  saltaPlaceImages SaltaPlaceImage[]
+  sectionImages    SectionImage[]
 }
 
 // ── Habitaciones (solo imágenes; los textos siguen en next-intl por `key`) ──
 model Room {
   id        String      @id @default(cuid())
   key       String      @unique // coincide con la clave de traducción: twin_interna, matrimonial, ...
-  categoria String              // standard | superior
+  categoria String // standard | superior
   cantidad  String
   order     Int         @default(0)
   coverId   String?
@@ -116,22 +121,22 @@ model Translation {
 }
 
 model Promotion {
-  id             String   @id @default(cuid())
-  slug           String   @unique
+  id             String    @id @default(cuid())
+  slug           String    @unique
   title          String
-  summary        String   @db.Text
-  content        String   @db.Text
+  summary        String    @db.Text
+  content        String    @db.Text
   coverId        String?
-  cover          Media?   @relation(fields: [coverId], references: [id])
+  cover          Media?    @relation(fields: [coverId], references: [id])
   ctaLabel       String?
   ctaHref        String?
   validFrom      DateTime?
   validTo        DateTime?
   seoTitle       String?
-  seoDescription String?  @db.Text
-  published      Boolean  @default(false)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  seoDescription String?   @db.Text
+  published      Boolean   @default(false)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 
   @@index([published])
   @@index([validFrom])
@@ -157,7 +162,21 @@ model SaltaPlace {
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
 
+  images SaltaPlaceImage[]
+
   @@index([published])
   @@index([featured])
   @@index([category])
+}
+
+model SaltaPlaceImage {
+  id      String     @id @default(cuid())
+  placeId String
+  place   SaltaPlace @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  mediaId String
+  media   Media      @relation(fields: [mediaId], references: [id])
+  order   Int        @default(0)
+
+  @@index([placeId])
+  @@index([mediaId])
 }

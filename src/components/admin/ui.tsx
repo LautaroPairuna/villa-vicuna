@@ -105,35 +105,74 @@ function IconForm({
   );
 }
 
+/**
+ * Fecha corta y legible para el panel: "12 mar, 14:30".
+ * Se fija la zona horaria de Argentina para que el servidor y el navegador
+ * muestren lo mismo y React no marque un desajuste de hidratación.
+ */
+export function formatEditedAt(value: string | Date): string {
+  const date = typeof value === "string" ? new Date(value) : value;
+  if (Number.isNaN(date.getTime())) return "";
+  return new Intl.DateTimeFormat("es-AR", {
+    day: "2-digit",
+    month: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+    timeZone: "America/Argentina/Salta",
+  }).format(date);
+}
+
 // ── Miniatura de carrusel con barra de acciones sobre la imagen ─────
+// Debajo van el nombre con el que se subió el archivo y cuándo se editó: sin
+// eso, un carrusel de seis fotos es una fila de miniaturas indistinguibles.
 export function MediaTile({
   id,
   src,
   alt,
+  name,
+  updatedAt,
   moveAction,
   deleteAction,
 }: {
   id: string;
   src: string;
   alt: string;
+  name?: string;
+  updatedAt?: string | Date;
   moveAction: (formData: FormData) => void;
   deleteAction: (formData: FormData) => void;
 }) {
+  const edited = updatedAt ? formatEditedAt(updatedAt) : "";
   return (
-    <div className="group relative h-32 w-32 overflow-hidden rounded-xl border border-admin-line bg-admin-canvas">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={src} alt={alt} className="h-full w-full object-cover" />
-      <div className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-admin-nav/85 px-1 backdrop-blur-[1px]">
-        <IconForm action={moveAction} fields={{ id, dir: "up" }} title="Mover antes">
-          <FiChevronLeft className="w-4 h-4" />
-        </IconForm>
-        <IconForm action={deleteAction} fields={{ id }} title="Eliminar" danger>
-          <FiTrash2 className="w-3.5 h-3.5" />
-        </IconForm>
-        <IconForm action={moveAction} fields={{ id, dir: "down" }} title="Mover después">
-          <FiChevronRight className="w-4 h-4" />
-        </IconForm>
+    <div className="w-32">
+      <div className="group relative h-32 w-32 overflow-hidden rounded-xl border border-admin-line bg-admin-canvas">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={src} alt={alt} className="h-full w-full object-cover" />
+        <div className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-admin-nav/85 px-1 backdrop-blur-[1px]">
+          <IconForm action={moveAction} fields={{ id, dir: "up" }} title="Mover antes">
+            <FiChevronLeft className="w-4 h-4" />
+          </IconForm>
+          <IconForm action={deleteAction} fields={{ id }} title="Eliminar" danger>
+            <FiTrash2 className="w-3.5 h-3.5" />
+          </IconForm>
+          <IconForm action={moveAction} fields={{ id, dir: "down" }} title="Mover después">
+            <FiChevronRight className="w-4 h-4" />
+          </IconForm>
+        </div>
       </div>
+      {(name || edited) && (
+        <div className="mt-2 space-y-0.5">
+          {name && (
+            // `title` completo: el nombre se recorta pero se puede leer entero
+            // pasando el mouse por encima.
+            <p className="truncate text-[11px] text-admin-ink" title={name}>
+              {name}
+            </p>
+          )}
+          {edited && <p className="text-[10px] text-admin-ink-soft">{edited}</p>}
+        </div>
+      )}
     </div>
   );
 }

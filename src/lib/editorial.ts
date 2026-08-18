@@ -54,6 +54,10 @@ function toSaltaPlace(item: {
   featured: boolean;
   published: boolean;
   cover: { path: string } | null;
+  images?: {
+    id: string;
+    media: { path: string; originalName: string; updatedAt: Date };
+  }[];
 }): SaltaPlaceContent {
   return {
     id: item.id,
@@ -71,6 +75,14 @@ function toSaltaPlace(item: {
     seoDescription: item.seoDescription,
     featured: item.featured,
     published: item.published,
+    images: (item.images ?? []).map((img) => ({
+      id: img.id,
+      url: img.media.path,
+      // Los medios cargados antes de que existiera originalName tienen la
+      // cadena vacía: mostramos el archivo en disco como último recurso.
+      name: img.media.originalName || img.media.path.split("/").pop() || "",
+      updatedAt: img.media.updatedAt.toISOString(),
+    })),
   };
 }
 
@@ -127,11 +139,17 @@ export async function getPromotionByIdAdmin(id: string): Promise<PromotionConten
   }
 }
 
+// El carrusel siempre sale en el orden que fijó el panel.
+const SALTA_IMAGES_INCLUDE = {
+  include: { media: true },
+  orderBy: { order: "asc" },
+} as const;
+
 export async function getPublishedSaltaPlaces(): Promise<SaltaPlaceContent[]> {
   try {
     const rows = await prisma.saltaPlace.findMany({
       where: { published: true },
-      include: { cover: true },
+      include: { cover: true, images: SALTA_IMAGES_INCLUDE },
       orderBy: [{ featured: "desc" }, { createdAt: "desc" }],
     });
 
@@ -145,7 +163,7 @@ export async function getSaltaPlaceBySlug(slug: string): Promise<SaltaPlaceConte
   try {
     const row = await prisma.saltaPlace.findFirst({
       where: { slug, published: true },
-      include: { cover: true },
+      include: { cover: true, images: SALTA_IMAGES_INCLUDE },
     });
 
     return row ? toSaltaPlace(row) : null;
@@ -157,7 +175,7 @@ export async function getSaltaPlaceBySlug(slug: string): Promise<SaltaPlaceConte
 export async function getAllSaltaPlacesAdmin(): Promise<SaltaPlaceContent[]> {
   try {
     const rows = await prisma.saltaPlace.findMany({
-      include: { cover: true },
+      include: { cover: true, images: SALTA_IMAGES_INCLUDE },
       orderBy: [{ featured: "desc" }, { published: "desc" }, { createdAt: "desc" }],
     });
 
@@ -171,7 +189,7 @@ export async function getSaltaPlaceByIdAdmin(id: string): Promise<SaltaPlaceCont
   try {
     const row = await prisma.saltaPlace.findUnique({
       where: { id },
-      include: { cover: true },
+      include: { cover: true, images: SALTA_IMAGES_INCLUDE },
     });
 
     return row ? toSaltaPlace(row) : null;

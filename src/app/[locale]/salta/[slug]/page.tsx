@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import PublicEditorialLayout from "@/components/PublicEditorialLayout";
+import PlaceCarousel from "@/components/PlaceCarousel";
 import Reveal from "@/components/Reveal";
 import {
   editorialBody,
@@ -53,19 +54,25 @@ export default async function SaltaPlacePage({
 
   const paragraphs = place.content.split(/\n{2,}/).filter(Boolean);
 
+  // La portada abre el carrusel y después van las fotos cargadas en el panel.
+  // Se filtra por URL para no repetirla si además está en el carrusel.
+  //
+  // El alt es siempre el nombre del lugar: el nombre de archivo que guarda el
+  // panel sirve para identificar la foto al administrarla, pero como texto
+  // alternativo sería peor que nada ("catedral-2-final.jpg" no describe nada).
+  const slides = [
+    ...(place.coverUrl ? [{ url: place.coverUrl, alt: place.title }] : []),
+    ...place.images
+      .filter((img) => img.url !== place.coverUrl)
+      .map((img) => ({ url: img.url, alt: place.title })),
+  ];
+
   return (
     <PublicEditorialLayout eyebrow="Salta Capital" title={place.title} description={place.summary}>
       <article className="grid gap-10 bg-white lg:grid-cols-12 lg:items-start">
-        {place.coverUrl && (
-          <Reveal variant="left" duration={900} className="relative aspect-[5/6] overflow-hidden lg:col-span-6">
-            <Image
-              src={place.coverUrl}
-              alt={place.title}
-              fill
-              sizes="50vw"
-              unoptimized={place.coverUrl.startsWith("/uploads/")}
-              className="object-cover"
-            />
+        {slides.length > 0 && (
+          <Reveal variant="left" duration={900} className="lg:col-span-6">
+            <PlaceCarousel slides={slides} />
           </Reveal>
         )}
 
@@ -73,7 +80,7 @@ export default async function SaltaPlacePage({
           variant="right"
           delay={140}
           duration={900}
-          className={`${place.coverUrl ? "lg:col-span-6" : "lg:col-span-12"} relative px-2 py-4 lg:px-8`}
+          className={`${slides.length > 0 ? "lg:col-span-6" : "lg:col-span-12"} relative px-2 py-4 lg:px-8`}
         >
           <div className="pointer-events-none absolute -left-10 top-1/3 hidden h-[280px] w-[280px] opacity-55 lg:block">
             <Image src="/images/fondo-carta-3.svg" alt="" fill className="object-contain" />

@@ -1,8 +1,12 @@
 import { notFound } from "next/navigation";
 import EditorialForm from "@/components/admin/EditorialForm";
-import { PageHeader } from "@/components/admin/ui";
+import { Card, CardTitle, EmptyHint, MediaTile, PageHeader } from "@/components/admin/ui";
+import UploadField from "@/components/admin/UploadField";
 import {
+  addSaltaPlaceImageAction,
   deleteSaltaPlaceAction,
+  deleteSaltaPlaceImageAction,
+  moveSaltaPlaceImageAction,
   setSaltaPlaceCoverAction,
   updateSaltaPlaceAction,
 } from "@/app/admin/actions";
@@ -136,6 +140,42 @@ export default async function SaltaPlaceDetailPage({
         }
         deleteAction={deleteSaltaPlaceAction}
       />
+
+      {/* Carrusel del lugar: la portada sigue siendo la foto del listado, y
+          estas son las que se ven al entrar al detalle. */}
+      <Card>
+        <CardTitle>Carrusel ({place.images.length})</CardTitle>
+        <div className="space-y-5">
+          {place.images.length === 0 ? (
+            <EmptyHint>
+              Todavía no hay fotos en el carrusel. La portada abre la galería y estas van después.
+            </EmptyHint>
+          ) : (
+            <div className="flex flex-wrap gap-4">
+              {place.images.map((img) => (
+                <MediaTile
+                  key={img.id}
+                  id={img.id}
+                  src={img.url}
+                  alt={img.name || place.title}
+                  name={img.name}
+                  updatedAt={img.updatedAt}
+                  moveAction={moveSaltaPlaceImageAction}
+                  deleteAction={deleteSaltaPlaceImageAction}
+                />
+              ))}
+            </div>
+          )}
+          <div className="max-w-md">
+            <UploadField
+              action={addSaltaPlaceImageAction}
+              hidden={{ placeId: place.id }}
+              label="Agregar"
+              successLabel="Foto agregada"
+            />
+          </div>
+        </div>
+      </Card>
     </div>
   );
 }
