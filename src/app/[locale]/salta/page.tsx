@@ -110,13 +110,22 @@ export default async function SaltaPage({
                 variant={index % 2 === 0 ? "left" : "right"}
                 delay={140}
                 duration={900}
-                className={`relative lg:col-span-6 ${index % 2 === 0 ? "lg:order-1" : ""}`}
+                className={`relative lg:col-span-6 lg:flex lg:h-full lg:flex-col lg:justify-center ${
+                  index % 2 === 0 ? "lg:order-1" : ""
+                }`}
               >
-                {/* Marca de agua decorativa. Va anclada abajo a la derecha, en el
-                    hueco que dejan los botones: centrada a la izquierda como
-                    estaba, quedaba justo detrás del párrafo y le comía
-                    legibilidad. */}
-                <div className="pointer-events-none absolute right-0 top-full hidden h-[360px] w-[360px] -translate-y-1/4 opacity-55 lg:block">
+                {/* Marca de agua decorativa, abajo a la derecha, en el hueco que
+                    dejan los botones. Centrada a la izquierda como estaba, caía
+                    detrás del párrafo y le comía legibilidad.
+
+                    La caja respeta la proporción real del SVG (280x124 mm, o
+                    sea 2,26:1). Con una caja cuadrada, `object-contain` dibujaba
+                    el arte al ancho y dejaba ~100 px de aire arriba y abajo, que
+                    era lo que la hacía sobresalir por debajo de la foto.
+
+                    `bottom-0` cae en el borde inferior de la imagen porque la
+                    columna se estira a todo el alto de la fila (lg:h-full). */}
+                <div className="pointer-events-none absolute bottom-0 right-0 hidden h-[159px] w-[360px] opacity-55 lg:block">
                   <Image src="/images/fondo-carta-2.svg" alt="" fill className="object-contain" />
                 </div>
                 <div className="relative z-10 px-2 py-6 lg:px-8">
