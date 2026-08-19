@@ -495,7 +495,12 @@ section {
   min-height: auto !important;
   font-size: 0.875rem !important;
   line-height: inherit !important;
-  font-weight: inherit !important;
+  /* Peso explícito, no `inherit`: heredaba del contenedor y arriba hay una
+     regla base `p, a, li { font-weight: 100 }` para el sitio público, así que
+     "Reservar" salía finito al lado de los demás enlaces del navbar, que van
+     en font-medium (500). El modificador --nav existe justamente para igualar
+     el botón de Cloudbeds a esos enlaces. */
+  font-weight: 500 !important;
 }
 
 @media (min-width: 1536px) {
@@ -601,7 +606,9 @@ footer {
     margin: 0 !important;
     padding: 0 !important;                /* Sin padding extra para igualar */
     line-height: inherit !important;
-    font-weight: inherit !important;
+    /* font-semibold, igual que los enlaces del menú móvil. Antes decía
+       `inherit` y terminaba tomando el 100 de la regla base del sitio. */
+    font-weight: 600 !important;
   }
 }
 
@@ -643,6 +650,8 @@ footer {
     margin: 0 !important;
     padding: 0 !important;                /* Sin padding extra para igualar */
     line-height: inherit !important;
-    font-weight: inherit !important;
+    /* font-semibold, igual que los enlaces del menú móvil. Antes decía
+       `inherit` y terminaba tomando el 100 de la regla base del sitio. */
+    font-weight: 600 !important;
   }
 }
