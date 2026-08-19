@@ -112,7 +112,11 @@ export default async function SaltaPage({
                 duration={900}
                 className={`relative lg:col-span-6 ${index % 2 === 0 ? "lg:order-1" : ""}`}
               >
-                <div className="pointer-events-none absolute -left-10 top-1/2 hidden h-[280px] w-[280px] -translate-y-1/2 opacity-55 lg:block">
+                {/* Marca de agua decorativa. Va anclada abajo a la derecha, en el
+                    hueco que dejan los botones: centrada a la izquierda como
+                    estaba, quedaba justo detrás del párrafo y le comía
+                    legibilidad. */}
+                <div className="pointer-events-none absolute right-0 top-full hidden h-[360px] w-[360px] -translate-y-1/4 opacity-55 lg:block">
                   <Image src="/images/fondo-carta-2.svg" alt="" fill className="object-contain" />
                 </div>
                 <div className="relative z-10 px-2 py-6 lg:px-8">
