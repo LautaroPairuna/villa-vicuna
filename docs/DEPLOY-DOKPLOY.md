@@ -179,29 +179,93 @@ docker inspect --format '{{.State.OOMKilled}} {{.State.ExitCode}}' <ID_DEL_CONTE
 
 El `<ID_DEL_CONTENEDOR>` sale de `docker ps | grep villa`.
 
+### Videos
+
+Los tres videos del sitio son **fondos decorativos**: van con `autoPlay loop muted
+playsInline`, detrás de un overlay negro (55% en las dos secciones de experiencias, 10%
+en el hero) y con texto encima. Estaban tal cual salieron de la cámara.
+
+| | antes | ahora | bitrate |
+|---|---|---|---|
+| `video-fondo-experiencias.mp4` | 90.5 MB | **6.6 MB** | 10.6 -> 0.79 Mbps |
+| `videos/video-home.mp4` | 32.0 MB | **13.4 MB** | 2.07 -> 0.86 Mbps |
+| `videos/video-home.webm` | 23.0 MB | **eliminado** | ver abajo |
+| `experiencias/video-nueva-seccion-experiencias.mp4` | 2.2 MB | **0.7 MB** | 1.94 Mbps |
+
+**145 MB -> 21 MB.** En peso de página, medido contra el servidor de producción:
+
+| | antes | ahora |
+|---|---|---|
+| home (`/`) | ~29 MB | **19.7 MB** |
+| `/experiencias` | ~93 MB | **8.2 MB** |
+
+Dos cosas explican casi todo:
+
+- El de experiencias venía a **10.6 Mbps**, que es bitrate de cámara, no de web.
+- Los tres llevaban **pista de audio** (320 kbps en el más grande) que nunca suena,
+  porque los `<video>` son `muted`. Se saca con `-an`.
+
+Los comandos que se usaron:
+
+```bash
+# Fondo de experiencias: sin audio (-an) y con el índice adelante (+faststart),
+# para que el navegador empiece a reproducir sin bajar el archivo entero.
+ffmpeg -i public/video-fondo-experiencias.mp4 -c:v libx264 -crf 30 -preset slow -pix_fmt yuv420p -an -movflags +faststart salida.mp4
+```
+
+```bash
+# Hero: CRF 33 en vez de 30 porque dura 129 s (contra 70 s) y también es fondo.
+ffmpeg -i public/videos/video-home.mp4 -c:v libx264 -crf 33 -preset slow -pix_fmt yuv420p -an -movflags +faststart salida.mp4
+```
+
+Verificado contra el original: el de experiencias da **SSIM 0.989 / PSNR 46.4 dB**
+(mínimo 41.3 en el peor frame), el hero **PSNR 35.8 dB**. Arriba de 40 dB se considera
+visualmente sin pérdida; el hero queda más abajo pero es también el que menos detalle
+fino tiene y el que va más tapado.
+
+**Por qué se eliminó el `.webm`:** existía porque pesaba menos que el mp4 (24 contra
+33 MB) y `videoSources.ts` lo ofrecía primero. Al recomprimir, la relación se dio vuelta:
+el mp4 quedó en 13.4 MB y ningún VP9 ni AV1 que se probó bajó de ahí al mismo bitrate. Un
+solo archivo H.264 anda en todos lados y no hay dos versiones que mantener sincronizadas.
+`HAS_WEBM_TWIN` quedó vacío pero el mecanismo sigue, por si vuelve a convenir.
+
+> **Ojo al medir calidad de video:** el PSNR entre un `.webm` y un `.mp4` **no sirve** tal
+> cual. Se comprobó: el mismo encode AV1 mide 40.5 dB guardado en mp4 y 31.0 dB guardado
+> en webm, porque los contenedores arrancan con timing distinto y el filtro termina
+> comparando frames desalineados. Comparar siempre dentro del mismo contenedor.
+
+**Si alguna vez querés apretar más el hero:** AV1 da ~2 dB más de calidad que H.264 al
+mismo bitrate (medido: 701 kbps -> 40.5 dB con AV1 contra 663 kbps -> 38.3 dB con H.264).
+Sirve para bajar el peso a igual calidad, pero obliga a mantener el mp4 como fallback
+(Safari sin AV1 por hardware no lo reproduce) y a declarar el códec dentro del `type` del
+`<source>`. Son dos archivos y un riesgo de video negro: por eso no se hizo.
+
 ### Lo que queda pendiente (no se tocó)
-
-- **`public/video-fondo-experiencias.mp4` pesa 90 MB.** No es RAM, es ancho de banda: 10
-  visitas concurrentes a `/experiencias` son 900 MB de tránsito. No tiene versión `.webm`
-  ni está comprimido. Vale la pena pasarlo por:
-
-  ```bash
-  # Recomprime el video de fondo (sin audio, que no se usa: está en muted)
-  ffmpeg -i public/video-fondo-experiencias.mp4 -vf "scale=1280:-2" -c:v libx264 -crf 28 -preset slow -an public/video-fondo-experiencias-nuevo.mp4
-  ```
-
-  Después comparalo a ojo y, si está bien, reemplazá el original. Lo mismo aplica a
-  `public/videos/video-home.mp4` (32 MB).
-
-- **Los SVG del menú pesan 2.3 MB y 1.9 MB** (725 KB y 533 KB gzipeados, que es lo que
-  viaja). Son vectores de CorelDRAW con el texto convertido a curvas; `next/image` nunca
-  los tocó, ni antes ni ahora. Son hoy lo más pesado de la home. Se pueden reemplazar sin
-  tocar código, subiendo una versión mejor desde **/admin/menu**.
 
 - **`serverActions.bodySizeLimit` está en 50 MB.** Un server action bufferea el cuerpo
   entero en RAM antes de ejecutarse, así que subir un video de 40 MB desde el panel es un
   pico de +40 MB. Se deja así porque bajarlo rompería la subida de videos; es de una sola
   persona, en el panel, y no en la carga del sitio público.
+
+- **Los SVG del menú siguen pesando 2.3 MB y 1.9 MB** (725 KB y 533 KB gzipeados, que es
+  lo que viaja). Son exports de CorelDRAW con el texto convertido a curvas, con
+  coordenadas de 2 decimales sobre un viewBox de 18325 unidades que se dibuja a ~800 px:
+  precisión de 0.0004 px, o sea megabytes de dígitos que nadie puede ver. `next/image`
+  nunca los tocó, ni antes ni ahora, así que hoy son lo más pesado de la home.
+
+  Se probó pasarlos por `svgo` (bajaban a 322 KB gzip, render idéntico verificado al
+  100%), pero se descartó: el mismo redondeo que es inocuo en un viewBox de 18000
+  unidades **deforma los íconos**, que tienen viewBox de ~150. Habría que aplicar una
+  precisión distinta por archivo, y no vale la complejidad.
+
+  El camino barato: reemplazarlos desde **/admin/menu**, subiendo una versión más liviana.
+  No requiere tocar código. Hoy son 4.3 MB de los 19.7 MB de la home, el segundo ítem
+  más pesado después del video.
+
+- **Hay archivos en `public/` que no referencia nadie**: los 6 `WhatsApp Video ...mp4` de
+  `public/images/experiencias/` (~17 MB) y los dos menús `*-cafayate.svg`. No se sirven
+  nunca, así que no cuestan ancho de banda, pero sí pesan en el repo y en cada deploy. No
+  se borraron por las dudas: revisalos y, si no los vas a usar, sacalos.
 
 ### Lo que ya estaba y sigue valiendo
 

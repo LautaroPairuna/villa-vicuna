@@ -8,16 +8,21 @@ const MIME_BY_EXT: Record<string, string> = {
 };
 
 /**
- * Videos estáticos de /public que además existen en .webm con el mismo nombre.
+ * Videos estáticos de /public que además existen en otro formato.
  *
- * Es una lista explícita a propósito. Los videos que se suben desde el panel
- * son un solo archivo (media.ts no transcodifica video), así que derivar el
- * .webm por convención agregaría un <source> inexistente y un 404 en cada
- * carga. Al listarlos, solo se ofrece el webm donde realmente está.
+ * Hoy está vacío a propósito. Había un `video-home.webm` (VP9) que se ofrecía
+ * antes del mp4 porque pesaba menos: 24 MB contra 33 MB. Al recomprimir los
+ * videos esa relación se dio vuelta —el mp4 quedó en 13 MB, más chico que
+ * cualquier VP9 o AV1 que se probó al mismo bitrate— así que el segundo archivo
+ * dejó de tener sentido y se eliminó.
  *
- * Si mañana se agrega otro par mp4 + webm a /public, va acá.
+ * Si mañana se agrega un par (mp4 + webm) donde el webm SÍ pese menos, va acá.
+ * Es una lista explícita y no una convención por nombre porque los videos que
+ * se suben desde el panel son un solo archivo (media.ts no transcodifica
+ * video): derivar el .webm agregaría un <source> inexistente y un 404 en cada
+ * carga.
  */
-const HAS_WEBM_TWIN = new Set(["/videos/video-home.mp4"]);
+const HAS_WEBM_TWIN = new Set<string>([]);
 
 function mimeFor(url: string): string {
   const clean = url.split(/[?#]/)[0] ?? url;
@@ -30,12 +35,8 @@ function mimeFor(url: string): string {
  * Fuentes ordenadas para un <video>, de preferida a fallback.
  *
  * El navegador se queda con el primer <source> cuyo `type` dice soportar, así
- * que el orden es la decisión: webm primero porque pesa bastante menos (24 MB
- * contra 33 MB en el video del hero), y mp4 después como red de seguridad.
- *
- * Safari en iOS es el motivo del mp4: recién soporta WebM de forma parcial
- * desde 17.4, así que descarta el primer <source> y cae al segundo, que es
- * H.264 y funciona en todos lados.
+ * que el orden es la decisión. Hoy todos los videos son H.264 en mp4, que anda
+ * en todos lados, y devuelve una sola fuente.
  *
  * El atributo `type` no es opcional para que esto funcione: sin él el navegador
  * tiene que descargar cada fuente para saber si puede reproducirla, que es
