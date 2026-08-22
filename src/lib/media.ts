@@ -40,10 +40,32 @@ type SharpFn = (
 // Carga sharp de forma perezosa y tolerante: si el binario nativo no carga
 // (p.ej. problemas de sharp en Windows), devolvemos null y guardamos el
 // original sin convertir, en vez de romper la subida.
+let sharpTuned = false;
+
 async function tryLoadSharp(): Promise<SharpFn | null> {
   try {
     const mod = await import("sharp");
-    return (mod as unknown as { default?: SharpFn }).default ?? (mod as unknown as SharpFn);
+    const sharp = (mod as unknown as { default?: SharpFn }).default ?? (mod as unknown as SharpFn);
+
+    if (!sharpTuned) {
+      sharpTuned = true;
+      // libvips, por defecto, se guarda un caché de operaciones (~50 MB) y
+      // levanta un pool de hilos con un hilo por core. En el VPS eso es RAM
+      // que queda tomada para siempre después de la primera subida, porque
+      // glibc no le devuelve al SO la memoria que libera un hilo nativo.
+      //
+      // Acá el panel lo usa una persona a la vez, para una foto a la vez: sin
+      // caché y con concurrencia 1, el pico de una subida es el de esa única
+      // imagen y se libera al terminar.
+      const tuning = sharp as unknown as {
+        cache?: (v: boolean) => void;
+        concurrency?: (v: number) => void;
+      };
+      tuning.cache?.(false);
+      tuning.concurrency?.(1);
+    }
+
+    return sharp;
   } catch (err) {
     console.warn("sharp no disponible; se guarda la imagen sin optimizar.", err);
     return null;

@@ -6,8 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "postbuild": "next-sitemap",
-    "start": "prisma migrate deploy || true && next start",
+    "start": "prisma migrate deploy || true && MALLOC_ARENA_MAX=2 NODE_OPTIONS=--max-old-space-size=512 next start",
     "lint": "eslint .",
+    "optimize:images": "node scripts/optimize-images.mjs",
     "postinstall": "prisma generate",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate deploy",
@@ -31,6 +32,7 @@
     "react-dom": "^19.2.8",
     "react-icons": "^5.7.0",
     "react-slick": "^0.31.0",
+    "sharp": "^0.35.3",
     "slick-carousel": "^1.8.1",
     "sonner": "^2.0.8"
   },
@@ -46,7 +48,6 @@
     "eslint-config-next": "^16.3.1",
     "next-sitemap": "^4.2.3",
     "postcss": "^8.5.26",
-    "sharp": "^0.35.3",
     "tailwindcss": "^4.3.3",
     "tsx": "^4.23.12",
     "typescript": "^7.0.2"

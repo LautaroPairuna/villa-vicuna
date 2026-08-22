@@ -11,12 +11,21 @@ const nextConfig = {
   poweredByHeader: false,
 
   images: {
-    formats: ["image/avif", "image/webp"],
-    // Acotamos las variantes que genera next/image: menos CPU y menos disco.
-    deviceSizes: [360, 640, 828, 1200, 1920],
-    imageSizes: [96, 200, 300],
-    // Las imágenes optimizadas se cachean ~31 días.
-    minimumCacheTTL: 2678400,
+    // El optimizador en runtime de next/image es, de lejos, lo que más RAM
+    // consumía en el VPS: por cada variante que pide un visitante, sharp
+    // decodifica la foto ORIGINAL a bitmap crudo. Una de 3072x4608 son ~42 MB
+    // de RAM antes de empezar a comprimir, y AVIF es el encoder más caro de
+    // todos. Con varias visitas en paralelo el proceso escalaba a cientos de
+    // MB que glibc después no le devuelve al sistema operativo.
+    //
+    // Con `unoptimized`, sharp/libvips no se carga nunca en el camino de un
+    // request: el server solo manda el archivo que ya está en disco. Eso se
+    // banca porque los dos orígenes de imágenes ya vienen comprimidos:
+    //   - las que sube el panel -> WebP <=2000px con sharp (src/lib/media.ts),
+    //   - las estáticas de /public -> `npm run optimize:images`.
+    // Si alguna vez se agregan fotos a /public sin pasar por ese script, el
+    // visitante se descarga el original tal cual: ese es el precio de esto.
+    unoptimized: true,
   },
 
   // Paquetes nativos / solo-servidor que no deben bundlearse.
