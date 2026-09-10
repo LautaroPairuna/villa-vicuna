@@ -63,6 +63,12 @@ export default async function PromotionDetailPage({
 
   const paragraphs = promotion.content.split(/\n{2,}/).filter(Boolean);
 
+  // Con foto la columna de texto ocupa media pantalla y los botones no entran
+  // en una línea, así que van apilados a todo su ancho. Sin foto la columna
+  // ocupa las doce y a todo el ancho quedarían enormes: ahí van en línea, como
+  // en el resto del sitio.
+  const ctasApilados = Boolean(promotion.coverUrl);
+
   return (
     <PublicEditorialLayout
       eyebrow="Promociones"
@@ -110,18 +116,20 @@ export default async function PromotionDetailPage({
             ))}
           </div>
 
-          {/* Los dos botones van apilados y a todo el ancho de la columna: las
-              etiquetas se cargan desde el panel, así que no se puede confiar en
-              que entren los dos en una línea. Apilados quedan siempre del mismo
-              ancho y alineados con la foto. */}
-          <div className="mt-10 flex flex-col gap-4">
+          {/* Apilados quedan los dos del mismo ancho y alineados con la foto.
+              Además la etiqueta del CTA se carga desde el panel, así que no se
+              puede confiar en que entren los dos en una línea. */}
+          <div className={`mt-10 flex gap-4 ${ctasApilados ? "flex-col" : "flex-wrap"}`}>
             <EditorialBookButton
               label={promotion.ctaLabel || "Reservar"}
               fallbackUrl={promotion.ctaHref}
-              className={`${editorialPrimaryButton} w-full text-center`}
-              wrapperClassName="w-full"
+              className={`${editorialPrimaryButton} ${ctasApilados ? "w-full text-center" : ""}`}
+              wrapperClassName={ctasApilados ? "w-full" : undefined}
             />
-            <Link href="/promociones" className={`${editorialSecondaryButton} w-full text-center`}>
+            <Link
+              href="/promociones"
+              className={`${editorialSecondaryButton} ${ctasApilados ? "w-full text-center" : ""}`}
+            >
               Volver a promociones
             </Link>
           </div>

@@ -17,7 +17,18 @@ export type CarouselSlide = { url: string; alt: string };
  * El desplazamiento lo hace el navegador con scroll-snap: sin JavaScript se
  * arrastra igual, y los botones solo agregan comodidad en escritorio.
  */
-export default function PlaceCarousel({ slides }: { slides: CarouselSlide[] }) {
+export default function PlaceCarousel({
+  slides,
+  /**
+   * Clases de la caja del carrusel. Por defecto manda el aspect ratio; el
+   * detalle de un lugar lo pisa para que en desktop el carrusel se estire con
+   * la fila del grid y termine a la misma altura que la columna de texto.
+   */
+  className = "aspect-[5/6]",
+}: {
+  slides: CarouselSlide[];
+  className?: string;
+}) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
 
@@ -49,7 +60,7 @@ export default function PlaceCarousel({ slides }: { slides: CarouselSlide[] }) {
   const single = slides.length === 1;
 
   return (
-    <div className="relative aspect-[5/6] overflow-hidden">
+    <div className={`relative overflow-hidden ${className}`}>
       <div
         ref={trackRef}
         className={`flex h-full w-full ${single ? "" : "snap-x snap-mandatory overflow-x-auto"} scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden`}
