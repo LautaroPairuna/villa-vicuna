@@ -4,6 +4,7 @@ import { useCallback, useState } from "react";
 import dynamic from "next/dynamic";
 import Reveal from "./Reveal";
 import { ImageWithFallback } from "./ImageWithFallback";
+import IconoLupa from "./IconoLupa";
 import { editorialEyebrow } from "./editorialUi";
 
 export type { ExperienceFormat } from "./formatosTypes";
@@ -55,9 +56,7 @@ export default function ExperiencesFormatos({
               {/* hover "ver más" */}
               <div className="absolute inset-0 flex items-center justify-center bg-black/35 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                 <span className="flex items-center gap-2 text-sm uppercase tracking-[0.2em] text-white">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
-                    <path d="M10 4a6 6 0 105.293 9.293l3.707 3.707a1 1 0 001.414-1.414l-3.707-3.707A6 6 0 0010 4zm0 2a4 4 0 110 8 4 4 0 010-8z" />
-                  </svg>
+                  <IconoLupa />
                   {labels.verMasLabel}
                 </span>
               </div>

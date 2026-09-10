@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import Reveal from "./Reveal";
+import IconoLupa from "./IconoLupa";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import type { RoomContent } from "@/lib/contentTypes";
@@ -96,9 +97,7 @@ export default function HabitacionesComponent({ rooms }: { rooms?: RoomContent[]
                   />
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/35 flex items-center justify-center text-white">
                     <div className="flex items-center gap-2 uppercase tracking-widest">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-                        <path d="M10 4a6 6 0 105.293 9.293l3.707 3.707a1 1 0 001.414-1.414l-3.707-3.707A6 6 0 0010 4zm0 2a4 4 0 110 8 4 4 0 010-8z" />
-                      </svg>
+                      <IconoLupa className="h-6 w-6" />
                       <span>{t("ver_mas")}</span>
                     </div>
                   </div>
