@@ -69,9 +69,17 @@ export default async function PromotionDetailPage({
       title={promotion.title}
       description={promotion.summary}
     >
-      <article className="grid gap-10 bg-white lg:grid-cols-12 lg:items-start">
+      <article className="grid gap-10 bg-white lg:grid-cols-12 lg:items-stretch">
         {promotion.coverUrl && (
-          <Reveal variant="left" duration={900} className="relative aspect-[5/6] overflow-hidden lg:col-span-6">
+          // La foto manda el alto en mobile (aspect fijo); en desktop se estira
+          // con la fila del grid para empezar y terminar exactamente donde
+          // empieza y termina la columna de texto. El min-h evita que quede
+          // achatada cuando la promo trae poco contenido.
+          <Reveal
+            variant="left"
+            duration={900}
+            className="relative aspect-[5/6] w-full overflow-hidden lg:col-span-6 lg:aspect-auto lg:min-h-[560px]"
+          >
             <Image
               src={promotion.coverUrl}
               alt={promotion.title}
@@ -87,15 +95,20 @@ export default async function PromotionDetailPage({
           variant="right"
           delay={140}
           duration={900}
-          className={`${promotion.coverUrl ? "lg:col-span-6" : "lg:col-span-12"} relative px-2 py-4 lg:px-8`}
+          className={`${
+            promotion.coverUrl ? "lg:col-span-6" : "lg:col-span-12"
+          } relative flex flex-col justify-center px-2 py-6 lg:px-8 lg:py-0`}
         >
-          <div className="pointer-events-none absolute -left-10 top-1/3 hidden h-[280px] w-[280px] opacity-55 lg:block">
+          {/* Filete decorativo: va abajo a la izquierda, metido en el hueco
+              entre la foto y el texto, para que no quede encima de los
+              párrafos. */}
+          <div className="pointer-events-none absolute -left-24 bottom-[-1.5rem] hidden h-[220px] w-[220px] opacity-35 lg:block">
             <Image src="/images/fondo-carta-3.svg" alt="" fill className="object-contain" />
           </div>
           <div className="relative z-10">
-            <div className={`flex flex-wrap gap-3 ${editorialEyebrow}`}>
-            {formatDate(promotion.validFrom) && <span>Desde {formatDate(promotion.validFrom)}</span>}
-            {formatDate(promotion.validTo) && <span>Hasta {formatDate(promotion.validTo)}</span>}
+            <div className={`flex flex-wrap gap-x-6 gap-y-1 ${editorialEyebrow}`}>
+              {formatDate(promotion.validFrom) && <span>Desde {formatDate(promotion.validFrom)}</span>}
+              {formatDate(promotion.validTo) && <span>Hasta {formatDate(promotion.validTo)}</span>}
             </div>
 
             <div className={`mt-8 space-y-6 ${editorialBody}`}>
@@ -104,15 +117,20 @@ export default async function PromotionDetailPage({
               ))}
             </div>
 
-            <div className="mt-10 flex flex-wrap gap-4">
-              <Link href="/promociones" className={editorialSecondaryButton}>
-                Volver a promociones
-              </Link>
+            {/* Los dos botones van apilados y a todo el ancho de la columna:
+                las etiquetas se cargan desde el panel, así que no se puede
+                confiar en que entren los dos en una línea. Apilados quedan
+                siempre del mismo ancho y alineados con la foto. */}
+            <div className="mt-10 flex flex-col gap-4">
               <EditorialBookButton
                 label={promotion.ctaLabel || "Reservar"}
                 fallbackUrl={promotion.ctaHref}
-                className={editorialPrimaryButton}
+                className={`${editorialPrimaryButton} w-full text-center`}
+                wrapperClassName="w-full"
               />
+              <Link href="/promociones" className={`${editorialSecondaryButton} w-full text-center`}>
+                Volver a promociones
+              </Link>
             </div>
           </div>
         </Reveal>
