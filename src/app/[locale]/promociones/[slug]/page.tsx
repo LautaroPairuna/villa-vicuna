@@ -97,41 +97,33 @@ export default async function PromotionDetailPage({
           duration={900}
           className={`${
             promotion.coverUrl ? "lg:col-span-6" : "lg:col-span-12"
-          } relative flex flex-col justify-center px-2 py-6 lg:px-8 lg:py-0`}
+          } flex flex-col justify-center px-2 py-6 lg:px-8 lg:py-0`}
         >
-          {/* Filete decorativo: va abajo a la izquierda, metido en el hueco
-              entre la foto y el texto, para que no quede encima de los
-              párrafos. */}
-          <div className="pointer-events-none absolute -left-24 bottom-[-1.5rem] hidden h-[220px] w-[220px] opacity-35 lg:block">
-            <Image src="/images/fondo-carta-3.svg" alt="" fill className="object-contain" />
+          <div className={`flex flex-wrap gap-x-6 gap-y-1 ${editorialEyebrow}`}>
+            {formatDate(promotion.validFrom) && <span>Desde {formatDate(promotion.validFrom)}</span>}
+            {formatDate(promotion.validTo) && <span>Hasta {formatDate(promotion.validTo)}</span>}
           </div>
-          <div className="relative z-10">
-            <div className={`flex flex-wrap gap-x-6 gap-y-1 ${editorialEyebrow}`}>
-              {formatDate(promotion.validFrom) && <span>Desde {formatDate(promotion.validFrom)}</span>}
-              {formatDate(promotion.validTo) && <span>Hasta {formatDate(promotion.validTo)}</span>}
-            </div>
 
-            <div className={`mt-8 space-y-6 ${editorialBody}`}>
-              {paragraphs.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
-            </div>
+          <div className={`mt-8 space-y-6 ${editorialBody}`}>
+            {paragraphs.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+          </div>
 
-            {/* Los dos botones van apilados y a todo el ancho de la columna:
-                las etiquetas se cargan desde el panel, así que no se puede
-                confiar en que entren los dos en una línea. Apilados quedan
-                siempre del mismo ancho y alineados con la foto. */}
-            <div className="mt-10 flex flex-col gap-4">
-              <EditorialBookButton
-                label={promotion.ctaLabel || "Reservar"}
-                fallbackUrl={promotion.ctaHref}
-                className={`${editorialPrimaryButton} w-full text-center`}
-                wrapperClassName="w-full"
-              />
-              <Link href="/promociones" className={`${editorialSecondaryButton} w-full text-center`}>
-                Volver a promociones
-              </Link>
-            </div>
+          {/* Los dos botones van apilados y a todo el ancho de la columna: las
+              etiquetas se cargan desde el panel, así que no se puede confiar en
+              que entren los dos en una línea. Apilados quedan siempre del mismo
+              ancho y alineados con la foto. */}
+          <div className="mt-10 flex flex-col gap-4">
+            <EditorialBookButton
+              label={promotion.ctaLabel || "Reservar"}
+              fallbackUrl={promotion.ctaHref}
+              className={`${editorialPrimaryButton} w-full text-center`}
+              wrapperClassName="w-full"
+            />
+            <Link href="/promociones" className={`${editorialSecondaryButton} w-full text-center`}>
+              Volver a promociones
+            </Link>
           </div>
         </Reveal>
       </article>

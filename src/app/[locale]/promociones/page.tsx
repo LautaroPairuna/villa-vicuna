@@ -131,12 +131,9 @@ export default async function PromotionsPage({
                 variant={index % 2 === 0 ? "left" : "right"}
                 delay={140}
                 duration={900}
-                className={`relative lg:col-span-6 ${index % 2 === 0 ? "lg:order-1" : ""}`}
+                className={`lg:col-span-6 ${index % 2 === 0 ? "lg:order-1" : ""}`}
               >
-                <div className="pointer-events-none absolute -left-10 top-1/2 hidden h-[280px] w-[280px] -translate-y-1/2 opacity-55 lg:block">
-                  <Image src="/images/fondo-carta-2.svg" alt="" fill className="object-contain" />
-                </div>
-                <div className="relative z-10 px-2 py-6 lg:px-8">
+                <div className="px-2 py-6 lg:px-8">
                   <div className={`flex flex-wrap gap-3 ${editorialEyebrow}`}>
                   {formatDate(promotion.validFrom) && (
                     <span>Desde {formatDate(promotion.validFrom)}</span>
