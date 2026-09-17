@@ -355,25 +355,6 @@ section {
 }
 
 /* ========================================
-   COMPONENTES SLICK CAROUSEL
-   ======================================== */
-.slick-prev:before,
-.slick-next:before {
-  color: #000;
-  font-size: 24px;
-  opacity: 1;
-  display: none;
-}
-
-.slick-prev {
-  left: -40px;
-}
-
-.slick-next {
-  right: -40px;
-}
-
-/* ========================================
    CLOUDBEDS POPOVER FIXES
    ======================================== */
 /* Fix para el popover del calendario que está mal posicionado */

@@ -11,7 +11,7 @@ import type { ReseñaItem, Translations } from "./resenasTypes";
 
 export type { ReseñaItem, ReseñaDetalle, Translations } from "./resenasTypes";
 
-// El modal (con su librería de animación y react-slick) se descarga recién
+// El modal (con su librería de animación y embla-carousel) se descarga recién
 // cuando el visitante abre una reseña.
 const ReseñasModal = dynamic(() => import("./ReseñasModal"), { ssr: false });
 

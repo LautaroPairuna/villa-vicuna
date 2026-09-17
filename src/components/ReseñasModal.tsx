@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { createPortal } from "react-dom";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
+import Fade from "embla-carousel-fade";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
@@ -12,8 +12,8 @@ import { reseñasDetalles } from "../lib/reseñas";
 import type { ReseñaItem, ReseñaDetalle, Translations } from "./resenasTypes";
 
 // Este módulo carga con next/dynamic recién cuando se abre una reseña. Se lleva
-// consigo framer-motion y react-slick, que antes viajaban en la carga inicial
-// de la home solo para este modal.
+// consigo framer-motion y embla-carousel, que antes viajaban en la carga
+// inicial de la home solo para este modal.
 
 function splitTitle(raw: string): { part1: string; part2: string; full: string } {
   const regexH3 = /<h3><span>(.*?)<\/span>(.*?)<\/h3>?/;
@@ -80,12 +80,12 @@ export default function ReseñasModal({ selectedReseña, onClose }: ReseñasModa
   const computedTracking = useMemo(() => {
     // calcula el tracking “base” según la longitud
     let baseTracking = calculateTrackingBase(full);
-  
+
     // si es desayuno y portugués, lo reducimos un poco más
     if (locale === "fr" && selectedReseña.folder === "reseñas-desayuno") {
       baseTracking *= .6;  // ajusta el factor a tu gusto
     }
-  
+
     // luego aplicas el factor según el ancho
     const factor =
       width && width < 768
@@ -93,45 +93,31 @@ export default function ReseñasModal({ selectedReseña, onClose }: ReseñasModa
         : width && width < 1024
         ? 0.6
         : 1.2;
-  
+
     return baseTracking * factor;
   }, [full, width, locale, selectedReseña.folder]);
 
-  // Slider de comentarios (con react-slick, se deja como estaba)
-  const commentsSliderSettings = useMemo(() => ({
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 6000,
-    arrows: true,
-    centerMode: false,
-    variableWidth: false,
-    centerPadding: "20px",
-  }), []);
+  // Slider de comentarios: loop infinito + autoplay, igual que antes con
+  // react-slick (las flechas de esa versión quedaban clipeadas fuera del
+  // contenedor con overflow-hidden, así que nunca se vieron ni se pudieron
+  // usar: acá directamente no se agregan).
+  const commentsAutoplay = useRef(Autoplay({ delay: 6000, stopOnInteraction: false }));
+  const [commentsRef, commentsApi] = useEmblaCarousel({ loop: true }, [commentsAutoplay.current]);
 
-  // Estado y funciones para el carrusel de imágenes (manual)
-  const [currentImage, setCurrentImage] = useState(0);
-  // Para animar la dirección de la transición: 1 => next, -1 => prev
-  const [direction, setDirection] = useState(0);
-  const totalImages = selectedReseña.images.length;
-
-  const nextImage = useCallback(() => {
-    setDirection(1);
-    setCurrentImage((prev) => (prev === totalImages - 1 ? 0 : prev + 1));
-  }, [totalImages]);
-
-  const prevImage = useCallback(() => {
-    setDirection(-1);
-    setCurrentImage((prev) => (prev === 0 ? totalImages - 1 : prev - 1));
-  }, [totalImages]);
-
-  // Resetea la imagen actual al cambiar la reseña
   useEffect(() => {
-    setCurrentImage(0);
-    setDirection(0);
-  }, [selectedReseña]);
+    commentsApi?.reInit();
+  }, [commentsApi, detalles.length]);
+
+  // Carrusel de imágenes: mismo look de antes (crossfade), ahora con el
+  // plugin oficial de fade de embla en lugar de framer-motion a mano.
+  const [imagesRef, imagesApi] = useEmblaCarousel({ loop: true }, [Fade()]);
+
+  useEffect(() => {
+    imagesApi?.scrollTo(0, true);
+  }, [imagesApi, selectedReseña]);
+
+  const prevImage = useCallback(() => imagesApi?.scrollPrev(), [imagesApi]);
+  const nextImage = useCallback(() => imagesApi?.scrollNext(), [imagesApi]);
 
   const overlayVariants = useMemo(() => ({
     hidden: { opacity: 0 },
@@ -145,19 +131,6 @@ export default function ReseñasModal({ selectedReseña, onClose }: ReseñasModa
     exit: { scale: 0.9, y: 50, opacity: 0 },
   }), []);
 
-  // Variantes para animar la transición de imágenes
-  const imageVariants = {
-    initial: (direction: number) => ({
-      opacity: 0,
-      x: direction > 0 ? 50 : -50,
-    }),
-    animate: { opacity: 1, x: 0 },
-    exit: (direction: number) => ({
-      opacity: 0,
-      x: direction > 0 ? -50 : 50,
-    }),
-  };
-
   return createPortal(
     <AnimatePresence>
       <motion.div
@@ -170,12 +143,12 @@ export default function ReseñasModal({ selectedReseña, onClose }: ReseñasModa
         onClick={onClose}
       >
         <motion.div
-          className="bg-white 
-          pt-4 sm:pt-6 md:pt-8 lg:pt-10 
-          pb-2 sm:pb-4 md:pb-6 lg:pb-8 
-          px-4 sm:px-8 md:px-14 
-          pe-4 sm:pe-6 md:pe-10 lg:pe-16 
-          w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-5xl 
+          className="bg-white
+          pt-4 sm:pt-6 md:pt-8 lg:pt-10
+          pb-2 sm:pb-4 md:pb-6 lg:pb-8
+          px-4 sm:px-8 md:px-14
+          pe-4 sm:pe-6 md:pe-10 lg:pe-16
+          w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-5xl
           overflow-y-auto
           max-h-[90vh]
           relative transform md:overflow-hidden"
@@ -201,7 +174,7 @@ export default function ReseñasModal({ selectedReseña, onClose }: ReseñasModa
                 selectedReseña.folder === "reseñas-desayuno"
                   ? "lg:top-[12%]"  // valor para desayuno
                   : "lg:top-[15%]"  // valor por defecto
-              }  
+              }
             `}
             style={{ letterSpacing: `${computedTracking}em` }}
           >
@@ -221,7 +194,7 @@ export default function ReseñasModal({ selectedReseña, onClose }: ReseñasModa
                       ? "lg:top-[75%] top-[56%] lg:-left-[17%] left-[10%]"  // valor para desayuno
                       : "lg:top-[75%] top-[25%] lg:-left-[17%] left-[10%]"  // valor por defecto
                   }
-                
+
                 `}>
                 <Image
                   src="/images/fondo-carta-5.svg"
@@ -243,8 +216,8 @@ export default function ReseñasModal({ selectedReseña, onClose }: ReseñasModa
               >
                 {tGlobal(selectedReseña.textoKey)}
               </p>
-              <div className="mt-2 relative z-10 w-full overflow-hidden">
-                <Slider {...commentsSliderSettings}>
+              <div className="mt-2 relative z-10 w-full overflow-hidden" ref={commentsRef}>
+                <div className="flex">
                   {detalles.map((detalle, i) => {
                     const countrySlug = detalle.pais
                       .toLowerCase()
@@ -254,7 +227,7 @@ export default function ReseñasModal({ selectedReseña, onClose }: ReseñasModa
                     const starsSrc = `/images/icons/ico-five-stars.svg`;
 
                     return (
-                      <div key={i}>
+                      <div key={i} className="min-w-0 shrink-0 grow-0 basis-full">
                         <div className="relative bg-[#f6f0e1]/70 rounded-2xl pb-2 pt-8 px-4">
                           <div className="absolute top-2 right-2">
                             <Image
@@ -280,32 +253,25 @@ export default function ReseñasModal({ selectedReseña, onClose }: ReseñasModa
                       </div>
                     )
                   })}
-                </Slider>
+                </div>
               </div>
             </div>
 
-            {/* Carrusel de imágenes manual con animación */}
+            {/* Carrusel de imágenes (embla + fade) */}
             <div className="relative col-span-1 lg:col-span-5 w-full aspect-[3/4] lg:aspect-[6/9] flex items-center justify-center">
-              <div className="relative w-full h-full overflow-hidden">
-                <AnimatePresence custom={direction}>
-                  <motion.div
-                    key={currentImage}
-                    className="absolute inset-0"
-                    custom={direction}
-                    variants={imageVariants}
-                    initial="initial"
-                    animate="animate"
-                    exit="exit"
-                    transition={{ duration: 0.5 }}
-                  >
-                    <Image
-                      src={selectedReseña.images[currentImage]}
-                      alt={`Imagen ${currentImage + 1}`}
-                      fill
-                      className="object-cover"
-                    />
-                  </motion.div>
-                </AnimatePresence>
+              <div className="relative w-full h-full overflow-hidden" ref={imagesRef}>
+                <div className="flex h-full">
+                  {selectedReseña.images.map((src, i) => (
+                    <div key={i} className="relative h-full w-full shrink-0 grow-0 basis-full">
+                      <Image
+                        src={src}
+                        alt={`Imagen ${i + 1}`}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
               {/* Botón Prev con SVG */}
               <button

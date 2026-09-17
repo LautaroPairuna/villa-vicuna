@@ -15,7 +15,7 @@ import type {
 
 // SSR habilitado (sin ssr:false): el contenido entra en el HTML para SEO/GEO.
 // Seguimos usando dynamic para code-splitting por sección. Los modales/portales
-// (react-slick, createPortal) solo se montan al abrirse, así que el SSR es seguro.
+// (embla-carousel, createPortal) solo se montan al abrirse, así que el SSR es seguro.
 const Nosotros = dynamic(() => import("./Nosotros"));
 const Reseñas = dynamic(() => import("./Reseñas"));
 const Menu = dynamic(() => import("./Menu"));
