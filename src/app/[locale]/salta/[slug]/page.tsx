@@ -73,7 +73,12 @@ export default async function SaltaPlacePage({
   const ctasApilados = slides.length > 0;
 
   return (
-    <PublicEditorialLayout eyebrow="Salta Capital" title={place.title} description={place.summary}>
+    <PublicEditorialLayout
+      eyebrow="Salta Capital"
+      title={place.title}
+      description={place.summary}
+      hideIntroDecoration
+    >
       <article className="grid gap-10 bg-white lg:grid-cols-12 lg:items-stretch">
         {slides.length > 0 && (
           // El carrusel manda el alto en mobile (aspect fijo); en desktop se

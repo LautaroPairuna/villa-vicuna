@@ -51,6 +51,7 @@ export default async function SaltaPage({
       eyebrow={intro["salta.eyebrow"]}
       title={intro["salta.titulo"]}
       description={intro["salta.descripcion"]}
+      hideIntroDecoration
       afterIntro={
         <EditorialVideoBand
           videoUrl={sections.salta_video}
