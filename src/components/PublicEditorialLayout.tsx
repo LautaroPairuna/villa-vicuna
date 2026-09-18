@@ -20,6 +20,7 @@ export default function PublicEditorialLayout({
   topHero,
   afterIntro,
   hideIntro = false,
+  hideIntroDecoration = false,
 }: {
   eyebrow: string;
   title: string;
@@ -33,6 +34,8 @@ export default function PublicEditorialLayout({
    */
   afterIntro?: React.ReactNode;
   hideIntro?: boolean;
+  /** Saca la caligrafía de fondo del intro, sin tocar el resto del bloque. */
+  hideIntroDecoration?: boolean;
 }) {
   return (
     <>
@@ -42,14 +45,16 @@ export default function PublicEditorialLayout({
 
         {!hideIntro && (
           <section className="relative overflow-hidden bg-white px-4 py-14 md:px-12 md:py-18">
-            <div className="pointer-events-none absolute left-1/2 top-10 h-[320px] w-[320px] -translate-x-1/2 opacity-55 sm:h-[420px] sm:w-[420px] lg:top-0 lg:h-[620px] lg:w-[780px]">
-              <Image
-                src="/images/fondo-carta-2.svg"
-                alt=""
-                fill
-                className="object-contain"
-              />
-            </div>
+            {!hideIntroDecoration && (
+              <div className="pointer-events-none absolute left-1/2 top-10 h-[320px] w-[320px] -translate-x-1/2 opacity-55 sm:h-[420px] sm:w-[420px] lg:top-0 lg:h-[620px] lg:w-[780px]">
+                <Image
+                  src="/images/fondo-carta-2.svg"
+                  alt=""
+                  fill
+                  className="object-contain"
+                />
+              </div>
+            )}
             <div className="relative mx-auto max-w-[1200px]">
               <Reveal as="p" className={`text-center ${editorialEyebrow}`}>{eyebrow}</Reveal>
               <Reveal

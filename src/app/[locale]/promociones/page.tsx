@@ -57,6 +57,7 @@ export default async function PromotionsPage({
       eyebrow={intro["promociones.eyebrow"]}
       title={intro["promociones.titulo"]}
       description={intro["promociones.descripcion"]}
+      hideIntroDecoration
       afterIntro={
         <EditorialVideoHero
           videoUrl={sectionImages.promociones_hero_video}

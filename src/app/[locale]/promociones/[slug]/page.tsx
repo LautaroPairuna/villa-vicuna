@@ -74,6 +74,7 @@ export default async function PromotionDetailPage({
       eyebrow="Promociones"
       title={promotion.title}
       description={promotion.summary}
+      hideIntroDecoration
     >
       <article className="grid gap-10 bg-white lg:grid-cols-12 lg:items-stretch">
         {promotion.coverUrl && (
