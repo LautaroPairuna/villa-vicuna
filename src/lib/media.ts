@@ -1,6 +1,9 @@
 import "server-only";
 import path from "node:path";
-import { promises as fs } from "node:fs";
+import { promises as fs, createWriteStream } from "node:fs";
+import { Readable } from "node:stream";
+import { pipeline } from "node:stream/promises";
+import type { ReadableStream as NodeWebReadableStream } from "node:stream/web";
 import { randomUUID } from "node:crypto";
 import { prisma } from "./prisma";
 
@@ -9,6 +12,27 @@ import { prisma } from "./prisma";
 const UPLOADS_FS_DIR = path.resolve(process.env.UPLOADS_DIR ?? "public/uploads");
 
 const MAX_DIMENSION = 2000;
+
+// Ajustes de compresión. Como `images.unoptimized` está activo (ver
+// next.config.js), next/image NO reprocesa nada en runtime: el archivo que
+// queda acá es exactamente el que descarga el visitante, así que el encoder
+// se paga una vez al subir y se cobra en cada visita.
+//
+// Medido sobre las fotos de celular del tapeo (3120x4160, ~1.4 MB):
+//   webp q80 (lo anterior)          427 KB   0.8 s
+//   webp q75 + effort 6 + smart     336 KB   2.2 s  ← elegido
+//   avif q55 effort 4               285 KB  16.2 s  (descartado: subir una
+//                                                    foto tardaría 16 s)
+const WEBP_OPTIONS = {
+  quality: 75,
+  // effort 6 (de 0 a 6) exprime el encoder: más CPU al subir, menos bytes
+  // en cada descarga.
+  effort: 6,
+  // Submuestreo de croma adaptativo: evita el corrimiento de color en bordes
+  // saturados, que es donde más se nota bajar la calidad.
+  smartSubsample: true,
+} as const;
+
 // La firma callable de sharp (el módulo es `export =` una función, así que
 // `typeof import("sharp")` resuelve al namespace y no es invocable).
 type SharpFn = (
@@ -16,13 +40,35 @@ type SharpFn = (
   options?: import("sharp").SharpOptions,
 ) => import("sharp").Sharp;
 
+let sharpTuned = false;
+
 // Carga sharp de forma perezosa y tolerante: si el binario nativo no carga
 // (p.ej. problemas de sharp en Windows), devolvemos null y guardamos el
 // original sin convertir, en vez de romper la subida.
 async function tryLoadSharp(): Promise<SharpFn | null> {
   try {
     const mod = await import("sharp");
-    return (mod as unknown as { default?: SharpFn }).default ?? (mod as unknown as SharpFn);
+    const sharp = (mod as unknown as { default?: SharpFn }).default ?? (mod as unknown as SharpFn);
+
+    if (!sharpTuned) {
+      sharpTuned = true;
+      // libvips, por defecto, se guarda un caché de operaciones (~50 MB) y
+      // levanta un pool de hilos con un hilo por core. En el VPS eso es RAM
+      // que queda tomada para siempre después de la primera subida, porque
+      // glibc no le devuelve al SO la memoria que libera un hilo nativo.
+      //
+      // Acá el panel lo usa una persona a la vez, para una foto a la vez: sin
+      // caché y con concurrencia 1, el pico de una subida es el de esa única
+      // imagen y se libera al terminar.
+      const tuning = sharp as unknown as {
+        cache?: (v: boolean) => void;
+        concurrency?: (v: number) => void;
+      };
+      tuning.cache?.(false);
+      tuning.concurrency?.(1);
+    }
+
+    return sharp;
   } catch (err) {
     console.warn("sharp no disponible; se guarda la imagen sin optimizar.", err);
     return null;
@@ -132,10 +178,29 @@ async function writeFileAtomic(dest: string, data: Buffer) {
   }
 }
 
+// Igual que writeFileAtomic, pero streameando el contenido a disco en vez de
+// recibirlo ya armado en memoria. Clave para videos grandes: el pico de RAM
+// pasa a ser de unos pocos KB (el buffer interno del stream) en vez del
+// tamaño completo del archivo.
+async function streamToDiskAtomic(file: File, dest: string): Promise<void> {
+  const tmp = `${dest}.${randomUUID()}.tmp`;
+  try {
+    const webStream = file.stream() as unknown as NodeWebReadableStream<Uint8Array>;
+    await pipeline(Readable.fromWeb(webStream), createWriteStream(tmp));
+    await fs.rename(tmp, dest);
+  } catch (err) {
+    await fs.rm(tmp, { force: true }).catch(() => {});
+    throw err;
+  }
+}
+
 /**
  * Guarda un archivo subido y crea su registro Media.
- * - Valida que el contenido sea realmente una imagen/video servible ANTES de
- *   persistir; si no, lanza un error claro (y no crea un Media roto).
+ * - Videos: se streamean a disco directo, sin cargar el archivo entero en
+ *   RAM (uno de 50 MB ya no implica un buffer de 50 MB). Se confía en el
+ *   mime type que declara el navegador, como el resto del panel para video.
+ * - Valida que el resto del contenido sea realmente una imagen servible
+ *   ANTES de persistir; si no, lanza un error claro (y no crea un Media roto).
  * - Imágenes raster: se reorientan, redimensionan y convierten a WebP (o se
  *   guardan tal cual si sharp no está disponible), nombrando el archivo según
  *   su contenido real, no según el nombre subido.
@@ -151,6 +216,28 @@ export async function saveUpload(
     throw new Error("El archivo subido está vacío.");
   }
 
+  const dir = path.join(UPLOADS_FS_DIR, subdir);
+  await fs.mkdir(dir, { recursive: true });
+
+  // Nombre legible (p.ej. "tren-a-las-nubes-a1b2c3d4") en vez de un UUID pelado.
+  const stem = buildStem(baseName);
+
+  if (file.type.startsWith("video/")) {
+    const outName = `${stem}${extForVideo(file)}`;
+    await streamToDiskAtomic(file, path.join(dir, outName));
+    const publicPath = path.posix.join("/uploads", subdir, outName);
+
+    return prisma.media.create({
+      data: {
+        path: publicPath,
+        originalName: file.name,
+        alt,
+        mime: file.type || "application/octet-stream",
+        size: file.size,
+      },
+    });
+  }
+
   const buf = Buffer.from(await file.arrayBuffer());
   if (buf.length === 0) {
     throw new Error("El archivo subido está vacío.");
@@ -158,24 +245,18 @@ export async function saveUpload(
 
   const rasterMime = sniffRasterMime(buf);
   const isSvg = file.type === "image/svg+xml" || looksLikeSvg(buf);
-  const isVideo = file.type.startsWith("video/");
 
   if (rasterMime === "image/heic") {
     throw new Error(
       "El formato HEIC/HEIF (fotos de iPhone) no es compatible. Convertí la imagen a JPG, PNG o WebP y volvé a subirla.",
     );
   }
-  if (!rasterMime && !isSvg && !isVideo) {
+  if (!rasterMime && !isSvg) {
     throw new Error(
-      "El archivo no es una imagen válida. Subí un JPG, PNG, WebP, AVIF, GIF o SVG.",
+      "El archivo no es una imagen válida. Subí un JPG, PNG, WebP, AVIF, GIF o SVG, o un video.",
     );
   }
 
-  const dir = path.join(UPLOADS_FS_DIR, subdir);
-  await fs.mkdir(dir, { recursive: true });
-
-  // Nombre legible (p.ej. "tren-a-las-nubes-a1b2c3d4") en vez de un UUID pelado.
-  const stem = buildStem(baseName);
   const sharp = rasterMime && !isSvg ? await tryLoadSharp() : null;
 
   let outName: string;
@@ -194,7 +275,7 @@ export async function saveUpload(
           fit: "inside",
           withoutEnlargement: true,
         })
-        .webp({ quality: 80 })
+        .webp(WEBP_OPTIONS)
         .toBuffer({ resolveWithObject: true });
 
       outBuf = result.data;
@@ -208,10 +289,6 @@ export async function saveUpload(
       outName = `${stem}${EXT_BY_MIME[rasterMime!] ?? ".bin"}`;
       mime = rasterMime!;
     }
-  } else if (isVideo) {
-    outBuf = buf;
-    outName = `${stem}${extForVideo(file)}`;
-    mime = file.type || "application/octet-stream";
   } else if (isSvg) {
     outBuf = buf;
     outName = `${stem}.svg`;
