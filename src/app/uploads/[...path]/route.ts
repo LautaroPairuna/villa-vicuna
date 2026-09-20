@@ -11,7 +11,11 @@ import type { NextRequest } from "next/server";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-const UPLOADS_FS_DIR = path.resolve(process.env.UPLOADS_DIR ?? "public/uploads");
+// El `turbopackIgnore` evita que el tracer del build interprete este resolve
+// como una lectura dinámica del proyecto y termine trazándolo entero.
+const UPLOADS_FS_DIR = path.resolve(
+  /* turbopackIgnore: true */ process.env.UPLOADS_DIR ?? "public/uploads",
+);
 
 const CONTENT_TYPES: Record<string, string> = {
   ".webp": "image/webp",

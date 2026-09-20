@@ -9,7 +9,11 @@ import { prisma } from "./prisma";
 
 // Carpeta del sistema donde se escriben los uploads (volumen persistente en
 // prod montado en /app/public/uploads). Las imágenes se sirven en /uploads.
-const UPLOADS_FS_DIR = path.resolve(process.env.UPLOADS_DIR ?? "public/uploads");
+// El `turbopackIgnore` evita que el tracer del build interprete este resolve
+// como una lectura dinámica del proyecto y termine trazándolo entero.
+const UPLOADS_FS_DIR = path.resolve(
+  /* turbopackIgnore: true */ process.env.UPLOADS_DIR ?? "public/uploads",
+);
 
 const MAX_DIMENSION = 2000;
 
@@ -186,7 +190,10 @@ async function streamToDiskAtomic(file: File, dest: string): Promise<void> {
   const tmp = `${dest}.${randomUUID()}.tmp`;
   try {
     const webStream = file.stream() as unknown as NodeWebReadableStream<Uint8Array>;
-    await pipeline(Readable.fromWeb(webStream), createWriteStream(tmp));
+    await pipeline(
+      Readable.fromWeb(webStream),
+      createWriteStream(/* turbopackIgnore: true */ tmp),
+    );
     await fs.rename(tmp, dest);
   } catch (err) {
     await fs.rm(tmp, { force: true }).catch(() => {});
@@ -224,7 +231,7 @@ export async function saveUpload(
 
   if (file.type.startsWith("video/")) {
     const outName = `${stem}${extForVideo(file)}`;
-    await streamToDiskAtomic(file, path.join(dir, outName));
+    await streamToDiskAtomic(file, path.join(/* turbopackIgnore: true */ dir, outName));
     const publicPath = path.posix.join("/uploads", subdir, outName);
 
     return prisma.media.create({

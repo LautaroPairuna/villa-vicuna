@@ -1,6 +1,7 @@
 import "server-only";
 import { unstable_cache } from "next/cache";
 import { prisma } from "./prisma";
+import { dbRead } from "./dbRead";
 import { staticRoomsContent, staticReviewsContent } from "./staticContent";
 import {
   STATIC_SECTION_IMAGES,
@@ -34,7 +35,7 @@ const fetchSectionImageRows = unstable_cache(
 
 export async function getRoomsContent(): Promise<RoomContent[]> {
   const base = staticRoomsContent();
-  try {
+  return dbRead("habitaciones", async () => {
     const rows = await prisma.room.findMany({
       orderBy: { order: "asc" },
       include: {
@@ -59,14 +60,12 @@ export async function getRoomsContent(): Promise<RoomContent[]> {
           : fallback?.images ?? [],
       };
     });
-  } catch {
-    return base;
-  }
+  }, base);
 }
 
 export async function getReviewsContent(): Promise<ReviewContent[]> {
   const base = staticReviewsContent();
-  try {
+  return dbRead("reseñas", async () => {
     const rows = await prisma.review.findMany({
       orderBy: { order: "asc" },
       include: {
@@ -91,20 +90,17 @@ export async function getReviewsContent(): Promise<ReviewContent[]> {
           : fallback?.images ?? [],
       };
     });
-  } catch {
-    return base;
-  }
+  }, base);
 }
 
 export async function getSectionImages(): Promise<SectionImages> {
-  const out: SectionImages = { ...STATIC_SECTION_IMAGES };
-  try {
+  const base: SectionImages = { ...STATIC_SECTION_IMAGES };
+  return dbRead("imágenes de secciones", async () => {
+    const out: SectionImages = { ...STATIC_SECTION_IMAGES };
     const rows = await fetchSectionImageRows();
     for (const r of rows) {
       if (r.media?.path) out[r.slug] = r.media.path;
     }
     return out;
-  } catch {
-    return out;
-  }
+  }, base);
 }
