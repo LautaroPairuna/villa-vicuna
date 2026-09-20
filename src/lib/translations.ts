@@ -1,6 +1,7 @@
 import "server-only";
 import { unstable_cache } from "next/cache";
 import { prisma } from "./prisma";
+import { dbRead } from "./dbRead";
 import { getSection } from "./editableContent";
 import es from "../messages/es.json";
 import en from "../messages/en.json";
@@ -46,20 +47,23 @@ function setByPath(obj: any, path: string, value: unknown) {
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
 // Mergea los overrides de la DB sobre los mensajes base. Tolerante a fallos:
-// ante cualquier error devuelve los mensajes base intactos.
+// ante cualquier error devuelve los mensajes base intactos (y lo loguea, en
+// vez de tragárselo en silencio).
 export async function applyTranslationOverrides(
   locale: string,
   messages: Record<string, unknown>,
 ): Promise<Record<string, unknown>> {
-  try {
-    const rows = await fetchOverrideRows(locale);
-    if (!rows.length) return messages;
-    const merged = structuredClone(messages);
-    for (const r of rows) setByPath(merged, r.key, r.value);
-    return merged;
-  } catch {
-    return messages;
-  }
+  return dbRead(
+    `traducciones (${locale})`,
+    async () => {
+      const rows = await fetchOverrideRows(locale);
+      if (!rows.length) return messages;
+      const merged = structuredClone(messages);
+      for (const r of rows) setByPath(merged, r.key, r.value);
+      return merged;
+    },
+    messages,
+  );
 }
 
 // Valor por defecto (del JSON) para una clave.
@@ -76,13 +80,15 @@ export async function getEffectiveValues(
 ): Promise<Record<string, string>> {
   const out: Record<string, string> = {};
   for (const k of keys) out[k] = baseValue(locale, k);
-  try {
-    const wanted = new Set(keys);
-    const rows = await fetchOverrideRows(locale);
-    for (const r of rows) if (wanted.has(r.key)) out[r.key] = r.value;
-  } catch {
-    // se mantienen los valores base
-  }
+  const wanted = new Set(keys);
+  await dbRead(
+    `textos efectivos (${locale})`,
+    async () => {
+      const rows = await fetchOverrideRows(locale);
+      for (const r of rows) if (wanted.has(r.key)) out[r.key] = r.value;
+    },
+    undefined,
+  );
   return out;
 }
 
