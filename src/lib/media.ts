@@ -72,6 +72,26 @@ async function tryLoadSharp(): Promise<SharpFn | null> {
   }
 }
 
+// Convierte un texto (slug/título) en un nombre de archivo legible: minúsculas,
+// sin acentos, con guiones. Ej.: "Tren a las Nubes" -> "tren-a-las-nubes".
+function slugifyName(input: string): string {
+  return input
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/gu, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 60);
+}
+
+// Nombre final: "<base>-<sufijo>" para que sea legible pero único (el sufijo
+// evita pisar el archivo anterior y problemas de caché al reemplazar). Si no
+// hay base legible, cae a un UUID pelado como antes.
+function buildStem(baseName?: string): string {
+  const slug = baseName ? slugifyName(baseName) : "";
+  return slug ? `${slug}-${randomUUID().slice(0, 8)}` : randomUUID();
+}
+
 function extFromFile(file: File): string {
   const fromName = path.extname(file.name).toLowerCase();
   if (/^\.[a-z0-9]+$/.test(fromName)) return fromName;
@@ -148,7 +168,7 @@ async function streamToDisk(file: File, dest: string): Promise<void> {
  *   no controlada. Las válidas se reorientan, redimensionan y convierten a WebP.
  * - Videos / SVG / sin sharp: se streamean a disco sin cargar todo en RAM.
  */
-export async function saveUpload(file: File, subdir: string, alt = "") {
+export async function saveUpload(file: File, subdir: string, alt = "", baseName?: string) {
   if (!file || file.size === 0) {
     throw new Error("Archivo vacío");
   }
@@ -159,6 +179,8 @@ export async function saveUpload(file: File, subdir: string, alt = "") {
   const ext = extFromFile(file);
   const isImage = file.type.startsWith("image/");
   const isSvg = file.type === "image/svg+xml" || ext === ".svg";
+  // Nombre legible (p.ej. "tren-a-las-nubes-a1b2c3d4") en vez de un UUID pelado.
+  const stem = buildStem(baseName);
 
   let outName: string;
   let width: number | undefined;
@@ -194,7 +216,7 @@ export async function saveUpload(file: File, subdir: string, alt = "") {
           .webp(WEBP_OPTIONS)
           .toBuffer({ resolveWithObject: true });
 
-        outName = `${randomUUID()}.webp`;
+        outName = `${stem}.webp`;
         await fs.writeFile(path.join(dir, outName), result.data);
         width = result.info.width;
         height = result.info.height;
@@ -202,20 +224,20 @@ export async function saveUpload(file: File, subdir: string, alt = "") {
         size = result.data.length;
       } catch (err) {
         console.warn("Falló la optimización con sharp; se guarda el original.", err);
-        outName = `${randomUUID()}${ext}`;
+        outName = `${stem}${ext}`;
         await fs.writeFile(path.join(dir, outName), input);
         mime = rasterMime;
         size = input.length;
       }
     } else {
-      outName = `${randomUUID()}${ext}`;
+      outName = `${stem}${ext}`;
       await fs.writeFile(path.join(dir, outName), input);
       mime = rasterMime;
       size = input.length;
     }
   } else {
     // Videos, SVG o sin sharp: streaming directo a disco (sin buffer completo).
-    outName = `${randomUUID()}${ext}`;
+    outName = `${stem}${ext}`;
     await streamToDisk(file, path.join(dir, outName));
     mime = file.type || "application/octet-stream";
     size = file.size;
