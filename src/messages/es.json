@@ -227,5 +227,14 @@
     "ctaBotonSecundario": "Conocer el hotel",
     "metaTitle": "Experiencias Barolo · Degustación de vinos de altura | Villa Vicuña",
     "metaDescription": "Degustaciones de vinos de altura de Salta, curadas y conducidas por la enóloga Luci Chávez Díaz. Experiencia exclusiva para huéspedes de Villa Vicuña."
+  },
+  "notFound": {
+    "eyebrow": "404",
+    "titulo": "Esta página se perdió en el camino",
+    "descripcion": "El enlace que seguiste no existe o ya no está disponible. Podés volver al inicio o mirar las promociones activas.",
+    "ctaHome": "Volver al inicio",
+    "ctaPromociones": "Ver promociones",
+    "metaTitle": "Página no encontrada | Villa Vicuña",
+    "metaDescription": "La página que buscás no existe o ya no está disponible."
   }
 }

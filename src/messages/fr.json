@@ -224,5 +224,14 @@
     "ctaBotonSecundario": "Découvrir l'hôtel",
     "metaTitle": "Expériences Barolo · Dégustation de vins d'altitude | Villa Vicuña",
     "metaDescription": "Dégustations de vins d'altitude de Salta, animées par l'œnologue Luci Chávez Díaz. Une expérience exclusive pour les hôtes de Villa Vicuña."
+  },
+  "notFound": {
+    "eyebrow": "404",
+    "titulo": "Cette page s'est perdue en chemin",
+    "descripcion": "Le lien que vous avez suivi n'existe pas ou n'est plus disponible. Vous pouvez revenir à l'accueil ou consulter nos promotions actives.",
+    "ctaHome": "Retour à l'accueil",
+    "ctaPromociones": "Voir les promotions",
+    "metaTitle": "Page introuvable | Villa Vicuña",
+    "metaDescription": "La page que vous recherchez n'existe pas ou n'est plus disponible."
   }
 }

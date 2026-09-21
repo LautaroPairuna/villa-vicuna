@@ -1,6 +1,7 @@
 import "server-only";
 
 import { prisma } from "./prisma";
+import { dbRead } from "./dbRead";
 import type {
   PromotionContent,
   SaltaPlaceContent,
@@ -87,56 +88,60 @@ function toSaltaPlace(item: {
 }
 
 export async function getPublishedPromotions(): Promise<PromotionContent[]> {
-  try {
-    const rows = await prisma.promotion.findMany({
-      where: { published: true },
-      include: { cover: true },
-      orderBy: [{ validFrom: "desc" }, { createdAt: "desc" }],
-    });
-
-    return rows.map(toPromotion);
-  } catch {
-    return [];
-  }
+  return dbRead(
+    "promociones publicadas",
+    async () => {
+      const rows = await prisma.promotion.findMany({
+        where: { published: true },
+        include: { cover: true },
+        orderBy: [{ validFrom: "desc" }, { createdAt: "desc" }],
+      });
+      return rows.map(toPromotion);
+    },
+    [],
+  );
 }
 
 export async function getPromotionBySlug(slug: string): Promise<PromotionContent | null> {
-  try {
-    const row = await prisma.promotion.findFirst({
-      where: { slug, published: true },
-      include: { cover: true },
-    });
-
-    return row ? toPromotion(row) : null;
-  } catch {
-    return null;
-  }
+  return dbRead(
+    `promoción (${slug})`,
+    async () => {
+      const row = await prisma.promotion.findFirst({
+        where: { slug, published: true },
+        include: { cover: true },
+      });
+      return row ? toPromotion(row) : null;
+    },
+    null,
+  );
 }
 
 export async function getAllPromotionsAdmin(): Promise<PromotionContent[]> {
-  try {
-    const rows = await prisma.promotion.findMany({
-      include: { cover: true },
-      orderBy: [{ published: "desc" }, { createdAt: "desc" }],
-    });
-
-    return rows.map(toPromotion);
-  } catch {
-    return [];
-  }
+  return dbRead(
+    "promociones (admin)",
+    async () => {
+      const rows = await prisma.promotion.findMany({
+        include: { cover: true },
+        orderBy: [{ published: "desc" }, { createdAt: "desc" }],
+      });
+      return rows.map(toPromotion);
+    },
+    [],
+  );
 }
 
 export async function getPromotionByIdAdmin(id: string): Promise<PromotionContent | null> {
-  try {
-    const row = await prisma.promotion.findUnique({
-      where: { id },
-      include: { cover: true },
-    });
-
-    return row ? toPromotion(row) : null;
-  } catch {
-    return null;
-  }
+  return dbRead(
+    `promoción admin (${id})`,
+    async () => {
+      const row = await prisma.promotion.findUnique({
+        where: { id },
+        include: { cover: true },
+      });
+      return row ? toPromotion(row) : null;
+    },
+    null,
+  );
 }
 
 // El carrusel siempre sale en el orden que fijó el panel.
@@ -146,54 +151,58 @@ const SALTA_IMAGES_INCLUDE = {
 } as const;
 
 export async function getPublishedSaltaPlaces(): Promise<SaltaPlaceContent[]> {
-  try {
-    const rows = await prisma.saltaPlace.findMany({
-      where: { published: true },
-      include: { cover: true, images: SALTA_IMAGES_INCLUDE },
-      orderBy: [{ featured: "desc" }, { createdAt: "desc" }],
-    });
-
-    return rows.map(toSaltaPlace);
-  } catch {
-    return [];
-  }
+  return dbRead(
+    "lugares de Salta publicados",
+    async () => {
+      const rows = await prisma.saltaPlace.findMany({
+        where: { published: true },
+        include: { cover: true, images: SALTA_IMAGES_INCLUDE },
+        orderBy: [{ featured: "desc" }, { createdAt: "desc" }],
+      });
+      return rows.map(toSaltaPlace);
+    },
+    [],
+  );
 }
 
 export async function getSaltaPlaceBySlug(slug: string): Promise<SaltaPlaceContent | null> {
-  try {
-    const row = await prisma.saltaPlace.findFirst({
-      where: { slug, published: true },
-      include: { cover: true, images: SALTA_IMAGES_INCLUDE },
-    });
-
-    return row ? toSaltaPlace(row) : null;
-  } catch {
-    return null;
-  }
+  return dbRead(
+    `lugar de Salta (${slug})`,
+    async () => {
+      const row = await prisma.saltaPlace.findFirst({
+        where: { slug, published: true },
+        include: { cover: true, images: SALTA_IMAGES_INCLUDE },
+      });
+      return row ? toSaltaPlace(row) : null;
+    },
+    null,
+  );
 }
 
 export async function getAllSaltaPlacesAdmin(): Promise<SaltaPlaceContent[]> {
-  try {
-    const rows = await prisma.saltaPlace.findMany({
-      include: { cover: true, images: SALTA_IMAGES_INCLUDE },
-      orderBy: [{ featured: "desc" }, { published: "desc" }, { createdAt: "desc" }],
-    });
-
-    return rows.map(toSaltaPlace);
-  } catch {
-    return [];
-  }
+  return dbRead(
+    "lugares de Salta (admin)",
+    async () => {
+      const rows = await prisma.saltaPlace.findMany({
+        include: { cover: true, images: SALTA_IMAGES_INCLUDE },
+        orderBy: [{ featured: "desc" }, { published: "desc" }, { createdAt: "desc" }],
+      });
+      return rows.map(toSaltaPlace);
+    },
+    [],
+  );
 }
 
 export async function getSaltaPlaceByIdAdmin(id: string): Promise<SaltaPlaceContent | null> {
-  try {
-    const row = await prisma.saltaPlace.findUnique({
-      where: { id },
-      include: { cover: true, images: SALTA_IMAGES_INCLUDE },
-    });
-
-    return row ? toSaltaPlace(row) : null;
-  } catch {
-    return null;
-  }
+  return dbRead(
+    `lugar de Salta admin (${id})`,
+    async () => {
+      const row = await prisma.saltaPlace.findUnique({
+        where: { id },
+        include: { cover: true, images: SALTA_IMAGES_INCLUDE },
+      });
+      return row ? toSaltaPlace(row) : null;
+    },
+    null,
+  );
 }
