@@ -46,6 +46,28 @@ const REVIEW_BLOCKS = [
   { key: "personal", label: "Personal" },
 ] as const;
 
+// "twin_interna" -> "Twin interna". Fallback para claves que no estén en las
+// listas de arriba (p. ej. una habitación nueva cargada solo en la DB).
+function humanizeKey(key: string): string {
+  const spaced = key.replace(/_/g, " ").trim();
+  return spaced.charAt(0).toUpperCase() + spaced.slice(1);
+}
+
+/** Nombre para mostrar de una habitación en el panel (en vez de su clave de DB). */
+export function roomLabel(key: string): string {
+  return ROOM_FIELDS.find((r) => r.key === key)?.label ?? humanizeKey(key);
+}
+
+/** Nombre para mostrar de un bloque de reseñas en el panel. */
+export function reviewLabel(key: string): string {
+  return REVIEW_BLOCKS.find((r) => r.key === key)?.label ?? humanizeKey(key);
+}
+
+/** Capitaliza un valor suelto de la DB ("standard" -> "Standard"). */
+export function capitalize(value: string): string {
+  return humanizeKey(value);
+}
+
 const EXPERIENCE_FORMATS = [
   { key: "intima", label: "Carácter del Norte" },
   { key: "terroir", label: "Recorrido por el Terroir" },
@@ -204,14 +226,14 @@ export const EDITABLE_SECTIONS: EditableSection[] = [
       { key: "experiences.botellaTitulo", label: "Botella · título", type: "text" },
       { key: "experiences.botellaTexto", label: "Botella · texto", type: "textarea" },
       // CTA de cierre
-      { key: "experiences.ctaEyebrow", label: "CTA · etiqueta", type: "text" },
-      { key: "experiences.ctaTitulo", label: "CTA · título", type: "textarea" },
-      { key: "experiences.ctaTexto", label: "CTA · texto", type: "textarea" },
-      { key: "experiences.ctaBotonPrimario", label: "CTA · botón primario", type: "text" },
-      { key: "experiences.ctaBotonSecundario", label: "CTA · botón secundario", type: "text" },
+      { key: "experiences.ctaEyebrow", label: "Cierre · etiqueta", type: "text" },
+      { key: "experiences.ctaTitulo", label: "Cierre · título", type: "textarea" },
+      { key: "experiences.ctaTexto", label: "Cierre · texto", type: "textarea" },
+      { key: "experiences.ctaBotonPrimario", label: "Cierre · botón primario", type: "text" },
+      { key: "experiences.ctaBotonSecundario", label: "Cierre · botón secundario", type: "text" },
       // SEO
-      { key: "experiences.metaTitle", label: "SEO · título", type: "text" },
-      { key: "experiences.metaDescription", label: "SEO · descripción", type: "textarea" },
+      { key: "experiences.metaTitle", label: "Buscadores · título", type: "text" },
+      { key: "experiences.metaDescription", label: "Buscadores · descripción", type: "textarea" },
     ],
   },
 ];

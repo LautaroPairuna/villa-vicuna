@@ -8,7 +8,7 @@ function PromotionExtraFields() {
       <div className="grid gap-5 md:grid-cols-2">
         <div>
           <label className="mb-2 block text-xs uppercase tracking-[0.22em] text-admin-ink-soft">
-            CTA Label
+            Texto del botón
           </label>
           <input
             name="ctaLabel"
@@ -17,7 +17,7 @@ function PromotionExtraFields() {
         </div>
         <div>
           <label className="mb-2 block text-xs uppercase tracking-[0.22em] text-admin-ink-soft">
-            CTA Href
+            Enlace del botón
           </label>
           <input
             name="ctaHref"
@@ -57,7 +57,7 @@ export default function NewPromotionPage() {
     <div className="max-w-5xl space-y-6">
       <PageHeader
         title="Nueva promoción"
-        subtitle="Creá una landing comercial pública con título, resumen, detalle y CTA."
+        subtitle="Creá una landing comercial pública con título, resumen, detalle y botón de reserva."
       />
       <EditorialForm
         backHref="/admin/promociones"

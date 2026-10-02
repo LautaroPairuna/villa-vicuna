@@ -28,7 +28,7 @@ function PromotionExtraFields({
       <div className="grid gap-5 md:grid-cols-2">
         <div>
           <label className="mb-2 block text-xs uppercase tracking-[0.22em] text-admin-ink-soft">
-            CTA Label
+            Texto del botón
           </label>
           <input
             name="ctaLabel"
@@ -38,7 +38,7 @@ function PromotionExtraFields({
         </div>
         <div>
           <label className="mb-2 block text-xs uppercase tracking-[0.22em] text-admin-ink-soft">
-            CTA Href
+            Enlace del botón
           </label>
           <input
             name="ctaHref"
@@ -98,7 +98,7 @@ export default async function PromotionDetailPage({
         backHref="/admin/promociones"
         action={updatePromotionAction}
         title="Detalle de la promoción"
-        subtitle="Mantené esta URL enfocada en una única oferta, con CTA claro y contenido suficiente para posicionar."
+        subtitle="Mantené esta URL enfocada en una única oferta, con un botón de reserva claro y contenido suficiente para posicionar."
         item={promotion}
         coverLabel="Portada"
         coverAction={setPromotionCoverAction}

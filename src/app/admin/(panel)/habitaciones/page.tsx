@@ -19,6 +19,7 @@ import {
 } from "@/components/admin/ui";
 import UploadField from "@/components/admin/UploadField";
 import TextEditor from "@/components/admin/TextEditor";
+import { capitalize, roomLabel } from "@/lib/editableContent";
 
 export const dynamic = "force-dynamic";
 
@@ -78,7 +79,7 @@ export default async function HabitacionesPage() {
         {rooms.map((room) => (
           <Card key={room.id}>
             <CardTitle>
-              {room.categoria} · {room.key.replace(/_/g, " ")}
+              {roomLabel(room.key)} · {capitalize(room.categoria)}
             </CardTitle>
 
             <div className="grid lg:grid-cols-[auto_1fr] gap-6 lg:gap-8">

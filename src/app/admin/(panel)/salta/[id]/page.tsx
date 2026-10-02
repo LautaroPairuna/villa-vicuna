@@ -78,7 +78,7 @@ function SaltaExtraFields({
       <div className="grid gap-5 md:grid-cols-[1fr_auto]">
         <div>
           <label className="mb-2 block text-xs uppercase tracking-[0.22em] text-admin-ink-soft">
-            Google Maps URL
+            Enlace de Google Maps
           </label>
           <input
             name="mapsUrl"

@@ -32,7 +32,7 @@ export default async function AdminOverview() {
     { href: "/admin/resenas", label: "Reseñas", hint: "Textos e imágenes por reseña", icon: FiStar, badge: String(reviewsCount) },
     { href: "/admin/menu", label: "Menú", hint: "Imágenes de la carta y textos", icon: FiBookOpen },
     { href: "/admin/contacto", label: "Contacto", hint: "Imagen y datos de contacto", icon: FiPhone },
-    { href: "/admin/promociones", label: "Promociones", hint: "Landing comerciales indexables", icon: FiTag, badge: String(promotionsCount) },
+    { href: "/admin/promociones", label: "Promociones", hint: "Propuestas comerciales con página propia", icon: FiTag, badge: String(promotionsCount) },
     { href: "/admin/salta", label: "Salta", hint: "Guía local de Salta Capital", icon: FiMapPin, badge: String(saltaCount) },
   ];
 

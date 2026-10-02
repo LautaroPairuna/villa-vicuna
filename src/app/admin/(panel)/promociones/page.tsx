@@ -28,7 +28,7 @@ export default async function PromotionsAdminPage() {
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <PageHeader
           title="Promociones"
-          subtitle="Administrá promociones públicas con contenido propio, URL indexable y CTA comercial."
+          subtitle="Administrá promociones públicas con contenido propio, dirección web propia y botón de reserva."
         />
         <Link
           href="/admin/promociones/nuevo"

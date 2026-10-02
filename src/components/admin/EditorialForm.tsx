@@ -93,7 +93,7 @@ export default function EditorialForm({
               <input name="title" defaultValue={item?.title} required className={inputCls} />
             </div>
             <div>
-              <FieldLabel>Slug</FieldLabel>
+              <FieldLabel>Dirección web (URL)</FieldLabel>
               <input name="slug" defaultValue={item?.slug} required className={inputCls} />
             </div>
           </div>
@@ -124,7 +124,7 @@ export default function EditorialForm({
 
           <div className="grid gap-5 md:grid-cols-2">
             <div>
-              <FieldLabel>SEO Title</FieldLabel>
+              <FieldLabel>Título para buscadores</FieldLabel>
               <input name="seoTitle" defaultValue={item?.seoTitle ?? ""} className={inputCls} />
             </div>
             <div className="flex items-end">
@@ -141,7 +141,7 @@ export default function EditorialForm({
           </div>
 
           <div>
-            <FieldLabel>SEO Description</FieldLabel>
+            <FieldLabel>Descripción para buscadores</FieldLabel>
             <textarea
               name="seoDescription"
               rows={3}

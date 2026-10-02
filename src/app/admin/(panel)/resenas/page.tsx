@@ -19,6 +19,7 @@ import {
 } from "@/components/admin/ui";
 import UploadField from "@/components/admin/UploadField";
 import TextEditor from "@/components/admin/TextEditor";
+import { reviewLabel } from "@/lib/editableContent";
 
 export const dynamic = "force-dynamic";
 
@@ -76,7 +77,7 @@ export default async function ResenasPage() {
       <div className="space-y-5">
         {reviews.map((review) => (
           <Card key={review.id}>
-            <CardTitle>{review.key}</CardTitle>
+            <CardTitle>{reviewLabel(review.key)}</CardTitle>
 
             <div className="grid lg:grid-cols-[auto_1fr] gap-6 lg:gap-8">
               {/* Portada */}
