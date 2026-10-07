@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { FiArrowRight, FiPlus } from "react-icons/fi";
-import { saveTranslationsAction, setSectionVideoAction } from "@/app/admin/actions";
+import { saveTranslationsAction } from "@/app/admin/actions";
 import TextEditor from "@/components/admin/TextEditor";
-import UploadField from "@/components/admin/UploadField";
+import VideoUploadField from "@/components/admin/VideoUploadField";
 import { PageHeader, Card } from "@/components/admin/ui";
 import { getAllSaltaPlacesAdmin } from "@/lib/editorial";
 import { getSectionImages } from "@/lib/content";
@@ -56,14 +56,7 @@ export default async function SaltaAdminPage() {
             </p>
             <p className="truncate text-sm text-admin-ink-soft">{sections.salta_video}</p>
             <div className="max-w-md">
-              <UploadField
-                action={setSectionVideoAction}
-                hidden={{ slug: "salta_video" }}
-                label="Reemplazar video"
-                accept="video/mp4,video/webm,video/quicktime"
-                emptyLabel="Arrastrá un video o hacé clic"
-                successLabel="Video actualizado"
-              />
+              <VideoUploadField slug="salta_video" />
             </div>
           </div>
         </div>

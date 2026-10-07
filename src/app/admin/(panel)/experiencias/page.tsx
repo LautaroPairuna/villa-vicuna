@@ -1,9 +1,9 @@
 import { getSectionTexts } from "@/lib/translations";
 import { getSectionImages } from "@/lib/content";
 import { videoSources } from "@/lib/videoSources";
-import { saveTranslationsAction, setSectionImageAction, setSectionVideoAction } from "@/app/admin/actions";
+import { saveTranslationsAction, setSectionImageAction } from "@/app/admin/actions";
 import { Card, CardTitle, ImageField, PageHeader } from "@/components/admin/ui";
-import UploadField from "@/components/admin/UploadField";
+import VideoUploadField from "@/components/admin/VideoUploadField";
 import TextEditor from "@/components/admin/TextEditor";
 
 function VideoField({
@@ -34,14 +34,7 @@ function VideoField({
       <div className="flex-1 min-w-0 flex flex-col gap-3">
         <p className="text-[10px] uppercase tracking-[0.2em] text-admin-ink-soft">{label}</p>
         <p className="truncate text-sm text-admin-ink-soft">{src}</p>
-        <UploadField
-          action={setSectionVideoAction}
-          hidden={{ slug }}
-          label="Reemplazar video"
-          accept="video/mp4,video/webm,video/quicktime"
-          emptyLabel="Arrastrá un video o hacé clic"
-          successLabel="Video actualizado"
-        />
+        <VideoUploadField slug={slug} />
       </div>
     </div>
   );

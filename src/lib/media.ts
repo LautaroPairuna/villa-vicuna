@@ -1,7 +1,7 @@
 import "server-only";
 import path from "node:path";
 import { promises as fs, createWriteStream } from "node:fs";
-import { Readable } from "node:stream";
+import { Readable, Transform } from "node:stream";
 import { pipeline } from "node:stream/promises";
 import type { ReadableStream as NodeWebReadableStream } from "node:stream/web";
 import { randomUUID } from "node:crypto";
@@ -162,7 +162,7 @@ const EXT_BY_MIME: Record<string, string> = {
   "video/quicktime": ".mov",
 };
 
-function extForVideo(file: File): string {
+function extForVideo(file: { name: string; type: string }): string {
   const fromName = path.extname(file.name).toLowerCase();
   if (/^\.[a-z0-9]+$/.test(fromName)) return fromName;
   return EXT_BY_MIME[file.type] ?? ".bin";
@@ -328,6 +328,66 @@ export async function saveUpload(
       height,
       mime,
       size: outBuf.length,
+    },
+  });
+}
+
+/** El archivo supera el tope que se pasó a saveVideoStream. */
+export class UploadTooLargeError extends Error {}
+
+/**
+ * Guarda un video que llega como stream (la ruta /api/admin/upload-video), sin
+ * materializarlo en memoria y cortando apenas se pasa de `maxBytes`: el
+ * Content-Length lo declara el cliente, así que no alcanza para confiar en él.
+ * Escribe a un temporal y renombra, igual que el resto de las subidas.
+ */
+export async function saveVideoStream(opts: {
+  stream: ReadableStream<Uint8Array>;
+  subdir: string;
+  baseName?: string;
+  fileName: string;
+  mime: string;
+  alt?: string;
+  maxBytes: number;
+}) {
+  const { stream, subdir, baseName, fileName, mime, alt = "", maxBytes } = opts;
+
+  const dir = path.join(UPLOADS_FS_DIR, subdir);
+  await fs.mkdir(dir, { recursive: true });
+
+  const outName = `${buildStem(baseName)}${extForVideo({ name: fileName, type: mime })}`;
+  const dest = path.join(/* turbopackIgnore: true */ dir, outName);
+  const tmp = `${dest}.${randomUUID()}.tmp`;
+
+  let bytes = 0;
+  const counter = new Transform({
+    transform(chunk: Buffer, _enc, cb) {
+      bytes += chunk.length;
+      if (bytes > maxBytes) cb(new UploadTooLargeError("El video supera el tamaño máximo permitido."));
+      else cb(null, chunk);
+    },
+  });
+
+  try {
+    await pipeline(
+      Readable.fromWeb(stream as unknown as NodeWebReadableStream<Uint8Array>),
+      counter,
+      createWriteStream(/* turbopackIgnore: true */ tmp),
+    );
+    if (bytes === 0) throw new Error("El archivo subido está vacío.");
+    await fs.rename(tmp, dest);
+  } catch (err) {
+    await fs.rm(tmp, { force: true }).catch(() => {});
+    throw err;
+  }
+
+  return prisma.media.create({
+    data: {
+      path: path.posix.join("/uploads", subdir, outName),
+      originalName: fileName,
+      alt,
+      mime: mime || "application/octet-stream",
+      size: bytes,
     },
   });
 }

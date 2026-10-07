@@ -33,6 +33,10 @@ const nextConfig = {
 
   experimental: {
     serverActions: {
+      // Solo para imágenes y formularios: Next arma el cuerpo entero en memoria,
+      // así que no se puede subir mucho más sin arriesgar el contenedor. Los
+      // videos (hasta 5 GB) van por streaming en /api/admin/upload-video.
+      // Mantener sincronizado con MAX_IMAGE_BYTES en src/lib/uploadLimits.ts.
       bodySizeLimit: "50mb",
     },
   },

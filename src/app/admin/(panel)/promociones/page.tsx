@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { FiArrowRight, FiPlus } from "react-icons/fi";
-import { saveTranslationsAction, setSectionVideoAction } from "@/app/admin/actions";
-import UploadField from "@/components/admin/UploadField";
+import { saveTranslationsAction } from "@/app/admin/actions";
+import VideoUploadField from "@/components/admin/VideoUploadField";
 import TextEditor from "@/components/admin/TextEditor";
 import { PageHeader, Card } from "@/components/admin/ui";
 import { getSectionImages } from "@/lib/content";
@@ -65,14 +65,7 @@ export default async function PromotionsAdminPage() {
             </p>
             <p className="truncate text-sm text-admin-ink-soft">{sections.promociones_hero_video}</p>
             <div className="max-w-md">
-              <UploadField
-                action={setSectionVideoAction}
-                hidden={{ slug: "promociones_hero_video" }}
-                label="Reemplazar video"
-                accept="video/mp4,video/webm,video/quicktime"
-                emptyLabel="Arrastrá un video o hacé clic"
-                successLabel="Video actualizado"
-              />
+              <VideoUploadField slug="promociones_hero_video" />
             </div>
           </div>
         </div>

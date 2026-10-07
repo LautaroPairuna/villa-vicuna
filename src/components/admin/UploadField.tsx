@@ -4,13 +4,17 @@ import { useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { FiUploadCloud } from "react-icons/fi";
 import { toast } from "sonner";
+import { MAX_IMAGE_BYTES, MAX_VIDEO_BYTES, WARN_VIDEO_BYTES, formatBytes } from "@/lib/uploadLimits";
 
 type UploadResult = { ok: true } | { ok: false; error: string };
 
 interface UploadFieldProps {
   // La acción DEVUELVE un resultado (ok/error). Admitimos void por si alguna
   // acción legacy no devuelve nada: en ese caso se trata como éxito.
-  action: (formData: FormData) => Promise<UploadResult | void>;
+  action?: (formData: FormData) => Promise<UploadResult | void>;
+  // Alternativa a `action` para archivos que no pueden viajar en una server
+  // action (videos grandes): recibe el archivo y reporta el avance.
+  uploader?: (file: File, onProgress: (percent: number) => void) => Promise<UploadResult>;
   hidden: Record<string, string>;
   label?: string;
   accept?: string;
@@ -20,6 +24,7 @@ interface UploadFieldProps {
 
 export default function UploadField({
   action,
+  uploader,
   hidden,
   label = "Subir",
   accept = "image/*",
@@ -32,6 +37,30 @@ export default function UploadField({
   const [dragOver, setDragOver] = useState(false);
   const [pending, startTransition] = useTransition();
   const router = useRouter();
+
+  // Avisa ANTES de subir. Devuelve false si el archivo no se puede subir.
+  function checkFile(f: File): boolean {
+    if (f.type.startsWith("video/")) {
+      if (f.size > MAX_VIDEO_BYTES) {
+        toast.error(`El video pesa ${formatBytes(f.size)} y el máximo es ${formatBytes(MAX_VIDEO_BYTES)}.`);
+        return false;
+      }
+      if (f.size > WARN_VIDEO_BYTES) {
+        toast.warning(`El video pesa ${formatBytes(f.size)}.`, {
+          description: "Se puede subir, pero en el celular va a tardar en cargar. Conviene comprimirlo a menos de 25 MB.",
+          duration: 8000,
+        });
+      }
+      return true;
+    }
+    if (f.size > MAX_IMAGE_BYTES) {
+      toast.error(`La imagen pesa ${formatBytes(f.size)} y el máximo es ${formatBytes(MAX_IMAGE_BYTES)}.`, {
+        description: "Reducila o convertila a WebP/JPG antes de subirla.",
+      });
+      return false;
+    }
+    return true;
+  }
 
   function applyFile(f: File | null) {
     setPreview((prev) => {
@@ -51,6 +80,7 @@ export default function UploadField({
     setDragOver(false);
     const f = e.dataTransfer.files?.[0];
     if (f && inputRef.current) {
+      if (!checkFile(f)) return;
       const dt = new DataTransfer();
       dt.items.add(f);
       inputRef.current.files = dt.files;
@@ -65,8 +95,15 @@ export default function UploadField({
     const name = fileName;
 
     startTransition(async () => {
+      const progressId = uploader ? toast.loading(`Subiendo ${name}… 0%`) : undefined;
       try {
-        const res = await action(formData);
+        const file = formData.get("file");
+        const res = uploader
+          ? await uploader(file as File, (pct) =>
+              toast.loading(`Subiendo ${name}… ${pct}%`, { id: progressId }),
+            )
+          : await action?.(formData);
+        if (progressId !== undefined) toast.dismiss(progressId);
         if (res && res.ok === false) {
           // Error real devuelto por la acción (no se guardó nada).
           toast.error(res.error);
@@ -78,6 +115,7 @@ export default function UploadField({
         // dato nuevo, ya que la subida no navega.
         router.refresh();
       } catch {
+        if (progressId !== undefined) toast.dismiss(progressId);
         toast.error("No se pudo subir el archivo. Intentá de nuevo.");
       }
     });
@@ -109,7 +147,11 @@ export default function UploadField({
           accept={accept}
           required
           className="sr-only"
-          onChange={(e) => applyFile(e.target.files?.[0] ?? null)}
+          onChange={(e) => {
+            const f = e.target.files?.[0] ?? null;
+            if (f && !checkFile(f)) return reset();
+            applyFile(f);
+          }}
         />
         {preview ? (
           // eslint-disable-next-line @next/next/no-img-element

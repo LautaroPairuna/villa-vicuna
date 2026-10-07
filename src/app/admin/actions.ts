@@ -1,9 +1,9 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { refresh, refreshFor, refreshEditorial } from "@/lib/adminRefresh";
+import { isAdminSession } from "@/lib/adminAuth";
 import { redirect } from "next/navigation";
-import { auth, signOut } from "@/auth";
-import { ADMIN_ROLE } from "@/auth.config";
+import { signOut } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { saveUpload } from "@/lib/media";
 import { getSection, composeSplit } from "@/lib/editableContent";
@@ -12,23 +12,11 @@ import { baseValue } from "@/lib/translations";
 /**
  * Portero de todas las acciones que escriben. Las server actions son endpoints
  * POST reales: se pueden invocar sin pasar por la UI, así que el chequeo del
- * proxy no alcanza y este tiene que estar sí o sí.
- *
- * Además de validar el JWT, se releen rol y existencia contra la DB. El token
- * está firmado y es válido hasta 7 días: sin esta consulta, un usuario borrado
- * o al que se le bajó el rol seguiría escribiendo hasta que venza la cookie.
- * Es una query indexada por email y solo corre en acciones de escritura.
+ * proxy no alcanza y este tiene que estar sí o sí. La validación (JWT + rol
+ * releído de la DB) está en isAdminSession.
  */
 async function requireAdmin() {
-  const session = await auth();
-  const email = session?.user?.email;
-  if (!email) throw new Error("No autorizado");
-
-  const user = await prisma.user.findUnique({
-    where: { email },
-    select: { role: true },
-  });
-  if (user?.role !== ADMIN_ROLE) throw new Error("No autorizado");
+  if (!(await isAdminSession())) throw new Error("No autorizado");
 }
 
 // Resultado de las subidas de archivos. Se DEVUELVE (no se lanza) para que el
@@ -36,21 +24,26 @@ async function requireAdmin() {
 // pueda mostrar el motivo real del fallo en vez de un falso "éxito".
 export type UploadResult = { ok: true } | { ok: false; error: string };
 
-function uploadError(err: unknown): UploadResult {
-  const msg =
-    err instanceof Error && err.message
-      ? err.message
-      : "No se pudo guardar el archivo. Intentá de nuevo.";
-  return { ok: false, error: msg };
+// Mensajes del servidor que conviene traducir: son errores de Node/Prisma que
+// llegarían al toast tal cual ("ENOSPC: no space left on device").
+function humanizeUploadError(err: unknown): string {
+  const fallback = "No se pudo guardar el archivo. Intentá de nuevo.";
+  if (!(err instanceof Error) || !err.message) return fallback;
+
+  const code = (err as { code?: string }).code;
+  if (code === "ENOSPC") return "El servidor se quedó sin espacio en disco. Avisá a quien administra el hosting.";
+  if (code === "EACCES" || code === "EPERM") return "El servidor no tiene permiso para guardar archivos en esa carpeta.";
+  if (code === "P2025") return "El registro que querés editar ya no existe. Recargá la página.";
+  if (/^(ENOENT|EACCES|EPERM|ENOSPC|EMFILE)\b/.test(err.message) || /prisma|invocation/i.test(err.message)) {
+    return fallback;
+  }
+  // Los mensajes que escribimos nosotros (media.ts) ya están en castellano.
+  return err.message;
 }
 
-function refresh() {
-  // El sitio público es ISR: regeneramos las páginas por idioma al guardar,
-  // así el cambio se ve al instante sin tener que renderizar en cada visita.
-  for (const locale of ["es", "en", "fr"] as const) {
-    revalidatePath(locale === "es" ? "/" : `/${locale}`);
-  }
-  revalidatePath("/admin");
+function uploadError(err: unknown): UploadResult {
+  console.error("[admin] falló una subida:", err);
+  return { ok: false, error: humanizeUploadError(err) };
 }
 
 function optionalText(formData: FormData, key: string) {
@@ -82,74 +75,12 @@ function slugify(value: string) {
     .slice(0, 80);
 }
 
-type EditorialKind = "promociones" | "salta" | "experiencias";
-
-/**
- * Secciones que se publican en una página propia y no en la home.
- *
- * `refresh()` solo regenera la home, así que sin este mapeo un cambio en los
- * textos o el video de /salta, /promociones o /experiencias no se ve hasta que
- * vence el ISR de esas páginas (una hora). Se mapea tanto por id de sección
- * (lo que manda el editor de textos) como por prefijo de slug de imagen/video.
- */
-const EDITORIAL_KINDS: EditorialKind[] = ["promociones", "salta", "experiencias"];
-
-function editorialKindFor(idOrSlug: string): EditorialKind | null {
-  return EDITORIAL_KINDS.find((k) => idOrSlug === k || idOrSlug.startsWith(`${k}_`)) ?? null;
-}
-
-/** refresh() + la página editorial que corresponda, si el slug es de una. */
-function refreshFor(idOrSlug: string) {
-  refresh();
-  const kind = editorialKindFor(idOrSlug);
-  if (kind) refreshEditorial(kind);
-}
-
-function refreshEditorial(kind: EditorialKind, slug?: string) {
-  // Igual que refresh(): el público es ISR y se sirve por idioma (es sin
-  // prefijo, en/fr con prefijo). Antes solo se revalidaba "/promociones" |
-  // "/salta", así que las variantes /en y /fr quedaban con la caché vieja y la
-  // portada/textos nuevos no aparecían hasta expirar el ISR. Revalidamos las
-  // tres para que el cambio se vea al instante en todos los idiomas.
-  for (const locale of ["es", "en", "fr"] as const) {
-    const prefix = locale === "es" ? "" : `/${locale}`;
-    revalidatePath(`${prefix}/${kind}`);
-    if (slug) {
-      revalidatePath(`${prefix}/${kind}/${slug}`);
-    }
-  }
-  revalidatePath(`/admin/${kind}`);
-}
-
 // ── Secciones (hero, nosotros, contacto, menú) ──────────────────────
 export async function setSectionImageAction(formData: FormData): Promise<UploadResult> {
   await requireAdmin();
   const slug = String(formData.get("slug") ?? "");
   const file = formData.get("file") as File | null;
   if (!slug || !file || file.size === 0) return { ok: false, error: "No se recibió ningún archivo." };
-
-  try {
-    const media = await saveUpload(file, "sections", { alt: slug, baseName: slug });
-    await prisma.sectionImage.upsert({
-      where: { slug },
-      update: { mediaId: media.id },
-      create: { slug, mediaId: media.id },
-    });
-    refreshFor(slug);
-    return { ok: true };
-  } catch (err) {
-    return uploadError(err);
-  }
-}
-
-export async function setSectionVideoAction(formData: FormData): Promise<UploadResult> {
-  await requireAdmin();
-  const slug = String(formData.get("slug") ?? "");
-  const file = formData.get("file") as File | null;
-  if (!slug || !file || file.size === 0) return { ok: false, error: "No se recibió ningún archivo." };
-  if (!file.type.startsWith("video/")) {
-    return { ok: false, error: "El archivo debe ser un video." };
-  }
 
   try {
     const media = await saveUpload(file, "sections", { alt: slug, baseName: slug });

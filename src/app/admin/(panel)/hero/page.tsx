@@ -1,7 +1,7 @@
 import { getSectionImages } from "@/lib/content";
 import { videoSources } from "@/lib/videoSources";
-import { setSectionImageAction, setSectionVideoAction } from "@/app/admin/actions";
-import UploadField from "@/components/admin/UploadField";
+import { setSectionImageAction } from "@/app/admin/actions";
+import VideoUploadField from "@/components/admin/VideoUploadField";
 import { Card, ImageField, PageHeader } from "@/components/admin/ui";
 
 export default async function HeroPage() {
@@ -36,14 +36,7 @@ export default async function HeroPage() {
             <div className="flex-1 min-w-0 flex flex-col gap-3">
               <p className="text-[10px] uppercase tracking-[0.2em] text-admin-ink-soft">Video del hero</p>
               <p className="truncate text-sm text-admin-ink-soft">{sections.hero_video}</p>
-              <UploadField
-                action={setSectionVideoAction}
-                hidden={{ slug: "hero_video" }}
-                label="Reemplazar video"
-                accept="video/mp4,video/webm,video/quicktime"
-                emptyLabel="Arrastrá un video o hacé clic"
-                successLabel="Video actualizado"
-              />
+              <VideoUploadField slug="hero_video" />
             </div>
           </div>
         </div>
