@@ -47,6 +47,9 @@ export async function GET(
   if (parts.some((s) => !s || s === "." || s === ".." || /[\\/\0]/.test(s))) {
     return notFound();
   }
+  // Nada que empiece con punto: ahí viven las subidas de video a medio armar
+  // (.partial), que no tienen que ser descargables.
+  if (parts.some((s) => s.startsWith("."))) return notFound();
 
   const target = path.resolve(UPLOADS_FS_DIR, ...parts);
   if (target !== UPLOADS_FS_DIR && !target.startsWith(UPLOADS_FS_DIR + path.sep)) {

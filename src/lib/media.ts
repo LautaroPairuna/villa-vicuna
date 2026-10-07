@@ -1,7 +1,7 @@
 import "server-only";
 import path from "node:path";
 import { promises as fs, createWriteStream } from "node:fs";
-import { Readable, Transform } from "node:stream";
+import { Readable } from "node:stream";
 import { pipeline } from "node:stream/promises";
 import type { ReadableStream as NodeWebReadableStream } from "node:stream/web";
 import { randomUUID } from "node:crypto";
@@ -11,7 +11,7 @@ import { prisma } from "./prisma";
 // prod montado en /app/public/uploads). Las imágenes se sirven en /uploads.
 // El `turbopackIgnore` evita que el tracer del build interprete este resolve
 // como una lectura dinámica del proyecto y termine trazándolo entero.
-const UPLOADS_FS_DIR = path.resolve(
+export const UPLOADS_FS_DIR = path.resolve(
   /* turbopackIgnore: true */ process.env.UPLOADS_DIR ?? "public/uploads",
 );
 
@@ -145,7 +145,7 @@ function slugifyName(input: string): string {
 // Nombre final: "<base>-<sufijo>" para que sea legible pero único (el sufijo
 // evita pisar la portada anterior y problemas de caché al reemplazar). Si no
 // hay base legible, cae a un UUID.
-function buildStem(baseName?: string): string {
+export function buildStem(baseName?: string): string {
   const slug = baseName ? slugifyName(baseName) : "";
   return slug ? `${slug}-${randomUUID().slice(0, 8)}` : randomUUID();
 }
@@ -162,7 +162,7 @@ const EXT_BY_MIME: Record<string, string> = {
   "video/quicktime": ".mov",
 };
 
-function extForVideo(file: { name: string; type: string }): string {
+export function extForVideo(file: { name: string; type: string }): string {
   const fromName = path.extname(file.name).toLowerCase();
   if (/^\.[a-z0-9]+$/.test(fromName)) return fromName;
   return EXT_BY_MIME[file.type] ?? ".bin";
@@ -328,66 +328,6 @@ export async function saveUpload(
       height,
       mime,
       size: outBuf.length,
-    },
-  });
-}
-
-/** El archivo supera el tope que se pasó a saveVideoStream. */
-export class UploadTooLargeError extends Error {}
-
-/**
- * Guarda un video que llega como stream (la ruta /api/admin/upload-video), sin
- * materializarlo en memoria y cortando apenas se pasa de `maxBytes`: el
- * Content-Length lo declara el cliente, así que no alcanza para confiar en él.
- * Escribe a un temporal y renombra, igual que el resto de las subidas.
- */
-export async function saveVideoStream(opts: {
-  stream: ReadableStream<Uint8Array>;
-  subdir: string;
-  baseName?: string;
-  fileName: string;
-  mime: string;
-  alt?: string;
-  maxBytes: number;
-}) {
-  const { stream, subdir, baseName, fileName, mime, alt = "", maxBytes } = opts;
-
-  const dir = path.join(UPLOADS_FS_DIR, subdir);
-  await fs.mkdir(dir, { recursive: true });
-
-  const outName = `${buildStem(baseName)}${extForVideo({ name: fileName, type: mime })}`;
-  const dest = path.join(/* turbopackIgnore: true */ dir, outName);
-  const tmp = `${dest}.${randomUUID()}.tmp`;
-
-  let bytes = 0;
-  const counter = new Transform({
-    transform(chunk: Buffer, _enc, cb) {
-      bytes += chunk.length;
-      if (bytes > maxBytes) cb(new UploadTooLargeError("El video supera el tamaño máximo permitido."));
-      else cb(null, chunk);
-    },
-  });
-
-  try {
-    await pipeline(
-      Readable.fromWeb(stream as unknown as NodeWebReadableStream<Uint8Array>),
-      counter,
-      createWriteStream(/* turbopackIgnore: true */ tmp),
-    );
-    if (bytes === 0) throw new Error("El archivo subido está vacío.");
-    await fs.rename(tmp, dest);
-  } catch (err) {
-    await fs.rm(tmp, { force: true }).catch(() => {});
-    throw err;
-  }
-
-  return prisma.media.create({
-    data: {
-      path: path.posix.join("/uploads", subdir, outName),
-      originalName: fileName,
-      alt,
-      mime: mime || "application/octet-stream",
-      size: bytes,
     },
   });
 }

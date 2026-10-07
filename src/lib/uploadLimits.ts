@@ -21,3 +21,8 @@ export function formatBytes(bytes: number): string {
   if (bytes >= MB) return `${Math.round(bytes / MB)} MB`;
   return `${Math.max(1, Math.round(bytes / 1024))} KB`;
 }
+
+// Tamaño de cada trozo en la subida de videos. Tiene que quedar bien por debajo
+// de lo que un proxy acepte por pedido (Cloudflare: 100 MB en los planes
+// gratis/Pro) y ser lo bastante chico para que reintentar uno no duela.
+export const VIDEO_CHUNK_BYTES = 16 * MB;
