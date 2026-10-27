@@ -14,8 +14,12 @@ Creá un proyecto con dos servicios:
   servicio, p.ej. `mysql`).
 
 ### b) Aplicación — esta repo
-- Build type: **Dockerfile** (ya incluido en la raíz).
+- Build type: **Railpack 0.39 o superior**, con el `railpack.json` de la raíz: la imagen
+  lleva solo Node y `.next/standalone` (~130 MB de app), y arranca aplicando las
+  migraciones pendientes y después `node --max-old-space-size=384 server.js`. El `start`
+  del `package.json` no se usa en producción.
 - Puerto interno: **3000**.
+- Sin `NODE_OPTIONS` en Environment (el tope de heap va en el `startCommand`).
 
 ## 2. Variables de entorno (servicio de la app)
 
@@ -25,8 +29,12 @@ Copiá de `.env.example`:
 DATABASE_URL=mysql://USUARIO:PASSWORD@HOST_INTERNO:3306/NOMBRE_DB
 AUTH_SECRET=<openssl rand -base64 32>
 AUTH_URL=https://villavicuna.com.ar
-UPLOADS_DIR=./public/uploads
+UPLOADS_DIR=/app/public/uploads
 ```
+
+> `UPLOADS_DIR` igual al Mount Path del volumen (punto 3). Si es relativa (o falta), se
+> resuelve contra `/app` y no contra `.next/standalone`, que es donde corre el server: así
+> nunca escribe adentro de la imagen.
 
 > `DATABASE_URL` debe usar el **host interno** del servicio MySQL, no `localhost`.
 
@@ -57,8 +65,14 @@ de next-intl (ya no hace falta `.htaccess`).
 
 ## 5. Migraciones y seed
 
-- **Migraciones:** el `docker-entrypoint.sh` corre `prisma migrate deploy` en cada
-  arranque (idempotente). La migración inicial (`prisma/migrations/0_init`) crea las tablas.
+- **Migraciones:** el contenedor aplica las pendientes al arrancar con
+  `scripts/migrate.mjs` (empaquetado en el build como `migrate.cjs`, sin el CLI de Prisma).
+  Escribe en `_prisma_migrations` igual que `prisma migrate deploy` y toma un lock para que
+  dos contenedores no migren a la vez. En el log del arranque queda
+  `N migraciones aplicadas` o `sin migraciones pendientes`. Si una falla, el sitio arranca
+  igual y el log muestra `ATENCION: las migraciones no se aplicaron`: se resuelve desde tu
+  máquina con el túnel SSH a la base (`npx prisma migrate status` / `migrate resolve`).
+  La migración inicial (`prisma/migrations/0_init`) crea las tablas.
 - **Seed inicial** (una sola vez, para cargar las imágenes actuales): desde una shell del
   contenedor o localmente apuntando a la DB de prod:
 
@@ -139,17 +153,17 @@ deploy, que la borra y vuelve a empezar.
    (se comparó al 100% contra la referencia). Los `.png` se tratan **sin pérdida**: hay
    fotos de habitación guardadas como PNG y cuantizarlas a paleta les metía bandeo.
 
-3. **Tope de heap de V8 y de arenas de glibc**, en el script `start` de `package.json`:
+3. **Tope de heap de V8 y de arenas de glibc**, en el `startCommand` y las `variables`
+   de `railpack.json`:
 
    ```
-   MALLOC_ARENA_MAX=2 NODE_OPTIONS=--max-old-space-size=512 next start
+   node --max-old-space-size=384 server.js      # con MALLOC_ARENA_MAX=2
    ```
 
-   - `--max-old-space-size=512`: sin esto Node ve la RAM libre del VPS y deja crecer el
+   - `--max-old-space-size=384`: sin esto Node ve la RAM libre del VPS y deja crecer el
      heap muchísimo antes de molestarse en recolectar. Con el tope, el GC trabaja antes.
-     Va en el script `start` **a propósito, no como variable de entorno en Dokploy**: si
-     estuviera en el entorno también aplicaría a `next build`, y el build con 512 MB de
-     heap se cae por OOM.
+     Va en `railpack.json` **a propósito, no como variable de entorno en Dokploy**: si
+     estuviera en el entorno también aplicaría a `next build`, y el build se cae por OOM.
    - `MALLOC_ARENA_MAX=2`: glibc le da a cada hilo su propia arena de 64 MB y no las
      devuelve. Con Node + el threadpool, eso son cientos de MB de fragmentación.
 
@@ -161,7 +175,7 @@ deploy, que la borra y vuelve a empezar.
 
 Conviene ponerle un techo al contenedor para que un pico nunca se lleve puesto al MySQL
 compartido. En Dokploy: **servicio de la app -> Advanced -> Resources -> Memory Limit**,
-poner `512 MB` (con el pico medido en 164 MB sobra margen).
+poner `768 MB`: el doble del tope de heap, porque sharp usa memoria por fuera de él.
 
 Desde consola es lo mismo que:
 
@@ -273,8 +287,10 @@ Sirve para bajar el peso a igual calidad, pero obliga a mantener el mp4 como fal
   guarda un cambio (o cada 24 h). No hay consulta a MySQL ni render por visita.
 - **Pool MySQL chico:** `DB_CONNECTION_LIMIT` (default 3).
 - **Cache-Control `immutable`** en `/images`, `/uploads`, `/videos`, `/fonts`.
-- **Volumen en `/app/.next/cache`:** ya no guarda variantes de imagen (no se generan),
-  pero sí la caché de ISR, así que conviene mantenerlo.
+- **Volumen de la caché de ISR:** ya no guarda variantes de imagen (no se generan), pero sí
+  la caché de ISR, así que conviene mantenerlo. Con standalone el server la escribe en
+  `/app/.next/standalone/.next/cache`: el Mount Path tiene que ser ese, no
+  `/app/.next/cache`.
 
 ## Notas de la migración desde Apache
 - Eliminados: `public/.htaccess`, `public/index.html` (eran solo para hosting estático).
