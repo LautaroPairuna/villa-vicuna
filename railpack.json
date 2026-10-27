@@ -32,7 +32,7 @@
     ],
     // Si una migración falla, el sitio arranca igual y el error queda en el log: si no
     // arrancara, Dokploy no dejaría abrir la consola para arreglarlo.
-    "startCommand": "cd .next/standalone && (node migrate.cjs || echo 'ATENCION: las migraciones no se aplicaron; ver el error de arriba y _prisma_migrations'); exec node --max-old-space-size=384 server.js",
+    "startCommand": "cd .next/standalone && (node migrate.cjs || echo ATENCION: las migraciones no se aplicaron, ver el error de arriba y la tabla _prisma_migrations); exec node --max-old-space-size=384 server.js",
     "variables": { "HOSTNAME": "0.0.0.0", "MALLOC_ARENA_MAX": "2" }
   }
 }
