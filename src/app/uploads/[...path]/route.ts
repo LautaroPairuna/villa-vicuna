@@ -2,6 +2,7 @@ import path from "node:path";
 import { createReadStream, promises as fs } from "node:fs";
 import { Readable } from "node:stream";
 import type { NextRequest } from "next/server";
+import { UPLOADS_FS_DIR } from "@/lib/media";
 
 // Sirve los archivos subidos leyéndolos directamente de UPLOADS_DIR (el volumen
 // persistente montado en prod). Así el servido NO depende del static serving de
@@ -10,12 +11,6 @@ import type { NextRequest } from "next/server";
 // UPLOADS_DIR. Soporta Range requests para que los videos puedan buscarse.
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
-
-// El `turbopackIgnore` evita que el tracer del build interprete este resolve
-// como una lectura dinámica del proyecto y termine trazándolo entero.
-const UPLOADS_FS_DIR = path.resolve(
-  /* turbopackIgnore: true */ process.env.UPLOADS_DIR ?? "public/uploads",
-);
 
 const CONTENT_TYPES: Record<string, string> = {
   ".webp": "image/webp",

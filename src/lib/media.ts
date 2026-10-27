@@ -9,10 +9,19 @@ import { prisma } from "./prisma";
 
 // Carpeta del sistema donde se escriben los uploads (volumen persistente en
 // prod montado en /app/public/uploads). Las imágenes se sirven en /uploads.
+// El server standalone hace chdir a .next/standalone: una ruta relativa se
+// resuelve contra la raíz de la app, no contra esa carpeta, que se recrea en
+// cada deploy.
 // El `turbopackIgnore` evita que el tracer del build interprete este resolve
 // como una lectura dinámica del proyecto y termine trazándolo entero.
+const STANDALONE = path.join(".next", "standalone");
+const APP_ROOT = process.cwd().endsWith(STANDALONE)
+  ? path.resolve(/* turbopackIgnore: true */ process.cwd(), "..", "..")
+  : process.cwd();
+
 export const UPLOADS_FS_DIR = path.resolve(
-  /* turbopackIgnore: true */ process.env.UPLOADS_DIR ?? "public/uploads",
+  /* turbopackIgnore: true */ APP_ROOT,
+  process.env.UPLOADS_DIR ?? "public/uploads",
 );
 
 const MAX_DIMENSION = 2000;

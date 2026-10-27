@@ -4,7 +4,35 @@
   "packages": {
     "node": "24.22.1"
   },
+  "steps": {
+    "build": {
+      "commands": [
+        "...",
+        "cp -r .next/static .next/standalone/.next/static",
+        "cp -r public .next/standalone/public",
+        "rm -f .next/standalone/.env*",
+        "rm -rf .next/standalone/prisma && mkdir -p .next/standalone/prisma && cp -r prisma/migrations .next/standalone/prisma/",
+        "npx esbuild scripts/migrate.mjs --bundle --platform=node --target=node24 --format=cjs --log-level=warning --outfile=.next/standalone/migrate.cjs"
+      ]
+    }
+  },
   "deploy": {
-    "startCommand": "npm run start"
+    "inputs": [
+      {
+        "step": "packages:mise",
+        "include": [
+          "/mise/shims",
+          "/mise/installs",
+          "/usr/local/bin/mise",
+          "/etc/mise/config.toml",
+          "/root/.local/state/mise"
+        ]
+      },
+      { "step": "build", "include": [".next/standalone"] }
+    ],
+    // Si una migración falla, el sitio arranca igual y el error queda en el log: si no
+    // arrancara, Dokploy no dejaría abrir la consola para arreglarlo.
+    "startCommand": "cd .next/standalone && (node migrate.cjs || echo 'ATENCION: las migraciones no se aplicaron; ver el error de arriba y _prisma_migrations'); exec node --max-old-space-size=384 server.js",
+    "variables": { "HOSTNAME": "0.0.0.0", "MALLOC_ARENA_MAX": "2" }
   }
 }

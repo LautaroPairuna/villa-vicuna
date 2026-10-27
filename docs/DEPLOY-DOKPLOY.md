@@ -7,6 +7,9 @@ El build lo hace **Railpack** (el builder de Dokploy). No hay `Dockerfile` en el
 proyecto se detecta como app Node y se construye con `npm run build`. La configuración está
 en `railpack.json` (Node 24.22.1, que es el piso que pide `engines` en `package.json`, y el comando de arranque; al salir un parche de seguridad nuevo hay que subir ese número en los dos archivos).
 
+La imagen lleva solo Node y `.next/standalone` (`output: "standalone"` en `next.config.js`),
+no el `node_modules` entero ni el código.
+
 ## 1. Servicios en Dokploy
 
 Creá un proyecto con dos servicios:
@@ -17,9 +20,12 @@ Creá un proyecto con dos servicios:
   servicio, p.ej. `mysql`).
 
 ### b) Aplicación — esta repo
-- Build type: **Railpack**.
+- Build type: **Railpack 0.39 o superior**.
 - Puerto interno: **3000**.
-- Start command: `npm run start` (corre `prisma migrate deploy` y después `next start`).
+- Start command: el de `railpack.json` (no cargar uno en Dokploy): aplica las migraciones
+  pendientes y después `node --max-old-space-size=384 server.js`. El `start` del
+  `package.json` no se usa en producción.
+- Sin `NODE_OPTIONS` en Environment. Memory Limit: 768 MB.
 
 ## 2. Variables de entorno (servicio de la app)
 
@@ -29,9 +35,13 @@ Copiá de `.env.example`:
 DATABASE_URL=mysql://USUARIO:PASSWORD@HOST_INTERNO:3306/NOMBRE_DB
 AUTH_SECRET=<openssl rand -base64 32>
 AUTH_URL=https://villavicuna.com.ar
-UPLOADS_DIR=./public/uploads
+UPLOADS_DIR=/app/public/uploads
 DB_CONNECTION_LIMIT=3
 ```
+
+> `UPLOADS_DIR` igual al Mount Path del volumen. Si es relativa (o falta), se resuelve
+> contra `/app` y no contra `.next/standalone`, que es donde corre el server: así nunca
+> escribe adentro de la imagen.
 
 > `DATABASE_URL` debe usar el **host interno** del servicio MySQL, no `localhost`.
 
@@ -82,8 +92,14 @@ certificado Let's Encrypt automáticamente. El redirect `/es → /` lo hace `nex
 
 ## 6. Migraciones y seed
 
-- **Migraciones:** el script `start` corre `prisma migrate deploy` en cada arranque
-  (idempotente). La migración inicial (`prisma/migrations/0_init`) crea las tablas.
+- **Migraciones:** el contenedor aplica las pendientes al arrancar con
+  `scripts/migrate.mjs` (empaquetado en el build como `migrate.cjs`, sin el CLI de Prisma).
+  Escribe en `_prisma_migrations` igual que `prisma migrate deploy` y toma un lock para que
+  dos contenedores no migren a la vez. En el log del arranque queda
+  `N migraciones aplicadas` o `sin migraciones pendientes`. Si una falla, el sitio arranca
+  igual y el log muestra `ATENCION: las migraciones no se aplicaron`: se resuelve desde tu
+  máquina con el túnel SSH a la base (`npx prisma migrate status` / `migrate resolve`).
+  La migración inicial (`prisma/migrations/0_init`) crea las tablas.
 - **Seed inicial** (una sola vez, para cargar las imágenes actuales): desde una shell del
   contenedor o localmente apuntando a la DB de prod:
 
@@ -115,7 +131,8 @@ certificado Let's Encrypt automáticamente. El redirect `/es → /` lo hace `nex
 npm ci
 npx prisma generate
 npm run build
-npm run start          # para las migraciones sí necesita una DATABASE_URL alcanzable
+npx prisma migrate deploy   # contra una DATABASE_URL alcanzable
+npm run start
 ```
 
 El build funciona sin base (ver punto 3), pero `DATABASE_URL` tiene que estar **definida**
@@ -127,8 +144,8 @@ igual: Prisma la valida al instanciar el cliente.
   de MySQL cuando el panel guarda un cambio (o cada 24 h). No hay consulta a la base ni
   render en cada visita → CPU casi nula por request.
 - **Pool MySQL chico:** `DB_CONNECTION_LIMIT` (default 3). Subilo solo si hace falta.
-- **Caché de imágenes de Next:** montá un volumen en `.next/cache` para no re-optimizar
-  las imágenes después de cada deploy.
+- **Caché de Next:** el volumen de la caché va en `/app/.next/standalone/.next/cache`
+  (con standalone el server la escribe ahí, no en `/app/.next/cache`).
 - **Cache-Control largo** (`immutable`) en `/images`, `/uploads`, `/videos`, `/fonts`
   → el navegador no las vuelve a descargar (ahorra ancho de banda del VPS).
 - **Variantes de imagen acotadas** (`deviceSizes`/`imageSizes`) → menos CPU y disco.
@@ -136,8 +153,9 @@ igual: Prisma la valida al instanciar el cliente.
   (más liviano que el mp4); mantené los dos y comprimí bien los videos nuevos.
 - **framer-motion fuera de la carga inicial:** las animaciones de scroll son CSS
   (`<Reveal>`), y los modales que sí usan la librería se cargan recién al abrirse.
-- Memoria del contenedor: el server arranca en ~100-150 MB. Si tu VPS es muy chico,
-  podés limitar Node con `NODE_OPTIONS=--max-old-space-size=512`.
+- Memoria del contenedor: el server arranca en ~100-150 MB. El tope de heap (384 MB) va
+  en el `startCommand` de `railpack.json`, nunca en `NODE_OPTIONS` del Environment: Dokploy
+  la pasa también al build y lo corta por falta de memoria.
 
 ## Notas de la migración desde Apache
 - Eliminados: `public/.htaccess`, `public/index.html` (eran solo para hosting estático).

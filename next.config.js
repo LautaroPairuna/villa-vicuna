@@ -6,6 +6,9 @@ const ONE_YEAR = "public, max-age=31536000, immutable";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Imagen de producción solo con lo que el server usa (ver railpack.json).
+  output: "standalone",
+
   // Comprime las respuestas (HTML/JSON) desde el server Node.
   compress: true,
   poweredByHeader: false,

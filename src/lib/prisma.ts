@@ -21,6 +21,9 @@ function buildAdapter() {
     database: u.pathname.replace(/^\//, ""),
     // Pool chico: con ISR la DB casi no se consulta, no necesitamos muchas.
     connectionLimit: Number(process.env.DB_CONNECTION_LIMIT ?? 3),
+    // MySQL 8 sin SSL: sin esto, con la caché de autenticación vacía (después de
+    // reiniciar MySQL) el driver no se puede autenticar.
+    allowPublicKeyRetrieval: true,
   });
 }
 
