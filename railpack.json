@@ -2,7 +2,7 @@
   "$schema": "https://schema.railpack.com",
   "provider": "node",
   "packages": {
-    "node": "24"
+    "node": "24.22.1"
   },
   "deploy": {
     "startCommand": "npm run start"

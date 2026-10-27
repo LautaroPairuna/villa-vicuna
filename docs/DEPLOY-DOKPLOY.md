@@ -5,7 +5,7 @@ con **MySQL** y un **volumen persistente** para las imágenes subidas desde el p
 
 El build lo hace **Railpack** (el builder de Dokploy). No hay `Dockerfile` en el repo: el
 proyecto se detecta como app Node y se construye con `npm run build`. La configuración está
-en `railpack.json` (Node 24, como pide `engines` en `package.json`, y el comando de arranque).
+en `railpack.json` (Node 24.22.1, que es el piso que pide `engines` en `package.json`, y el comando de arranque; al salir un parche de seguridad nuevo hay que subir ese número en los dos archivos).
 
 ## 1. Servicios en Dokploy
 
