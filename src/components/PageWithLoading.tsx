@@ -46,7 +46,7 @@ export default function PageWithLoading({
         />
       </header>
 
-      <main>
+      <main id="contenido">
         <Hero posterUrl={sections.hero_poster} videoUrl={sections.hero_video} />
         <Nosotros imageUrl={sections.nosotros} />
         <Reseñas reviews={reviews} />

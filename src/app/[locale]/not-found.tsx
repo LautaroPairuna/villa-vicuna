@@ -33,7 +33,7 @@ export default async function NotFound() {
   return (
     <>
       <Navbar />
-      <main className="relative min-h-screen overflow-hidden bg-white pb-16 pt-20 text-black">
+      <main id="contenido" className="relative min-h-screen overflow-hidden bg-white pb-16 pt-20 text-black">
         <div className="pointer-events-none absolute left-1/2 top-1/3 h-[360px] w-[360px] -translate-x-1/2 -translate-y-1/2 opacity-40 sm:h-[480px] sm:w-[480px] lg:h-[620px] lg:w-[620px]">
           <Image src="/images/fondo-carta-4.svg" alt="" fill className="object-contain" />
         </div>

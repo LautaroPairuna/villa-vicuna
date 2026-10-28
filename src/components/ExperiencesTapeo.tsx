@@ -32,9 +32,10 @@ export default function ExperiencesTapeo({ items }: { items: TapeoItem[] }) {
             aria-label={item.name}
             className="group relative aspect-square overflow-hidden bg-white shadow-lg"
           >
+            {/* alt vacío: el nombre ya está escrito en la miniatura. */}
             <Image
               src={item.src}
-              alt={item.name}
+              alt=""
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
               className="object-cover transition-transform duration-500 group-hover:scale-105"

@@ -15,6 +15,13 @@ const FAV_VERSION = "20250730"; // cambia al actualizar favicon
 const LOCALES = ["es", "en", "fr"] as const; // locales permitidos
 const DEFAULT_LOCALE = "es";
 
+// Enlace para saltar el menú con teclado o lector de pantalla.
+const SALTAR: Record<string, string> = {
+  es: "Saltar al contenido",
+  en: "Skip to content",
+  fr: "Aller au contenu",
+};
+
 function localePath(locale: string) {
   return locale === DEFAULT_LOCALE ? "/" : `/${locale}`;
 }
@@ -234,6 +241,9 @@ export default async function LocaleLayout({
           />
         </noscript>
 
+        <a href="#contenido" className="saltar-al-contenido">
+          {SALTAR[locale] ?? SALTAR.es}
+        </a>
         <NextIntlClientProvider messages={messages}>
           {children}
         </NextIntlClientProvider>

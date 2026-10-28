@@ -40,7 +40,7 @@ export default function PublicEditorialLayout({
   return (
     <>
       <Navbar />
-      <main className={`min-h-screen bg-white pb-16 text-black ${topHero ? "" : "pt-20"}`}>
+      <main id="contenido" className={`min-h-screen bg-white pb-16 text-black ${topHero ? "" : "pt-20"}`}>
         {topHero}
 
         {!hideIntro && (
