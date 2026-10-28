@@ -47,7 +47,8 @@ export default function FloatingEditorialActions() {
   }, []);
 
   return (
-    <div
+    <aside
+      aria-label="Contacto y reservas"
       className="fixed bottom-5 right-6 z-25 flex flex-col items-end gap-3"
       style={{
         pointerEvents: hideForBooking ? "none" : "auto",
@@ -83,6 +84,6 @@ export default function FloatingEditorialActions() {
           loading="lazy"
         />
       </Link>
-    </div>
+    </aside>
   );
 }

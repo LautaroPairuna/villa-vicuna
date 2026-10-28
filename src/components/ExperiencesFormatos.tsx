@@ -188,12 +188,12 @@ export default function ExperiencesFormatos({
             <button
               type="button"
               onClick={() => setSelected(f)}
-              aria-label={`${labels.verMasLabel} — ${f.nombre}`}
               className="group relative aspect-[4/5] w-full overflow-hidden bg-white shadow-lg"
             >
+              {/* alt vacío: el nombre ya está escrito debajo y es el nombre del botón. */}
               <ImageWithFallback
                 src={f.images[0]}
-                alt={f.nombre}
+                alt=""
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 className="object-cover transition-transform duration-500 group-hover:scale-105"

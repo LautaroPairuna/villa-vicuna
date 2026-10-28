@@ -39,7 +39,7 @@ export default function LoginPage() {
   return (
     // Fondo navy: el login es "chrome", igual que el sidebar del panel. La
     // tarjeta clara adelanta cómo se va a ver el contenido una vez adentro.
-    <div className="admin-scope flex min-h-screen items-center justify-center bg-admin-nav px-4">
+    <main className="admin-scope flex min-h-screen items-center justify-center bg-admin-nav px-4">
       <form
         onSubmit={onSubmit}
         className="w-full max-w-sm rounded-2xl bg-admin-surface px-8 py-10"
@@ -110,6 +110,6 @@ export default function LoginPage() {
           </button>
         </div>
       </form>
-    </div>
+    </main>
   );
 }

@@ -2,7 +2,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { memo, useRef } from "react";
+import React, { memo, useEffect, useRef } from "react";
 import { videoSources } from "@/lib/videoSources";
 
 interface HeroProps {
@@ -37,6 +37,22 @@ const Hero = memo(({
     }
   };
 
+  // Con "reducir movimiento" activado en el sistema, el video queda quieto en
+  // su primer cuadro.
+  const videoRef = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const aplicar = () => {
+      const video = videoRef.current;
+      if (!video) return;
+      if (media.matches) video.pause();
+      else void video.play().catch(() => {});
+    };
+    aplicar();
+    media.addEventListener("change", aplicar);
+    return () => media.removeEventListener("change", aplicar);
+  }, []);
+
   const handleLogoLoad = () => {
     logoReadyRef.current = true;
     tryNotifyLoaded();
@@ -47,9 +63,10 @@ const Hero = memo(({
       className="relative w-full min-h-dvh"
       aria-label="Hero - Bienvenida a Villa Vicuña"
     >
-      {/* Fondo de video */}
-      <div className="absolute inset-0 w-full h-full">
+      {/* Fondo de video (decorativo) */}
+      <div className="absolute inset-0 w-full h-full" aria-hidden="true">
         <video
+          ref={videoRef}
           className="w-full h-full object-cover"
           autoPlay
           loop
@@ -70,16 +87,16 @@ const Hero = memo(({
 
       {/* Contenido centrado */}
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-6 sm:px-12">
-        <div className="mt-6">
+        <h1 className="mt-6">
           <Image
             src="/images/logo-villa-vicuna-3.svg"
-            alt="Isologo Villa Vicuña"
+            alt="Villa Vicuña, hotel boutique en Salta"
             width={120}
             height={120}
             priority
             onLoad={handleLogoLoad}
           />
-        </div>
+        </h1>
       </div>
     </section>
   );
