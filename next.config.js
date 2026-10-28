@@ -5,6 +5,21 @@ const withNextIntl = createNextIntlPlugin("./i18n.ts"); // Note this path
 const ONE_YEAR = "public, max-age=31536000, immutable";
 
 /** @type {import('next').NextConfig} */
+/**
+ * Cabeceras de seguridad para todo el sitio. Sin Content-Security-Policy a
+ * propósito: Next, Cloudbeds y los píxeles de analítica meten scripts inline, y
+ * una CSP mal armada rompe el sitio en silencio. X-Frame-Options cubre el caso
+ * que más importa (que otro sitio meta el nuestro en un iframe).
+ */
+const SECURITY_HEADERS = [
+  // Solo tiene efecto sobre https; el navegador lo ignora en local.
+  { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains" },
+  { key: "X-Frame-Options", value: "SAMEORIGIN" },
+  { key: "X-Content-Type-Options", value: "nosniff" },
+  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+  { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+];
+
 const nextConfig = {
   // Imagen de producción solo con lo que el server usa (ver railpack.json).
   output: "standalone",
@@ -49,6 +64,7 @@ const nextConfig = {
   async headers() {
     const longCache = [{ key: "Cache-Control", value: ONE_YEAR }];
     return [
+      { source: "/:path*", headers: SECURITY_HEADERS },
       { source: "/videos/:path*", headers: longCache },
       { source: "/fonts/:path*", headers: longCache },
       { source: "/images/:path*", headers: longCache },
