@@ -59,7 +59,7 @@ export async function generateMetadata({
       description: t("metaDescription"),
       url: localePath(locale),
       locale,
-      images: ["/opengraph.jpg"],
+      images: [{ url: "/images/og-villa-vicuna.png", width: 1200, height: 630, alt: "Hotel Villa Vicuña" }],
     },
   };
 }

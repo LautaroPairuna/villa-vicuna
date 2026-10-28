@@ -115,7 +115,7 @@ export async function getStructuredData(locale: string) {
     url: `${BASE_URL}${localePath || "/"}`,
     telephone: TELEPHONE,
     email: EMAIL,
-    image: [`${BASE_URL}/opengraph.jpg`],
+    image: [`${BASE_URL}/images/og-villa-vicuna.png`],
     logo: `${BASE_URL}/images/logo-villa-vicuna-2.svg`,
     starRating: { "@type": "Rating", ratingValue: "3" },
     numberOfRooms,
