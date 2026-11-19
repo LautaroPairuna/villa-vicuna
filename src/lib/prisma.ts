@@ -21,15 +21,19 @@ function buildAdapter() {
     database: u.pathname.replace(/^\//, ""),
     // Pool chico: con ISR la DB casi no se consulta, no necesitamos muchas.
     connectionLimit: Number(process.env.DB_CONNECTION_LIMIT ?? 3),
+    // El driver deja abiertas todas las conexiones del pool aunque no se usen
+    // (minimumIdle = connectionLimit). Así se cierran al minuto sin uso y se
+    // abren de nuevo cuando hacen falta: la base es compartida con otros sitios.
+    minimumIdle: 0,
+    idleTimeout: 60,
     // MySQL 8 sin SSL: sin esto, con la caché de autenticación vacía (después de
     // reiniciar MySQL) el driver no se puede autenticar.
     allowPublicKeyRetrieval: true,
   });
 }
 
-export const prisma: PrismaClientInstance =
-  globalForPrisma.prisma ?? new PrismaClient({ adapter: buildAdapter() });
-
-if (process.env.NODE_ENV !== "production") {
-  globalForPrisma.prisma = prisma;
-}
+// También en producción: un solo pool por proceso aunque el módulo se cargue
+// desde más de un bundle.
+export const prisma: PrismaClientInstance = (globalForPrisma.prisma ??= new PrismaClient({
+  adapter: buildAdapter(),
+}));
